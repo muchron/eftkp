@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegPeriksaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi', function () {
         return view('content.registrasi');
     });
+    Route::get('/registrasi/get', [RegPeriksaController::class, 'get', 'get']);
 });
