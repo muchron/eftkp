@@ -27,5 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi', function () {
         return view('content.registrasi');
     });
-    Route::get('/registrasi/get', [RegPeriksaController::class, 'get', 'get']);
+    Route::get('/registrasi/get', [RegPeriksaController::class, 'get']);
+    Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
 });

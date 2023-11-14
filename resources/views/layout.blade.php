@@ -5,30 +5,22 @@
 @endsection
 
 @section('contents')
-    <div class="page">
-        <div class="page-wrapper">
-            {{-- page header : informasi header --}}
-            <div class="page-header d-print-none">
-                <div class="container-xl">
-                    <div class="row g-2 align-items-center">
-                        <div class="col">
-                            <!-- Page pre-title -->
-                            <div class="page-pretitle">
-                                {{ Request::segment(1) ? '' : 'Selamat Datang' }}
-                            </div>
-                            <h2 class="page-title">
-                                {{ Request::segment(1) ? ucfirst(Request::segment(1)) : 'Beranda' }}
-                            </h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="page-body">
-                <div class="container-xl">
-                    @yield('body')
+    {{-- page header : informasi header --}}
+    <div class="page-header d-print-none my-3">
+        <div class="container-xl">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        {{ ucfirst(Request::segment(1)) }}
+                    </h2>
                 </div>
             </div>
         </div>
     </div>
+    <div class="page-body my-1">
+        <div class="container-xl">
+            @yield('body')
+        </div>
+    </div>
+    {{-- </div> --}}
 @endsection

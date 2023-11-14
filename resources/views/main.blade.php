@@ -20,7 +20,8 @@
     <link href="{{ asset('css/tabler-payments.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/tabler-vendors.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/demo.min.css') }}" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -30,18 +31,40 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
+            font-size: 12px;
+        }
+
+        .table {
+            vertical-align: middle;
+        }
+
+        .form-label {
+            font-size: 12px;
+            margin-bottom: 0px;
+        }
+
+        .form-control {
+            font-size: 12px;
+        }
+
+        textarea {
+            resize: none;
         }
     </style>
 </head>
 
-<body class="d-flex flex-column">
+<body class="layout-fluid">
     @yield('navbars')
-    @yield('contents')
+    <div class="page-wrapper">
+        @yield('contents')
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="{{ asset('js/demo-theme.min.js') }}"></script>
     <script src="{{ asset('js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('js/demo.min.js') }}" defer></script>
+    <script src="{{ asset('js/utility.js') }}" defer></script>
     @stack('script')
 </body>
 
