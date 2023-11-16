@@ -41,6 +41,12 @@
                             }
                         },
                         {
+                            title: 'Antrian',
+                            render: (data, type, row, meta) => {
+                                return row.no_reg;
+                            }
+                        },
+                        {
                             title: 'No Rawat',
                             render: (data, type, row, meta) => {
                                 return row.no_rawat;

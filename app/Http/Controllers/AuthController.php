@@ -32,7 +32,7 @@ class AuthController extends Controller
             Session::put('pegawai', $pegawai);
             return redirect('/');
         } else {
-            return back()->with(['error' => 'Gagal Login']);
+            return back()->with(['error' => 'Gagal Login'])->withInput();
         }
     }
     public function logout(Request $request)

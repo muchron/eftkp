@@ -7,28 +7,43 @@
                 <div class="text-center mb-4">
                     <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
                 </div>
-                <h2 class="h3 text-center mb-3">
-                    @if (session()->has('error'))
-                        {{ session()->get('error') }}
-                    @else
-                        Login to your account
-                    @endif
-                </h2>
+                @if (session()->has('error'))
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <div class="d-flex">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                                    <path d="M12 8v4"></path>
+                                    <path d="M12 16h.01"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                {{ session()->get('error') }}
+                            </div>
+                        </div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                @else
+                    <h2 class="h3 text-center mb-3">
+                        Selamat Datang
+                    </h2>
+                @endif
                 <form action="/login" method="post" autocomplete="off" novalidate>
                     <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <input type="text" name="username" class="form-control" placeholder="your@email.com" autocomplete="off">
+                        <label class="form-label">Uername</label>
+                        <input type="text" name="username" class="form-control" placeholder="" autocomplete="off" value="{{ old('username') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     </div>
                     <div class="mb-2">
                         <label class="form-label">
                             Password
-                            <span class="form-label-description">
+                            {{-- <span class="form-label-description">
                                 <a href="./forgot-password.html">I forgot password</a>
-                            </span>
+                            </span> --}}
                         </label>
                         <div class="input-group input-group-flat">
-                            <input type="password" name="password" class="form-control" placeholder="Your password" autocomplete="off">
+                            <input type="password" name="password" class="form-control" placeholder="" autocomplete="off">
                             <span class="input-group-text">
                                 <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -41,18 +56,15 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <label class="form-check">
+                        {{-- <label class="form-check">
                             <input type="checkbox" class="form-check-input" />
                             <span class="form-check-label">Remember me on this device</span>
-                        </label>
+                        </label> --}}
                     </div>
                     <div class="form-footer">
-                        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                        <button type="submit" class="btn btn-primary w-100">Masuk</button>
                     </div>
                 </form>
-                <div class="text-center text-muted mt-3">
-                    Don't have account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>
-                </div>
             </div>
         </div>
         <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">

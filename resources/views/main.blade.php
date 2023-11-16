@@ -38,13 +38,22 @@
             vertical-align: middle;
         }
 
-        .form-label {
-            font-size: 12px;
+        form .form-label {
+            font-size: 11px;
             margin-bottom: 0px;
         }
 
-        .form-control {
-            font-size: 12px;
+        form .form-control {
+            font-size: 11px;
+            padding: .5rem;
+        }
+
+        form .form-select {
+            font-size: 11px;
+        }
+
+        form .input-group-text {
+            font-size: 11px;
         }
 
         textarea {
