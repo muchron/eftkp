@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Dokter;
+use App\Models\Pasien;
+use App\Models\Penjab;
+use App\Models\PemeriksaanRalan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RegPeriksa extends Model
 {
@@ -25,5 +29,9 @@ class RegPeriksa extends Model
     function penjab()
     {
         return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
+    }
+    function pemeriksaanRalan()
+    {
+        return $this->hasOne(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
     }
 }

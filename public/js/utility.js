@@ -44,3 +44,118 @@ function formatTanggal(tanggal) {
     }
     return `${t.getDate()} ${bulan} ${t.getFullYear()}${tanggal.split(' ')[1] ? tanggal.split(' ')[1] : ''}`;
 }
+
+function getDataForm(form, element, except = []) {
+    let data = {};
+
+    // cek apakah element array atau text
+    const isArray = Array.isArray(element);
+
+    // form data
+    if (isArray) {
+        // ambil dari element
+        for (let index = 0; index < element.length; index++) {
+            const e = element[index];
+            $(`#${form} ${e}`).each((index, el) => {
+                keys = $(el).prop('name');
+                data[keys] = $(el).val();
+            })
+        }
+
+    } else {
+        // ambil dari satu jenis element
+        $(`#${form} ${element}`).each((index, el) => {
+            keys = $(el).prop('name');
+            data[keys] = $(el).val();
+        })
+    }
+
+
+    // remove items on array data
+    for (let i = 0; i < except.length; i++) {
+        cek = data.hasOwnProperty(except[i])
+        if (cek) {
+            delete data[except[i]]
+        }
+    }
+
+    return data;
+}
+function removeZero(input) {
+    if (input.value == '-' || input.value == '0') {
+        $(input).val('');
+    }
+}
+
+function isEmpty(input) {
+    if (input.value == '') {
+        $(input).val('-');
+    }
+}
+
+function isEmptyNumber(input) {
+    if (input.value == '') {
+        $(input).val('0');
+    }
+}
+
+function hanyaAngka(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+
+        return false;
+    return true;
+}
+
+function splitTanggal(tanggal) {
+    let arrTgl = tanggal.split('-');
+    let txtTanggal = arrTgl[2] + '-' + arrTgl[1] + '-' + arrTgl[0];
+    return txtTanggal;
+}
+
+// ALERT
+function alertSuccessAjax(message) {
+    return Swal.fire({
+        title: 'Berhasil',
+        text: message,
+        showConfirmButton: false,
+        icon: 'success',
+        timer: 1200,
+    })
+
+}
+
+function alertErrorAjax(request) {
+    Swal.fire(
+        'Gagal',
+        'Terjadi kesalahan <br/> Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p style="padding:0 15px 0 15px;font-size:13px;color:red">' + request.responseJSON.message.split('(SQL')[0] + '</p>',
+        'error'
+    );
+}
+
+function alertSuccessAjax(message) {
+    return Swal.fire({
+        title: 'Berhasil',
+        text: message,
+        showConfirmButton: false,
+        icon: 'success',
+        timer: 1200,
+    })
+
+}
+
+function alertSessionExpired(requestStatus) {
+    if (requestStatus == 401) {
+        Swal.fire({
+            title: 'Sesi login berakhir !',
+            icon: 'info',
+            text: 'Silahkan login kembali ',
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/erm';
+            }
+        })
+    }
+}

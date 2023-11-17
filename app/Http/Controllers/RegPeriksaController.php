@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\RegPeriksa;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class RegPeriksaController extends Controller
 {
@@ -13,22 +15,40 @@ class RegPeriksaController extends Controller
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
-        $this->relation = ['dokter', 'pasien', 'penjab'];
+        $this->relation = ['dokter', 'pasien', 'penjab', 'pemeriksaanRalan'];
     }
 
     function get(Request $req)
     {
-        $regPeriksa = $this->regPeriksa->with(['pasien', 'dokter', 'penjab']);
-        if ($req->stardDate || $req->endDate) {
+
+        if ($req->tglAwal || $req->tglAkhir) {
             // jika ada filter tanggal, ambil tgl registrasi yang ditentukan
-            $regPeriksa->whereBetween('tgl_registrasi', [$req->startData, $req->endDate]);
+            $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->get();
+        } else {
+            $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->get();
         }
-        return response()->json($regPeriksa->get(), 200);
+
+        if ($req->dataTable) {
+            return DataTables::of($regPeriksa)->make(true);
+        }
+        return response()->json($regPeriksa, 200);
     }
     function show(Request $req)
     {
         $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)
             ->with($this->relation)->first();
         return response()->json($regPeriksa, 200);
+    }
+    function update(Request $req)
+    {
+        $data = $req->except('_token');
+        try {
+            $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)->update($data);
+            if ($regPeriksa) {
+                return response()->json(['Berhasil mengubah data registrasi', $regPeriksa]);
+            }
+        } catch (QueryException $e) {
+            return $e->errorInfo;
+        }
     }
 }

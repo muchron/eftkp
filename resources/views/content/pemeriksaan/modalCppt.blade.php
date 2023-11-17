@@ -39,9 +39,17 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Simpan</button>
+                <button type="button" class="btn btn-primary" onclick="simpanPemeriksaanRalan()">Simpan</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
             </div>
         </div>
     </div>
 </div>
+@push('script')
+    <script>
+        $('#modalCppt').on('hidden.bs.modal', () => {
+            $(this).find('input, textarea').val('')
+            document.getElementById("formCpptRajal").reset();
+        })
+    </script>
+@endpush

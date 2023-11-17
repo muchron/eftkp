@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\RegPeriksaController;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,11 +24,17 @@ Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
-        return view('content.dashboard');
+        return view('content.dashboard', ['data' => Setting::first()]);
     });
     Route::get('/registrasi', function () {
         return view('content.registrasi');
     });
     Route::get('/registrasi/get', [RegPeriksaController::class, 'get']);
     Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
+    Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
+
+    // Pemeriksaan
+    Route::get('/pemeriksaan/ralan/get', [PemeriksaanRalanController::class, 'get']);
+    Route::get('/pemeriksaan/ralan/show', [PemeriksaanRalanController::class, 'show']);
+    Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
 });

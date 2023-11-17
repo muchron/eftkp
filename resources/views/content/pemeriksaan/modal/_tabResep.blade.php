@@ -15,24 +15,22 @@
     <div class="card-body">
         <div class="tab-content">
             <div class="tab-pane fade active show" id="tabsResepUmum" role="tabpanel">
-                <div class="row gy-2 mb-2 inputResepUmum" id="inputResepUmum1" data-id="1" style="display: none">
-                    <div class="col-xl-5 col-lg-5 col-md-12">
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-12">
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-12">
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-12">
-                        <div class="input-group">
-                            <button type="button" class="btn btn-primary" id="btnTambahUmum" data-id="1" onclick="addBaris(this,'1')">+</button>
-                            <button type="button" class="btn btn-danger" id="btnTambahUmum" data-id="1" onclick="removeBaris(this,'1')">-</button>
-                        </div>
-                    </div>
+                <div class="table-responsive mb-2">
+                    <table class="table d-none" id="tabelResepUmum">
+                        <thead>
+                            <tr>
+                                <th>Obat</th>
+                                <th>Jumlah</th>
+                                <th>Aturan Pakai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
                 </div>
-                <button type="button" class="btn btn-sm btn-primary" id="btnTambahObat">+ Tambah Obat</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
+                <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanResep">Simpan Resep</button>
             </div>
             <div class="tab-pane fade" id="tabsResepRacikan" role="tabpanel">
                 <h4>Profile tab</h4>
@@ -50,10 +48,30 @@
     <script>
         $(document).ready(() => {})
 
-        const element = document.getElementByClassName('inputResepUmum');
-        $('#btnTambahObat').on('click', (e) => {
-            $('.inputResepUmum').show();
-            $('#btnTambahObat').removeClass('btn-primary').addClass('btn-danger');
-        })
+        function tambahResep(no_rawat) {
+            const btnTambahObat = $('#btnTambahResep')
+            const btnSimpanObat = $('#btnSimpanResep')
+            const tabelResepUmum = $('#tabelResepUmum')
+
+            tabelResepUmum.removeClass('d-none')
+
+            btnTambahObat.removeClass('btn-primary').addClass('btn-danger');
+            btnTambahObat.attr('onclick', `hapusResep('${no_rawat}')`)
+            btnTambahObat.text('Hapus Resep')
+
+            btnSimpanObat.removeClass('d-none')
+        }
+
+        function hapusResep(no_rawat) {
+            const btnTambahObat = $('#btnTambahResep')
+            const btnSimpanObat = $('#btnSimpanResep')
+            const tabelResepUmum = $('#tabelResepUmum')
+            btnTambahObat.removeClass('btn-danger').addClass('btn-primary');
+            tabelResepUmum.addClass('d-none')
+            btnTambahObat.attr('onclick', `tambahResep('${no_rawat}')`)
+            btnTambahObat.text('Tambah Resep')
+            btnSimpanObat.addClass('d-none')
+
+        }
     </script>
 @endpush
