@@ -126,9 +126,11 @@ function alertSuccessAjax(message) {
 }
 
 function alertErrorAjax(request) {
+    const errorMsg = request.responseJSON
+    console.log(errorMsg[2]);
     Swal.fire(
         'Gagal',
-        'Terjadi kesalahan <br/> Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p style="padding:0 15px 0 15px;font-size:13px;color:red">' + request.responseJSON.message.split('(SQL')[0] + '</p>',
+        'Terjadi kesalahan<br>  Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p class="text-danger" p-0>' + errorMsg[2] + '</span>',
         'error'
     );
 }

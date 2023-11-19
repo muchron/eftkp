@@ -41,13 +41,13 @@
                     <div class="col-xl-12">
                         <div class="mb-1">
                             <label class="form-label">Subjek</label>
-                            <textarea class="form-control"rows="5" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="keluhan">-</textarea>
+                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="keluhan">-</textarea>
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="mb-1">
                             <label class="form-label">Objek</label>
-                            <textarea class="form-control"rows="5" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
+                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
@@ -182,25 +182,49 @@
                     </div> --}}
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="mb-1">
-                            <label class="form-label">Asesmen</label>
-                            <textarea class="form-control"rows="5" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="penilaian">-</textarea>
+                            <label class="form-label">
+                                Asesmen
+                                <a href="javascript:void(0)" id="btnDiagnosaPasien">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                        <path d="M21 21l-6 -6"></path>
+                                    </svg>
+                                </a>
+                            </label>
+                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="penilaian">-</textarea>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="mb-1">
+                            <label class="form-label">
+                                Instruksi
+                                <a href="javascript:void(0)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                        <path d="M21 21l-6 -6"></path>
+                                    </svg>
+                                </a>
+                            </label>
+                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="instruksi">-</textarea>
                         </div>
                     </div>
 
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6">
-                <div class="row mb-2">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="row gy-2">
+                    {{-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="mb-1">
-                            <label class="form-label">Instruksi</label>
-                            <textarea class="form-control"rows="5" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="instruksi">-</textarea>
+                            <label class="form-label">Instruksis</label>
+                            <select id="selecInstruksi" class="form-control w-100" multiple="multiple" name="kd_penyakit" style="width: 100%"></select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="mb-1">
                             <label class="form-label">Plan</label>
-                            <textarea class="form-control" rows="5" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="rtl">-</textarea>
+                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="rtl">-</textarea>
                         </div>
                     </div>
                 </div>
@@ -212,6 +236,62 @@
 </form>
 @push('script')
     <script>
+        $('#selecInstruksi').select2({
+            dropdownParent: $('#modalCppt'),
+            ajax: {
+                url: 'penyakit/get',
+                dataType: 'JSON',
+                data: (params) => {
+                    const query = {
+                        penyakit: params.term,
+                    }
+                    console.log(params, query);
+                    return query
+                },
+                processResults: (data) => {
+                    return {
+                        results: data.map((item) => {
+                            const res = {
+                                text: `${item.kd_penyakit} - ${item.nm_penyakit}`,
+                                id: item.kd_penyakit
+                            }
+                            return res;
+                        })
+                    }
+                },
+                cache: true,
+
+            }
+        })
+
+        $('#selecInstruksi').on('select2:select', function(e) {
+            const element = e.params.data.element
+            const kdPenyakit = e.params.data.id;
+            const noRawat = $('#modalCppt input[name=no_rawat]').val();
+            const status = 'Ralan';
+
+            console.log('KODE PENYAKIT===', kdPenyakit);
+
+            insertDiagnosaPasien(noRawat, kdPenyakit, status).done((response) => {
+                console.log('RESPONSE===', response);
+            }).fail((request) => {
+                console.log('ERRPR ===', request);
+                alertErrorAjax(request)
+                element.detach()
+
+            });
+        });
+
+        function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
+            const insert = $.post('diagnosa/pasien/create', {
+                no_rawat: no_rawat,
+                kd_penyakit: kd_diagnosa,
+                status: status,
+            })
+
+            return insert;
+        }
+
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
@@ -221,6 +301,7 @@
                 $('#formCpptRajal input[name=keluarga]').val(`${response.pasien.keluarga} : ${response.pasien.namakeluarga}`)
                 $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
+                $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`)
                 getPemeriksaanRalan(no_rawat).done((pemeriksaan) => {
                     if (pemeriksaan) {
                         Object.keys(pemeriksaan).map((key, index) => {

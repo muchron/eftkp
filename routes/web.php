@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataBarangController;
+use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\RegPeriksaController;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
@@ -37,4 +40,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/pemeriksaan/ralan/get', [PemeriksaanRalanController::class, 'get']);
     Route::get('/pemeriksaan/ralan/show', [PemeriksaanRalanController::class, 'show']);
     Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
+
+
+    // Dignosa/Penyakit
+    Route::get('/penyakit/get', [PenyakitController::class, 'get']);
+
+    //Diagnosa Pasien
+    Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
+
+    // Barang/obat
+    Route::get('/barang/get', [DataBarangController::class, 'get']);
 });

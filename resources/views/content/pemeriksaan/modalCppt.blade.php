@@ -45,6 +45,7 @@
         </div>
     </div>
 </div>
+@include('content.pemeriksaan.modal._diagnosaPasien')
 @push('script')
     <script>
         $('#modalCppt').on('hidden.bs.modal', () => {
