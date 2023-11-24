@@ -6,6 +6,8 @@ use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\RegPeriksaController;
+use App\Http\Controllers\ResepDokterController;
+use App\Http\Controllers\ResepObatController;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,4 +52,14 @@ Route::middleware('auth')->group(function () {
 
     // Barang/obat
     Route::get('/barang/get', [DataBarangController::class, 'get']);
+
+
+    // Resep Obat
+    Route::post('/resep/create', [ResepObatController::class, 'create']);
+    Route::get('/resep/get', [ResepObatController::class, 'get']);
+    Route::post('/resep/delete', [ResepObatController::class, 'delete']);
+
+    // Resep Dokter (NON RACIKAN)
+    Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);
+    Route::get('/resep/dokter/get', [ResepDokterController::class, 'get']);
 });

@@ -40,14 +40,23 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="mb-1">
+                            <label class="form-label">Dokter</label>
+                            <div class="input-group mb-2">
+                                <input class="form-control" name="kd_dokter" id="kd_dokter" readonly>
+                                <input class="form-control w-50" name="nm_dokter" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="mb-1">
                             <label class="form-label">Subjek</label>
-                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="keluhan">-</textarea>
+                            <textarea class="form-control" rows="4" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="keluhan">-</textarea>
                         </div>
                     </div>
                     <div class="col-xl-12">
                         <div class="mb-1">
                             <label class="form-label">Objek</label>
-                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
+                            <textarea class="form-control" rows="4" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
@@ -192,39 +201,34 @@
                                     </svg>
                                 </a>
                             </label>
-                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="penilaian">-</textarea>
+                            <textarea class="form-control" rows="4" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="penilaian">-</textarea>
                         </div>
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="mb-1">
-                            <label class="form-label">
-                                Instruksi
-                                <a href="javascript:void(0)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                        <path d="M21 21l-6 -6"></path>
-                                    </svg>
-                                </a>
-                            </label>
-                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="instruksi">-</textarea>
-                        </div>
+
                     </div>
 
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6">
                 <div class="row gy-2">
-                    {{-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="mb-1">
-                            <label class="form-label">Instruksis</label>
-                            <select id="selecInstruksi" class="form-control w-100" multiple="multiple" name="kd_penyakit" style="width: 100%"></select>
-                        </div>
-                    </div> --}}
+                    <div class="mb-1">
+                        <label class="form-label">
+                            Instruksi
+                            <a href="javascript:void(0)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
+                                    <path d="M21 21l-6 -6"></path>
+                                </svg>
+                            </a>
+                        </label>
+                        <textarea class="form-control" rows="4" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="instruksi">-</textarea>
+                    </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="mb-1">
                             <label class="form-label">Plan</label>
-                            <textarea class="form-control" rows="3" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="rtl">-</textarea>
+                            <textarea class="form-control" rows="4" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="rtl">-</textarea>
                         </div>
                     </div>
                 </div>
@@ -292,20 +296,73 @@
             return insert;
         }
 
+        function setResepDokter(no_resep) {
+            getResepDokter(no_resep).done((reseps) => {
+                $('#tabelResepUmum tbody').empty();
+                console.log('RESEP DOKTER ===', reseps);
+                let row = '';
+                if (reseps.length) {
+                    reseps.map((resepDokter, index) => {
+                        row += `<tr>
+                        <td>${resepDokter.obat.nama_brng}</td>    
+                        <td>${resepDokter.jml}</td>    
+                        <td>${resepDokter.aturan_pakai}</td>    
+                        <td><button class="btn btn-sm btn-warning">Ubah</button><button class="btn btn-sm btn-danger">Hapus</button></td>    
+                    </tr>`;
+                    })
+                    $('#tabelResepUmum tbody').append(row).hide().fadeIn();
+                }
+
+            })
+        }
+
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
+                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
                 $('#formCpptRajal input[name=tgl_lahir]').val(`${formatTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
                 $('#formCpptRajal input[name=keluarga]').val(`${response.pasien.keluarga} : ${response.pasien.namakeluarga}`)
                 $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
+                $('#formCpptRajal input[name=kd_dokter]').val(`${response.kd_dokter}`)
+                $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
-                $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`)
+                $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
+
+
+                getResep({
+                    no_rawat: no_rawat,
+                }).done((resep) => {
+                    const btnTambahResep = $('#btnTambahResep')
+                    const btnTambahObat = $('#btnTambahObat')
+                    const btnSimpanObat = $('#btnSimpanResep')
+                    const tabelResepUmum = $('#tabelResepUmum')
+                    let row = '';
+                    if (resep.length) {
+                        console.log('RESEP ===', resep.length);
+                        $('#tabelResepUmum').removeClass('d-none');
+                        resep.map((res) => {
+                            $(`#no_resep`).val(res.no_resep);
+                            if (res.resep_dokter.length) {
+                                setResepDokter(res.no_resep);
+                                btnTambahResep.attr('onclick', `hapusResep('${res.no_resep}')`)
+                            }
+                        })
+                        btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
+                        btnTambahResep.text('Hapus Resep')
+
+                        tabelResepUmum.removeClass('d-none')
+
+
+                        btnSimpanObat.removeClass('d-none')
+                        btnTambahObat.removeClass('d-none')
+                    }
+                });
+
                 getPemeriksaanRalan(no_rawat).done((pemeriksaan) => {
                     if (pemeriksaan) {
                         Object.keys(pemeriksaan).map((key, index) => {
-                            console.log('KEY ===', key);
                             select = $(`#formCpptRajal select[name=${key}]`);
                             input = $(`#formCpptRajal input[name=${key}]`);
                             textarea = $(`#formCpptRajal textarea[name=${key}]`);

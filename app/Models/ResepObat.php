@@ -11,4 +11,9 @@ class ResepObat extends Model
     protected $table = 'resep_obat';
     protected $guarded = [];
     public $timestamps = false;
+
+    function resepDokter()
+    {
+        return $this->hasMany(ResepDokter::class, 'no_resep', 'no_resep');
+    }
 }
