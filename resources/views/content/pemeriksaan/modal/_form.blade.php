@@ -296,26 +296,6 @@
             return insert;
         }
 
-        function setResepDokter(no_resep) {
-            getResepDokter(no_resep).done((reseps) => {
-                $('#tabelResepUmum tbody').empty();
-                console.log('RESEP DOKTER ===', reseps);
-                let row = '';
-                if (reseps.length) {
-                    reseps.map((resepDokter, index) => {
-                        row += `<tr>
-                        <td>${resepDokter.obat.nama_brng}</td>    
-                        <td>${resepDokter.jml}</td>    
-                        <td>${resepDokter.aturan_pakai}</td>    
-                        <td><button class="btn btn-sm btn-warning">Ubah</button><button class="btn btn-sm btn-danger">Hapus</button></td>    
-                    </tr>`;
-                    })
-                    $('#tabelResepUmum tbody').append(row).hide().fadeIn();
-                }
-
-            })
-        }
-
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
                 console.log('RESPONSE ===', response);
@@ -338,23 +318,22 @@
                     const btnTambahObat = $('#btnTambahObat')
                     const btnSimpanObat = $('#btnSimpanResep')
                     const tabelResepUmum = $('#tabelResepUmum')
+                    const tabelResepRacikan = $('#tabelResepRacikan')
                     let row = '';
                     if (resep.length) {
-                        console.log('RESEP ===', resep.length);
                         $('#tabelResepUmum').removeClass('d-none');
+                        console.log('RESEP ===', resep);
                         resep.map((res) => {
+                            btnTambahResep.attr('onclick', `hapusResep('${res.no_resep}')`)
                             $(`#no_resep`).val(res.no_resep);
                             if (res.resep_dokter.length) {
                                 setResepDokter(res.no_resep);
-                                btnTambahResep.attr('onclick', `hapusResep('${res.no_resep}')`)
+                                setResepRacikan(res.no_resep)
                             }
                         })
                         btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                         btnTambahResep.text('Hapus Resep')
-
                         tabelResepUmum.removeClass('d-none')
-
-
                         btnSimpanObat.removeClass('d-none')
                         btnTambahObat.removeClass('d-none')
                     }

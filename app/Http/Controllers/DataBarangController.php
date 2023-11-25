@@ -13,12 +13,12 @@ class DataBarangController extends Controller
             $barang = DataBarang::where('nama_brng', 'like', '%' . $request->barang . '%')
                 ->whereHas('jenis', function ($query) {
                     return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
-                })
+                })->limit(10)->orderBy('nama_brng', 'ASC')
                 ->get();
         } else {
             $barang = DataBarang::whereHas('jenis', function ($query) {
                 return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
-            })->limit(10)->get();
+            })->limit(10)->orderBy('nama_brng', 'ASC')->get();
         }
         return response()->json($barang);
     }

@@ -16,4 +16,8 @@ class ResepObat extends Model
     {
         return $this->hasMany(ResepDokter::class, 'no_resep', 'no_resep');
     }
+    function resepRacikan()
+    {
+        return $this->hasMany(ResepDokterRacikan::class, 'no_resep', 'no_resep');
+    }
 }

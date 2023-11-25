@@ -126,11 +126,10 @@ function alertSuccessAjax(message) {
 }
 
 function alertErrorAjax(request) {
-    const errorMsg = request.responseJSON
-    console.log(errorMsg[2]);
+    const errorMsg = request.responseJSON ? request.responseJSON[2] : '';
     Swal.fire(
         'Gagal',
-        'Terjadi kesalahan<br>  Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p class="text-danger" p-0>' + errorMsg[2] + '</span>',
+        'Terjadi kesalahan<br>  Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p class="text-danger" p-0>' + errorMsg + '</span>',
         'error'
     );
 }

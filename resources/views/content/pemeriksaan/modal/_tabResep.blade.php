@@ -12,33 +12,13 @@
             </li>
         </ul>
     </div>
-    <div class="card-body">
+    <div class="card-body p-3">
         <div class="tab-content">
             <div class="tab-pane fade active show" id="tabsResepUmum" role="tabpanel">
-                <div class="table-responsive mb-2">
-                    <input type="hidden" id="no_resep" name="no_resep">
-                    <table class="table d-none mb-2" id="tabelResepUmum">
-                        <thead>
-                            <tr>
-                                <th width="40%">Obat</th>
-                                <th width="10%">Jumlah</th>
-                                <th>Aturan Pakai</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                    {{-- </form> --}}
-                    <button type="button" class="btn btn-sm btn-primary d-none" id="btnTambahObat">Tambah Obat</button>
-                    <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
-                    <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanResep">Simpan Resep</button>
-                </div>
+                @include('content.pemeriksaan.modal._resepUmum')
             </div>
             <div class="tab-pane fade" id="tabsResepRacikan" role="tabpanel">
-                <h4>Profile tab</h4>
-                <div>Fringilla egestas nunc quis tellus diam rhoncus ultricies tristique enim at diam, sem nunc amet, pellentesque id egestas velit sed</div>
+                @includeIf('content.pemeriksaan.modal._resepRacikan')
             </div>
             <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
                 <h4>Activity tab</h4>
@@ -46,52 +26,15 @@
             </div>
         </div>
     </div>
+    <div class="card-footer p-2">
+        <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
+        <button type="button" class="btn btn-sm btn-info" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak Resep</button>
+
+    </div>
 </div>
 
 @push('script')
     <script>
-        $(document).ready(() => {
-            // $('select.form-select').select2({
-            //     dropdownParent: $('#modalCppt'),
-            //     data: [{
-            //         id: 2,
-            //         text: 'one'
-            //     }]
-            // })
-
-        })
-
-        $('#btnSimpanResep').on('click', (e) => {
-            e.preventDefault();
-            const rowCount = $('#tabelResepUmum').find('tr').length
-            const noResep = $(`#no_resep`).val();
-            let dataObat = [];
-            for (let index = 1; index < rowCount; index++) {
-                const kodeBrng = $(`#kdObat${index}Val`).val();
-                const jml = $(`#jmlObat${index}`).val();
-                const aturanPakai = $(`#aturan${index}`).val();
-                console.log('ADD ===', kodeBrng, jml, aturanPakai);
-                if (kodeBrng && jml && aturanPakai) {
-                    obat = {
-                        'no_resep': noResep,
-                        'kode_brng': $(`#kdObat${index}Val`).val(),
-                        'jml': $(`#jmlObat${index}`).val(),
-                        'aturan_pakai': $(`#aturan${index}`).val(),
-                    }
-                    dataObat.push(obat)
-                } else {
-                    return alert('ada masalah data !')
-                }
-            }
-
-            $.post('resep/dokter/create', {
-                dataObat
-            }).done((response) => {
-                setResepDokter(noResep)
-                console.log('RESEP OBAT ===', response);
-            })
-        })
-
         function createResepObat(no_rawat, status, kd_dokter) {
             const resep = $.post('resep/create', {
                 no_rawat: no_rawat,
@@ -108,14 +51,8 @@
             return resep
         }
 
-        function getResepDokter(no_resep) {
-            const resepDokter = $.get('resep/dokter/get', {
-                no_resep: no_resep
-            })
-            return resepDokter;
-        }
 
-        function deleteResepDokter(no_resep) {
+        function deleteResep(no_resep) {
             const resepDokter = $.post('resep/delete', {
                 no_resep: no_resep
             })
@@ -142,37 +79,10 @@
                 btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                 btnTambahResep.attr('onclick', `hapusResep('${response.no_resep}')`)
                 btnTambahResep.text('Hapus Resep')
-                console.log('RESEP RESPONSE ===', response);
-
             })
 
         }
 
-        $('#btnTambahObat').on('click', () => {
-            const tabelResepUmum = $('#tabelResepUmum');
-            tambahBarisObat(tabelResepUmum);
-        })
-
-        // function hapusResep(no_resep) {
-
-        // }
-
-        function tambahBarisObat(tabel) {
-            let rowCount = tabel.find('tr').length
-            const addRow = `<tr id="row${rowCount}">
-                <td><select class="form-control" name="nm_obat[]" id="kdObat${rowCount}" data-id="${rowCount}" style="width:100%"></select></td>
-                <td>
-                    <input type="hidden" name="rowNext" id="rowNext" value="${rowCount+1}"/>
-                    <input type="hidden" name="kode_brng[]" id="kdObat${rowCount}Val"/>
-                    <input type="text" class="form-control" name="jumlah[]" id="jmlObat${rowCount}"/>
-                </td>
-                <td><input class="form-control form-control-sm" name="aturan_pakai[]" id="aturan${rowCount}"/></td>
-                <td><i class="ti ti-square-rounded-x text-danger" style="font-size:20px"></i></td>
-            </tr>`;
-            tabel.append(addRow);
-            const idElement = $(`#kdObat${rowCount}`);
-            renderAutocomplete(idElement)
-        }
 
         function renderAutocomplete(element) {
             element.select2({
@@ -220,8 +130,8 @@
             const btnSimpanObat = $('#btnSimpanResep')
             const btnTambahObat = $('#btnTambahObat')
             const tabelResepUmum = $('#tabelResepUmum')
-            const noRawat = $('#formCppt input[name=no_rawat]').val()
-            deleteResepDokter(no_resep).done((response) => {
+            const noRawat = $('#formCpptRajal input[name=no_rawat]').val()
+            deleteResep(no_resep).done((response) => {
                 alert('SUKSES');
                 console.log('RESPONSE', response);
                 btnTambahResep.removeClass('btn-danger').addClass('btn-primary');

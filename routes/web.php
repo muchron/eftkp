@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DataBarangController;
-use App\Http\Controllers\DiagnosaPasienController;
-use App\Http\Controllers\PemeriksaanRalanController;
-use App\Http\Controllers\PenyakitController;
-use App\Http\Controllers\RegPeriksaController;
-use App\Http\Controllers\ResepDokterController;
-use App\Http\Controllers\ResepObatController;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PenyakitController;
+use App\Http\Controllers\ResepObatController;
+use App\Http\Controllers\DataBarangController;
+use App\Http\Controllers\RegPeriksaController;
+use App\Http\Controllers\ResepDokterController;
+use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\ResepDokterRacikanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,4 +63,8 @@ Route::middleware('auth')->group(function () {
     // Resep Dokter (NON RACIKAN)
     Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);
     Route::get('/resep/dokter/get', [ResepDokterController::class, 'get']);
+    Route::post('/resep/dokter/delete', [ResepDokterController::class, 'delete']);
+
+    // Resep Racikan
+    Route::get('/resep/racikan/get', [ResepDokterRacikanController::class, 'get']);
 });
