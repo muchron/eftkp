@@ -63,20 +63,78 @@
 
             const row = `<tr>
                     <td><select class="form-control" id="obat${rowCount}" name="kd_obat[]" style="width:100%"></select></td>
-                    <td><input class="form-control" id="kps${rowCount}" name="kps[]"></td>
-                    <td><input class="form-control" id="p1${rowCount}" name="p1[]" value="1"></td>
+                    <td><input class="form-control" id="kapasitas${rowCount}" data-id="${rowCount}" name="kapasitas[]" readonly></td>
+                    <td><input class="form-control" id="p1${rowCount}" data-id="${rowCount}" name="p1[]" value="1" onkeyup="hitungPembagi(${rowCount})"></td>
                     <td>/</td>
-                    <td><input class="form-control" id="p2${rowCount}" name="p2[]" value="1"></td>
-                    <td><input class="form-control" id="dosis${rowCount}" name="dosis[]"></td>
-                    <td><input class="form-control" id="jml${rowCount}" name="jml[]" readonly></td>
+                    <td><input class="form-control" id="p2${rowCount}" data-id="${rowCount}" name="p2[]" value="1" onkeyup="hitungPembagi(${rowCount})"></td>
+                    <td>
+                        <div class="input-group input-group-flat">
+                            <input class="form-control" id="dosis${rowCount}" data-id="${rowCount}" name="dosis[]" onkeyup="hitungDosis(${rowCount})">
+                            <span class="input-group-text">
+                                mg
+                            </span>
+                        </div>
+                    </td>
+                    <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]" readonly></td>
+                    <td><button type="button" class="btn btn-sm btn-outline-danger"><i class="ti ti-trash-x"></i> Hapus</button></td>
                 </tr>`;
             tabelObatRacikan.append(row)
             const selectObat = $(`#obat${rowCount}`);
             selectDataBarang(selectObat, $('#modalDetailRacikan')).on('select2:select', (e) => {
                 e.preventDefault();
+                const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val()
                 const data = e.params.data.detail
-                console.log('PARAMSS ===', data);
+                $(`#kapasitas${rowCount}`).val(data.kapasitas)
+                $(`#dosis${rowCount}`).val(data.kapasitas)
+                $(`#jml${rowCount}`).val(jml_dr)
             })
         })
+
+        function hitungDosis(id) {
+            const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val();
+            const kapasitas = $(`#kapasitas${id}`).val();
+            const dosis = $(`#dosis${id}`).val();
+            const p1 = $(`#p1${id}`).val();
+            const p2 = $(`#p2${id}`).val();
+            if (parseInt(dosis) <= parseInt(kapasitas)) {
+                const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
+                $(`#jml${id}`).val(jml_obat)
+                $(`#p1${id}`).val(1);
+                $(`#p2${id}`).val(1);
+            } else {
+                Swal.fire(
+                    'Ada yang salah !',
+                    'Dosis tidak boleh lebih besar dari kapasitas obat',
+                    'warning'
+                ).then(() => {
+                    $(`#dosis${id}`).val(0);
+                });
+            }
+
+        }
+
+        function hitungPembagi(id) {
+
+            const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val();
+            const kapasitas = $(`#kapasitas${id}`).val();
+            const p1 = $(`#p1${id}`).val();
+            const p2 = $(`#p2${id}`).val();
+
+            if (p1 != 0 && p2 != 0) {
+                const dosis = parseFloat(kapasitas) * (parseFloat(p1) / parseFloat(p2));
+                const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
+                $(`#dosis${id}`).val(dosis.toFixed(1));
+                $(`#jml${id}`).val(jml_obat.toFixed(1));
+            }
+
+        }
+
+        function setRacikanDetail(no_racik, no_resep) {
+
+        }
+
+        function getDetailRacikan(no_racik, no_resep) {
+
+        }
     </script>
 @endpush

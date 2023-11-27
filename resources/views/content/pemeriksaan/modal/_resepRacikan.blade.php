@@ -159,10 +159,6 @@
                     })
                     selectMetodeRacik.append(metode)
                 })
-
-
-
-
             })
         }
 
