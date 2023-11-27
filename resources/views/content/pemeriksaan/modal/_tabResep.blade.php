@@ -52,9 +52,9 @@
         }
 
 
-        function deleteResep(no_resep) {
+        function deleteResep(no_rawat) {
             const resepDokter = $.post('resep/delete', {
-                no_resep: no_resep
+                no_rawat: no_rawat
             })
             return resepDokter;
         }
@@ -63,16 +63,20 @@
         function tambahResep(no_rawat) {
             const btnTambahResep = $('#btnTambahResep')
             const btnTambahObat = $('#btnTambahObat')
+            const btnTambahRacikan = $('#btnTambahRacikan')
             const btnSimpanObat = $('#btnSimpanResep')
             const tabelResepUmum = $('#tabelResepUmum')
+            const tabelResepRacikan = $('#tabelResepRacikan')
 
             tabelResepUmum.removeClass('d-none')
+            tabelResepRacikan.removeClass('d-none')
 
 
             btnSimpanObat.removeClass('d-none')
             btnTambahObat.removeClass('d-none')
+            btnTambahRacikan.removeClass('d-none')
 
-            tambahBarisObat(tabelResepUmum);
+            // tambahBarisObat(tabelResepUmum);
             const dokter = $('#kd_dokter').val()
             createResepObat(no_rawat, 'ralan', dokter).done((response) => {
                 $('#no_resep').val(response.no_resep)
@@ -84,10 +88,10 @@
         }
 
 
-        function renderAutocomplete(element) {
-            element.select2({
-                dropdownParent: $('#modalCppt'),
-                delay: 5,
+        function selectDataBarang(element, parrent) {
+            const select2 = element.select2({
+                dropdownParent: parrent,
+                delay: 0,
                 scrollAfterSelect: true,
                 ajax: {
                     url: 'barang/get',
@@ -100,12 +104,12 @@
                         return query
                     },
                     processResults: (data) => {
-                        console.log('DATA ===', data);
                         return {
                             results: data.map((item) => {
                                 const items = {
                                     id: item.kode_brng,
                                     text: item.nama_brng,
+                                    detail: item
                                 }
                                 return items;
                             })
@@ -116,34 +120,8 @@
                 cache: true
 
             });
-            element.on('select2:select', (e) => {
-                e.preventDefault();
-                const kodeBarang = e.params.data.id;
-                const targetId = e.currentTarget.id;
-                const elementTargetId = $(`#${targetId}Val`)
-                elementTargetId.val(kodeBarang)
-            })
-        }
 
-        function hapusResep(no_resep) {
-            const btnTambahResep = $('#btnTambahResep')
-            const btnSimpanObat = $('#btnSimpanResep')
-            const btnTambahObat = $('#btnTambahObat')
-            const tabelResepUmum = $('#tabelResepUmum')
-            const noRawat = $('#formCpptRajal input[name=no_rawat]').val()
-            deleteResep(no_resep).done((response) => {
-                alert('SUKSES');
-                console.log('RESPONSE', response);
-                btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                btnTambahResep.text('Buat Resep')
-                tabelResepUmum.addClass('d-none')
-                btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
-                btnSimpanObat.addClass('d-none')
-                btnTambahObat.addClass('d-none')
-                tabelResepUmum.find('tbody').empty();
-            }).fail((request) => {
-                console.log('MASALAH');
-            })
+            return select2;
         }
     </script>
 @endpush

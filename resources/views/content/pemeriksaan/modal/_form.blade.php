@@ -298,7 +298,6 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -316,26 +315,30 @@
                 }).done((resep) => {
                     const btnTambahResep = $('#btnTambahResep')
                     const btnTambahObat = $('#btnTambahObat')
+                    const btnTambahRacikan = $('#btnTambahRacikan')
                     const btnSimpanObat = $('#btnSimpanResep')
+                    const btnSimpanRacikan = $('#btnSimpanRacikan')
                     const tabelResepUmum = $('#tabelResepUmum')
                     const tabelResepRacikan = $('#tabelResepRacikan')
-                    let row = '';
+                    tabelResepUmum.find('tbody').empty()
                     if (resep.length) {
-                        $('#tabelResepUmum').removeClass('d-none');
-                        console.log('RESEP ===', resep);
                         resep.map((res) => {
-                            btnTambahResep.attr('onclick', `hapusResep('${res.no_resep}')`)
+                            btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
                             $(`#no_resep`).val(res.no_resep);
-                            if (res.resep_dokter.length) {
+
+                            if (res.resep_dokter.length)
                                 setResepDokter(res.no_resep);
+                            if (res.resep_racikan.length)
                                 setResepRacikan(res.no_resep)
-                            }
                         })
                         btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                         btnTambahResep.text('Hapus Resep')
                         tabelResepUmum.removeClass('d-none')
+                        tabelResepRacikan.removeClass('d-none')
                         btnSimpanObat.removeClass('d-none')
+                        btnSimpanRacikan.removeClass('d-none')
                         btnTambahObat.removeClass('d-none')
+                        btnTambahRacikan.removeClass('d-none')
                     }
                 });
 
@@ -387,6 +390,48 @@
                 console.log('DATA ===', data);
                 console.log('ERRROR ===', response);
             });
+        }
+
+
+        function hapusResep(no_rawat) {
+            const btnTambahResep = $('#btnTambahResep')
+            const btnSimpanObat = $('#btnSimpanResep')
+            const btnTambahObat = $('#btnTambahObat')
+            const btnTambahRacikan = $('#btnTambahRacikan')
+            const tabelResepUmum = $('#tabelResepUmum')
+            const tabelResepRacikan = $('#tabelResepRacikan')
+            const noRawat = $('#formCpptRajal input[name=no_rawat]').val()
+
+            Swal.fire({
+                title: "Yakin hapus obat ini ?",
+                html: "Anda tidak bisa mengembalikan obat ini",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Iya, Yakin",
+                cancelButtonText: "Tidak, Batalkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteResep(no_rawat).done((response) => {
+                        alertSuccessAjax().then(() => {
+                            btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                            btnTambahResep.text('Buat Resep')
+                            tabelResepUmum.addClass('d-none')
+                            tabelResepRacikan.addClass('d-none')
+                            btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
+                            btnSimpanObat.addClass('d-none')
+                            btnTambahObat.addClass('d-none')
+                            btnTambahRacikan.addClass('d-none')
+                            tabelResepUmum.find('tbody').empty();
+                            tabelResepRacikan.find('tbody   ').empty();
+                        })
+                    }).fail((request) => {
+                        alertErrorAjax(request)
+                    })
+                }
+            });
+
         }
     </script>
 @endpush

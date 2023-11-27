@@ -60,7 +60,12 @@ class ResepObatController extends Controller
     function delete(Request $request)
     {
         $no_resep = $request->no_resep;
-        $resep = ResepObat::where('no_resep', $no_resep)->delete();
+        $no_rawat = $request->no_rawat;
+        if($no_resep){
+            $resep = ResepObat::where('no_resep', $no_resep)->delete();
+        }else{
+            $resep = ResepObat::where('no_rawat', $no_rawat)->delete();
+        }
         return response()->json($resep);
     }
 }

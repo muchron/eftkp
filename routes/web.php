@@ -8,6 +8,7 @@ use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\ResepObatController;
 use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\RegPeriksaController;
+use App\Http\Controllers\MetodeRacikController;
 use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\PemeriksaanRalanController;
@@ -67,4 +68,9 @@ Route::middleware('auth')->group(function () {
 
     // Resep Racikan
     Route::get('/resep/racikan/get', [ResepDokterRacikanController::class, 'get']);
+    Route::post('/resep/racikan/create', [ResepDokterRacikanController::class, 'create']);
+    Route::post('/resep/racikan/delete', [ResepDokterRacikanController::class, 'delete']);
+
+    // Metode Racikan
+    Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
 });

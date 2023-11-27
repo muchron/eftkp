@@ -64,6 +64,10 @@
         .datepicker {
             font-size: 10px;
         }
+
+        .modal {
+            border-radius: 6 6 6 6;
+        }
     </style>
 </head>
 

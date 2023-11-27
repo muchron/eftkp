@@ -6,7 +6,7 @@
                 <th width="30%">Obat</th>
                 <th>Jumlah</th>
                 <th>Aturan Pakai</th>
-                <th></th>
+                <th width="20%"></th>
             </tr>
         </thead>
         <tbody>
@@ -36,21 +36,19 @@
 
         function setResepDokter(no_resep) {
             getResepDokter(no_resep).done((reseps) => {
-                $('#tabelResepUmum tbody').empty();
-                let row = '';
                 if (reseps.length) {
                     reseps.map((resepDokter, index) => {
-                        row += `<tr id="row${index+1}">
-                        <td>${resepDokter.obat.nama_brng}</td>    
-                        <td>${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
-                        <td>${resepDokter.aturan_pakai}</td>    
-                        <td>
-                            <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${index+1}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
-                            <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
-                        </td>    
-                    </tr>`;
+                        const row = `<tr id="row${index+1}">
+                            <td>${resepDokter.obat.nama_brng}</td>    
+                            <td>${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
+                            <td>${resepDokter.aturan_pakai}</td>    
+                            <td>
+                                <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${index+1}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
+                                <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
+                            </td>    
+                        </tr>`;
+                        $('#tabelResepUmum tbody').append(row).fadeIn();
                     })
-                    $('#tabelResepUmum tbody').append(row).hide().fadeIn();
                 }
 
             })
@@ -93,7 +91,13 @@
             </tr>`;
             tabel.append(addRow);
             const idElement = $(`#kdObat${rowCount}`);
-            renderAutocomplete(idElement)
+            selectDataBarang(idElement, $('#modalCppt')).on('select2:select', (e) => {
+                e.preventDefault();
+                const kodeBarang = e.params.data.id;
+                const targetId = e.currentTarget.id;
+                const elementTargetId = $(`#${targetId}Val`)
+                elementTargetId.val(kodeBarang)
+            })
         }
         $('#btnSimpanResep').on('click', (e) => {
             e.preventDefault();
@@ -103,12 +107,10 @@
             for (let index = 1; index < rowCount; index++) {
                 const findInput = $(`#row${index}`).find('input');
                 if (findInput.length) {
-
                     const kodeBrng = $(`#kdObat${index}Val`).val();
                     const jml = $(`#jmlObat${index}`).val();
                     const aturanPakai = $(`#aturan${index}`).val();
-                    console.log('ADD ===', kodeBrng, jml, aturanPakai);
-                    if (kodeBrng) {
+                    if (kodeBrng && jml && aturanPakai) {
                         obat = {
                             'no_resep': noResep,
                             'kode_brng': $(`#kdObat${index}Val`).val(),
@@ -129,8 +131,8 @@
             $.post('resep/dokter/create', {
                 dataObat
             }).done((response) => {
+                $('#tabelResepUmum').find('tbody').empty();
                 setResepDokter(noResep)
-                console.log('RESEP OBAT ===', response);
             })
         })
 
