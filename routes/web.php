@@ -13,6 +13,7 @@ use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\ResepDokterRacikanController;
+use App\Http\Controllers\ResepDokterRacikanDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/resep/racikan/get', [ResepDokterRacikanController::class, 'get']);
     Route::post('/resep/racikan/create', [ResepDokterRacikanController::class, 'create']);
     Route::post('/resep/racikan/delete', [ResepDokterRacikanController::class, 'delete']);
+
+    // Detail resep racikam
+    Route::get('resep/racikan/detail/get', [ResepDokterRacikanDetailController::class, 'get']);
+    Route::post('resep/racikan/detail/create', [ResepDokterRacikanDetailController::class, 'create']);
+    Route::post('resep/racikan/detail/delete', [ResepDokterRacikanDetailController::class, 'delete']);
 
     // Metode Racikan
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);

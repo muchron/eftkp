@@ -23,9 +23,9 @@
     <script>
         function setResepRacikan(no_resep) {
             getResepRacikan(no_resep).done((response) => {
+                $('#tabelResepRacikan').removeClass('d-none');
+                $('#tabelResepRacikan').find('tbody').empty();
                 if (response.length) {
-                    $('#tabelResepRacikan').removeClass('d-none');
-                    $('#tabelResepRacikan').find('tbody').empty();
                     response.map((racikan, index) => {
                         let obat = '';
                         let detailObat = '';
@@ -113,9 +113,7 @@
                 }
             }
             createResepRacikan(dataRacikan).done((response) => {
-                alertSuccessAjax().then(() => {
-                    setResepRacikan(noResep)
-                })
+                setResepRacikan(noResep)
             })
 
         }
@@ -134,6 +132,7 @@
                 if (result.isConfirmed) {
                     deleteResepRacikan(no_racik, no_resep).done((response) => {
                         alertSuccessAjax().then(() => {
+                            deleteDetailRacikan(no_resep, no_racik)
                             setResepRacikan(no_resep)
                         })
                     });
@@ -144,14 +143,15 @@
 
         function editRacikan(no_racik, no_resep) {
             getResepRacikan(no_resep, no_racik).done((racik) => {
-
                 const modalDetailRacikan = $('#modalDetailRacikan')
                 const selectMetodeRacik = modalDetailRacikan.find('select[name="metode"]')
                 modalDetailRacikan.find('input[name="no_resep"]').val(racik.no_resep)
                 modalDetailRacikan.find('input[name="nama_racik"]').val(racik.nama_racik)
                 modalDetailRacikan.find('input[name="jml_dr"]').val(racik.jml_dr)
+                modalDetailRacikan.find('input[name="no_racik"]').val(racik.no_racik)
                 modalDetailRacikan.find('input[name="aturan_pakai"]').val(racik.aturan_pakai)
                 modalDetailRacikan.modal('show')
+                setRacikanDetail(no_racik, no_resep)
                 $.get('metode/racik/get').done((metodes) => {
                     selectMetodeRacik.empty()
                     const metode = metodes.map((items) => {
@@ -180,7 +180,7 @@
         function tambahBarisRacikan() {
             const tabel = $('#tabelResepRacikan').find('tbody')
             const rowCount = tabel.find('tr').length;
-            const modalCppt = $('modalCppt');
+            const modalCppt = $('#modalCppt');
             const addRow = `<tr id="rowRacikan${rowCount}">
                 <td id="colNoRacik${rowCount}"><input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount+1}"/>${rowCount+1}</td>
                 <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"></select></td>

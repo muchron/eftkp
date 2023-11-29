@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TrackSql extends Model
 {
     use HasFactory;
+    protected $table = 'trackersql';
+    protected $guarded = [];
+    public $timestamps = false;
 }

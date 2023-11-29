@@ -9,6 +9,7 @@
                 <div class="row form-fieldset">
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                         <label for="no_resep">Nomor Resep</label>
+                        <input type="hidden" name="no_racik" readonly />
                         <input type="text" class="form-control" name="no_resep" readonly />
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
@@ -30,6 +31,7 @@
                 </div>
 
                 <div class="table-responsive">
+                    <input type="hidden" id="nextIdDetail">
                     <table class="table table-borderless table-sm" id="tabelObatRacikan">
                         <thead>
                             <tr>
@@ -50,18 +52,24 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="simpanDetailRacikan()">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 @push('script')
     <script>
-        $('#btnTambahObatRacikan').on('click', (e) => {
-            const tabelObatRacikan = $('#tabelObatRacikan').find('tbody')
-            const rowCount = tabelObatRacikan.find('tr').length
+        var tabelObatRacikan = $('#tabelObatRacikan')
+        var bodyObatRacikan = tabelObatRacikan.find('tbody');
 
-            const row = `<tr>
+        $('#modalDetailRacikan').on('hidden.modal.bs', () => {
+            bodyObatRacikan.empty()
+        })
+        $('#btnTambahObatRacikan').on('click', (e) => {
+            const nextIdDetail = $('#nextIdDetail').val()
+            const rowCount = nextIdDetail ? parseInt(nextIdDetail) + 1 : tabelObatRacikan.find('tr').length
+
+            const row = `<tr id="rowDetailRacikan${rowCount}">
                     <td><select class="form-control" id="obat${rowCount}" name="kd_obat[]" style="width:100%"></select></td>
                     <td><input class="form-control" id="kapasitas${rowCount}" data-id="${rowCount}" name="kapasitas[]" readonly></td>
                     <td><input class="form-control" id="p1${rowCount}" data-id="${rowCount}" name="p1[]" value="1" onkeyup="hitungPembagi(${rowCount})"></td>
@@ -76,9 +84,10 @@
                         </div>
                     </td>
                     <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]" readonly></td>
-                    <td><button type="button" class="btn btn-sm btn-outline-danger"><i class="ti ti-trash-x"></i> Hapus</button></td>
+                    <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusBarisDetailObat(${rowCount})"><i class="ti ti-trash-x"></i> Hapus</button></td>
                 </tr>`;
-            tabelObatRacikan.append(row)
+            bodyObatRacikan.append(row)
+            $('#nextIdDetail').val(rowCount)
             const selectObat = $(`#obat${rowCount}`);
             selectDataBarang(selectObat, $('#modalDetailRacikan')).on('select2:select', (e) => {
                 e.preventDefault();
@@ -89,6 +98,7 @@
                 $(`#jml${rowCount}`).val(jml_dr)
             })
         })
+
 
         function hitungDosis(id) {
             const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val();
@@ -130,11 +140,130 @@
         }
 
         function setRacikanDetail(no_racik, no_resep) {
+            getDetailRacikan(no_racik, no_resep).done((response) => {
+                bodyObatRacikan.empty();
+                if (response.length) {
+                    const detail = response.map((item, index) => {
+                        const indexNum = index + parseInt(1)
+                        const row = `<tr id="rowDetailRacikan${indexNum}">
+                                    <td>
+                                        <select class="form-control" id="obat${indexNum}" name="kd_obat[]" style="width:100%">
+                                            <option value="${item.kode_brng}">${item.obat.nama_brng}</option>
+                                        </select>
+                                    </td>
+                                    <td><input class="form-control" id="kapasitas${indexNum}" data-id="${indexNum}" name="kapasitas[]" readonly value="${item.obat.kapasitas}"></td>
+                                    <td><input class="form-control" id="p1${indexNum}" data-id="${indexNum}" name="p1[]" value="${item.p1}" onkeyup="hitungPembagi(${indexNum})"></td>
+                                    <td>/</td>
+                                    <td><input class="form-control" id="p2${indexNum}" data-id="${indexNum}" name="p2[]" value="${item.p2}" onkeyup="hitungPembagi(${indexNum})"></td>
+                                    <td>
+                                        <div class="input-group input-group-flat">
+                                            <input class="form-control" id="dosis${indexNum}" data-id="${indexNum}" name="dosis[]" onkeyup="hitungDosis(${indexNum})" value="${item.kandungan}">
+                                            <span class="input-group-text">
+                                                mg
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td><input class="form-control" id="jml${indexNum }" data-id="${indexNum }" name="jml[]" readonly value="${item.jml}"></td>
+                                    <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusBarisDetailObat(${indexNum})"><i class="ti ti-trash-x"></i> Hapus</button></td>
+                            </tr>`
+                        bodyObatRacikan.append(row)
+                        const selectObat = $(`#obat${indexNum}`)
+                        const val = selectObat.val(`${item.kode_brng}`).trigger('change')
+                        selectDataBarang(selectObat, $('#modalDetailRacikan')).on('select2:select', (e) => {
+                            e.preventDefault();
+                            const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val()
+                            const data = e.params.data.detail
+                            $(`#kapasitas${index}`).val(data.kapasitas)
+                            $(`#dosis${index}`).val(data.kapasitas)
+                            $(`#jml${index}`).val(jml_dr)
+                        })
+                    })
+                    $('#nextIdDetail').val(detail.length + 1)
 
+                }
+            })
         }
 
         function getDetailRacikan(no_racik, no_resep) {
+            const getDetail = $.get('resep/racikan/detail/get', {
+                no_racik: no_racik,
+                no_resep: no_resep,
+            })
+            return getDetail
+        }
 
+        function createDetailRacikan(no_resep, no_racik, data) {
+            const detailRacikan = $.post('resep/racikan/detail/create', {
+                no_resep: no_resep,
+                no_racik: no_racik,
+                data: data,
+            })
+            return detailRacikan
+        }
+
+        function deleteDetailRacikan(no_resep, no_racik, obat = '') {
+            const hapus = $.post('resep/racikan/detail/delete', {
+                no_resep: no_resep,
+                no_racik: no_racik,
+                obat: obat
+            })
+            return hapus;
+        }
+
+        function hapusBarisDetailObat(id) {
+            const tabelObatRacikan = $('#tabelObatRacikan').find('tbody')
+            const nextId = parseInt(id) + parseInt(1)
+            const rowId = $(`#rowDetailRacikan${nextId}`).attr('id', `rowDetailRacikan${id}`);
+
+            rowId.find('button').attr('onclick', `hapusBarisDetailObat('${id}')`);
+            $(`#rowDetailRacikan${id}`).remove()
+            const selectObat = rowId.find('select').attr('id', `obat${id}`)
+        }
+
+        function simpanDetailRacikan() {
+            const jumlahRow = $('#nextIdDetail').val()
+            const noResep = $('#modalDetailRacikan').find('input[name=no_resep]').val();
+            const noRacik = $('#modalDetailRacikan').find('input[name=no_racik]').val();
+
+            let dataObat = [];
+            for (let index = 0; index <= jumlahRow; index++) {
+                const findRow = $(`#rowDetailRacikan${index}`)
+                if (findRow.length) {
+                    const kode_brng = $(`#obat${index}`).val();
+                    const p1 = $(`#p1${index}`).val();
+                    const p2 = $(`#p2${index}`).val();
+                    const kandungan = $(`#dosis${index}`).val();
+                    const jml = $(`#jml${index}`).val();
+                    const obatRacikan = {
+                        no_resep: noResep,
+                        no_racik: noRacik,
+                        kode_brng: kode_brng,
+                        p1: p1,
+                        p2: p2,
+                        kandungan: kandungan,
+                        jml: jml,
+                    }
+                    const isEmpty = Object.values(obatRacikan).filter((item) => {
+                        return item == null || item == ''
+                    }).length
+
+                    if (isEmpty) {
+                        const errorMsg = {
+                            status: 422,
+                            statusText: 'Pastikan tidak ada kolom yang kosong'
+                        }
+                        alertErrorAjax(errorMsg)
+                        return false;
+                    }
+
+                    dataObat.push(obatRacikan)
+                }
+
+            }
+            createDetailRacikan(noResep, noRacik, dataObat).done((response) => {
+                $('#modalDetailRacikan').modal('hide')
+                setResepRacikan(noResep)
+            })
         }
     </script>
 @endpush

@@ -15,10 +15,12 @@
     </table>
     <button type="button" class="btn btn-sm btn-primary d-none" id="btnTambahObat">Tambah Obat</button>
     <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanResep">Simpan</button>
-    {{-- </form> --}}
 </div>
 @push('script')
     <script>
+        var tabelResepUmum = $('#tabelResepUmum')
+        var bodyResepUmum = tabelResepUmum.find('tbody')
+
         function getResepDokter(no_resep) {
             const resepDokter = $.get('resep/dokter/get', {
                 no_resep: no_resep
@@ -35,6 +37,7 @@
         }
 
         function setResepDokter(no_resep) {
+            bodyResepUmum.empty()
             getResepDokter(no_resep).done((reseps) => {
                 if (reseps.length) {
                     reseps.map((resepDokter, index) => {
@@ -131,7 +134,6 @@
             $.post('resep/dokter/create', {
                 dataObat
             }).done((response) => {
-                $('#tabelResepUmum').find('tbody').empty();
                 setResepDokter(noResep)
             })
         })
@@ -142,7 +144,6 @@
             $('#row' + id).remove();
         }
         $('#btnTambahObat').on('click', () => {
-            const tabelResepUmum = $('#tabelResepUmum');
             tambahBarisObat(tabelResepUmum);
         })
     </script>
