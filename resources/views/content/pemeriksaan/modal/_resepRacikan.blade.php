@@ -18,7 +18,7 @@
     <button type="button" class="btn btn-sm btn-primary d-none" id="btnTambahRacikan" onclick="tambahBarisRacikan()">Tambah Racikan</button>
     <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanRacikan" onclick="simpanRacikan()">Simpan Racikan</button>
 </div>
-@include('content.pemeriksaan.modal._modalEditRacikan')
+
 @push('script')
     <script>
         function setResepRacikan(no_resep) {

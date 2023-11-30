@@ -39,21 +39,18 @@
             vertical-align: middle;
         }
 
-        form .form-label {
+        .form-label {
             font-size: 11px;
             margin-bottom: 0px;
         }
 
-        form .form-control {
+        .form-control,
+        .form-select {
             font-size: 11px;
             padding: .5rem;
         }
 
-        form .form-select {
-            font-size: 11px;
-        }
-
-        form .input-group-text {
+        .input-group-text {
             font-size: 11px;
         }
 

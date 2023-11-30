@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/resep/create', [ResepObatController::class, 'create']);
     Route::get('/resep/get', [ResepObatController::class, 'get']);
     Route::post('/resep/delete', [ResepObatController::class, 'delete']);
+    Route::get('/resep/print', [ResepObatController::class, 'print']);
 
     // Resep Dokter (NON RACIKAN)
     Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);

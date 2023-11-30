@@ -32,6 +32,8 @@
 {{-- MODAL --}}
 
 @include('content.pemeriksaan.modalCppt')
+@include('content.pemeriksaan.modal._diagnosaPasien')
+@include('content.pemeriksaan.modal._modalEditRacikan')
 @push('script')
     <script type="" src="{{asset('libs/list.js/dist/list.min.js')}}"></script>
     <script>

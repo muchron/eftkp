@@ -80,9 +80,7 @@
         }
 
         function cetakResep(data) {
-            getResep(data).done((response) => {
-                console.log('RESEPS ===', response);
-            })
+            window.open(`resep/print?no_rawat=${data.no_rawat}`)
         }
 
 

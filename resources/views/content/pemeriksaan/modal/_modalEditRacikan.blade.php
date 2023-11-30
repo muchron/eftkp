@@ -1,4 +1,4 @@
-<div class="modal modal-blur fade show" id="modalDetailRacikan" tabindex="-1" aria-modal="true" role="dialog">
+<div class="modal modal-blur fade" id="modalDetailRacikan" tabindex="-1" aria-modal="false" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
@@ -52,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="simpanDetailRacikan()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="simpanDetailRacikan()">Save changes</button>
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@
                             </span>
                         </div>
                     </td>
-                    <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]" readonly></td>
+                    <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]"></td>
                     <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusBarisDetailObat(${rowCount})"><i class="ti ti-trash-x"></i> Hapus</button></td>
                 </tr>`;
             bodyObatRacikan.append(row)
@@ -163,7 +163,7 @@
                                             </span>
                                         </div>
                                     </td>
-                                    <td><input class="form-control" id="jml${indexNum }" data-id="${indexNum }" name="jml[]" readonly value="${item.jml}"></td>
+                                    <td><input class="form-control" id="jml${indexNum }" data-id="${indexNum }" name="jml[]" value="${item.jml}"></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusBarisDetailObat(${indexNum})"><i class="ti ti-trash-x"></i> Hapus</button></td>
                             </tr>`
                         bodyObatRacikan.append(row)
@@ -261,7 +261,7 @@
 
             }
             createDetailRacikan(noResep, noRacik, dataObat).done((response) => {
-                $('#modalDetailRacikan').modal('hide')
+                // $('#modalDetailRacikan').modal('hide')
                 setResepRacikan(noResep)
             })
         }

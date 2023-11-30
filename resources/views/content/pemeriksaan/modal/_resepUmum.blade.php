@@ -6,7 +6,7 @@
                 <th width="30%">Obat</th>
                 <th>Jumlah</th>
                 <th>Aturan Pakai</th>
-                <th width="20%"></th>
+                <th width="30%"></th>
             </tr>
         </thead>
         <tbody>
@@ -41,12 +41,14 @@
             getResepDokter(no_resep).done((reseps) => {
                 if (reseps.length) {
                     reseps.map((resepDokter, index) => {
-                        const row = `<tr id="row${index+1}">
-                            <td>${resepDokter.obat.nama_brng}</td>    
-                            <td>${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
-                            <td>${resepDokter.aturan_pakai}</td>    
-                            <td>
-                                <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${index+1}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
+                        const numb = parseInt(index) + 1
+                        const row = `<tr id="row${numb}">
+                            <td id="obatUmum${numb}">${resepDokter.obat.nama_brng}</td>    
+                            <td id="jmlUmum${numb}">${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
+                            <td id="aturanUmum${numb}">${resepDokter.aturan_pakai}</td>    
+                            <td id="aksi${numb}">
+                                <input type="hidden" id="noResep${numb}" value="${resepDokter.no_resep}"/>
+                                <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${numb}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
                                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
                             </td>    
                         </tr>`;
@@ -101,6 +103,43 @@
                 const elementTargetId = $(`#${targetId}Val`)
                 elementTargetId.val(kodeBarang)
             })
+        }
+
+        function editObatDokter(id, kd_obat) {
+            const row = bodyResepUmum.find(`#row${id}`)
+
+            const colObat = row.find(`#obatUmum${id}`)
+            const colJml = row.find(`#jmlUmum${id}`)
+            const colAturan = row.find(`#aturanUmum${id}`)
+            const colAksi = row.find(`#aksi${id}`)
+            const colNoResep = row.find(`#noResep${id}`)
+
+            const jml = colJml.html().split(" ")[0];
+            const aturan = colAturan.html();
+            colAksi.empty();
+            colJml.html('').append(`<input type="text" class="form-control" name="jumlah[]" id="jmlObat${id}" value="${jml}"/>`)
+            colAturan.html('').append(`<input type="text" class="form-control" name="aturan_pakai[]" id="aturan${id}" value="${aturan}"/>`)
+            const dataUbah = {
+                no_resep: colNoResep.val(),
+                kode_brng: kd_obat,
+                kode_brng: kd_obat,
+                jml: $(`#jmlObat${id}`).val(),
+                aturan: $(`#aturan${id}`).val(),
+            }
+
+            console.log(dataUbah);
+
+            colAksi.append(`
+                <input type="hidden" class="form-control" name="no_resep" id="noResep${id}" value="${colNoResep.val()}"/>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="simpanUbah(${id})"><i class="ti ti-pencil"></i> Ubah</button>
+                <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${colNoResep.val()}, '${kd_obat}')"><i class="ti ti-trash-x"></i>Hapus</button>
+            `)
+        }
+
+        function simpanUbah(id) {
+            const row = bodyResepUmum.find(`#row${id}`).find('input')
+
+            console.log('ROES ===', row);
         }
         $('#btnSimpanResep').on('click', (e) => {
             e.preventDefault();
