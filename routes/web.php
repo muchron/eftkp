@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);
     Route::get('/resep/dokter/get', [ResepDokterController::class, 'get']);
     Route::post('/resep/dokter/delete', [ResepDokterController::class, 'delete']);
+    Route::post('/resep/dokter/update', [ResepDokterController::class, 'update']);
 
     // Resep Racikan
     Route::get('/resep/racikan/get', [ResepDokterRacikanController::class, 'get']);

@@ -42,7 +42,7 @@
                         <div class="mb-1">
                             <label class="form-label">Dokter</label>
                             <div class="input-group mb-2">
-                                <input class="form-control" name="kd_dokter" id="kd_dokter" readonly>
+                                <input class="form-control" name="nip" id="nip" readonly>
                                 <input class="form-control w-50" name="nm_dokter" readonly>
                             </div>
                         </div>
@@ -288,7 +288,6 @@
             insertDiagnosaPasien(noRawat, kdPenyakit, status).done((response) => {
                 console.log('RESPONSE===', response);
             }).fail((request) => {
-                console.log('ERRPR ===', request);
                 alertErrorAjax(request)
                 element.detach()
 
@@ -313,7 +312,7 @@
                 $('#formCpptRajal input[name=tgl_lahir]').val(`${formatTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
                 $('#formCpptRajal input[name=keluarga]').val(`${response.pasien.keluarga} : ${response.pasien.namakeluarga}`)
                 $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
-                $('#formCpptRajal input[name=kd_dokter]').val(`${response.kd_dokter}`)
+                $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
                 $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
@@ -378,7 +377,7 @@
         function simpanPemeriksaanRalan() {
 
             const element = ['input', 'select', 'textarea'];
-            const exception = ['keluarga', 'no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'pembiayaan'];
+            const exception = ['keluarga', 'no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'pembiayaan', 'nm_dokter', 'no_resep'];
             const data = getDataForm('formCpptRajal', element, exception)
 
 
@@ -389,9 +388,8 @@
                     loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
                     $('#modalCppt').modal('hide');
                 })
-            }).fail((response) => {
-                console.log('DATA ===', data);
-                console.log('ERRROR ===', response);
+            }).fail((request) => {
+                alertErrorAjax(request)
             });
         }
 

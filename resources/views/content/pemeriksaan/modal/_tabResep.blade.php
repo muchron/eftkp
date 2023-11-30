@@ -69,12 +69,14 @@
             btnTambahRacikan.removeClass('d-none')
 
             // tambahBarisObat(tabelResepUmum);
-            const dokter = $('#kd_dokter').val()
+            const dokter = $('#nip').val()
             createResepObat(no_rawat, 'ralan', dokter).done((response) => {
                 $('#no_resep').val(response.no_resep)
                 btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                 btnTambahResep.attr('onclick', `hapusResep('${response.no_resep}')`)
                 btnTambahResep.text('Hapus Resep')
+            }).fail((request) => {
+                alertErrorAjax(request)
             })
 
         }

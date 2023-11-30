@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\Track;
 use App\Models\ResepDokter;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ResepDokterController extends Controller
 {
+    use Track;
     //
     function get(Request $request)
     {
@@ -37,10 +39,30 @@ class ResepDokterController extends Controller
         ];
         try {
             $resep = ResepDokter::where($key)->delete();
+            if($resep){
+                $this->deleteSql(new ResepDokter(), $key);
+            }
             return response()->json($resep);
-            //code...
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
+        }
+    }
+
+    function update(Request $request)
+    {
+        $key = [
+        'no_resep' => $request->no_resep,
+        'kode_brng' => $request->kode_brng,
+        ];
+
+        try {
+            $resep = ResepDokter::where($key)->update($request->all());
+            if ($resep) {
+                $this->updateSql(new ResepDokter(),$request->all(), $key);
+            }
+            return response()->json('SUKSES');
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 400);
         }
     }
 }

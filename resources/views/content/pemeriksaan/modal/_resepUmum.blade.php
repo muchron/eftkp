@@ -74,6 +74,7 @@
                     deleteResepDokter(no_resep, kode_brng).done((response) => {
                         alertSuccessAjax().then(() => {
                             setResepDokter(no_resep)
+                            tulisPlan(no_resep)
                         });
                     }).fail((request) => {
                         alertErrorAjax(request)
@@ -117,29 +118,58 @@
             const jml = colJml.html().split(" ")[0];
             const aturan = colAturan.html();
             colAksi.empty();
-            colJml.html('').append(`<input type="text" class="form-control" name="jumlah[]" id="jmlObat${id}" value="${jml}"/>`)
-            colAturan.html('').append(`<input type="text" class="form-control" name="aturan_pakai[]" id="aturan${id}" value="${aturan}"/>`)
-            const dataUbah = {
-                no_resep: colNoResep.val(),
-                kode_brng: kd_obat,
-                kode_brng: kd_obat,
-                jml: $(`#jmlObat${id}`).val(),
-                aturan: $(`#aturan${id}`).val(),
-            }
-
-            console.log(dataUbah);
-
+            colJml.html('').append(`<input type="text" class="form-control" name="jml" id="jmlObat${id}" value="${jml}"/>`)
+            colAturan.html('').append(`<input type="text" class="form-control" name="aturan" id="aturan${id}" value="${aturan}"/>`)
             colAksi.append(`
                 <input type="hidden" class="form-control" name="no_resep" id="noResep${id}" value="${colNoResep.val()}"/>
-                <button type="button" class="btn btn-sm btn-outline-primary" onclick="simpanUbah(${id})"><i class="ti ti-pencil"></i> Ubah</button>
+                <button type="button" class="btn btn-sm btn-outline-primary" onclick="simpanUbah(${id}, '${kd_obat}')"><i class="ti ti-pencil"></i> Ubah</button>
                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${colNoResep.val()}, '${kd_obat}')"><i class="ti ti-trash-x"></i>Hapus</button>
             `)
         }
 
-        function simpanUbah(id) {
-            const row = bodyResepUmum.find(`#row${id}`).find('input')
+        function simpanUbah(id, kd_obat) {
+            const row = bodyResepUmum.find(`#row${id}`)
 
-            console.log('ROES ===', row);
+            const data = {
+                kode_brng: kd_obat,
+                no_resep: $(`#noResep${id}`).val(),
+                jml: $(`#jmlObat${id}`).val(),
+                aturan_pakai: $(`#aturan${id}`).val()
+            }
+
+            $.post('resep/dokter/update', data).done((response) => {
+                setResepDokter(data.no_resep)
+                tulisPlan(data.no_resep)
+            }).fail((request) => {
+                alertErrorAjax(request)
+            })
+
+
+        }
+
+        function tulisPlan(no_resep) {
+            getResep({
+                no_resep: no_resep
+            }).done((response) => {
+                let textPlan = `RESEP : \n`
+                if (response.resep_dokter.length) {
+                    response.resep_dokter.map((rd) => {
+                        textPlan += `${rd.obat.nama_brng} : ${rd.jml} ${rd.obat.satuan.satuan} aturan ${rd.aturan_pakai} \n`
+                    })
+                }
+                if (response.resep_racikan.length) {
+                    response.resep_racikan.map((rr) => {
+                        textPlan += `${rr.no_racik}. ${rr.nama_racik} : ${rr.jml_dr} ${rr.metode.nm_racik} aturan ${rr.aturan_pakai} \n`
+                        if (rr.detail.length) {
+                            rr.detail.map((detail) => {
+                                textPlan += `---${detail.obat.nama_brng} : dosis ${detail.kandungan} gr\n`
+                            })
+                        }
+                    })
+                }
+
+                $('#formCpptRajal textarea[name=rtl]').val(textPlan)
+            })
         }
         $('#btnSimpanResep').on('click', (e) => {
             e.preventDefault();
@@ -173,6 +203,7 @@
             $.post('resep/dokter/create', {
                 dataObat
             }).done((response) => {
+                tulisPlan(noResep)
                 setResepDokter(noResep)
             })
         })

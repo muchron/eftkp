@@ -39,9 +39,9 @@ class PemeriksaanRalanController extends Controller
         $data['nip'] = session()->get('pegawai')->nik;
         try {
             $pemeriksaan = $this->pemeriksaan->create($data);
-            return response()->json('Berhasil menambah data pemeriksaan');
+            return response()->json(['SUKSES', $data]);
         } catch (QueryException $e) {
-            return [$e->errorInfo, $data];
+            return response()->json($e->errorInfo, 400);
         }
     }
 
@@ -51,9 +51,9 @@ class PemeriksaanRalanController extends Controller
         $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat);
         try {
             $pemeriksaan->update($data);
-            return response()->json('Berhasil mengubah data pemeriksaan');
+            return response()->json('SUKSES');
         } catch (QueryException $e) {
-            return $e->errorInfo;
+            return response()->json($e->errorInfo, 400);
         }
     }
 }
