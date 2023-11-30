@@ -47,7 +47,6 @@
 
         function getResep(data) {
             const resep = $.get('resep/get', data)
-
             return resep
         }
 
@@ -61,13 +60,6 @@
 
 
         function tambahResep(no_rawat) {
-            const btnTambahResep = $('#btnTambahResep')
-            const btnTambahObat = $('#btnTambahObat')
-            const btnTambahRacikan = $('#btnTambahRacikan')
-            const btnSimpanObat = $('#btnSimpanResep')
-            const tabelResepUmum = $('#tabelResepUmum')
-            const tabelResepRacikan = $('#tabelResepRacikan')
-
             tabelResepUmum.removeClass('d-none')
             tabelResepRacikan.removeClass('d-none')
 
@@ -85,6 +77,12 @@
                 btnTambahResep.text('Hapus Resep')
             })
 
+        }
+
+        function cetakResep(data) {
+            getResep(data).done((response) => {
+                console.log('RESEPS ===', response);
+            })
         }
 
 

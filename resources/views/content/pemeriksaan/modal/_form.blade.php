@@ -240,6 +240,15 @@
 </form>
 @push('script')
     <script>
+        var btnTambahResep = $('#btnTambahResep')
+        var btnTambahObat = $('#btnTambahObat')
+        var btnTambahRacikan = $('#btnTambahRacikan')
+        var btnSimpanObat = $('#btnSimpanResep')
+        var btnSimpanRacikan = $('#btnSimpanRacikan')
+        var btnCetakResep = $('#btnCetakResep')
+        var tabelResepUmum = $('#tabelResepUmum')
+        var tabelResepRacikan = $('#tabelResepRacikan')
+
         $('#selecInstruksi').select2({
             dropdownParent: $('#modalCppt'),
             ajax: {
@@ -313,13 +322,6 @@
                 getResep({
                     no_rawat: no_rawat,
                 }).done((resep) => {
-                    const btnTambahResep = $('#btnTambahResep')
-                    const btnTambahObat = $('#btnTambahObat')
-                    const btnTambahRacikan = $('#btnTambahRacikan')
-                    const btnSimpanObat = $('#btnSimpanResep')
-                    const btnSimpanRacikan = $('#btnSimpanRacikan')
-                    const tabelResepUmum = $('#tabelResepUmum')
-                    const tabelResepRacikan = $('#tabelResepRacikan')
                     tabelResepUmum.find('tbody').empty()
                     if (resep.length) {
                         resep.map((res) => {
@@ -333,6 +335,7 @@
                         })
                         btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                         btnTambahResep.text('Hapus Resep')
+                        btnCetakResep.attr('onclick', `cetakResep({no_rawat:'${no_rawat}'})`)
                         tabelResepUmum.removeClass('d-none')
                         tabelResepRacikan.removeClass('d-none')
                         btnSimpanObat.removeClass('d-none')
