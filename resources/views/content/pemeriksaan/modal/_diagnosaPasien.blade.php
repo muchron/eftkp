@@ -45,7 +45,6 @@
                 <td><i class="ti ti-square-rounded-x text-danger"></i></td>
             </tr>`;
             tbDiagnosa.append(addRow);
-            console.log('ROROROR ===', rowCount);
         })
     </script>
 @endpush

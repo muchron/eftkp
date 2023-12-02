@@ -258,7 +258,6 @@
                     const query = {
                         penyakit: params.term,
                     }
-                    console.log(params, query);
                     return query
                 },
                 processResults: (data) => {
@@ -283,11 +282,7 @@
             const noRawat = $('#modalCppt input[name=no_rawat]').val();
             const status = 'Ralan';
 
-            console.log('KODE PENYAKIT===', kdPenyakit);
-
-            insertDiagnosaPasien(noRawat, kdPenyakit, status).done((response) => {
-                console.log('RESPONSE===', response);
-            }).fail((request) => {
+            insertDiagnosaPasien(noRawat, kdPenyakit, status).done((response) => {}).fail((request) => {
                 alertErrorAjax(request)
                 element.detach()
 
@@ -341,6 +336,7 @@
                         btnSimpanRacikan.removeClass('d-none')
                         btnTambahObat.removeClass('d-none')
                         btnTambahRacikan.removeClass('d-none')
+                        btnCetakResep.removeClass('d-none')
                     }
                 });
 
@@ -395,12 +391,6 @@
 
 
         function hapusResep(no_rawat) {
-            const btnTambahResep = $('#btnTambahResep')
-            const btnSimpanObat = $('#btnSimpanResep')
-            const btnTambahObat = $('#btnTambahObat')
-            const btnTambahRacikan = $('#btnTambahRacikan')
-            const tabelResepUmum = $('#tabelResepUmum')
-            const tabelResepRacikan = $('#tabelResepRacikan')
             const noRawat = $('#formCpptRajal input[name=no_rawat]').val()
 
             Swal.fire({
@@ -422,10 +412,12 @@
                             tabelResepRacikan.addClass('d-none')
                             btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
                             btnSimpanObat.addClass('d-none')
+                            btnSimpanRacikan.addClass('d-none')
                             btnTambahObat.addClass('d-none')
                             btnTambahRacikan.addClass('d-none')
                             tabelResepUmum.find('tbody').empty();
-                            tabelResepRacikan.find('tbody   ').empty();
+                            tabelResepRacikan.find('tbody').empty();
+                            btnCetakResep.addClass('d-none')
                         })
                     }).fail((request) => {
                         alertErrorAjax(request)

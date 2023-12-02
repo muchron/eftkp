@@ -47,7 +47,6 @@
                             <td id="jmlUmum${numb}">${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
                             <td id="aturanUmum${numb}">${resepDokter.aturan_pakai}</td>    
                             <td id="aksi${numb}">
-                                <input type="hidden" id="noResep${numb}" value="${resepDokter.no_resep}"/>
                                 <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${numb}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
                                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
                             </td>    
@@ -121,7 +120,6 @@
             colJml.html('').append(`<input type="text" class="form-control" name="jml" id="jmlObat${id}" value="${jml}"/>`)
             colAturan.html('').append(`<input type="text" class="form-control" name="aturan" id="aturan${id}" value="${aturan}"/>`)
             colAksi.append(`
-                <input type="hidden" class="form-control" name="no_resep" id="noResep${id}" value="${colNoResep.val()}"/>
                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="simpanUbah(${id}, '${kd_obat}')"><i class="ti ti-pencil"></i> Ubah</button>
                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${colNoResep.val()}, '${kd_obat}')"><i class="ti ti-trash-x"></i>Hapus</button>
             `)
@@ -132,7 +130,7 @@
 
             const data = {
                 kode_brng: kd_obat,
-                no_resep: $(`#noResep${id}`).val(),
+                no_resep: $('#no_resep').val(),
                 jml: $(`#jmlObat${id}`).val(),
                 aturan_pakai: $(`#aturan${id}`).val()
             }
@@ -182,21 +180,27 @@
                     const kodeBrng = $(`#kdObat${index}Val`).val();
                     const jml = $(`#jmlObat${index}`).val();
                     const aturanPakai = $(`#aturan${index}`).val();
-                    if (kodeBrng && jml && aturanPakai) {
-                        obat = {
-                            'no_resep': noResep,
-                            'kode_brng': $(`#kdObat${index}Val`).val(),
-                            'jml': $(`#jmlObat${index}`).val(),
-                            'aturan_pakai': $(`#aturan${index}`).val(),
-                        }
-                        dataObat.push(obat)
-                    } else {
+                    const obat = {
+                        'no_resep': noResep,
+                        'kode_brng': $(`#kdObat${index}Val`).val(),
+                        'jml': $(`#jmlObat${index}`).val(),
+                        'aturan_pakai': $(`#aturan${index}`).val(),
+                    }
+
+                    const isEmpty = Object.values(obat).filter((item) => {
+                        return item == null || item == '';
+                    }).length
+
+
+                    if (isEmpty) {
                         const errorMsg = {
                             status: 422,
                             statusText: 'Pastikan tidak ada kolom yang kosong'
                         }
-                        return alertErrorAjax(errorMsg)
+                        alertErrorAjax(errorMsg)
+                        return false;
                     }
+                    dataObat.push(obat)
                 }
             }
 

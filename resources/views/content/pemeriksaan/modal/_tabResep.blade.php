@@ -28,7 +28,7 @@
     </div>
     <div class="card-footer p-2">
         <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
-        <button type="button" class="btn btn-sm btn-info" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak Resep</button>
+        <button type="button" class="btn btn-sm btn-info d-none" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak Resep</button>
 
     </div>
 </div>
@@ -62,9 +62,9 @@
         function tambahResep(no_rawat) {
             tabelResepUmum.removeClass('d-none')
             tabelResepRacikan.removeClass('d-none')
-
-
             btnSimpanObat.removeClass('d-none')
+            btnSimpanRacikan.removeClass('d-none')
+            btnCetakResep.removeClass('d-none')
             btnTambahObat.removeClass('d-none')
             btnTambahRacikan.removeClass('d-none')
 

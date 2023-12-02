@@ -37,38 +37,6 @@
 @push('script')
     <script type="" src="{{asset('libs/list.js/dist/list.min.js')}}"></script>
     <script>
-        $(document).ready(() => {
-            var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : '';
-            var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : '';
-
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
-
-            loadTabelRegistrasi(tglAwal, tglAkhir)
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('.filterTangal').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayBtn: true,
-                todayHighlight: true,
-                language: "id",
-            });
-        })
-
-
-        $('#formFilterTanggal').on('submit', (e) => {
-            e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
-            localStorage.setItem('tglAwal', tglAwal)
-            localStorage.setItem('tglAkhir', tglAkhir)
-            loadTabelRegistrasi(tglAwal, tglAkhir);
-        })
-
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
@@ -148,13 +116,13 @@
                     {
                         title: 'status',
                         render: (data, type, row, meta) => {
-                            return `<span class="badge ${row.stts_daftar.toUpperCase() === 'LAMA' ? 'bg-green text-green-bg' : 'bg-orange text-orange-bg'}">${row.stts_daftar}`;
+                            return `<span class="badge ${row.stts_daftar.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${row.stts_daftar}`;
                         },
                     },
                     {
                         title: 'Penjab',
                         render: (data, type, row, meta) => {
-                            return row.penjab.png_jawab;
+                            return `<span class="badge ${row.penjab.png_jawab.toUpperCase() === 'BPJS' ? 'bg-green' : 'bg-orange'}">${row.penjab.png_jawab}`;
                         },
                     },
                     {

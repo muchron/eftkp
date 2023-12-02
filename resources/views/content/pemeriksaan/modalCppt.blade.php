@@ -8,9 +8,9 @@
             <div class="modal-body p-0">
                 <div class="card">
                     <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs flex-row-reverse" data-bs-toggle="tabs" role="tablist">
+                        <ul class="nav nav-tabs card-header-tabs flex-row-reverse" id="navTabCppt" data-bs-toggle="tabs" role="tablist">
                             <li class="nav-item ms-auto" role="presentation">
-                                <a href="javascript:void(0)" class="nav-link disabled text-dark" title="judul" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
+                                <a href="#tabsFormCppt" class="nav-link disabled text-dark" title="judul" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab">
                                     PEMERIKSAAN / CPPT
                                 </a>
                             </li>
