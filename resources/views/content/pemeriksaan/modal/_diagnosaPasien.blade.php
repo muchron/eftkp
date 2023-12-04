@@ -11,7 +11,7 @@
                         <thead>
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Kode ICD 9</th>
+                                <th>Kode ICD 10</th>
                                 <th width="10%"></th>
                             </tr>
                         </thead>
@@ -21,9 +21,10 @@
                     </table>
                 </form>
                 <button class="btn btn-sm btn-primary" id="btnTambahBarisDiagnosa">Tambah Diagnosa</button>
+                <button class="btn btn-sm btn-warning" id="btnCopyBarisDiagnosa">Copy ke Asesmen</button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success me-2" data-bs-dismiss="modal">Simpan</button>
+                <button type="button" class="btn btn-success me-2" id="btnSimpanDiagnosa">Simpan</button>
             </div>
         </div>
     </div>
@@ -37,19 +38,95 @@
             getDiagnosaPasien(no_rawat).done((diagnosas) => {
                 bodyInfoDiagnosa.empty()
                 if (diagnosas.length) {
-                    const dx = diagnosas.map((diagnosa) => {
+                    const dx = diagnosas.map((diagnosa, index) => {
                         console.log('DX ===', diagnosa);
-                        return `<tr>
-                                <td>${diagnosa.prioritas}</td>
-                                <td>${diagnosa.kd_penyakit} - ${diagnosa.penyakit.nm_penyakit}</td>
-                                <td><button class="btn btn-sm btn-outline-danger" id="btnHapusDiagnosa" onclick="hapusDiagnosaPasien('${no_rawat}', '${diagnosa.kd_penyakit}')"><i class="ti ti-trash-x"></i> Hapus</button></td>
-                            </tr>`
+                        return `<tr id="rowDx${index+1}">
+                            <td>${diagnosa.prioritas}</td>
+                            <td>${diagnosa.kd_penyakit} - ${diagnosa.penyakit.nm_penyakit}</td>
+                            <td><button type="button" class="btn btn-sm btn-outline-danger" id="btnHapusDiagnosa" onclick="hapusDiagnosaPasien('${no_rawat}', '${diagnosa.kd_penyakit}')"><i class="ti ti-trash-x"></i> Hapus</button></td>
+                        </tr>`
                     });
 
                     bodyInfoDiagnosa.append(dx)
                 }
             })
             $('#modalDiagnosaPasien').modal('show')
+            $(`#modalDiagnosaPasien #btnSimpanDiagnosa`).attr('onclick', `simpanDiagnosaPasien('${no_rawat}')`)
+            $(`#modalDiagnosaPasien #btnCopyBarisDiagnosa`).attr('onclick', `tulisAsesmen('${no_rawat}')`)
+        }
+
+        function simpanDiagnosaPasien(no_rawat) {
+            let data = new Array();
+            const row = bodyInfoDiagnosa.find('tr')
+            for (let index = 1; index <= row.length; index++) {
+                const findSelect = $(`#rowDx${index}`).find('select')
+                if (findSelect.length) {
+                    const dataDiagnosa = {
+                        no_rawat: no_rawat,
+                        kd_penyakit: $(`#kd_penyakit${index}`).val(),
+                        prioritas: $(`#prioritas${index}`).html(),
+                    }
+
+                    data.push(dataDiagnosa)
+                    const isEmpty = Object.values(dataDiagnosa).filter((item) => {
+                        return item == null || item == '';
+                    }).length
+
+                    if (isEmpty) {
+                        const errorMsg = {
+                            status: 422,
+                            statusText: 'Pastikan tidak ada kolom yang kosong'
+                        }
+                        alertErrorAjax(errorMsg)
+                        return false;
+                    }
+                }
+                console.log('DATA ===', data);
+
+            }
+            $.post('diagnosa/pasien/create', {
+                data
+            }).done((response) => {
+                diagnosaPasien(no_rawat);
+                tulisAsesmen(no_rawat);
+                $('#modalDiagnosaPasien').modal('hide')
+            })
+
+        }
+
+        function hapusDiagnosaPasien(no_rawat, kd_penyakit) {
+            Swal.fire({
+                title: "Yakin hapus ?",
+                html: "Anda tidak bisa mengembalikan data ini",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Iya, Yakin",
+                cancelButtonText: "Tidak, Batalkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post('diagnosa/pasien/delete', {
+                        no_rawat: no_rawat,
+                        kd_penyakit: kd_penyakit,
+                    }).done((response) => {
+                        diagnosaPasien(no_rawat);
+                        tulisAsesmen(no_rawat);
+                    })
+                }
+            });
+        }
+
+        function tulisAsesmen(no_rawat) {
+            getDiagnosaPasien(no_rawat).done((response) => {
+                if (response.length) {
+                    const dx = response.map((diagnosa, index) => {
+                        return `${diagnosa.prioritas}. ${diagnosa.penyakit.nm_penyakit}`
+                    }).join(`\n`)
+                    $('#formCpptRajal textarea[name=penilaian]').val(dx)
+                }
+
+            })
         }
 
         function selectDiagnosa(element, parrent) {
@@ -63,7 +140,7 @@
 
                     data: (params) => {
                         const query = {
-                            barang: params.term
+                            penyakit: params.term
                         }
                         return query
                     },
@@ -92,8 +169,8 @@
             e.preventDefault();
             const tbDiagnosa = $('#tbInfoPasienDiagnosa');
             let rowCount = tbDiagnosa.find('tr').length
-            const addRow = `<tr id="row${rowCount}">
-                <td>${rowCount}</td>
+            const addRow = `<tr id="rowDx${rowCount}">
+                <td id="prioritas${rowCount}">${rowCount}</td>
                 <td><select class="form-control" name="kd_penyakit[]" id="kd_penyakit${rowCount}" style="width:100%"/></td>
                 <td><button type="button" class="btn btn-sm btn-outline-danger" id="btnHapusDiagnosa" onclick="hapusBarisDiagnosa('${rowCount}')"><i class="ti ti-trash-x"></i> Hapus</button></td>
             </tr>`;
@@ -102,14 +179,8 @@
             const select = $(`#kd_penyakit${rowCount}`)
             selectDiagnosa(select, $('#modalDiagnosaPasien')).on('select2:select', (e) => {
                 e.preventDefault();
-                // const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val()
                 const data = e.params.data
                 $(`#nm_penyakit${rowCount}`).val(data.nm_penyakit)
-
-                // console.log($(`#nm_penyakit${rowCount}`));
-                // $(`#dosis${rowCount}`).val(data.kapasitas)
-                // $(`#jml${rowCount}`).val(jml_dr)
-                console.log('DATA ===', data);
             })
         })
 

@@ -11,7 +11,9 @@ use App\Http\Controllers\RegPeriksaController;
 use App\Http\Controllers\MetodeRacikController;
 use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\Icd9Controller;
 use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\ProsedurPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 
@@ -50,9 +52,19 @@ Route::middleware('auth')->group(function () {
     // Dignosa/Penyakit
     Route::get('/penyakit/get', [PenyakitController::class, 'get']);
 
+    // Prosedur/tindakan ata ic9
+    Route::get('/tindakan/get', [Icd9Controller::class, 'get']);
+
+
     //Diagnosa Pasien
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
+    Route::post('/diagnosa/pasien/delete', [DiagnosaPasienController::class, 'delete']);
     Route::get('/diagnosa/pasien/get', [DiagnosaPasienController::class, 'get']);
+
+    // Prosedur/tindakan
+    Route::get('/prosedur/pasien/get', [ProsedurPasienController::class, 'get']);
+    Route::post('/prosedur/pasien/create', [ProsedurPasienController::class, 'create']);
+    Route::post('/prosedur/pasien/delete', [ProsedurPasienController::class, 'delete']);
 
     // Barang/obat
     Route::get('/barang/get', [DataBarangController::class, 'get']);

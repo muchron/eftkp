@@ -5,7 +5,7 @@
         <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
             <div class="container container-tight my-5 px-lg-5">
                 <div class="text-center mb-4">
-                    <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
+                    <a href="." class="navbar-brand navbar-brand-autodark"><img src="./public/static/logo.svg" height="36" alt=""></a>
                 </div>
                 @if (session()->has('error'))
                     <div class="alert alert-danger alert-dismissible" role="alert">
@@ -29,7 +29,7 @@
                         Selamat Datang
                     </h2>
                 @endif
-                <form action="/login" method="post" autocomplete="off" novalidate>
+                <form action="login" method="post" autocomplete="off" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Uername</label>
                         <input type="text" name="username" class="form-control" placeholder="" autocomplete="off" value="{{ old('username') }}">
@@ -69,7 +69,7 @@
         </div>
         <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
             <!-- Photo -->
-            <div class="bg-cover h-100 min-vh-100" style="background-image: url(./static/photos/a-visit-to-the-bookstore.jpg)"></div>
+            <div class="bg-cover h-100 min-vh-100" style="background-image: url(./public/static/photos/a-visit-to-the-bookstore.jpg)"></div>
         </div>
     </div>
 @endsection

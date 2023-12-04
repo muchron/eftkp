@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\DiagnosaPasien;
+use App\Traits\Track;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class DiagnosaPasienController extends Controller
 {
+    use Track;
     function show(Request $request)
     {
         $diagsnosaPasien = DiagnosaPasien::where('no_rawat', $request->no_rawat)->get();
@@ -15,26 +17,43 @@ class DiagnosaPasienController extends Controller
     }
     function create(Request $request)
     {
-        $data = $request->all();
-        $findDiagnosa = DiagnosaPasien::where(['no_rawat' => $request->no_rawat])->count();
-        $data['prioritas'] = 1;
-        if ($findDiagnosa) {
-            $data['prioritas'] = $findDiagnosa + 1;
+        $data = $request->data;
+
+        for ($i = 0; $i < count($data); $i++) {
+            try {
+                $diagnosa = DiagnosaPasien::create($data[$i]);
+                if ($diagnosa) {
+                    $this->insertSql(new DiagnosaPasien(), $data[$i]);
+                }
+            } catch (QueryException $e) {
+                return response()->json($e->errorInfo, 500);
+            }
         }
-        try {
-            $diagnosa = DiagnosaPasien::create($data);
-            return response()->json($diagnosa, 200);
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo, 500);
-        }
+        return response()->json('SUKSES');
     }
-    function get(Request $request){
+    function get(Request $request)
+    {
         $key = [
             'no_rawat' => $request->no_rawat,
         ];
-        $diagnosa = DiagnosaPasien::where($key)->with('penyakit')->get();
+        $diagnosa = DiagnosaPasien::where($key)->with('penyakit')->orderBy('prioritas', 'ASC')->get();
 
         return response()->json($diagnosa);
-
+    }
+    function delete(Request $request)
+    {
+        $key = [
+            'no_rawat' => $request->no_rawat,
+            'kd_penyakit' => $request->kd_penyakit,
+        ];
+        try {
+            $diagnosa = DiagnosaPasien::where($key)->delete();
+            if ($diagnosa) {
+                $this->deleteSql(new DiagnosaPasien(), $key);
+            }
+            return response()->json($diagnosa);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
     }
 }

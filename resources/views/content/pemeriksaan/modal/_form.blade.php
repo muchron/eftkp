@@ -215,7 +215,7 @@
                     <div class="mb-1">
                         <label class="form-label">
                             Instruksi
-                            <a href="javascript:void(0)">
+                            <a href="javascript:void(0)" id="btnTindakanPasien">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
@@ -311,6 +311,7 @@
                 $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
+                $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
 
 
                 getResep({
