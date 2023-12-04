@@ -16,7 +16,7 @@ class DiagnosaPasien extends Model
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
     }
-    function penyakiy()
+    function penyakit()
     {
         return $this->belongsTo(Penyakit::class, 'kd_penyakit', 'kd_penyakit');
     }

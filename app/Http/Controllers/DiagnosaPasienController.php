@@ -28,4 +28,13 @@ class DiagnosaPasienController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+    function get(Request $request){
+        $key = [
+            'no_rawat' => $request->no_rawat,
+        ];
+        $diagnosa = DiagnosaPasien::where($key)->with('penyakit')->get();
+
+        return response()->json($diagnosa);
+
+    }
 }

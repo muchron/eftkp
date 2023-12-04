@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
 
     //Diagnosa Pasien
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
+    Route::get('/diagnosa/pasien/get', [DiagnosaPasienController::class, 'get']);
 
     // Barang/obat
     Route::get('/barang/get', [DataBarangController::class, 'get']);
