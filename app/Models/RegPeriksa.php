@@ -34,4 +34,16 @@ class RegPeriksa extends Model
     {
         return $this->hasOne(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
     }
+    function resepObat()
+    {
+        return $this->hasMany(ResepObat::class, 'no_rawat', 'no_rawat');
+    }
+    function diagnosa()
+    {
+        return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
+    }
+    function prosedur()
+    {
+        return $this->hasMany(ProsedurPasien::class, 'no_rawat', 'no_rawat');
+    }
 }

@@ -17,6 +17,7 @@
     <title>EFKTP</title>
     <!-- CSS files -->
     <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -65,6 +66,12 @@
         .modal {
             border-radius: 6 6 6 6;
         }
+
+        .accordion-button {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 11px;
+        }
     </style>
 </head>
 
@@ -78,8 +85,39 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('public/js/utility.js') }}" defer></script>
+    <script>
+        (function(factory) {
+            typeof define === 'function' && define.amd ? define(factory) :
+                factory();
+        })((function() {
+            'use strict';
+
+            var themeStorageKey = "tablerTheme";
+            var defaultTheme = "light";
+            var selectedTheme;
+            var params = new Proxy(new URLSearchParams(window.location.search), {
+                get: function get(searchParams, prop) {
+                    return searchParams.get(prop);
+                }
+            });
+            if (!!params.theme) {
+                localStorage.setItem(themeStorageKey, params.theme);
+                selectedTheme = params.theme;
+            } else {
+                var storedTheme = localStorage.getItem(themeStorageKey);
+                selectedTheme = storedTheme ? storedTheme : defaultTheme;
+            }
+            if (selectedTheme === 'dark') {
+                document.body.setAttribute("data-bs-theme", selectedTheme);
+            } else {
+                document.body.removeAttribute("data-bs-theme");
+            }
+
+        }));
+    </script>
     @stack('script')
 </body>
 

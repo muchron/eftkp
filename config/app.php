@@ -185,4 +185,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    'kyc' => env('APP_KYC'),
 ];

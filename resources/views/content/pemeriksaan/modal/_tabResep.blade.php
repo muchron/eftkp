@@ -81,6 +81,43 @@
 
         }
 
+        function hapusResep(no_rawat) {
+            const noRawat = $('#formCpptRajal input[name=no_rawat]').val()
+
+            Swal.fire({
+                title: "Yakin hapus obat ini ?",
+                html: "Anda tidak bisa mengembalikan obat ini",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Iya, Yakin",
+                cancelButtonText: "Tidak, Batalkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteResep(no_rawat).done((response) => {
+                        alertSuccessAjax().then(() => {
+                            btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                            btnTambahResep.text('Buat Resep')
+                            tabelResepUmum.addClass('d-none')
+                            tabelResepRacikan.addClass('d-none')
+                            btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
+                            btnSimpanObat.addClass('d-none')
+                            btnSimpanRacikan.addClass('d-none')
+                            btnTambahObat.addClass('d-none')
+                            btnTambahRacikan.addClass('d-none')
+                            tabelResepUmum.find('tbody').empty();
+                            tabelResepRacikan.find('tbody').empty();
+                            btnCetakResep.addClass('d-none')
+                        })
+                    }).fail((request) => {
+                        alertErrorAjax(request)
+                    })
+                }
+            });
+
+        }
+
         function cetakResep(data) {
             window.open(`resep/print?no_rawat=${data.no_rawat}`)
         }

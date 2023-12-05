@@ -11,7 +11,7 @@
             <div class="row align-items-center">
                 <div class="col">
                     <h2 class="page-title">
-                        {{ ucfirst(Request::segment(1)) }}
+                        {{ ucfirst(Request::segment(1)) ? ucfirst(Request::segment(1)) : 'Beranda' }}
                     </h2>
                 </div>
             </div>

@@ -11,4 +11,9 @@ class Pasien extends Model
     protected $table = 'pasien';
     protected $guarded = [];
     public $timestamps = false;
+
+    function regPeriksa()
+    {
+        return $this->hasMany(RegPeriksa::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
 }

@@ -5,8 +5,17 @@
         <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
             <div class="container container-tight my-5 px-lg-5">
                 <div class="text-center mb-4">
-                    <a href="." class="navbar-brand navbar-brand-autodark"><img src="./public/static/logo.svg" height="36" alt=""></a>
+                    <img src="{{ $data->logo }}" alt="" width="100px">
+                    {{-- <a href="." class="navbar-brand navbar-brand-autodark"><img src="./public/static/logo.svg" height="36" alt=""></a> --}}
                 </div>
+
+                <h2 class="h2 text-center mb-0">
+                    Selamat Datang <br />
+                    {{ strtoupper($data->nama_instansi) }}
+                </h2>
+                <p class="text-center">
+                    {{ strtoupper($data->alamat_instansi) }}, KAB. {{ strtoupper($data->kabupaten) }}, {{ strtoupper($data->propinsi) }}
+                </p>
                 @if (session()->has('error'))
                     <div class="alert alert-danger alert-dismissible" role="alert">
                         <div class="d-flex">
@@ -24,10 +33,6 @@
                         </div>
                         <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
                     </div>
-                @else
-                    <h2 class="h3 text-center mb-3">
-                        Selamat Datang
-                    </h2>
                 @endif
                 <form action="login" method="post" autocomplete="off" novalidate>
                     <div class="mb-3">
@@ -69,7 +74,7 @@
         </div>
         <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
             <!-- Photo -->
-            <div class="bg-cover h-100 min-vh-100" style="background-image: url(./public/static/photos/a-visit-to-the-bookstore.jpg)"></div>
+            <div class="bg-cover h-100 min-vh-100" style="background-image: url(./public/static/photos/doctor-typing-on-them-laptop.jpg)"></div>
         </div>
     </div>
 @endsection

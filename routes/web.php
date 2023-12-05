@@ -12,6 +12,7 @@ use App\Http\Controllers\MetodeRacikController;
 use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\Icd9Controller;
+use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\ProsedurPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
@@ -36,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
     });
+
+    // pasien
+    Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
+
     Route::get('/registrasi', function () {
         return view('content.registrasi');
     });

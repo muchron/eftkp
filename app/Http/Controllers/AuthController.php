@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -13,8 +14,16 @@ class AuthController extends Controller
 {
     function index()
     {
+        $settings = Setting::select()->get();
+
+        foreach ($settings as $setting) {
+            $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
+            $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
+        }
+
+        // return response()->json($setting);
         // jika sudah terautentiksai akan ke RouteServiceProvider
-        return view('auth.login');
+        return view('auth.login', ['data' => $setting]);
     }
     function auth(Request $request)
     {
@@ -32,7 +41,7 @@ class AuthController extends Controller
             Session::put('pegawai', $pegawai);
             return redirect('/');
         } else {
-            return back()->with(['error' => 'Gagal Login'])->withInput();
+            return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
         }
     }
     public function logout(Request $request)

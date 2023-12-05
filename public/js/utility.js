@@ -81,6 +81,19 @@ function getDataForm(form, element, except = []) {
 
     return data;
 }
+function stringPemeriksaan(value) {
+    if (value) {
+        const arrValue = value.split('\n');
+        let string = '';
+        for (let index = 0; index < arrValue.length; index++) {
+            string += `${arrValue[index]} <br/>`;
+        }
+        return string
+
+    }
+    return '';
+}
+
 function removeZero(input) {
     if (input.value == '-' || input.value == '0') {
         $(input).val('');

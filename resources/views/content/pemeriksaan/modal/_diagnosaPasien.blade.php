@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalDiagnosaPasien" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Diagnosa Pasien</h5>
