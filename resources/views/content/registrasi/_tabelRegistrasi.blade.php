@@ -142,14 +142,6 @@
             })
         }
 
-        function getRegPeriksa(startDate = '', endDate = '') {
-            const registrasi = $.get('registrasi/get', {
-                startDate: startDate,
-                endDate: endDate
-            })
-            return registrasi;
-        }
-
         function getRegDetail(no_rawat) {
             const registrasi = $.get('registrasi/get/detail', {
                 no_rawat: no_rawat,

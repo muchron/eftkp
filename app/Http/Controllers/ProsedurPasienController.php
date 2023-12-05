@@ -26,7 +26,7 @@ class ProsedurPasienController extends Controller
             try {
                 $prosedur = ProsedurPasien::create($data[$i]);
                 if ($prosedur) {
-                    $this->insertSql(new Icd9(), $data[$i]);
+                    $this->insertSql(new ProsedurPasien(), $data[$i]);
                 }
             } catch (QueryException $e) {
                 return response()->json($e->errorInfo, 500);

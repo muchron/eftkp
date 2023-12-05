@@ -18,6 +18,7 @@
     <!-- CSS files -->
     <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
+
     <link href="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -76,6 +77,7 @@
 </head>
 
 <body class="layout-fluid">
+    <script src="{{ asset('public/js/demo-theme.min.js') }}"></script>
     @yield('navbars')
     <div class="page-wrapper">
         @yield('contents')

@@ -1,3 +1,13 @@
+// AJAX
+function getRegPeriksa(startDate = '', endDate = '') {
+    const registrasi = $.get('registrasi/get', {
+        startDate: startDate,
+        endDate: endDate
+    })
+    return registrasi;
+}
+
+// AJAX
 function formatTanggal(tanggal) {
     tgl = tanggal.split(' ')[0]
     let t = new Date(tgl);
