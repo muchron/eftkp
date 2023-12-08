@@ -114,6 +114,7 @@
             }
             createResepRacikan(dataRacikan).done((response) => {
                 setResepRacikan(noResep)
+                tulisPlan(noResep)
             })
 
         }

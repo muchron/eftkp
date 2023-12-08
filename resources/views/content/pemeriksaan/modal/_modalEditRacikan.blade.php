@@ -262,6 +262,7 @@
             createDetailRacikan(noResep, noRacik, dataObat).done((response) => {
                 // $('#modalDetailRacikan').modal('hide')
                 setResepRacikan(noResep)
+                tulisPlan(noResep)
             })
         }
     </script>

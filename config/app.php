@@ -187,4 +187,12 @@ return [
 
 
     'kyc' => env('APP_KYC'),
+    'consId' => env('BPJS_CONSID'),
+    'secretKey' => env('BPJS_SECRET_KEY'),
+    'bpjsUserKey' => env('BPJS_USER_KEY'),
+    'bpjsPcare' => env('BPJS_PCARE'),
+    'icareUrl' => env('ICARE_URL'),
+    'apotekUserKey' => env('APOTEK_USER_KEY'),
+    'bpjsPass' => env('BPJS_PASS'), 
+    'bpjsKode' => env('BPJS_KODE'),
 ];
