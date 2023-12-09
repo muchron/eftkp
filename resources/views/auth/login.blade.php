@@ -78,3 +78,11 @@
         </div>
     </div>
 @endsection
+@push('script')
+    <script>
+        $(document).ready(() => {
+            localStorage.removeItem('tglAwal');
+            localStorage.removeItem('tglAkhir');
+        })
+    </script>
+@endpush
