@@ -81,8 +81,6 @@
                         return false;
                     }
                 }
-                console.log('DATA ===', data);
-
             }
             $.post('diagnosa/pasien/create', {
                 data

@@ -37,6 +37,10 @@
             font-size: 12px;
         }
 
+        .ti {
+            font-size: medium;
+        }
+
         .table {
             vertical-align: middle;
         }

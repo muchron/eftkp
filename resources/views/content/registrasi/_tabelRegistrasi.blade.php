@@ -115,6 +115,12 @@
                         },
                     },
                     {
+                        title: 'Alamat',
+                        render: (data, type, row, meta) => {
+                            return `${row.pasien.alamatpj}, ${row.pasien.kelurahanpj}, ${row.pasien.kecamatanpj}`;
+                        },
+                    },
+                    {
                         title: 'status',
                         render: (data, type, row, meta) => {
                             return `<span class="badge ${row.stts_daftar.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${row.stts_daftar}`;

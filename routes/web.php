@@ -17,6 +17,8 @@ use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\ProsedurPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Bridging as Bridging;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,3 +102,10 @@ Route::middleware('auth')->group(function () {
     // Metode Racikan
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
 });
+Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
+Route::get('/bridging/pcare/kunjungan', [Bridging\Kunjungan::class, 'get']);
+Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
+Route::get('/bridging/pcare/spesialis', [Bridging\Spesialis::class, 'get']);
+Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
+Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
+Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);

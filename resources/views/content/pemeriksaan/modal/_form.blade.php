@@ -21,6 +21,29 @@
                 <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="tgl_lahir" readonly>
             </div>
         </div>
+        <div class="col-md-6 col-xl-4 col-lg-4">
+            <div class="mb-1">
+                <label class="form-label">Pembiayaan</label>
+                <div class="input-group mb-2">
+                    <input autocomplete="off" value="-" type="text" class="form-control" name="pembiayaan" readonly>
+                    <input autocomplete="off" value="-" type="text" class="form-control w-50" name="no_peserta" readonly>
+                    <input autocomplete="off" value="-" type="hidden" name="kdDiagnosa1" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3 col-lg-3">
+            <div class="mb-1">
+                <label class="form-label">Poliklinik</label>
+                <input autocomplete="off" value="-" type="text" class="form-control" name="nm_poli" readonly>
+                <input autocomplete="off" value="-" type="hidden" name="kd_poli_pcare" readonly>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-5 col-lg-5">
+            <div class="mb-1">
+                <label class="form-label">Alergi</label>
+                <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alergi">
+            </div>
+        </div>
     </div>
     <fieldset class="form-fieldset">
         <div class="row">
@@ -39,7 +62,7 @@
                     <textarea class="form-control" rows="6" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="keluhan">-</textarea>
                 </div>
             </div>
-            <div class="col-xl-12">
+            <div class="col-xl-12 mb-2">
                 <div class="mb-1">
                     <label class="form-label">Objek</label>
                     <textarea class="form-control" rows="6" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
@@ -49,7 +72,7 @@
                 <div class="mb-1">
                     <label class="form-label">Suhu</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="suhu_tubuh">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh">
                         <span class="input-group-text">
                             °C
                         </span>
@@ -60,7 +83,7 @@
                 <div class="mb-1">
                     <label class="form-label">Tinggi</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="tinggi">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi">
                         <span class="input-group-text">
                             cm
                         </span>
@@ -71,7 +94,7 @@
                 <div class="mb-1">
                     <label class="form-label">Berat</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="berat">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat">
                         <span class="input-group-text">
                             Kg
                         </span>
@@ -82,7 +105,7 @@
                 <div class="mb-1">
                     <label class="form-label">Tensi</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="tensi">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tensi">
                         <span class="input-group-text">
                             mmHg
                         </span>
@@ -93,7 +116,7 @@
                 <div class="mb-1">
                     <label class="form-label">Respirasi</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="respirasi">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi">
                         <span class="input-group-text">
                             x/mnt
                         </span>
@@ -104,7 +127,7 @@
                 <div class="mb-1">
                     <label class="form-label">Nadi (/mnt)</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="nadi">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi">
                         <span class="input-group-text">
                             x/mnt
                         </span>
@@ -115,18 +138,18 @@
                 <div class="mb-1">
                     <label class="form-label">SpO²</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="spo2">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="spo2">
                         <span class="input-group-text">
                             %
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-1col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">GCS</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="gcs">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="gcs">
                         <span class="input-group-text">
                             (E,V,M)
                         </span>
@@ -137,44 +160,24 @@
                 <div class="mb-1">
                     <label class="form-label">Kesadaran</label>
                     <select class="form-select" name="kesadaran">
-                        <option value="Compos Mentis">Compos Mentis</option>
-                        <option value="Apatis">Apatis</option>
-                        <option value="Somnolence">Somnolence</option>
-                        <option value="Sopor">Sopor</option>
-                        <option value="Coma">Coma</option>
+                        <option value="01">Compos Mentis</option>
+                        <option value="02">Somnolence</option>
+                        <option value="03">Sopor</option>
+                        <option value="04">Coma</option>
                     </select>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
                 <div class="mb-1">
-                    <label class="form-label">Alergi</label>
-                    <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alergi">
-                </div>
-            </div>
-            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
-                <div class="mb-1">
                     <label class="form-label">Lingkar Perut</label>
                     <div class="input-group input-group-flat">
-                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control text-end" name="lingkar_perut">
+                        <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut">
                         <span class="input-group-text">
                             cm
                         </span>
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
-                        <label class="form-label">Diagnosa</label>
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control" name="diagnosa" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" readonly>
-                            <button class="btn w-5" type="button">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                    <path d="M21 21l-6 -6"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div> --}}
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">
@@ -213,6 +216,10 @@
             </div>
     </fieldset>
 </form>
+@include('content.pemeriksaan.modal._modalKunjunganPcare')
+@include('content.pemeriksaan.modal._modalReferensiSpesialis')
+@include('content.pemeriksaan.modal._modalReferensiSubSpesialis')
+@include('content.pemeriksaan.modal._modalReferensiRujukan')
 @push('script')
     <script>
         var btnTambahResep = $('#btnTambahResep')
@@ -284,6 +291,7 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
+                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -292,6 +300,14 @@
                 $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
                 $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
                 $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
+                $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
+                $('#formCpptRajal input[name=no_peserta]').val(`${response.pasien.no_peserta}`)
+                $('#formCpptRajal input[name=kd_poli]').val(`${response.kd_poli}`)
+                $('#formCpptRajal input[name=nm_poli]').val(`${response.poliklinik.nm_poli}`)
+                $('#formCpptRajal input[name=kd_poli_pcare]').val(`${response.poliklinik.maping.kd_poli_pcare}`)
+                $('#formKunjunganPcare input[name=tgl_daftar]').val(`${splitTanggal(response.tgl_registrasi)}`)
+                $('#formKunjunganPcare input[name=nm_poli_pcare]').val(`${response.poliklinik.maping.nm_poli_pcare}`)
+                $('#formKunjunganPcare input[name=kd_dokter_pcare]').val(`${response.dokter.maping.kd_dokter_pcare}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
@@ -336,8 +352,8 @@
                             if (input.length) {
                                 input.val(pemeriksaan[key])
                             }
-                            if (input.length) {
-                                select.val(pemeriksaan[key])
+                            if (select.length) {
+                                select.find(`option:contains("${pemeriksaan[key]}")`).attr('selected', 'selected')
                             }
                         })
                     }
@@ -349,16 +365,37 @@
 
         function simpanPemeriksaanRalan() {
 
-            const element = ['input', 'select', 'textarea'];
-            const exception = ['keluarga', 'no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'pembiayaan', 'nm_dokter', 'no_resep'];
-            const data = getDataForm('formCpptRajal', element, exception)
-
+            const element = ['input', 'textarea'];
+            // const exception = ['keluarga', 'no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'pembiayaan', 'nm_dokter', 'no_resep', 'no_peserta', 'kdDiagnosa1', 'alamat', 'heartRate', 'nm_poli'];
+            const data = getDataForm('formCpptRajal', element);
+            const selectKesadaran = $('#formCpptRajal select[name=kesadaran]');
+            const pembiayaan = $('#formCpptRajal input[name=pembiayaan]').val();
+            const no_peserta = $('#formCpptRajal input[name=no_peserta]').val();
+            const heart_rate = $('#formCpptRajal input[name=heartRate]').val();
+            const no_rkm_medis = $('#formCpptRajal input[name=no_rkm_medis]').val();
+            const nm_pasien = $('#formCpptRajal input[name=nm_pasien]').val();
+            data['kesadaran'] = selectKesadaran.find('option:selected').text();
+            console.log('DATA ===', data);
             $.post('pemeriksaan/ralan/create', data).done((response) => {
-                setStatusLayan(data['no_rawat'], 'Sudah');
-                alertSuccessAjax(response).then(() => {
-                    loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
-                    $('#modalCppt').modal('hide');
-                })
+
+                if (pembiayaan === 'BPJS') {
+                    data['no_peserta'] = no_peserta;
+                    data['heart_rate'] = heart_rate;
+                    data['no_rkm_medis'] = no_rkm_medis;
+                    data['nm_pasien'] = nm_pasien;
+                    data['kd_sadara'] = selectKesadaran.val();
+                    showModalKunjunganPcare(data);
+                    // $.post('bridging/pcare/kunjungan/post', data).done((result) => {
+                    //     console.log('RESULT ===', result);
+                    // })
+                }
+
+
+                // alertSuccessAjax(response).then(() => {
+                //     loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
+                //     $('#modalCppt').modal('hide');
+                //     setStatusLayan(data['no_rawat'], 'Sudah');
+                // })
             }).fail((request) => {
                 alertErrorAjax(request)
             });

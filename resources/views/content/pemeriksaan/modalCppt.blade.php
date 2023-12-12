@@ -29,7 +29,7 @@
     <script>
         $('#modalCppt').on('hidden.bs.modal', () => {
             $(this).find('input, textarea').val('')
-            document.getElementById("formCpptRajal").reset();
+            // document.getElementById("formCpptRajal").reset();
         })
     </script>
 @endpush

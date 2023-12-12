@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Dokter extends Model
+class Poliklinik extends Model
 {
     use HasFactory;
-    protected $table = 'dokter';
+    protected $table = 'poliklinik';
     protected $guarded = [];
     public $timestamps = false;
 
     function maping(){
-        return $this->hasOne(MapingDokterPcare::class, 'kd_dokter', 'kd_dokter');
+        return $this->hasOne(MappingPoliklinikPcare::class, 'kd_poli_rs', 'kd_poli');
     }
+
 }

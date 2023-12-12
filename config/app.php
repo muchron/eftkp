@@ -187,6 +187,9 @@ return [
 
 
     'kyc' => env('APP_KYC'),
+    'pcare' => [
+        'constId' => env('BPJS_PCARE_CONSID'),
+    ],
     'consId' => env('BPJS_CONSID'),
     'secretKey' => env('BPJS_SECRET_KEY'),
     'bpjsUserKey' => env('BPJS_USER_KEY'),

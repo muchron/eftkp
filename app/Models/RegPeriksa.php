@@ -46,4 +46,7 @@ class RegPeriksa extends Model
     {
         return $this->hasMany(ProsedurPasien::class, 'no_rawat', 'no_rawat');
     }
+    function poliklinik(){
+        return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
+    }
 }
