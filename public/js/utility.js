@@ -140,7 +140,7 @@ function splitTanggal(tanggal) {
 function alertSuccessAjax(message) {
     return Swal.fire({
         title: 'Berhasil',
-        text: message,
+        html: message,
         showConfirmButton: false,
         icon: 'success',
         timer: 1200,

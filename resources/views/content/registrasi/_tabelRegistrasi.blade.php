@@ -129,7 +129,13 @@
                     {
                         title: 'Penjab',
                         render: (data, type, row, meta) => {
-                            return `<span class="badge ${row.penjab.png_jawab.toUpperCase() === 'BPJS' ? 'bg-green' : 'bg-orange'}">${row.penjab.png_jawab}`;
+                            if (row.penjab.png_jawab.toUpperCase() === 'BPJS') {
+                                flag = row.pcare_pendaftaran ? '<i class="ti ti-check"></i>' : '';
+                                penjabBadge = `<span class="badge bg-green" style="font-size:12px">${row.penjab.png_jawab} ${flag}</span>`
+                            } else {
+                                penjabBadge = `<span class="badge bg-orange" style="font-size:12px">${row.penjab.png_jawab}</span>`
+                            }
+                            return penjabBadge;
                         },
                     },
                     {

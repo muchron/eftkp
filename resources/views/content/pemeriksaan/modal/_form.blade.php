@@ -377,7 +377,6 @@
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
             console.log('DATA ===', data);
             $.post('pemeriksaan/ralan/create', data).done((response) => {
-
                 if (pembiayaan === 'BPJS') {
                     data['no_peserta'] = no_peserta;
                     data['heart_rate'] = heart_rate;
@@ -385,17 +384,10 @@
                     data['nm_pasien'] = nm_pasien;
                     data['kd_sadara'] = selectKesadaran.val();
                     showModalKunjunganPcare(data);
-                    // $.post('bridging/pcare/kunjungan/post', data).done((result) => {
-                    //     console.log('RESULT ===', result);
-                    // })
+                } else {
+
                 }
 
-
-                // alertSuccessAjax(response).then(() => {
-                //     loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
-                //     $('#modalCppt').modal('hide');
-                //     setStatusLayan(data['no_rawat'], 'Sudah');
-                // })
             }).fail((request) => {
                 alertErrorAjax(request)
             });

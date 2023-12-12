@@ -31,11 +31,15 @@
             return loading;
         }
 
+        function setSpesialis(kdSpesialis, spesialis) {
+            formRujukanSpesialis.find('input[name=kdSpesialis]').val(kdSpesialis)
+            formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)
+        }
+
         function renderReferensiSpesialis() {
             $('#modalReferensiSpesialis').find('.modal-title').html('Referensi Spesialis')
             const loading = loadingAjax();
             $.get('bridging/pcare/spesialis').done((response) => {
-
                 if (response.metaData.code == 200) {
                     loading.close();
                     $('#modalReferensiSpesialis').modal('show')
@@ -50,8 +54,7 @@
                         columnDefs: [{
                             'targets': [0, 1],
                             'createdCell': (td, cellData, rowData, row, col) => {
-                                $(td).attr('onclick', `renderTbSubspesialis('${rowData.kdSpesialis}')`);
-                                $(td).attr('onclick', `renderTbSubspesialis('${rowData.kdSpesialis}')`);
+                                $(td).attr('onclick', `renderTbSubspesialis('${rowData.kdSpesialis}');setSpesialis('${rowData.kdSpesialis}', '${rowData.nmSpesialis}')`);
                             }
                         }],
                         columns: [{
@@ -79,11 +82,6 @@
                 }
             })
 
-        }
-
-        function setSpesialis(kdSpesialis, spesialis) {
-            formRujukanSpesialis.find('input[name=kdSPesialis]').val(kdSpesialis)
-            formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)
         }
     </script>
 @endpush

@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <h5 class="m-0">Referensi Sarana <i class="ti-ti-search" onclick="renderTbSarana()"></i></h5>
+                        <h5 class="m-0">Referensi Sarana <i class="ti ti-search" onclick="renderTbSarana()"></i></h5>
                         <div class="table-responsive">
                             <table id="tbReferensiSarana" class="table table-stripped d-none" width="100%"></table>
                         </div>
@@ -36,9 +36,9 @@
             formRujukanSpesialis.find('input[name=subSpesialis]').val(nmSubSpesialis)
         }
 
-        function setSubSarana(kdSarana, nmSarana) {
-            formRujukanSpesialis.find('input[name=kdSubSpesialis]').val(kdSubSpesialis)
-            formRujukanSpesialis.find('input[name=subSpesialis]').val(nmSubSpesialis)
+        function setSarana(kdSarana, nmSarana) {
+            formRujukanSpesialis.find('input[name=kdSarana]').val(kdSarana)
+            formRujukanSpesialis.find('input[name=sarana]').val(nmSarana)
         }
 
 
@@ -103,8 +103,8 @@
             loadingAjax()
             $.get(`bridging/pcare/spesialis/sarana`).done((response) => {
                 if (response.metaData.code == 200) {
-                    $('#tbReferensiSarana').removeClass('d-none')
                     loadingAjax().close();
+                    $('#tbReferensiSarana').removeClass('d-none')
                     const tbReferensi = new DataTable('#tbReferensiSarana', {
                         responsive: true,
                         stateSave: true,
@@ -119,7 +119,7 @@
                                 data: 'kdSarana',
                                 render: (data, type, row, meta) => {
                                     return `<label class="form-check form-check-inline">
-                                                <input class="form-check-input" name="kdSarana" id="kdSarana" type="radio" name="radios-inline" value="${data}">
+                                                <input class="form-check-input" name="kdSarana" id="kdSarana" onclick="setSarana('${data}', '${row.nmSarana}')" type="radio" name="radios-inline" value="${data}">
                                                 <span class="form-check-label mb-0">${data}</span>
                                             </label>`
                                 }

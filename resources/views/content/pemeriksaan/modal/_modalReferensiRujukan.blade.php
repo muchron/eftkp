@@ -17,7 +17,7 @@
     <script>
         function setPpkRujukan(kdPpk, nmPpk) {
             $('#kdPpkRujukan').val(kdPpk)
-            $('#kdPpkRujukan').val(kdPpk)
+            $('#ppkRujukan').val(nmPpk)
         }
 
         function renderRujukan() {
@@ -37,12 +37,13 @@
                         serverSide: false,
                         destroy: true,
                         processing: true,
-                        scrollY: 370,
+                        scrollX: true,
+                        scrollY: 400,
                         data: response.response.list,
                         columnDefs: [{
                             'targets': [0, 1],
                             'createdCell': (td, cellData, rowData, row, col) => {
-                                $(td).attr('onclick', `renderTbSubspesialis('${rowData.kdSpesialis}')`);
+                                $(td).attr('onclick', `setPpkRujukan('${rowData.kdppk}', '${rowData.nmppk}')`);
                             }
                         }],
                         columns: [{
@@ -61,9 +62,10 @@
                             },
                             {
                                 title: 'alamatPpk',
-                                data: 'nmppk',
+                                data: 'alamatPpk',
                                 render: (data, type, row, meta) => {
-                                    return data
+                                    const jarak = row.distance / 1000
+                                    return `${data} (${jarak.toFixed(2)} KM)`
                                 }
                             },
                             {
@@ -81,25 +83,10 @@
                                 }
                             },
                             {
-                                title: 'KC',
-                                data: 'nmkc',
-                                render: (data, type, row, meta) => {
-                                    return data
-                                }
-                            },
-                            {
-                                title: 'Jarak',
-                                data: 'distance',
-                                render: (data, type, row, meta) => {
-                                    const jarak = data / 1000
-                                    return `${jarak.toFixed(1)} KM`
-                                }
-                            },
-                            {
                                 title: 'Jml. Rujukan',
                                 data: 'jmlRujuk',
                                 render: (data, type, row, meta) => {
-                                    return data
+                                    return `${data} (${row.persentase} %)`
                                 }
                             },
                             {
@@ -110,17 +97,10 @@
                                 }
                             },
                             {
-                                title: 'Persentase',
-                                data: 'persentase',
-                                render: (data, type, row, meta) => {
-                                    return `${data}%`
-                                }
-                            },
-                            {
                                 title: 'Jadwal',
                                 data: 'jadwal',
                                 render: (data, type, row, meta) => {
-                                    return data
+                                    return `${data}`
                                 }
                             },
                         ]
@@ -134,11 +114,6 @@
                 }
             })
 
-        }
-
-        function setSpesialis(kdSpesialis, spesialis) {
-            formRujukanSpesialis.find('input[name=kdSPesialis]').val(kdSpesialis)
-            formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)
         }
     </script>
 @endpush

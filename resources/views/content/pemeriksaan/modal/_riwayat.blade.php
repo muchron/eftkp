@@ -108,9 +108,10 @@
             }).done((response) => {
                 const regPeriksa = response.reg_periksa.map((regPeriksa, index) => {
                     const diagnosa = regPeriksa.diagnosa.map((diagnosa) => {
-                        diagnosa.prioritas == 1
-                        return `${diagnosa.kd_penyakit} ${diagnosa.penyakit.nm_penyakit}`
-                    })
+                        if (diagnosa.prioritas == 1) {
+                            return `${diagnosa.kd_penyakit} ${diagnosa.penyakit.nm_penyakit}`
+                        }
+                    }).join('')
                     return `<div class="accordion-item">
                                 <h2 class="accordion-header" id="heading-${index}">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="true" aria-controls="collapse-${index}">

@@ -46,7 +46,7 @@
                                         <span class="form-check-label">Kunjungan Sakit</span>
                                     </label>
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="kunjSakit">
+                                        <input class="form-check-input" type="radio" name="kunjSakit" value="">
                                         <span class="form-check-label">Kunjungan Sehat</span>
                                     </label>
                                 </div>
@@ -189,6 +189,7 @@
                                             <option value="0">Sembuh</option>
                                             <option value="1">Meninggal</option>
                                             <option value="2">Pulang Paksa</option>
+                                            <option value="3" selected>Berobat Jalan</option>
                                             <option value="4">Rujuk Vertikal</option>
                                             <option value="6">Rujuk Horizontal</option>
                                             <option value="9">Lain-lain</option>
@@ -239,7 +240,7 @@
                                     <span class="form-check-label">Rujukan Lanjut</span>
                                 </label>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+                            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                                 <label class="form-label" for="tglEstRujukan">Tgl. Estimasi Rujukan</label>
                                 <input class="form-control filterTangal" placeholder="Select a date" id="tglEstRujukan" name="tglEstRujukan" value="{{ date('d-m-Y') }}">
                             </div>
@@ -255,7 +256,7 @@
                                 <div class="row gy-2" id="formRujukanSpesialis">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanSpesialis" data-target="formRujukanSpesialis">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanSpesialis" data-target="formRujukanSpesialis" value="spesialis">
                                             <span class="form-check-label">Spesialis/Subspesialis</span>
                                         </label>
                                         <div class="input-group">
@@ -282,7 +283,7 @@
                                 <div class="row gy-2" id="formRujukanKhusus">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanKhusus" data-target="formRujukanKhusus">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanKhusus" data-target="formRujukanKhusus" value="khusus">
                                             <span class="form-check-label">Khusus</span>
                                         </label>
                                         <div class="input-group">
@@ -315,7 +316,7 @@
                                 <div class="row gy-2" id="formRujukanInternal">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanInternal" data-target="formRujukanInternal">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanInternal" data-target="formRujukanInternal" value="internal">
                                             <span class="form-check-label">Internal</span>
                                         </label>
                                         <div class="input-group">
@@ -349,7 +350,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" onclick="createKunjungan()"><i class="ti ti-device-floppy"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -384,9 +385,7 @@
             })
 
             getDiagnosaPasien(data.no_rawat).done((response) => {
-                console.log('DIAGNOSA ===', response);
                 response.map((diagnosa) => {
-                    console.log(`kdDiagnosa${diagnosa.prioritas}`);
                     formKunjunganPcare.find(`input[name=kdDiagnosa${diagnosa.prioritas}]`).val(diagnosa.kd_penyakit)
                     formKunjunganPcare.find(`input[name=diagnosa${diagnosa.prioritas}]`).val(diagnosa.penyakit.nm_penyakit)
                 })
@@ -397,7 +396,6 @@
         $('#rujukanLanjut').on('change', (e) => {
             const btnRujukan = $('#rujukanLanjut')
             const isChecked = btnRujukan.is(':checked');
-            // const checkbox = $('#formRujukanLanjut').find('input[type=checkbox]')
             const button = $('#formRujukanLanjut').find('button')
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
             if (!isChecked) {
@@ -466,5 +464,39 @@
             e.preventDefault();
             renderReferensiSpesialis()
         })
+
+        function createKunjungan() {
+            element = ['input', 'select'];
+            const data = getDataForm('formKunjunganPcare', element);
+            data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
+            data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
+            data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
+            $.post('bridging/pcare/kunjungan/post', data).done((response) => {
+                if (response.metaData.code == 201) {
+                    const noKunjungan = response.response.map((res) => {
+                        return res.message;
+                    }).join(',');
+                    data['noKunjungan'] = noKunjungan
+                    alertSuccessAjax('Berhasil post kunjungan').then(() => {
+                        $.post('pcare/kunjungan', data).done((response) => {
+                            $('#modalKunjunganPcare').modal('hide')
+                            setStatusLayan(data['no_rawat'], 'Sudah')
+                        }).fail((request) => {
+                            alertErrorAjax(request)
+                        })
+
+                    })
+                } else {
+                    const statusCode = response.metaData.code;
+                    const statusText = response.metaData.message.split('response:')[1];
+                    const errorMsg = {
+                        status: statusCode,
+                        statusText: statusText,
+                    }
+                    alertErrorAjax(errorMsg)
+                }
+            })
+
+        }
     </script>
 @endpush
