@@ -27,7 +27,6 @@
                 kdSarana: $('#kdSarana').val(),
                 tglRujuk: $('#tglEstRujukan').val(),
             }).done((response) => {
-                console.log('FASKES ===', response);
                 if (response.metaData.code == 200) {
                     loading.close();
                     $('#modalReferensiRujukan').modal('show')

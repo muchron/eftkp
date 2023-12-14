@@ -16,8 +16,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>EFKTP</title>
     <!-- CSS files -->
-    <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/public/css/tabler.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
 
     <link href="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />

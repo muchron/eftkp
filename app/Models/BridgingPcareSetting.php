@@ -9,4 +9,5 @@ class BridgingPcareSetting extends Model
 {
     use HasFactory;
     protected $table = 'bridging_pcare_setting';
+    protected $guarded = [];
 }

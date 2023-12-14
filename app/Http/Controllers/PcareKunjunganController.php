@@ -6,10 +6,15 @@ use App\Models\PcareKunjungan;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PcareKunjunganController extends Controller
 {
     use Track;
+
+    function index(){
+        return view('content.pcare.kunjungan');
+    }
     function create(Request $request)
     {
         $data = [
@@ -53,6 +58,19 @@ class PcareKunjunganController extends Controller
             return response()->json(['SUKSES'], 201);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
+        }
+    }
+    function get(Request $request)
+    {
+        if ($request->tgl_awal || $request->tgl_akhir) {
+            $pcare = PcareKunjungan::with('pasien')->whereBetween('tglDaftar', [$request->tgl_awal, $request->tgl_akhir])->get();
+        }else{
+            $pcare = PcareKunjungan::with('pasien')->where('tglDaftar', date('Y-m-d'))->get();
+        }
+        if ($request->datatable) {
+            return DataTables::of($pcare)->make(true);
+        }else{
+            return response()->json($pcare);
         }
     }
 }

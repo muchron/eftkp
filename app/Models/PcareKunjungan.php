@@ -11,4 +11,8 @@ class PcareKunjungan extends Model
     protected $table = 'pcare_kunjungan_umum';
     protected $guarded= [];
     public $timestamps = false;
+
+    function pasien(){
+        return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
 }
