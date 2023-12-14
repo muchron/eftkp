@@ -291,7 +291,6 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -366,7 +365,6 @@
         function simpanPemeriksaanRalan() {
 
             const element = ['input', 'textarea'];
-            // const exception = ['keluarga', 'no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'pembiayaan', 'nm_dokter', 'no_resep', 'no_peserta', 'kdDiagnosa1', 'alamat', 'heartRate', 'nm_poli'];
             const data = getDataForm('formCpptRajal', element);
             const selectKesadaran = $('#formCpptRajal select[name=kesadaran]');
             const pembiayaan = $('#formCpptRajal input[name=pembiayaan]').val();
@@ -375,7 +373,6 @@
             const no_rkm_medis = $('#formCpptRajal input[name=no_rkm_medis]').val();
             const nm_pasien = $('#formCpptRajal input[name=nm_pasien]').val();
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
-            console.log('DATA ===', data);
             $.post('pemeriksaan/ralan/create', data).done((response) => {
                 if (pembiayaan === 'BPJS') {
                     data['no_peserta'] = no_peserta;
@@ -385,7 +382,12 @@
                     data['kd_sadara'] = selectKesadaran.val();
                     showModalKunjunganPcare(data);
                 } else {
+                    alertSuccessAjax().then(() => {
+                        $('#modalCppt').modal('hide');
+                        setStatusLayan(data['no_rawat'], 'Sudah')
+                        loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
 
+                    })
                 }
 
             }).fail((request) => {

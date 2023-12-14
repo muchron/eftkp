@@ -82,7 +82,7 @@ class ResepObatController extends Controller
         $setting = Setting::first();
         $pdf = PDF::loadView('content.print.resep', ['data' => $resepObat, 'setting' => $setting])
             ->setPaper(array(0, 0, 283, 567.00))
-            ->setOptions(['defaultFont' => 'serif', 'isRemoteEnabled' => true]);;
-        return $pdf->stream('wwwkwkwkwk');
+            ->setOptions(['defaultFont' => 'serif', 'isRemoteEnabled' => true]);
+        return $pdf->stream('cetak resep');
     }
 }

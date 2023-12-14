@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <div id="table-default" class="table-responsive">
-            <table class="table" id="tabelRegistrasi" width="100%">
+            <table class="table table-sm" id="tabelRegistrasi" width="100%">
             </table>
         </div>
     </div>
@@ -67,7 +67,7 @@
                             } else if (row.stts == 'Dirujuk') {
                                 btnStatusLayanan = 'btn-warning'
                             }
-                            button = `<button type="button" class="btn ${btnStatusLayanan}">${row.stts.toUpperCase()}</button>`
+                            button = `<button type="button" class="btn btn-sm ${btnStatusLayanan}" style="width:100%">${row.stts.toUpperCase()}</button>`
 
                             return button;
                         }
@@ -145,7 +145,7 @@
                             if (row.pemeriksaan_ralan) {
                                 classBtnPemerisksaan = 'btn-success'
                             }
-                            return `<button type="button" class="btn ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')">CPPT</button>`;
+                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
                         },
                     },
 

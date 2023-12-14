@@ -183,3 +183,19 @@ function alertSessionExpired(requestStatus) {
         })
     }
 }
+
+function loadingAjax() {
+    const loading = Swal.fire({
+        title: "Mohon tunggu!",
+        html: "Sedang mengambil data",
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+
+    });
+
+    return loading;
+}

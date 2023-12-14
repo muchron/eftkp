@@ -15,22 +15,6 @@
 </div>
 @push('script')
     <script>
-        function loadingAjax() {
-            const loading = Swal.fire({
-                title: "Mohon tunggu!",
-                html: "Sedang mengambil data",
-                timerProgressBar: true,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-
-            });
-
-            return loading;
-        }
-
         function setSpesialis(kdSpesialis, spesialis) {
             formRujukanSpesialis.find('input[name=kdSpesialis]').val(kdSpesialis)
             formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)

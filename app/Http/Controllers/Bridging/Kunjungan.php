@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Bridging;
 
 use AamDsam\Bpjs\Pcare;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Traits\PcareConfig;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,11 +24,11 @@ class Kunjungan extends Controller
         $bpjs = $this->bpjs;
         return $bpjs->riwayat($nokartu)->index();
     }
-    public function delete($nokartu)
-    {
-        $bpjs = $this->bpjs;
-        return $bpjs->destroy($nokartu);
-    }
+    // public function delete($nokartu)
+    // {
+    //     $bpjs = $this->bpjs;
+    //     return $bpjs->destroy($nokartu);
+    // }
 
     public function post(Request $request)
     {
@@ -89,5 +90,54 @@ class Kunjungan extends Controller
         } catch (QueryException $e) {
             return $e->errorInfo;
         }
+    }
+
+    function delete($noKunjungan)
+    {
+        try {
+            $bpjs = $this->bpjs;
+            return $bpjs->destroy($noKunjungan);
+        } catch (QueryException $e) {
+            return $e->errorInfo;
+        }
+    }
+    function getRujukan($noKunjungan)
+    {
+        $bpjs = $this->bpjs;
+        $rujukan = $bpjs->rujukan($noKunjungan)->index();
+
+        // $rujukan->map(function())
+        $encode = json_encode($rujukan['response']);
+        $response = json_decode($encode);
+
+
+        $data = [
+            'noRujukan' => $response->noRujukan,
+            'kdPpkAsal' => $response->ppk->kdPPK,
+            'nmPpkAsal' => $response->ppk->nmPPK,
+            'kdKR' => $response->ppk->kc->kdKR->kdKR,
+            'nmKR' => $response->ppk->kc->kdKR->nmKR,
+            'kdKC' => $response->ppk->kc->kdKC,
+            'nmKC' => $response->ppk->kc->nmKC,
+            'tglKunjungan' => date('Y-m-d', strtotime($response->tglKunjungan)),
+            'noKartu' => $response->nokaPst,
+            'nm_pasien' => $response->nmPst,
+            'nm_pasien' => $response->nmPst,
+            'kdDiag1' => $response->diag1->kdDiag,
+            'nmDiag1' => $response->diag1->nmDiag,
+            'kdDokter' => $response->dokter->kdDokter,
+            'nmDokter' => $response->dokter->nmDokter,
+            'tglEstRujuk' => date('Y-m-d', strtotime($response->tglEstRujuk)),
+            'tglAkhirRujuk' => date('Y-m-d', strtotime($response->tglAkhirRujuk)),
+            'jadwal' => $response->jadwal,
+            'kdPPK' => $response->ppkRujuk->kdPPK,
+            'nmPPK' => $response->ppkRujuk->nmPPK,
+            'nmPPK' => $response->ppkRujuk->nmPPK,
+            'kdSubSpesialis' => $response->poli->kdPoli,
+            'nmSubSpesialis' => $response->poli->nmPoli,
+        ];
+        $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $data])
+            ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+        return $pdf->stream($noKunjungan);
     }
 }

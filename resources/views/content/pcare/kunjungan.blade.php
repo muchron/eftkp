@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table" id="tabelPcareKunjungan" width="100%">
+                            <table class="table table-sm" id="tabelPcareKunjungan" width="100%">
                             </table>
                         </div>
                     </div>
@@ -82,6 +82,8 @@
                 destroy: true,
                 processing: true,
                 scrollY: 370,
+                scrollX: true,
+                fixedColumns: true,
                 ajax: {
                     url: 'kunjungan/get',
                     data: {
@@ -90,9 +92,13 @@
                         tgl_akhir: tglAkhir,
                     },
                 },
+                columnDefs: [{
+                    width: '6%',
+                    targets: 8
+                }],
                 columns: [{
-                        title: 'No Rawat',
-                        data: 'no_rawat',
+                        title: 'No. Kunjungan',
+                        data: 'noKunjungan',
                         render: (data, type, row, meta) => {
                             return data;
                         },
@@ -101,14 +107,14 @@
                         title: 'Tgl Daftar',
                         data: 'tglDaftar',
                         render: (data, type, row, meta) => {
-                            return `${formatTanggal(data)}`;
+                            return splitTanggal(data)
                         },
                     },
                     {
                         title: 'Nama',
                         data: 'nm_pasien',
                         render: (data, type, row, meta) => {
-                            return `${data}<br/><small class="text-muted">${row.noKartu}</small>`;
+                            return `<small class="text-muted">${row.noKartu}</small><br/>${data}`;
                         },
                     },
                     {
@@ -129,6 +135,12 @@
                         title: 'Pulang',
                         data: 'nmStatusPulang',
                         render: (data, type, row, meta) => {
+                            if (row.kdStatusPulang == 4) {
+                                return `<form method="post" action="kunjungan/print">
+                                        <input type="hidden" name="noKunjungan" id="noKunjungan" value="${row.noKunjungan}"/>
+                                        <button class="btn btn-sm btn-warning">${data}</button>
+                                    </form>`
+                            }
                             return data;
                         },
                     },
@@ -148,15 +160,25 @@
                     },
                     {
                         title: '',
-                        data: 'no_rawat',
+                        data: 'noKunjungan',
                         render: (data, type, row, meta) => {
-                            return `<a href="#" target=""_blank><i class="ti ti-printer text-primary"></i></a>
-                            <a href="#" target=""_blank><i class="ti ti-trash text-danger"></i></a>`;
+                            return `<button type="button" class="btn btn-sm btn-success" onclick="printKunjungan('${data}')"><i class="ti ti-printer"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></button>`;
                         },
                     },
 
 
                 ]
+            })
+        }
+
+        function deleteKunjungan($noKunjungan) {
+            alert($noKunjungan)
+        }
+
+        function printKunjungan(noKunjungan) {
+            $.post(`kunjungan/print/${noKunjungan}`).done((response) => {
+                console.log('KUNJUNGAN ===', response);
             })
         }
     </script>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use AamDsam\Bpjs\PCare\PcareService;
 use App\Models\PcareKunjungan;
+use App\Models\Setting;
 use App\Traits\Track;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -12,7 +15,8 @@ class PcareKunjunganController extends Controller
 {
     use Track;
 
-    function index(){
+    function index()
+    {
         return view('content.pcare.kunjungan');
     }
     function create(Request $request)
@@ -64,13 +68,25 @@ class PcareKunjunganController extends Controller
     {
         if ($request->tgl_awal || $request->tgl_akhir) {
             $pcare = PcareKunjungan::with('pasien')->whereBetween('tglDaftar', [$request->tgl_awal, $request->tgl_akhir])->get();
-        }else{
+        } else {
             $pcare = PcareKunjungan::with('pasien')->where('tglDaftar', date('Y-m-d'))->get();
         }
         if ($request->datatable) {
             return DataTables::of($pcare)->make(true);
-        }else{
+        } else {
             return response()->json($pcare);
         }
+    }
+
+    function print(Request $request)
+    {
+        $key = [
+            'noKunjungan' => $request->noKunjungan
+        ];
+        $pcare = PcareKunjungan::where($key)->first();
+        $setting = Setting::first();
+        $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $pcare, 'setting' => $setting])
+            ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+        return $pdf->stream($pcare->noKunjungan);
     }
 }

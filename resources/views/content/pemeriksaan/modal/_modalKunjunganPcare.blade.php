@@ -470,7 +470,9 @@
             const data = getDataForm('formKunjunganPcare', element);
             data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
+            data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
+            loadingAjax();
             $.post('bridging/pcare/kunjungan/post', data).done((response) => {
                 if (response.metaData.code == 201) {
                     const noKunjungan = response.response.map((res) => {
@@ -480,7 +482,11 @@
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
                         $.post('pcare/kunjungan', data).done((response) => {
                             $('#modalKunjunganPcare').modal('hide')
-                            setStatusLayan(data['no_rawat'], 'Sudah')
+                            if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
+                                setStatusLayan(data['no_rawat'], 'Dirujuk');
+                            } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
+                                setStatusLayan(data['no_rawat'], 'Sudah');
+                            }
                         }).fail((request) => {
                             alertErrorAjax(request)
                         })

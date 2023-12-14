@@ -108,16 +108,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
     Route::post('/pcare/kunjungan', [PcareKunjunganController::class, 'create']);
     Route::get('/pcare/kunjungan/get', [PcareKunjunganController::class, 'get']);
+    Route::post('/pcare/kunjungan/print', [PcareKunjunganController::class, 'print']);
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare/post', [BridgingPcareSettingController::class, 'create']);
-
 });
 Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
 Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
 Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
 Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
+Route::post('/bridging/pcare/kunjungan/delete', [Bridging\Kunjungan::class, 'delete']);
+Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
 Route::get('/bridging/pcare/spesialis', [Bridging\Spesialis::class, 'get']);
 Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
 Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
