@@ -39,7 +39,6 @@
                 bodyInfoDiagnosa.empty()
                 if (diagnosas.length) {
                     const dx = diagnosas.map((diagnosa, index) => {
-                        console.log('DX ===', diagnosa);
                         return `<tr id="rowDx${index+1}">
                             <td>${diagnosa.prioritas}</td>
                             <td>${diagnosa.kd_penyakit} - ${diagnosa.penyakit.nm_penyakit}</td>

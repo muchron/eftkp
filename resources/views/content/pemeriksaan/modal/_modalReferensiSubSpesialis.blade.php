@@ -62,7 +62,6 @@
                                 title: 'Kode',
                                 data: 'kdSubSpesialis',
                                 render: (data, type, row, meta) => {
-                                    console.log(row);
                                     return `<label class="form-check form-check-inline">
                                                 <input class="form-check-input" name="kdSubSpesialis" onclick="setSubSpesialis('${data}', '${row.nmSubSpesialis}')" type="radio" name="radios-inline" value="${data}">
                                                 <span class="form-check-label mb-0">${data}</span>

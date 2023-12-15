@@ -74,8 +74,6 @@
             localStorage.removeItem('tglAkhir');
         })
         $('#btnShowPassword').click((e) => {
-            // console.log(e);
-            // $(this).
             const inputPassword = $('#password')
 
             console.log();

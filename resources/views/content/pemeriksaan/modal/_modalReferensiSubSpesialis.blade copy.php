@@ -1,4 +1,5 @@
-<div class="modal modal-blur fade" id="modalReferensiSubSpesialis" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+<div class="modal modal-blur fade" id="modalReferensiSubSpesialis" tabindex="-1" aria-modal="false" role="dialog"
+    data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
@@ -22,7 +23,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success me-auto" onclick=""><i class="ti-ti-serach"></i> Cari Faskes</button>
+                <button type="button" class="btn btn-success me-auto" onclick=""><i class="ti-ti-serach"></i> Cari
+                    Faskes</button>
             </div>
         </div>
     </div>
@@ -62,7 +64,6 @@
                                 title: 'Kode',
                                 data: 'kdSubSpesialis',
                                 render: (data, type, row, meta) => {
-                                    console.log(row);
                                     return `<label class="form-check form-check-inline">
                                                 <input class="form-check-input" name="kdSubSpesialis" onclick="setSubSpesialis('${data}', '${row.nmSubSpesialis}')" type="radio" name="radios-inline" value="${data}">
                                                 <span class="form-check-label mb-0">${data}</span>
@@ -142,5 +143,6 @@
                 }
             })
         }
+
     </script>
 @endpush

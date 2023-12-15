@@ -41,12 +41,7 @@
         <div class="col-md-6 col-xl-5 col-lg-5">
             <div class="mb-1">
                 <label class="form-label">Alergi</label>
-                <select class="form-control" name="alergi[]" multiple="multiple" id="alergi" style="width:100%">
-                    {{-- <option value="AL">Alabama</option>
-                    ...
-                    <option value="WY">Wyoming</option> --}}
-                </select>
-                {{-- <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alergi" readonly> --}}
+                <select class="form-control" name="alergi" multiple="multiple" id="alergi" style="width:100%"></select>
             </div>
         </div>
     </div>
@@ -297,7 +292,6 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -405,7 +399,6 @@
             }).join(', ')
 
             data['alergi'] = alergi;
-
             $.post('pemeriksaan/ralan/create', data).done((response) => {
 
                 if (pembiayaan === 'BPJS') {

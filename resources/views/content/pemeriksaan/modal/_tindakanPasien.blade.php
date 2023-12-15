@@ -34,7 +34,6 @@
 
         function tindakanPasien(no_rawat) {
             getTindakanPasien(no_rawat).done((response) => {
-                console.log('RESPONSE ===', response);
                 bodyTindakanPasien.empty()
                 if (response.length) {
                     const px = response.map((tindakan, index) => {

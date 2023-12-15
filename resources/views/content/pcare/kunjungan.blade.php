@@ -177,9 +177,7 @@
         }
 
         function printKunjungan(noKunjungan) {
-            $.post(`kunjungan/print/${noKunjungan}`).done((response) => {
-                console.log('KUNJUNGAN ===', response);
-            })
+            $.post(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
     </script>
 @endpush

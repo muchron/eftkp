@@ -171,9 +171,7 @@
             return registrasi;
         }
 
-        function panggil(no_rawat) {
-            console.log('NO RAWAT ===', no_rawat)
-        }
+        function panggil(no_rawat) {}
 
         function setStatusLayan(no_rawat, status) {
             const postStatus = $.post('registrasi/update', {

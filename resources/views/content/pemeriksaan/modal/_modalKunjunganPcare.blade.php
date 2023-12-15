@@ -370,7 +370,10 @@
         })
 
         function showModalKunjunganPcare(data) {
-            Object.keys(data).map((key, index) => {
+            const filteredData = Object.fromEntries(
+                Object.entries(data).filter(([key, value]) => key !== "")
+            );
+            Object.keys(filteredData).map((key, index) => {
                 input = $(`#formKunjunganPcare input[name=${key}]`);
                 select = $(`#formKunjunganPcare select[name=${key}]`);
                 if (input.length) {
