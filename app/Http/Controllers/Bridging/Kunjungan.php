@@ -106,13 +106,12 @@ class Kunjungan extends Controller
         $bpjs = $this->bpjs;
         $rujukan = $bpjs->rujukan($noKunjungan)->index();
 
-        // $rujukan->map(function())
         $encode = json_encode($rujukan['response']);
         $response = json_decode($encode);
 
 
         $data = [
-            'noRujukan' => $response->noRujukan,
+            'noKunjungan' => $response->noRujukan,
             'kdPpkAsal' => $response->ppk->kdPPK,
             'nmPpkAsal' => $response->ppk->nmPPK,
             'kdKR' => $response->ppk->kc->kdKR->kdKR,
@@ -121,7 +120,6 @@ class Kunjungan extends Controller
             'nmKC' => $response->ppk->kc->nmKC,
             'tglKunjungan' => date('Y-m-d', strtotime($response->tglKunjungan)),
             'noKartu' => $response->nokaPst,
-            'nm_pasien' => $response->nmPst,
             'nm_pasien' => $response->nmPst,
             'kdDiag1' => $response->diag1->kdDiag,
             'nmDiag1' => $response->diag1->nmDiag,
@@ -132,10 +130,12 @@ class Kunjungan extends Controller
             'jadwal' => $response->jadwal,
             'kdPPK' => $response->ppkRujuk->kdPPK,
             'nmPPK' => $response->ppkRujuk->nmPPK,
-            'nmPPK' => $response->ppkRujuk->nmPPK,
             'kdSubSpesialis' => $response->poli->kdPoli,
             'nmSubSpesialis' => $response->poli->nmPoli,
         ];
+
+        return $data;
+
         $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $data])
             ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         return $pdf->stream($noKunjungan);

@@ -73,7 +73,7 @@
                         }
                     },
                     {
-                        title: 'Antrian',
+                        title: 'Antr',
                         render: (data, type, row, meta) => {
                             return row.no_reg;
                         }
@@ -118,6 +118,16 @@
                         title: 'Alamat',
                         render: (data, type, row, meta) => {
                             return `${row.pasien.alamatpj}, ${row.pasien.kelurahanpj}, ${row.pasien.kecamatanpj}`;
+                        },
+                    },
+                    {
+                        title: 'Alergi',
+                        data: 'pasien',
+                        render: (data, type, row, meta) => {
+                            const alergi = data.alergi.map((val) => {
+                                return val.alergi
+                            }).join(', <br/> ')
+                            return `<span class="text-red">${alergi}</span>`;
                         },
                     },
                     {

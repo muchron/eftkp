@@ -20,7 +20,9 @@ use App\Http\Controllers\ResepDokterRacikanDetailController;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
+use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\PcareKunjunganController;
+use App\Models\EfktpPcareAlergi;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,15 +115,21 @@ Route::middleware('auth')->group(function () {
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare/post', [BridgingPcareSettingController::class, 'create']);
+
+    // EFKTP
+    Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);
+    Route::get('pasien/alergi', [EfktpPcareAlergiController::class, 'get']);
+
+    // BRIDGING
+    Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
+    Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
+    Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
+    Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
+    Route::post('/bridging/pcare/kunjungan/delete', [Bridging\Kunjungan::class, 'delete']);
+    Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
+    Route::get('/bridging/pcare/spesialis', [Bridging\Spesialis::class, 'get']);
+    Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
+    Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
+    Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);
+    Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);
 });
-Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
-Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
-Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
-Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
-Route::post('/bridging/pcare/kunjungan/delete', [Bridging\Kunjungan::class, 'delete']);
-Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
-Route::get('/bridging/pcare/spesialis', [Bridging\Spesialis::class, 'get']);
-Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
-Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
-Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);
-Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);

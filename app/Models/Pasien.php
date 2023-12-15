@@ -16,4 +16,8 @@ class Pasien extends Model
     {
         return $this->hasMany(RegPeriksa::class, 'no_rkm_medis', 'no_rkm_medis');
     }
+    function alergi()
+    {
+        return $this->hasMany(EfktpPcareAlergi::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
 }

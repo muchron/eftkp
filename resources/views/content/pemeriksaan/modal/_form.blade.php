@@ -41,7 +41,12 @@
         <div class="col-md-6 col-xl-5 col-lg-5">
             <div class="mb-1">
                 <label class="form-label">Alergi</label>
-                <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alergi">
+                <select class="form-control" name="alergi[]" multiple="multiple" id="alergi" style="width:100%">
+                    {{-- <option value="AL">Alabama</option>
+                    ...
+                    <option value="WY">Wyoming</option> --}}
+                </select>
+                {{-- <input autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alergi" readonly> --}}
             </div>
         </div>
     </div>
@@ -230,6 +235,7 @@
         var btnCetakResep = $('#btnCetakResep')
         var tabelResepUmum = $('#tabelResepUmum')
         var tabelResepRacikan = $('#tabelResepRacikan')
+        var inputAlergi = $('#formCpptRajal').find('#alergi')
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
             const insert = $.post('diagnosa/pasien/create', {
@@ -291,6 +297,7 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
+                console.log('RESPONSE ===', response);
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -311,6 +318,21 @@
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
                 setRiwayat(response.no_rkm_medis)
+
+
+                if (response.pasien.alergi.length) {
+                    const alergi = response.pasien.alergi;
+                    inputAlergi.empty()
+                    alergi.forEach((resAlergi) => {
+                        const optionAlergi = new Option(resAlergi.alergi, resAlergi.alergi, true, true);
+                        inputAlergi.append(optionAlergi).trigger('change');
+                    });
+                    selectAlergi(inputAlergi, $('#formCpptRajal'))
+                } else {
+                    inputAlergi.empty()
+                    selectAlergi(inputAlergi, $('#formCpptRajal'))
+                }
+
                 getResep({
                     no_rawat: no_rawat,
                 }).done((resep) => {
@@ -373,14 +395,47 @@
             const no_rkm_medis = $('#formCpptRajal input[name=no_rkm_medis]').val();
             const nm_pasien = $('#formCpptRajal input[name=nm_pasien]').val();
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
+
+            const alergi = inputAlergi.val().map((val) => {
+                $.post('pasien/alergi', {
+                    no_rkm_medis: data['no_rkm_medis'],
+                    alergi: val
+                });
+                return val;
+            }).join(', ')
+
+            data['alergi'] = alergi;
+
             $.post('pemeriksaan/ralan/create', data).done((response) => {
+
                 if (pembiayaan === 'BPJS') {
-                    data['no_peserta'] = no_peserta;
-                    data['heart_rate'] = heart_rate;
-                    data['no_rkm_medis'] = no_rkm_medis;
-                    data['nm_pasien'] = nm_pasien;
-                    data['kd_sadara'] = selectKesadaran.val();
-                    showModalKunjunganPcare(data);
+                    Swal.fire({
+                        title: "Informasi",
+                        html: "Pasien merupakan peserta BPJS, <br/> lanjutkan input data kunjungan Pcare ?",
+                        icon: "info",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Lanjut",
+                        cancelButtonText: "Tidak"
+                    }).then((result) => {
+                        if (!result.isConfirmed) {
+                            alertSuccessAjax().then(() => {
+                                $('#modalCppt').modal('hide');
+                                setStatusLayan(data['no_rawat'], 'Sudah')
+                                loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
+
+                            })
+                            return false;
+                        }
+                        data['no_peserta'] = no_peserta;
+                        data['heart_rate'] = heart_rate;
+                        data['no_rkm_medis'] = no_rkm_medis;
+                        data['nm_pasien'] = nm_pasien;
+                        data['kd_sadara'] = selectKesadaran.val();
+                        showModalKunjunganPcare(data);
+                    });
+
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
@@ -393,6 +448,46 @@
             }).fail((request) => {
                 alertErrorAjax(request)
             });
+        }
+
+        function isAlergi(data) {
+            return isAlegi = data || data == '-' ? true : false;
+        }
+
+        function selectAlergi(element, parent) {
+            const select2 = element.select2({
+                dropdownParent: parent,
+                delay: 0,
+                tags: true,
+                scrollAfterSelect: true,
+                ajax: {
+                    url: 'pasien/alergi',
+                    dataType: 'JSON',
+
+                    data: (params) => {
+                        const query = {
+                            alergi: params.term
+                        }
+                        return query
+                    },
+                    processResults: (data) => {
+                        return {
+                            results: data.map((item) => {
+                                const items = {
+                                    id: item.alergi,
+                                    text: item.alergi,
+                                }
+                                return items;
+                            })
+                        }
+                    }
+
+                },
+                cache: true
+
+            });
+
+            return select2;
         }
     </script>
 @endpush
