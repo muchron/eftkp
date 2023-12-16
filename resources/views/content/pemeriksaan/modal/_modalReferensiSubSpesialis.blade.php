@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success me-auto" onclick="renderRujukan()"><i class="ti-ti-serach"></i> Cari Faskes</button>
+                <button type="button" class="btn btn-success" onclick="renderRujukan()"><i class="ti-ti-search"></i> Cari Faskes</button>
             </div>
         </div>
     </div>
@@ -42,7 +42,7 @@
         }
 
 
-        function renderTbSubspesialis(kdSpesialis) {
+        function renderReferensiSubspesialis(kdSpesialis, khusus = false) {
             loadingAjax()
             $.get(`bridging/pcare/spesialis/${kdSpesialis}/subspesialis`).done((response) => {
                 if (response.metaData.code == 200) {
@@ -51,17 +51,20 @@
                     $('#modalReferensiSubSpesialis').modal('show')
                     const tbReferensi = new DataTable('#tbReferensiSubSpesialis', {
                         responsive: true,
+                        autoWidth: true,
                         stateSave: true,
                         serverSide: false,
                         destroy: true,
                         processing: true,
-                        scrollY: 370,
                         data: response.response.list,
 
                         columns: [{
                                 title: 'Kode',
                                 data: 'kdSubSpesialis',
                                 render: (data, type, row, meta) => {
+                                    if () {
+
+                                    }
                                     return `<label class="form-check form-check-inline">
                                                 <input class="form-check-input" name="kdSubSpesialis" onclick="setSubSpesialis('${data}', '${row.nmSubSpesialis}')" type="radio" name="radios-inline" value="${data}">
                                                 <span class="form-check-label mb-0">${data}</span>
@@ -106,11 +109,11 @@
                     $('#tbReferensiSarana').removeClass('d-none')
                     const tbReferensi = new DataTable('#tbReferensiSarana', {
                         responsive: true,
+                        autoWidth: true,
                         stateSave: true,
                         serverSide: false,
                         destroy: true,
                         processing: true,
-                        scrollY: true,
                         scrollY: 370,
                         data: response.response.list,
                         columns: [{

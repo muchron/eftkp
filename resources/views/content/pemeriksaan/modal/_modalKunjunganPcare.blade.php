@@ -185,14 +185,14 @@
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
-                                        <select class="form-select" name="sttsPulang">
-                                            <option value="0">Sembuh</option>
-                                            <option value="1">Meninggal</option>
-                                            <option value="2">Pulang Paksa</option>
+                                        <select class="form-select" name="sttsPulang" id="sttsPulang">
+                                            {{-- <option value="0">Sembuh</option> --}}
+                                            {{-- <option value="1">Meninggal</option> --}}
+                                            {{-- <option value="2">Pulang Paksa</option> --}}
                                             <option value="3" selected>Berobat Jalan</option>
                                             <option value="4">Rujuk Vertikal</option>
-                                            <option value="6">Rujuk Horizontal</option>
-                                            <option value="9">Lain-lain</option>
+                                            <option value="6">Rujuk Horizontal (Belum Tersedia)</option>
+                                            {{-- <option value="9">Lain-lain</option> --}}
                                         </select>
                                     </div>
                                 </div>
@@ -210,21 +210,21 @@
                                         <label class="form-label">Diagnosa 1</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa1" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control w-75" name="diagnosa1" readonly>
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa1" readonly style="width:60%">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                         <label class="form-label">Diagnosa 2</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa2" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control w-75" name="diagnosa2" readonly>
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa2" readonly style="width:60%">
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                         <label class="form-label">Diagnosa 3</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa3" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control w-75" name="diagnosa3" readonly>
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa3" readonly style="width:60%">
                                         </div>
                                     </div>
                                 </div>
@@ -233,11 +233,10 @@
                         </div>
                     </fieldset>
                     <fieldset class="form-fieldset">
-                        <div class="row gy-2" id="formRujukanLanjut">
+                        <div class="row gy-2 d-none" id="formRujukanLanjut">
                             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
-                                <label class="form-check mt-3">
-                                    <input class="form-check-input" type="checkbox" name="rujukanLanjut" id="rujukanLanjut">
-                                    <span class="form-check-label">Rujukan Lanjut</span>
+                                <label class="form-label mt-3">
+                                    Rujukan Lanjut
                                 </label>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
@@ -260,8 +259,8 @@
                                             <span class="form-check-label">Spesialis/Subspesialis</span>
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="subSpesialis" name="subSpesialis" readonly>
                                             <input type="text" class="form-control" id="spesialis" name="spesialis" readonly>
+                                            <input type="text" class="form-control" id="subSpesialis" name="subSpesialis" readonly>
                                             <button class="btn btn-outline-secondary" type="button" id="btnSubSpesialis" onclick="renderReferensiSpesialis()"><i class="ti ti-search"></i></button>
                                         </div>
                                         <input type="hidden" id="kdSpesialis" name="kdSpesialis">
@@ -396,26 +395,45 @@
 
             $('#modalKunjunganPcare').modal('show')
         }
-        $('#rujukanLanjut').on('change', (e) => {
-            const btnRujukan = $('#rujukanLanjut')
-            const isChecked = btnRujukan.is(':checked');
-            const button = $('#formRujukanLanjut').find('button')
+        // $('#rujukanLanjut').on('change', (e) => {
+        //     const btnRujukan = $('#rujukanLanjut')
+        //     const isChecked = btnRujukan.is(':checked');
+        //     const button = $('#formRujukanLanjut').find('button')
+        //     const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
+        //     if (!isChecked) {
+        //         btnRujukan.removeAttr('disabled')
+        //         radio.each((index, prop) => {
+        //             const target = $(`#${prop.id}`).data('target');
+        //             button.prop('disabled', 'disabled')
+        //             switchForm(prop.id, target, ['input', 'button'])
+        //         })
+        //     } else {
+        //         $('#formRujukanLanjut').find('input').removeAttr('disabled')
+        //         button.removeAttr('disabled', 'disabled')
+        //         radio.each((index, prop) => {
+        //             const target = $(`#${prop.id}`).data('target');
+        //             switchForm(prop.id, target, ['input', 'button'])
+        //         })
+        //     }
+        // })
+
+        $('#sttsPulang').on('change', (e) => {
+            const element = $(e.currentTarget)
+            const elementVal = element.val()
+            const formRujukanLanjut = $('#formRujukanLanjut');
+            const btnRujukan = $('#rujukanLanjut');
+            const button = formRujukanLanjut.find('button')
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
-            if (!isChecked) {
-                $('#formRujukanLanjut').find('input').prop('disabled', 'disabled')
-                btnRujukan.removeAttr('disabled')
-                radio.each((index, prop) => {
-                    const target = $(`#${prop.id}`).data('target');
-                    button.prop('disabled', 'disabled')
-                    switchForm(prop.id, target, ['input', 'button'])
-                })
+            if (elementVal == 4) {
+                formRujukanLanjut.removeClass('d-none');
+                formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
+                formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
+                formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
             } else {
-                $('#formRujukanLanjut').find('input').removeAttr('disabled')
-                button.removeAttr('disabled', 'disabled')
-                radio.each((index, prop) => {
-                    const target = $(`#${prop.id}`).data('target');
-                    switchForm(prop.id, target, ['input', 'button'])
-                })
+                formRujukanLanjut.addClass('d-none');
+                formRujukanLanjut.find('#tglEstRujukan').attr('disabled', true);
+                formRujukanLanjut.find('#kdPpkRujukan').attr('disabled', true);
+                formRujukanLanjut.find('#ppkRujukan').attr('disabled', true);
             }
         })
 
@@ -424,9 +442,12 @@
             formRujukanKhusus.find('input').attr('disabled', 'disabled')
             formRujukanKhusus.find('input[type=radio]').removeAttr('disabled')
             formRujukanKhusus.find('button').attr('disabled', 'disabled')
-            formRujukanInternal.find('input').attr('disabled', 'disabled')
             formRujukanInternal.find('input[type=radio]').removeAttr('disabled')
             formRujukanInternal.find('button').attr('disabled', 'disabled')
+            formRujukanKhusus.find('input').val('')
+            formRujukanInternal.find('input').val('')
+            formRujukanLanjut.find('#kdPpkRujukan').val('');
+            formRujukanLanjut.find('#ppkRujukan').val('');
         })
         $('#rujukanKhusus').on('change', (e) => {
             switchForm('rujukanKhusus', 'formRujukanKhusus', ['input', 'button'])
@@ -436,6 +457,10 @@
             formRujukanSpesialis.find('input').attr('disabled', 'disabled')
             formRujukanSpesialis.find('input[type=radio]').removeAttr('disabled')
             formRujukanSpesialis.find('button').attr('disabled', 'disabled')
+            formRujukanInternal.find('input').val('')
+            formRujukanSpesialis.find('input').val('')
+            formRujukanLanjut.find('#kdPpkRujukan').val('');
+            formRujukanLanjut.find('#ppkRujukan').val('');
         })
         $('#rujukanInternal').on('change', (e) => {
             switchForm('rujukanInternal', 'formRujukanInternal', ['input', 'button'])
@@ -445,6 +470,10 @@
             formRujukanKhusus.find('input').attr('disabled', 'disabled')
             formRujukanKhusus.find('input[type=radio]').removeAttr('disabled')
             formRujukanKhusus.find('button').attr('disabled', 'disabled')
+            formRujukanSpesialis.find('input').val('')
+            formRujukanKhusus.find('input').val('')
+            formRujukanLanjut.find('#kdPpkRujukan').val('');
+            formRujukanLanjut.find('#ppkRujukan').val('');
 
         })
 
@@ -466,6 +495,11 @@
         $('#btnPpkRujukan').on('click', (e) => {
             e.preventDefault();
             renderReferensiSpesialis()
+        })
+
+        $('#btnKhusus').on('click', (e) => {
+            e.preventDefault();
+            renderReferensiSpesialisKhusus()
         })
 
         function createKunjungan() {

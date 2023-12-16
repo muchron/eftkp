@@ -1,4 +1,4 @@
-<div class="modal modal-blur fade" id="modalReferensiSpesialis" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+<div class="modal modal-blur fade" id="modalReferensiSpesialisKhusus" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="tbReferensiSpesialis" class="table table-stripped" width="100%"></table>
+                    <table id="tbReferensiSpesialisKhusus" class="table table-stripped" width="100%"></table>
                 </div>
             </div>
         </div>
@@ -15,19 +15,20 @@
 </div>
 @push('script')
     <script>
-        function setSpesialis(kdSpesialis, spesialis) {
-            formRujukanSpesialis.find('input[name=kdSpesialis]').val(kdSpesialis)
-            formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)
+        function setSpesialisKhusus(kdKhusus, khusus) {
+            formRujukanKhusus.find('input[name=kdKhusus]').val(kdKhusus)
+            formRujukanKhusus.find('input[name=khusus]').val(khusus)
+            $('#modalReferensiSpesialisKhusus').modal('hide')
         }
 
-        function renderReferensiSpesialis() {
-            $('#modalReferensiSpesialis').find('.modal-title').html('Referensi Spesialis')
+        function renderReferensiSpesialisKhusus() {
+            $('#modalReferensiSpesialisKhusus').find('.modal-title').html('Referensi Spesialis')
             const loading = loadingAjax();
-            $.get('bridging/pcare/spesialis').done((response) => {
+            $.get('bridging/pcare/spesialis/khusus').done((response) => {
                 if (response.metaData.code == 200) {
                     loading.close();
-                    $('#modalReferensiSpesialis').modal('show')
-                    const tbReferensi = new DataTable('#tbReferensiSpesialis', {
+                    $('#modalReferensiSpesialisKhusus').modal('show')
+                    const tbReferensi = new DataTable('#tbReferensiSpesialisKhusus', {
                         autoWidth: true,
                         stateSave: true,
                         serverSide: false,
@@ -37,19 +38,19 @@
                         columnDefs: [{
                             'targets': [0, 1],
                             'createdCell': (td, cellData, rowData, row, col) => {
-                                $(td).attr('onclick', `renderReferensiSubspesialis('${rowData.kdSpesialis}');setSpesialis('${rowData.kdSpesialis}', '${rowData.nmSpesialis}')`);
+                                $(td).attr('onclick', `setSpesialisKhusus('${rowData.kdKhusus}', '${rowData.nmKhusus}')`);
                             }
                         }],
                         columns: [{
-                                title: 'Kode Spesialis',
-                                data: 'kdSpesialis',
+                                title: 'Kode Spesialis Khsusus',
+                                data: 'kdKhusus',
                                 render: (data, type, row, meta) => {
                                     return `<button type="button" class="btn btn-sm btn-outline-secondary">${data}</button>`
                                 }
                             },
                             {
-                                title: 'Nama Spesialis',
-                                data: 'nmSpesialis',
+                                title: 'Nama Spesialis Khusus',
+                                data: 'nmKhusus',
                                 render: (data, type, row, meta) => {
                                     return data
                                 }

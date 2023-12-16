@@ -38,5 +38,9 @@ class Spesialis extends Controller
         $bpjs = $this->bpjs;
         return $bpjs->rujuk()->subSpesialis($request->kdSubSpesialis)->sarana($request->kdSarana ? $request->kdSarana : 0)->tanggalRujuk($request->tglRujuk)->index();
     }
+    function getKhusus(){
+        $bpjs=$this->bpjs;
+        return $bpjs->khusus()->index();
+    }
 
 }

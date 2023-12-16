@@ -44,7 +44,7 @@
         }
 
 
-        function renderTbSubspesialis(kdSpesialis) {
+        function renderReferensiSubspesialis(kdSpesialis) {
             loadingAjax()
             $.get(`bridging/pcare/spesialis/${kdSpesialis}/subspesialis`).done((response) => {
                 if (response.metaData.code == 200) {

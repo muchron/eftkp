@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success me-auto" onclick="simpanPemeriksaanRalan()">Simpan</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()"><i class="ti ti-device-floppy"></i> Simpan</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
             </div>
         </div>

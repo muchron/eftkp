@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalReferensiRujukan" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full-width" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
                 <h5 class="modal-title m-0">Pilihan Rujukan FKTRL</h5>
@@ -7,8 +7,11 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="tbRujukan" class="table table-stripped" width="100%"></table>
+                    <table id="tbRujukan" class="table table-sm table-responsive" width="100%"></table>
                 </div>
+            </div>
+            <div class="modal-footer">
+
             </div>
         </div>
     </div>
@@ -18,6 +21,7 @@
         function setPpkRujukan(kdPpk, nmPpk) {
             $('#kdPpkRujukan').val(kdPpk)
             $('#ppkRujukan').val(nmPpk)
+            $('#modalReferensiRujukan').modal('hide')
         }
 
         function renderRujukan() {
@@ -30,33 +34,33 @@
                 if (response.metaData.code == 200) {
                     loading.close();
                     $('#modalReferensiRujukan').modal('show')
+                    $('#modalReferensiSubSpesialis').modal('hide')
                     const tbReferensi = new DataTable('#tbRujukan', {
-                        responsive: true,
+                        autoWidth: true,
                         stateSave: true,
                         serverSide: false,
                         destroy: true,
                         processing: true,
-                        scrollX: true,
-                        scrollY: 400,
                         data: response.response.list,
                         columnDefs: [{
                             'targets': [0, 1],
                             'createdCell': (td, cellData, rowData, row, col) => {
                                 $(td).attr('onclick', `setPpkRujukan('${rowData.kdppk}', '${rowData.nmppk}')`);
+                                $(td).attr('style', `cursor:pointer`);
                             }
                         }],
                         columns: [{
                                 title: 'Kode PPK',
                                 data: 'kdppk',
                                 render: (data, type, row, meta) => {
-                                    return data
+                                    return `<button type="button" class="btn btn-sm btn-outline-secondary">${data}</button>`
                                 }
                             },
                             {
                                 title: 'Nama Faskes',
                                 data: 'nmppk',
                                 render: (data, type, row, meta) => {
-                                    return data
+                                    return `<button type="button" class="btn btn-sm btn-outline-secondary">${data}</button>`
                                 }
                             },
                             {

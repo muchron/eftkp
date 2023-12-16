@@ -219,6 +219,7 @@
 @include('content.pemeriksaan.modal._modalKunjunganPcare')
 @include('content.pemeriksaan.modal._modalReferensiSpesialis')
 @include('content.pemeriksaan.modal._modalReferensiSubSpesialis')
+@include('content.pemeriksaan.modal._modalReferensiSpesialisKhusus')
 @include('content.pemeriksaan.modal._modalReferensiRujukan')
 @push('script')
     <script>
