@@ -129,18 +129,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
     Route::post('/bridging/pcare/kunjungan/delete', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
-    
+
     // SPESIALIS
     Route::get('/bridging/pcare/spesialis', [Bridging\Spesialis::class, 'get']);
     Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
     Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
     Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);
+
+    // POLI FKTP
+    Route::get('/bridging/pcare/fktp/poli', [Bridging\Poli::class, 'index']);
+    Route::get('/bridging/pcare/tacc', [Bridging\Poli::class, 'tacc']);
+
     //REFERENSI SPESIALIS KHUSUS
     Route::get('/bridging/pcare/spesialis/khusus', [Bridging\Spesialis::class, 'getKhusus']);
-    
-    
+    Route::get('/bridging/pcare/spesialis/rujuk/khusus', [Bridging\Spesialis::class, 'getFaskesKhusus']);
+
+
     // STATUS PULANG
     Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);
-    
-
 });

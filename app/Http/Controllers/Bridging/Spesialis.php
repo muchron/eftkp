@@ -25,7 +25,7 @@ class Spesialis extends Controller
     public function getSubspesialis($kdSpesialis)
     {
         $bpjs = $this->bpjs;
-        return $bpjs->index($kdSpesialis,'subspesialis');
+        return $bpjs->index($kdSpesialis, 'subspesialis');
     }
     public function getSarana()
     {
@@ -34,13 +34,18 @@ class Spesialis extends Controller
     }
     public function getFaskes(Request $request)
     {
-        
+
         $bpjs = $this->bpjs;
         return $bpjs->rujuk()->subSpesialis($request->kdSubSpesialis)->sarana($request->kdSarana ? $request->kdSarana : 0)->tanggalRujuk($request->tglRujuk)->index();
     }
-    function getKhusus(){
-        $bpjs=$this->bpjs;
+    public function getFaskesKhusus(Request $request)
+    {
+        $bpjs = $this->bpjs;
+        return $bpjs->rujuk()->khusus($request->kdKhusus)->nomorKartu($request->noKartu)->tanggalRujuk($request->tglEstRujuk)->index();
+    }
+    function getKhusus()
+    {
+        $bpjs = $this->bpjs;
         return $bpjs->khusus()->index();
     }
-
 }

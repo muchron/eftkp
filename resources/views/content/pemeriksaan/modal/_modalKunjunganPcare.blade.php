@@ -306,7 +306,7 @@
                                             Catatan
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="caratanKhusus" name="caratanKhusus">
+                                            <input type="text" class="form-control" id="catatanKhusus" name="catatanKhusus">
                                         </div>
                                     </div>
                                 </div>
@@ -321,7 +321,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdInternal" name="kdInternal">
                                             <input type="text" class="form-control w-50" id="internal" name="internal">
-                                            <button class="btn btn-outline-secondary" type="button" id="btnInternal"><i class="ti ti-search"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnInternal" onclick="renderReferensiPoliFktp()"><i class="ti ti-search"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -331,7 +331,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdTacc" name="kdTacc" readonly>
                                             <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc" readonly>
-                                            <button class="btn btn-outline-secondary" type="button" id="btnInternal"><i class="ti ti-search"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnTacc" onclick="renderReferensiTacc()"><i class="ti ti-search"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -395,27 +395,6 @@
 
             $('#modalKunjunganPcare').modal('show')
         }
-        // $('#rujukanLanjut').on('change', (e) => {
-        //     const btnRujukan = $('#rujukanLanjut')
-        //     const isChecked = btnRujukan.is(':checked');
-        //     const button = $('#formRujukanLanjut').find('button')
-        //     const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
-        //     if (!isChecked) {
-        //         btnRujukan.removeAttr('disabled')
-        //         radio.each((index, prop) => {
-        //             const target = $(`#${prop.id}`).data('target');
-        //             button.prop('disabled', 'disabled')
-        //             switchForm(prop.id, target, ['input', 'button'])
-        //         })
-        //     } else {
-        //         $('#formRujukanLanjut').find('input').removeAttr('disabled')
-        //         button.removeAttr('disabled', 'disabled')
-        //         radio.each((index, prop) => {
-        //             const target = $(`#${prop.id}`).data('target');
-        //             switchForm(prop.id, target, ['input', 'button'])
-        //         })
-        //     }
-        // })
 
         $('#sttsPulang').on('change', (e) => {
             const element = $(e.currentTarget)
@@ -444,8 +423,8 @@
             formRujukanKhusus.find('button').attr('disabled', 'disabled')
             formRujukanInternal.find('input[type=radio]').removeAttr('disabled')
             formRujukanInternal.find('button').attr('disabled', 'disabled')
-            formRujukanKhusus.find('input').val('')
-            formRujukanInternal.find('input').val('')
+            formRujukanKhusus.find('input[type=text]').val('')
+            formRujukanInternal.find('input[type=text]').val('')
             formRujukanLanjut.find('#kdPpkRujukan').val('');
             formRujukanLanjut.find('#ppkRujukan').val('');
         })
@@ -457,8 +436,8 @@
             formRujukanSpesialis.find('input').attr('disabled', 'disabled')
             formRujukanSpesialis.find('input[type=radio]').removeAttr('disabled')
             formRujukanSpesialis.find('button').attr('disabled', 'disabled')
-            formRujukanInternal.find('input').val('')
-            formRujukanSpesialis.find('input').val('')
+            formRujukanInternal.find('input[type=text]').val('')
+            formRujukanSpesialis.find('input[type=text]').val('')
             formRujukanLanjut.find('#kdPpkRujukan').val('');
             formRujukanLanjut.find('#ppkRujukan').val('');
         })
@@ -470,8 +449,8 @@
             formRujukanKhusus.find('input').attr('disabled', 'disabled')
             formRujukanKhusus.find('input[type=radio]').removeAttr('disabled')
             formRujukanKhusus.find('button').attr('disabled', 'disabled')
-            formRujukanSpesialis.find('input').val('')
-            formRujukanKhusus.find('input').val('')
+            formRujukanSpesialis.find('input[type=text]').val('')
+            formRujukanKhusus.find('input[type=text]').val('')
             formRujukanLanjut.find('#kdPpkRujukan').val('');
             formRujukanLanjut.find('#ppkRujukan').val('');
 
@@ -511,6 +490,7 @@
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             loadingAjax();
             $.post('bridging/pcare/kunjungan/post', data).done((response) => {
+                loadingAjax().close();
                 if (response.metaData.code == 201) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
@@ -524,6 +504,8 @@
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
                             }
+                            $('#modalCppt').modal('hide');
+                            loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
                         }).fail((request) => {
                             alertErrorAjax(request)
                         })

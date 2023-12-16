@@ -18,7 +18,19 @@
         function setSpesialisKhusus(kdKhusus, khusus) {
             formRujukanKhusus.find('input[name=kdKhusus]').val(kdKhusus)
             formRujukanKhusus.find('input[name=khusus]').val(khusus)
-            $('#modalReferensiSpesialisKhusus').modal('hide')
+            if (kdKhusus != 'THA' || kdKhusus != 'HEM') {
+                formRujukanKhusus.find('#kdKhususSub').val('')
+                formRujukanKhusus.find('#kdKhususSub').attr('disabled', true)
+                formRujukanKhusus.find('#khususSub').val('')
+                formRujukanKhusus.find('#khususSub').attr('disabled', true)
+                const data = {
+                    kdKhusus: kdKhusus,
+                    noKartu: formKunjunganPcare.find('#no_peserta').val(),
+                    tglEstRujuk: formRujukanLanjut.find('#tglEstRujukan').val()
+                }
+                renderFaskesKhusus(data)
+
+            }
         }
 
         function renderReferensiSpesialisKhusus() {

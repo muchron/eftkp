@@ -27,9 +27,6 @@ return new class extends Migration
             $table->string('jadwal', 200)->nullable();
             $table->string('infoDenda', 200)->nullable();
             $table->timestamps();
-            $table->foreign('noKunjungan')->references('noKunjungan')
-                ->on('pcare_rujuk_subspesialis')
-                ->onDelete('Cascade');
         });
     }
 

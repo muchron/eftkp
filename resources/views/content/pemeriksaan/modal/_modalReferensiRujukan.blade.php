@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalReferensiRujukan" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-full" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
                 <h5 class="modal-title m-0">Pilihan Rujukan FKTRL</h5>

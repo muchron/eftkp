@@ -221,6 +221,8 @@
 @include('content.pemeriksaan.modal._modalReferensiSubSpesialis')
 @include('content.pemeriksaan.modal._modalReferensiSpesialisKhusus')
 @include('content.pemeriksaan.modal._modalReferensiRujukan')
+@include('content.pemeriksaan.modal._modalReferensiPoliFktp')
+@include('content.pemeriksaan.modal._modalReferensiTacc')
 @push('script')
     <script>
         var btnTambahResep = $('#btnTambahResep')
@@ -378,6 +380,12 @@
             $('#modalCppt').modal('show')
         }
 
+        function createAlergi(data) {
+            $.post('pasien/alergi', {
+                no_rkm_medis: data.no_rkm_medis,
+                alergi: data.alergi
+            })
+        }
 
         function simpanPemeriksaanRalan() {
 
@@ -392,16 +400,14 @@
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
 
             const alergi = inputAlergi.val().map((val) => {
-                $.post('pasien/alergi', {
-                    no_rkm_medis: data['no_rkm_medis'],
-                    alergi: val
-                });
                 return val;
-            }).join(', ')
-
-            data['alergi'] = alergi;
+            })
+            data['alergi'] = alergi.join(', ');
             $.post('pemeriksaan/ralan/create', data).done((response) => {
-
+                createAlergi({
+                    no_rkm_medis: data['no_rkm_medis'],
+                    alergi: alergi
+                })
                 if (pembiayaan === 'BPJS') {
                     Swal.fire({
                         title: "Informasi",

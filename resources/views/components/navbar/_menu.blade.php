@@ -53,7 +53,7 @@
                          Pendaftaran
                      </a>
                      <a href="{{ 'pcare/kunjungan' }}" class="dropdown-item">
-                         Kunjungan Pelayanan
+                         Rujukan Keluar
                      </a>
                  </div>
              </div>

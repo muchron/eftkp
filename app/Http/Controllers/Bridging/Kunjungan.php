@@ -24,11 +24,6 @@ class Kunjungan extends Controller
         $bpjs = $this->bpjs;
         return $bpjs->riwayat($nokartu)->index();
     }
-    // public function delete($nokartu)
-    // {
-    //     $bpjs = $this->bpjs;
-    //     return $bpjs->destroy($nokartu);
-    // }
 
     public function post(Request $request)
     {
@@ -53,7 +48,7 @@ class Kunjungan extends Controller
             "kdDiag1" => $data['kdDiagnosa1'],
             "kdDiag2" => $data['kdDiagnosa2'],
             "kdDiag3" => $data['kdDiagnosa3'],
-            "kdPoliRujukInternal" => null,
+            "kdPoliRujukInternal" => $data['kdInternal'] ? $data['kdInternal'] : null,
         ];
 
         if ($request->jenisRujukan) {
@@ -76,14 +71,23 @@ class Kunjungan extends Controller
                     "subSpesialis" => null,
                     'khusus' => [
                         'kdKhusus' => $data['kdKhusus'],
-                        'kdSubSpesialis' => $data['kdSubPesialisKhusus'],
+                        'kdSubSpesialis' => $data['kdKhususSub'],
                         'catatan' => $data['catatanKhusus']
                     ],
                 ];
                 $parameter['kdTacc'] = 0;
                 $parameter['alasanTacc'] = null;
+            } else if ($data['jenisRujukan'] == 'internal') {
+                $parameter['rujukLanjut'] = [
+                    "kdppk" => $data['kdPpkRujukan'],
+                    "tglEstRujuk" => $data['tglEstRujukan'],
+                    "subSpesialis" => null,
+                ];
+                $parameter['kdTacc'] = $data['kdTacc'];
+                $parameter['alasanTacc'] = $data['alasanTacc'];
             }
         }
+
         try {
             $bpjs = $this->bpjs;
             return $bpjs->store($parameter);

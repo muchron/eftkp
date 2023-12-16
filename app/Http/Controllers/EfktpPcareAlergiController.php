@@ -13,11 +13,12 @@ class EfktpPcareAlergiController extends Controller
 
     function create(Request $request)
     {
-        $data = [
+        $key = [
             'no_rkm_medis' => $request->no_rkm_medis,
-            'alergi' => $request->alergi
-        ];
 
+        ];
+        $arrAlergi = $request->alergi;
+        $countAlergi =  count($arrAlergi);
         try {
 
             $findalergi = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->get();
@@ -27,9 +28,15 @@ class EfktpPcareAlergiController extends Controller
                     $this->deleteSql(new EfktpPcareAlergi(), ['no_rkm_medis' => $request->no_rkm_medis]);
                 }
             }
-            $alergi = EfktpPcareAlergi::create($data);
-            if ($alergi) {
-                $this->insertSql(new EfktpPcareAlergi(), $data);
+            for ($i = 0; $i < $countAlergi; $i++) {
+                $data = [
+                    'no_rkm_medis' => $request->no_rkm_medis,
+                    'alergi' => $arrAlergi[$i]
+                ];
+                $alergi = EfktpPcareAlergi::create($data);
+                if ($alergi) {
+                    $this->insertSql(new EfktpPcareAlergi(), $data);
+                }
             }
             return response()->json('SUKES', 201);
         } catch (QueryException $e) {
