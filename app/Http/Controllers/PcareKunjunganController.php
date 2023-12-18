@@ -54,8 +54,15 @@ class PcareKunjunganController extends Controller
             "nmDiag3" => $request->diagnosa3,
         ];
 
+
+        $dataRujuk = new \Illuminate\Http\Request($data);
+
         try {
             $pcare = PcareKunjungan::create($data);
+            if ($data['kdStatusPulang'] == '04') {
+                $rujuk = new PcareRujukSubspesialisController();
+                $rujuk->create($dataRujuk);
+            }
             if ($pcare) {
                 $this->insertSql(new PcareKunjungan(), $data);
             }
@@ -64,6 +71,7 @@ class PcareKunjunganController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+
     function get(Request $request)
     {
         if ($request->tgl_awal || $request->tgl_akhir) {
@@ -78,10 +86,10 @@ class PcareKunjunganController extends Controller
         }
     }
 
-    function print(Request $request)
+    function print($noKunjungan)
     {
         $key = [
-            'noKunjungan' => $request->noKunjungan
+            'noKunjungan' => $noKunjungan,
         ];
         $pcare = PcareKunjungan::where($key)->first();
         $setting = Setting::first();

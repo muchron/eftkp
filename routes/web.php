@@ -22,7 +22,9 @@ use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\PcareKunjunganController;
+use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Models\EfktpPcareAlergi;
+use App\Models\PcareRujukSubspesialis;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,7 +112,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
     Route::post('/pcare/kunjungan', [PcareKunjunganController::class, 'create']);
     Route::get('/pcare/kunjungan/get', [PcareKunjunganController::class, 'get']);
-    Route::post('/pcare/kunjungan/print', [PcareKunjunganController::class, 'print']);
+    Route::post('/pcare/kunjungan/print/{noKunjungan}', [PcareKunjunganController::class, 'print']);
+
+    // PCARE KUNJUNGAN RUJUK SUBSPESIALIS
+    Route::post('/pcare/kunjungan/rujuk/subspesialis/', [PcareRujukSubspesialisController::class, 'create']);
+    Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
@@ -123,11 +129,14 @@ Route::middleware('auth')->group(function () {
     // BRIDGING
     Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
 
+    // PENDAFTARAN 
+    Route::get('/bidging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+
     // KUNJUNGAN
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
-    Route::post('/bridging/pcare/kunjungan/delete', [Bridging\Kunjungan::class, 'delete']);
+    Route::get('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
 
     // SPESIALIS

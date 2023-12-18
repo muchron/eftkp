@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success me-auto" onclick=""><i class="ti-ti-serach"></i> Cari
+                <button type="button" class="btn btn-success me-auto" onclick="renderRujukan()"><i class="ti-ti-serach"></i> Cari
                     Faskes</button>
             </div>
         </div>
@@ -143,6 +143,5 @@
                 }
             })
         }
-
     </script>
 @endpush

@@ -136,10 +136,7 @@
                         data: 'nmStatusPulang',
                         render: (data, type, row, meta) => {
                             if (row.kdStatusPulang == 4) {
-                                return `<form method="post" action="kunjungan/print">
-                                        <input type="hidden" name="noKunjungan" id="noKunjungan" value="${row.noKunjungan}"/>
-                                        <button class="btn btn-sm btn-warning">${data}</button>
-                                    </form>`
+                                return `<span class="text-warning">${data}</button>`
                             }
                             return data;
                         },
@@ -162,7 +159,7 @@
                         title: '',
                         data: 'noKunjungan',
                         render: (data, type, row, meta) => {
-                            return `<button type="button" class="btn btn-sm btn-success" onclick="printKunjungan('${data}')"><i class="ti ti-printer"></i></button>
+                            return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
                             <button type="button" class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></button>`;
                         },
                     },

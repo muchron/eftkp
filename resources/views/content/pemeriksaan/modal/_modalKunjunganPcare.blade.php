@@ -361,6 +361,18 @@
         var formRujukanSpesialis = $('#formRujukanSpesialis')
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
+
+        function getKunjunganRujuk(noKunjungan) {
+            const getKunjungan = $.get(`bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
+            return getKunjungan;
+        }
+
+        function createRujukSubSpesialis(data) {
+            const create = $.post('pcare/kunjungan/rujuk/subspesialis',
+                data
+            )
+            return create;
+        }
         $('#modalKunjunganPcare').on('shown.bs.modal', () => {
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
@@ -500,6 +512,12 @@
                         $.post('pcare/kunjungan', data).done((response) => {
                             $('#modalKunjunganPcare').modal('hide')
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
+                                getKunjunganRujuk(noKunjungan).done((resRujukan) => {
+                                    dataRujukan = Object.assign(data, resRujukan)
+                                    createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
+                                        alertSuccessAjax('Berhasil buat rujukan')
+                                    })
+                                })
                                 setStatusLayan(data['no_rawat'], 'Dirujuk');
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
@@ -521,6 +539,7 @@
                     alertErrorAjax(errorMsg)
                 }
             })
+
 
         }
     </script>

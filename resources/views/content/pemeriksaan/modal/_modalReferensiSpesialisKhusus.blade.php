@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
-                <h5 class="modal-title m-0">Referensi Spesialis</h5>
+                <h5 class="modal-title m-0">Referensi Spesialis Khusus</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
