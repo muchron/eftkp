@@ -58,6 +58,8 @@
                 columns: [{
                         title: '',
                         render: (data, type, row, meta) => {
+                            let attr = 'javascript:void(0)';
+                            let target = '';
                             if (row.stts == 'Belum') {
                                 btnStatusLayanan = 'btn-primary'
                             } else if (row.stts == 'Batal') {
@@ -66,14 +68,20 @@
                                 btnStatusLayanan = 'btn-success'
                             } else if (row.stts == 'Dirujuk') {
                                 btnStatusLayanan = 'btn-warning'
+                                if (row.pcare_rujuk_subspesialis) {
+                                    attr = `pcare/kunjungan/rujuk/subspesialis/print/${row.pcare_rujuk_subspesialis.noKunjungan}`
+                                    target = 'target="_blank"';
+                                }
                             }
-                            button = `<button type="button" class="btn btn-sm ${btnStatusLayanan}" style="width:100%">${row.stts.toUpperCase()}</button>`
+
+                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" style="width:100%" >${row.stts.toUpperCase()}</a>`
+
 
                             return button;
                         }
                     },
                     {
-                        title: 'Antr',
+                        title: 'No',
                         render: (data, type, row, meta) => {
                             return row.no_reg;
                         }
@@ -85,9 +93,16 @@
                         }
                     },
                     {
+                        title: 'Poli',
+                        data: 'poliklinik.nm_poli',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
                         title: 'Tanggal',
                         render: (data, type, row, meta) => {
-                            return formatTanggal(row.tgl_registrasi);
+                            return splitTanggal(row.tgl_registrasi);
                         },
                     },
                     {
@@ -103,15 +118,16 @@
                         },
                     },
                     {
-                        title: 'Pasien',
+                        title: 'Pasien (JK)',
                         render: (data, type, row, meta) => {
-                            return `${row.pasien.nm_pasien} (${row.umurdaftar} ${row.sttsumur})`;
+                            return `${row.pasien.nm_pasien} (${row.pasien.jk})`;
                         },
                     },
                     {
-                        title: 'JK',
+                        title: 'Umur',
+                        data: 'umurdaftar',
                         render: (data, type, row, meta) => {
-                            return row.pasien.jk == 'L' ? 'Laki-Laki' : 'Perempuan';
+                            return `${row.umurdaftar} ${row.sttsumur}`;
                         },
                     },
                     {

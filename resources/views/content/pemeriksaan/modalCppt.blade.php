@@ -27,9 +27,8 @@
 </div>
 @push('script')
     <script>
-        $('#modalCppt').on('hidden.bs.modal', () => {
-            $(this).find('input, textarea').val('')
-            // document.getElementById("formCpptRajal").reset();
+        $('#modalCppt').on('hidden.bs.modal', (e) => {
+            $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
         })
     </script>
 @endpush

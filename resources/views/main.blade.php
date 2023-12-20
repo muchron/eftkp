@@ -77,6 +77,10 @@
             padding-bottom: 10px;
             font-size: 11px;
         }
+
+        .dropdown-item {
+            font-size: 11px;
+        }
     </style>
 </head>
 

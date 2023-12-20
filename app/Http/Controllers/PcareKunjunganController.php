@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use AamDsam\Bpjs\PCare\PcareService;
 use App\Models\PcareKunjungan;
+use App\Models\PcareRujukSubspesialis;
 use App\Models\Setting;
 use App\Traits\Track;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -83,6 +84,24 @@ class PcareKunjunganController extends Controller
             return DataTables::of($pcare)->make(true);
         } else {
             return response()->json($pcare);
+        }
+    }
+
+    function delete($noKunjungan)
+    {
+        $kunjungan = PcareKunjungan::where('noKunjungan', $noKunjungan);
+        if ($kunjungan) {
+            try {
+                $delete = $kunjungan->delete();
+                if ($delete) {
+                    $this->deleteSql(new PcareKunjungan(), ['noKunjungan' => $noKunjungan]);
+                    $rujukan = new PcareRujukSubspesialisController();
+                    $rujukan->delete($noKunjungan);
+                }
+                return response()->json('SUKSES', 200);
+            } catch (QueryException $e) {
+                return response()->json($e->errorInfo, 500);
+            }
         }
     }
 

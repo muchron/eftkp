@@ -26,7 +26,7 @@ class BridgingPcareSettingController extends Controller
             if ($post) {
                 $this->insertSql(new BridgingPcareSetting(), $request->all());
             }
-            return redirect('setting/pcare')->with('status', ['title'=> 'Berhasil', 'message'=>'Menambahkan profile setting bridging PCARE']);
+            return redirect('setting/pcare')->with('status', ['title' => 'Berhasil', 'message' => 'Menambahkan profile setting bridging PCARE']);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
@@ -34,13 +34,13 @@ class BridgingPcareSettingController extends Controller
 
     function update(Request $request)
     {
-        $key = ['consId' => $request->consId];
+        $key = ['consId' => $request->consIdExisting];
         try {
-            $post = BridgingPcareSetting::where($key)->update($request->all());
+            $post = BridgingPcareSetting::where($key)->update($request->except('consIdExisting'));
             if ($post) {
-                $this->updateSql(new BridgingPcareSetting(), $request->all(), $key);
+                $this->updateSql(new BridgingPcareSetting(), $request->except('consIdExisting'), $key);
             }
-            return redirect('setting/pcare')->with('status', ['title'=> 'Berhasil', 'message' => 'Mengubah profile setting bridging PCARE']);
+            return redirect('setting/pcare')->with('status', ['title' => 'Berhasil', 'message' => 'Mengubah profile setting bridging PCARE']);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }

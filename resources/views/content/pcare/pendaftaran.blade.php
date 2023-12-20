@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table table-sm" id="tabelPcareKunjungan" width="100%">
+                            <table class="table table-sm" id="tabelPcarePendaftaran" width="100%">
                             </table>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
             $('#tglAwal').val(splitTanggal(tglAwal))
             $('#tglAkhir').val(splitTanggal(tglAkhir))
 
-            loadTbPcareKunjungan(tglAwal, tglAkhir)
+            loadTbPcarePendaftaran(tglAwal, tglAkhir)
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -71,11 +71,11 @@
             const tglAkhir = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
             localStorage.setItem('tglAwal', tglAwal)
             localStorage.setItem('tglAkhir', tglAkhir)
-            loadTbPcareKunjungan(tglAwal, tglAkhir);
+            loadTbPcarePendaftaran(tglAwal, tglAkhir);
         })
 
-        function loadTbPcareKunjungan(tglAwal = '', tglAkhir = '') {
-            const tabelRegistrasi = new DataTable('#tabelPcareKunjungan', {
+        function loadTbPcarePendaftaran(tglAwal = '', tglAkhir = '') {
+            const tbPcarePendaftaran = new DataTable('#tabelPcarePendaftaran', {
                 responsive: true,
                 stateSave: true,
                 serverSide: false,
@@ -85,7 +85,7 @@
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {
-                    url: 'kunjungan/get',
+                    url: 'pendaftaran/get',
                     data: {
                         datatable: true,
                         tgl_awal: tglAwal,
@@ -173,15 +173,11 @@
             })
         }
 
-        function deleteKunjungan($noKunjungan) {
-            alert($noKunjungan)
-        }
-
         function printKunjungan(noKunjungan) {
-            $.post(`kunjungan/print/${noKunjungan}`).done((response) => {})
+            $.get(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
 
-        function deleteRujukSubspesialis(noKunjungan) {
+        function deletePendaftaran(noKunjungan) {
             Swal.fire({
                 title: "Yakin hapus ?",
                 html: "Anda tidak bisa mengembalikan data ini",
@@ -195,7 +191,7 @@
                 if (result.isConfirmed) {
                     $.post(`kunjungan/delete/${noKunjungan}`).done((response) => [
                         alertSuccessAjax('Berhasil').then(() => {
-                            loadTbPcareKunjungan(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
+                            loadTbPcarePendaftaran(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
                         })
                     ])
                 }

@@ -24,4 +24,8 @@ class ResepObat extends Model
     {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
+    function regPeriksa()
+    {
+        return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
+    }
 }

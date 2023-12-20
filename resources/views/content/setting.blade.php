@@ -25,6 +25,7 @@
                     <label class="col-3 col-form-label required">Cons ID</label>
                     <div class="col">
                         <input type="text" class="form-control" name="consId" placeholder="Cons ID" value="{{ $data ? $data->consId : '' }}">
+                        <input type="hidden" name="consIdExisting" value="{{ $data ? $data->consId : '' }}">
                     </div>
                 </div>
                 <div class="mb-3 row">

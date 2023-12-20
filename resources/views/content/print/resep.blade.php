@@ -1,102 +1,154 @@
 @extends('content.print.main')
 
 @section('content')
-    {{-- @dd($data->resepRacikan) --}}
-    <div width="100%" style="font-size: 11px">
-
-    </div>
-    <div style="text-align: center">
-        <h3 style="margin-bottom: 0px">{{ $setting->nama_instansi }}</h3>
-        <p style="font-size: 11px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
-        <p style="font-size: 11px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
-        <hr>
-    </div>
-    <div class="info" style="font-size: 11px;margin-bottom:10px">
-        <p>No. Resep : {{ $data->no_resep }}</p>
-        <p>Tanggal : {{ \Carbon\Carbon::parse($data->tgl_peresepan)->translatedFormat('d F Y') }} {{ $data->jam_peresepan }}</p>
-    </div>
-    @if ($data->resepDokter)
-        <table width="100%" class="table-print">
-            <thead>
+    <div width="100%" style="">
+        <div style="text-align: center">
+            <h3 style="margin-bottom: 0px">{{ $setting->nama_instansi }}</h3>
+            <p style="font-size: 9px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
+            <p style="font-size: 9px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
+            <hr>
+        </div>
+        <div class="info" style="font-size: 11px;margin-bottom:10px">
+            <table class="" width="100%" style="border-spacing: 0px;font-size:9px">
                 <tr>
-                    <th width="50%">
-                        Obat
-                    </th>
-                    <th>
-                        Jml
-                    </th>
-                    <th>
-                        Aturan Pkai
-                    </th>
+                    <td width="25%">
+                        Nama/JK
+                    </td>
+                    <td width="2%">
+                        :
+                    </td>
+                    <td width="75%">
+                        {{ $data->regPeriksa->pasien->nm_pasien }} ({{ $data->regPeriksa->pasien->jk }}) - {{ $data->regPeriksa->penjab->png_jawab }}
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($data->resepDokter as $rd)
+                <tr>
+                    <td>
+                        Tgl. Lahir/Umur
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        {{ date('d-m-Y', strtotime($data->regPeriksa->pasien->tgl_lahir)) }} ({{ $data->regPeriksa->umurdaftar }} {{ $data->regPeriksa->sttsumur }})
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Alamat
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        {{ $data->regPeriksa->pasien->alamatpj }}, {{ $data->regPeriksa->pasien->kelurahanpj }}, {{ $data->regPeriksa->pasien->kecamatanpj }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        No Resep
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        {{ $data->no_resep }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tgl. Resep
+                    </td>
+                    <td>
+                        :
+                    </td>
+                    <td>
+                        {{ date('d-m-Y', strtotime($data->tgl_peresepan)) }} {{ $data->jam_peresepan }}
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        @if ($data->resepDokter)
+            <table width="100%" class="table-print">
+                <thead>
                     <tr>
-                        <td>
-                            {{ $rd->obat->nama_brng }}
-                        </td>
-                        <td>
-                            {{ $rd->jml }}
-                        </td>
-                        <td>
-                            {{ $rd->aturan_pakai }}
-                        </td>
+                        <th width="50%">
+                            Obat
+                        </th>
+                        <th>
+                            Jml
+                        </th>
+                        <th>
+                            Aturan Pkai
+                        </th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody>
+                    @foreach ($data->resepDokter as $rd)
+                        <tr>
+                            <td>
+                                {{ $rd->obat->nama_brng }}
+                            </td>
+                            <td>
+                                {{ $rd->jml }}
+                            </td>
+                            <td>
+                                {{ $rd->aturan_pakai }}
+                            </td>
+                        </tr>
+                    @endforeach
 
-            </tbody>
-        </table>
-    @endif
-    @if (count($data->resepRacikan))
-        <table width="100%" class="table-print">
-            <thead>
-                <tr>
-                    <th width="50%">
-                        Racikan
-                    </th>
-                    <th>
-                        Jml
-                    </th>
-                    <th>
-                        Aturan Pkai
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($data->resepRacikan as $rr)
-                    <tr style="border:0!important;margin:0px">
-                        <td>
-                            {{ $rr->nama_racik }}
-                        </td>
-                        <td>
-                            {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}
-                        </td>
-                        <td>
-                            {{ $rd->aturan_pakai }}
-                        </td>
+                </tbody>
+            </table>
+        @endif
+        @if (count($data->resepRacikan))
+            <table width="100%" class="table-print">
+                <thead>
+                    <tr>
+                        <th width="50%">
+                            Racikan
+                        </th>
+                        <th>
+                            Jml
+                        </th>
+                        <th>
+                            Aturan Pkai
+                        </th>
                     </tr>
-                    <tr style="border:0!important">
-                        <td colspan="3">
-                            <ul style="padding:10px;margin:0px">
-                                @foreach ($rr->detail as $detail)
-                                    <li>{{ $detail->obat->nama_brng }}, Dosis : {{ $detail->kandungan }} gr , Jumlah : {{ $detail->jml }}</li>
-                                @endforeach
-                            </ul>
-                        </td>
-                    </tr>
-                @endforeach
+                </thead>
+                <tbody>
+                    @foreach ($data->resepRacikan as $rr)
+                        <tr style="border:0!important;margin:0px">
+                            <td>
+                                {{ $rr->nama_racik }}
+                            </td>
+                            <td>
+                                {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}
+                            </td>
+                            <td>
+                                {{ $rd->aturan_pakai }}
+                            </td>
+                        </tr>
+                        <tr style="border:0!important">
+                            <td colspan="3">
+                                <ul style="padding:10px;margin:0px">
+                                    @foreach ($rr->detail as $detail)
+                                        <li>{{ $detail->obat->nama_brng }}, Dosis : {{ $detail->kandungan }} gr , Jumlah : {{ $detail->jml }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    @endforeach
 
-            </tbody>
-        </table>
-    @endif
+                </tbody>
+            </table>
+        @endif
 
 
-    <div style="margin-top:10px;text-align: center;left:0px">
-        <p style="margin-bottom:60px">Ttd. Dokter</p>
-        <p><u>{{ $data->dokter->nm_dokter }}</u></p>
+        <div style="margin-top:10px;text-align: center;left:0px">
+            <p style="margin-bottom:75px">Ttd. Dokter</p>
+            <p><u>{{ $data->dokter->nm_dokter }}</u></p>
+            <p>SIP : {{ $data->dokter->no_ijn_praktek }}</p>
+        </div>
     </div>
-    {{-- @foreach ($data as $d)
-        
-    @endforeach --}}
 @endsection

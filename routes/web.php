@@ -22,6 +22,7 @@ use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\PcareKunjunganController;
+use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Models\EfktpPcareAlergi;
 use App\Models\PcareRujukSubspesialis;
@@ -40,7 +41,7 @@ use App\Models\PcareRujukSubspesialis;
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'auth:admin'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
@@ -108,14 +109,20 @@ Route::middleware('auth')->group(function () {
     // Metode Racikan
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
 
+
+    Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
+    Route::get('/pcare/pendaftaran/get', [PcarePendaftaranController::class, 'get']);
+
     // PCARE KUNJUNGAN
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
     Route::post('/pcare/kunjungan', [PcareKunjunganController::class, 'create']);
     Route::get('/pcare/kunjungan/get', [PcareKunjunganController::class, 'get']);
+    Route::post('/pcare/kunjungan/delete/{noKunjungan}', [PcareKunjunganController::class, 'delete']);
     Route::post('/pcare/kunjungan/print/{noKunjungan}', [PcareKunjunganController::class, 'print']);
 
     // PCARE KUNJUNGAN RUJUK SUBSPESIALIS
     Route::post('/pcare/kunjungan/rujuk/subspesialis/', [PcareRujukSubspesialisController::class, 'create']);
+    Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
 
     // SETTING

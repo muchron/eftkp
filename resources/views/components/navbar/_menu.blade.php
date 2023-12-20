@@ -49,11 +49,14 @@
          <div class="dropdown-menu" data-bs-popper="static">
              <div class="dropdown-menu-columns">
                  <div class="dropdown-menu-column">
-                     <a href="{{ 'pcare/pendaftaran' }}" class="dropdown-item">
+                     <a href="{{ url('pcare/pendaftaran') }}" class="dropdown-item">
                          Pendaftaran
                      </a>
-                     <a href="{{ 'pcare/kunjungan' }}" class="dropdown-item">
-                         Rujukan Keluar
+                     <a href="{{ url('pcare/kunjungan') }}" class="dropdown-item">
+                         Kunjungan
+                     </a>
+                     <a href="{{ url('pcare/kunjungan') }}" class="dropdown-item">
+                         Rujuk Keluar
                      </a>
                  </div>
              </div>

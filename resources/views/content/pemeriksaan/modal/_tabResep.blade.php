@@ -118,8 +118,8 @@
 
         }
 
-        function cetakResep(data) {
-            window.open(`resep/print?no_rawat=${data.no_rawat}`)
+        function cetakResep(noRawat) {
+            window.open(`resep/print?no_rawat=${noRawat}`)
         }
 
 

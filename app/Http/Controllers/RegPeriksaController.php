@@ -15,7 +15,7 @@ class RegPeriksaController extends Controller
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
-        $this->relation = ['dokter', 'pasien', 'penjab', 'pemeriksaanRalan', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi'];
+        $this->relation = ['dokter', 'pasien', 'penjab', 'pemeriksaanRalan', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
     }
 
     function get(Request $req)
@@ -27,11 +27,6 @@ class RegPeriksaController extends Controller
         } else {
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->get();
         }
-
-        // if($req->range == 'month'){
-        //     $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->get();
-        // }
-
         if ($req->dataTable) {
             return DataTables::of($regPeriksa)->make(true);
         }

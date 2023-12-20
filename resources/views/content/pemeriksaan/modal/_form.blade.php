@@ -307,10 +307,10 @@
                 $('#formCpptRajal input[name=no_peserta]').val(`${response.pasien.no_peserta}`)
                 $('#formCpptRajal input[name=kd_poli]').val(`${response.kd_poli}`)
                 $('#formCpptRajal input[name=nm_poli]').val(`${response.poliklinik.nm_poli}`)
-                $('#formCpptRajal input[name=kd_poli_pcare]').val(`${response.poliklinik.maping.kd_poli_pcare}`)
+                $('#formCpptRajal input[name=kd_poli_pcare]').val(`${response.poliklinik.maping?.kd_poli_pcare}`)
                 $('#formKunjunganPcare input[name=tgl_daftar]').val(`${splitTanggal(response.tgl_registrasi)}`)
-                $('#formKunjunganPcare input[name=nm_poli_pcare]').val(`${response.poliklinik.maping.nm_poli_pcare}`)
-                $('#formKunjunganPcare input[name=kd_dokter_pcare]').val(`${response.dokter.maping.kd_dokter_pcare}`)
+                $('#formKunjunganPcare input[name=nm_poli_pcare]').val(`${response.poliklinik.maping?.nm_poli_pcare}`)
+                $('#formKunjunganPcare input[name=kd_dokter_pcare]').val(`${response.dokter.maping?.kd_dokter_pcare}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
@@ -346,7 +346,7 @@
                         })
                         btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                         btnTambahResep.text('Hapus Resep')
-                        btnCetakResep.attr('onclick', `cetakResep({no_rawat:'${no_rawat}'})`)
+                        btnCetakResep.attr('onclick', `cetakResep('${no_rawat}')`)
                         tabelResepUmum.removeClass('d-none')
                         tabelResepRacikan.removeClass('d-none')
                         btnSimpanObat.removeClass('d-none')
@@ -357,25 +357,34 @@
                     }
                 });
 
-                getPemeriksaanRalan(no_rawat).done((pemeriksaan) => {
-                    if (pemeriksaan) {
-                        Object.keys(pemeriksaan).map((key, index) => {
-                            select = $(`#formCpptRajal select[name=${key}]`);
-                            input = $(`#formCpptRajal input[name=${key}]`);
-                            textarea = $(`#formCpptRajal textarea[name=${key}]`);
+                // if (response.pemeriksaan_ralan) {
 
-                            if (textarea.length) {
-                                textarea.val(pemeriksaan[key])
-                            }
-                            if (input.length) {
-                                input.val(pemeriksaan[key])
-                            }
-                            if (select.length) {
-                                select.find(`option:contains("${pemeriksaan[key]}")`).attr('selected', 'selected')
-                            }
-                        })
-                    }
-                })
+                // }
+                // getPemeriksaanRalan(no_rawat).done((pemeriksaan) => {
+                if (response.pemeriksaan_ralan) {
+                    console.log('PEMERIKSAAN RALAN ===', response.pemeriksaan_ralan);
+                    const pemeriksaan = response.pemeriksaan_ralan;
+                    Object.keys(pemeriksaan).map((key, index) => {
+                        select = $(`#formCpptRajal select[name=${key}]`);
+                        input = $(`#formCpptRajal input[name=${key}]`);
+                        textarea = $(`#formCpptRajal textarea[name=${key}]`);
+
+                        if (textarea.length) {
+                            textarea.val(pemeriksaan[key])
+                        } else {
+                            textarea.val('0')
+                        }
+                        if (input.length) {
+                            input.val(pemeriksaan[key])
+                        } else {
+                            input.val('-')
+                        }
+                        if (select.length) {
+                            select.find(`option:contains("${pemeriksaan[key]}")`).attr('selected', 'selected')
+                        }
+                    })
+                }
+                // })
             })
             $('#modalCppt').modal('show')
         }

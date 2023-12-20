@@ -6,6 +6,7 @@ use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Penjab;
 use App\Models\PemeriksaanRalan;
+use App\Models\PcareRujukSubspesialis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,5 +54,9 @@ class RegPeriksa extends Model
     function pcarePendaftaran()
     {
         return $this->belongsTo(PcarePendaftaran::class, 'no_rawat', 'no_rawat');
+    }
+    function pcareRujukSubspesialis()
+    {
+        return $this->belongsTo(PcareRujukSubspesialis::class, 'no_rawat', 'no_rawat');
     }
 }

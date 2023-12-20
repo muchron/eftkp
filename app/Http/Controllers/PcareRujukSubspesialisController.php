@@ -101,4 +101,29 @@ class PcareRujukSubspesialisController extends Controller
             ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         return $pdf->stream($pcare['noKunjungan']);
     }
+
+    function delete($noKunjungan)
+    {
+
+        $kunjungan = PcareRujukSubspesialis::where('noKunjungan', $noKunjungan);
+        $kunjunganDetail = EfktpPcareRujukSubspesialis::where('noKunjungan', $noKunjungan);
+        // return [$kunjungan->first(), $kunjunganDetail->first()];
+        try {
+            if ($kunjungan) {
+                $delete = $kunjungan->delete();
+                if ($delete) {
+                    if ($kunjunganDetail) {
+                        $deleteDetail = $kunjungan->delete();
+                        if ($deleteDetail) {
+                            $this->deleteSql(new EfktpPcareRujukSubspesialis(), ['noKunjungan' => $noKunjungan]);
+                        }
+                    }
+                    $this->deleteSql(new PcareRujukSubspesialis(), ['noKunjungan' => $noKunjungan]);
+                }
+                return response()->json('SUKSES', 200);
+            }
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+    }
 }

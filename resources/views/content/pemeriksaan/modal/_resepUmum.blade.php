@@ -207,6 +207,8 @@
             $.post('resep/dokter/create', {
                 dataObat
             }).done((response) => {
+                const no_rawat = $('#formCpptRajal input[name=no_rawat]').val()
+                $('#btnCetakResep').attr('onclick', `cetakResep('${no_rawat}')`)
                 tulisPlan(noResep)
                 setResepDokter(noResep)
             })
