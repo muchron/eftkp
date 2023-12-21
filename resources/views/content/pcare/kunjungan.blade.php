@@ -40,6 +40,9 @@
 @endsection
 @push('script')
     <script>
+        var url = "{{ url('') }}";
+
+
         $(document).ready(() => {
             const tanggal = "{{ date('Y-m-d') }}";
 
@@ -181,10 +184,10 @@
             $.post(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
 
-        function deleteRujukSubspesialis(noKunjungan) {
+        function deleteRujukSubspesialis(noKunjungan, no_rawat) {
             Swal.fire({
-                title: "Yakin hapus ?",
-                html: "Anda tidak bisa mengembalikan data ini",
+                title: "Yakin hapus data ini ?",
+                html: "Data kunjungan dan pendaftaran Pcare akan dihapus",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
@@ -193,11 +196,29 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`kunjungan/delete/${noKunjungan}`).done((response) => [
-                        alertSuccessAjax('Berhasil').then(() => {
-                            loadTbPcareKunjungan(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
+                    loadingAjax();
+                    $.post(`kunjungan/delete/${noKunjungan}`).done((response) => {
+                        $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
+                            if (resDelete.metaData.code == 200) {
+                                alertSuccessAjax(`${resDelete.response}`).then(() => {
+                                    loadTbPcareKunjungan(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
+                                    $.post(`pendaftaran/delete`, {
+                                        no_rawat: no_rawat
+                                    }).done(() => {
+                                        alertSuccessAjax('Data Pendaftaran Pcare dihapus')
+                                    })
+                                })
+                            } else {
+                                const errorMsg = {
+                                    status: 500,
+                                    statusText: 'Gagal menghapus kunjungan'
+                                }
+                                alertErrorAjax(errorMsg)
+                            }
                         })
-                    ])
+                    }).fail(() => {
+                        loadingAjax().close();
+                    });
                 }
             });
         }

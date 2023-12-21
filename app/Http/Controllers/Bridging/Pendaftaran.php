@@ -19,6 +19,6 @@ class Pendaftaran extends Controller
     function get()
     {
         $bpjs = $this->bpjs;
-        return $bpjs->tanggalDaftar(date('d-m-Y'))->index();
+        return $bpjs->nomorUrut(33)->tanggalDaftar(date('d-m-Y'))->index();
     }
 }

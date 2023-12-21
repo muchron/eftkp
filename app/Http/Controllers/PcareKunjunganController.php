@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use AamDsam\Bpjs\PCare\PcareService;
 use App\Models\PcareKunjungan;
+use App\Models\PcarePendaftaran;
 use App\Models\PcareRujukSubspesialis;
 use App\Models\Setting;
 use App\Traits\Track;
@@ -96,7 +97,10 @@ class PcareKunjunganController extends Controller
                 if ($delete) {
                     $this->deleteSql(new PcareKunjungan(), ['noKunjungan' => $noKunjungan]);
                     $rujukan = new PcareRujukSubspesialisController();
-                    $rujukan->delete($noKunjungan);
+                    $deleteRujuk = $rujukan->delete($noKunjungan);
+                    if($deleteRujuk){
+                        $this->deleteSql(new PcareRujukSubspesialis(), ['noKunjungan' => $noKunjungan]);
+                    }
                 }
                 return response()->json('SUKSES', 200);
             } catch (QueryException $e) {

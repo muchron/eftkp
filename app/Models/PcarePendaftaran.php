@@ -11,4 +11,12 @@ class PcarePendaftaran extends Model
     protected $table = 'pcare_pendaftaran';
     protected $guard = [];
     public $timestamps = false;
+
+    function pasien(){
+        return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
+    }
+    function regPeriksa(){
+        return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
+        
+    }
 }

@@ -97,8 +97,8 @@
                     targets: 8
                 }],
                 columns: [{
-                        title: 'No. Kunjungan',
-                        data: 'noKunjungan',
+                        title: 'No. Urut',
+                        data: 'noUrut',
                         render: (data, type, row, meta) => {
                             return data;
                         },
@@ -111,10 +111,17 @@
                         },
                     },
                     {
+                        title: 'No. Peserta',
+                        data: 'noKartu',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        },
+                    },
+                    {
                         title: 'Nama',
                         data: 'nm_pasien',
                         render: (data, type, row, meta) => {
-                            return `<small class="text-muted">${row.noKartu}</small><br/>${data}`;
+                            return data;
                         },
                     },
                     {
@@ -132,32 +139,22 @@
                         },
                     },
                     {
-                        title: 'Pulang',
-                        data: 'nmStatusPulang',
+                        title: 'Kunjungan',
+                        data: 'kunjSakit',
                         render: (data, type, row, meta) => {
-                            if (row.kdStatusPulang == 4) {
-                                return `<span class="text-warning">${data}</button>`
-                            }
                             return data;
                         },
                     },
                     {
-                        title: 'Diagnosa',
-                        data: 'nmDiag1',
-                        render: (data, type, row, meta) => {
-                            return `${row.kdDiag1} - ${data}`;
-                        },
-                    },
-                    {
-                        title: 'Dokter',
-                        data: 'nmDokter',
+                        title: 'Keluhan',
+                        data: 'keluhan',
                         render: (data, type, row, meta) => {
                             return data;
                         },
                     },
                     {
                         title: '',
-                        data: 'noKunjungan',
+                        data: 'noUrut',
                         render: (data, type, row, meta) => {
                             if (row.kdStatusPulang == 4) {
                                 return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>

@@ -41,7 +41,7 @@ use App\Models\PcareRujukSubspesialis;
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
 
-Route::middleware(['auth', 'auth:admin'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
@@ -112,6 +112,7 @@ Route::middleware(['auth', 'auth:admin'])->group(function () {
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
     Route::get('/pcare/pendaftaran/get', [PcarePendaftaranController::class, 'get']);
+    Route::post('/pcare/pendaftaran/delete', [PcarePendaftaranController::class, 'delete']);
 
     // PCARE KUNJUNGAN
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
@@ -143,6 +144,7 @@ Route::middleware(['auth', 'auth:admin'])->group(function () {
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
+    Route::post('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
 
