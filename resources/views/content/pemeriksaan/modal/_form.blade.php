@@ -356,13 +356,7 @@
                         btnCetakResep.removeClass('d-none')
                     }
                 });
-
-                // if (response.pemeriksaan_ralan) {
-
-                // }
-                // getPemeriksaanRalan(no_rawat).done((pemeriksaan) => {
                 if (response.pemeriksaan_ralan) {
-                    console.log('PEMERIKSAAN RALAN ===', response.pemeriksaan_ralan);
                     const pemeriksaan = response.pemeriksaan_ralan;
                     Object.keys(pemeriksaan).map((key, index) => {
                         select = $(`#formCpptRajal select[name=${key}]`);
@@ -384,7 +378,6 @@
                         }
                     })
                 }
-                // })
             })
             $('#modalCppt').modal('show')
         }

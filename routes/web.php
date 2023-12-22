@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Setting;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PenyakitController;
@@ -17,15 +16,13 @@ use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\ProsedurPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpPcareAlergiController;
+use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
-use App\Models\EfktpPcareAlergi;
-use App\Models\PcareRujukSubspesialis;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +105,11 @@ Route::middleware('auth')->group(function () {
 
     // Metode Racikan
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
+
+    // Template Racikan
+    Route::get('resep/racikan/template/get', [EfktpTemplateRacikanController::class, 'get']);
+    Route::get('resep/racikan/template/search', [EfktpTemplateRacikanController::class, 'search']);
+    Route::post('resep/racikan/template/create', [EfktpTemplateRacikanController::class, 'create']);
 
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);

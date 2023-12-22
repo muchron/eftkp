@@ -16,8 +16,10 @@ return new class extends Migration
             $table->charset = 'latin1';
             $table->collation = 'latin1_swedish_ci';
             $table->integer('id', 10);
-            $table->string('kd_dokter')->references('kd_dokter')->on('dokter');
+            $table->string('kd_dokter');
             $table->string('nm_racik');
+            $table->index('kd_dokter');
+            $table->foreign('kd_dokter')->references('kd_dokter')->on('dokter')->onUpdate('cascade')->onUpdate('cascade');
         });
     }
 

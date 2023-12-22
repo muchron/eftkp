@@ -16,7 +16,10 @@ return new class extends Migration
             $table->collation = 'latin1_swedish_ci';
             $table->id();
             $table->integer('id_racik');
+            $table->index('id_racik');
             $table->string('kode_brng', 15);
+            $table->foreign('id_racik')->references('id')
+            ->on('efktp_template_racikan')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -26,5 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('efktp_template_racikan_detail');
+        
     }
 };

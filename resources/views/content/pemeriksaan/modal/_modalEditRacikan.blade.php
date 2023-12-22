@@ -223,6 +223,8 @@
             const jumlahRow = $('#nextIdDetail').val()
             const noResep = $('#modalDetailRacikan').find('input[name=no_resep]').val();
             const noRacik = $('#modalDetailRacikan').find('input[name=no_racik]').val();
+            const nm_racik = $('#modalDetailRacikan').find('input[name=nama_racik]').val();
+            const kd_dokter = $('#formCpptRajal').find('input[name=nip]').val();
 
             let dataObat = [];
             for (let index = 0; index <= jumlahRow; index++) {
@@ -263,6 +265,32 @@
                 // $('#modalDetailRacikan').modal('hide')
                 setResepRacikan(noResep)
                 tulisPlan(noResep)
+                $.get('resep/racikan/template/get', {
+                    nm_racik: nm_racik
+                }).done((response) => {
+                    if (!Object.values(response).length) {
+                        Swal.fire({
+                            title: "Racikan belum ada template, ",
+                            html: "Buatkan template untuk racikan ini ?",
+                            icon: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Iya, Buat",
+                            cancelButtonText: "Tidak"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.post('resep/racikan/template/create', {
+                                    kd_dokter: kd_dokter,
+                                    nm_racik: nm_racik,
+                                    obat: dataObat,
+                                }).done((resTemplate) => {
+                                    alertSuccessAjax('Template racikan dibuat')
+                                })
+                            }
+                        });
+                    }
+                })
             })
         }
     </script>

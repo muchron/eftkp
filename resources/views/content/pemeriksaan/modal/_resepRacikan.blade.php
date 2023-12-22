@@ -41,7 +41,7 @@
                                 </tr>`;
                         }
                         const row = `<tr>
-                                <td>${racikan.no_racik}</td>
+                                <td class="racik">${racikan.no_racik}</td>
                                 <td>${racikan.nama_racik}</td>
                                 <td>${racikan.jml_dr}</td>
                                 <td>${racikan.metode.nm_racik}</td>
@@ -113,8 +113,34 @@
                 }
             }
             createResepRacikan(dataRacikan).done((response) => {
-                setResepRacikan(noResep)
-                tulisPlan(noResep)
+                dataRacikan.map((val) => {
+                    $.get('resep/racikan/template/get', {
+                        nm_racik: val.nama_racik
+                    }).done((resRacikan) => {
+                        // console.log('RACIKAN ===', );
+                        if (Object.values(resRacikan).length) {
+                            const dataObat = resRacikan.detail.map((valObat) => {
+                                return {
+                                    kode_brng: valObat.kode_brng,
+                                    no_resep: val.no_resep,
+                                    no_racik: val.no_racik,
+                                    p1: 1,
+                                    p2: 1,
+                                    kandungan: 0,
+                                    jml: 0,
+                                }
+                            })
+                            createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
+                                setResepRacikan(val.no_resep);
+                                tulisPlan(noResep)
+                            })
+
+                        } else {
+                            setResepRacikan(noResep)
+                            tulisPlan(noResep)
+                        }
+                    })
+                })
             })
 
         }
@@ -132,9 +158,10 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     deleteResepRacikan(no_racik, no_resep).done((response) => {
+                        deleteDetailRacikan(no_resep, no_racik)
+                        setResepRacikan(no_resep)
                         alertSuccessAjax().then(() => {
-                            deleteDetailRacikan(no_resep, no_racik)
-                            setResepRacikan(no_resep)
+                            tulisPlan(no_resep);
                         })
                     });
                 }
@@ -180,10 +207,10 @@
 
         function tambahBarisRacikan() {
             const tabel = $('#tabelResepRacikan').find('tbody')
-            const rowCount = tabel.find('tr').length;
+            const rowCount = tabel.find('tr').find('.racik').length;
             const modalCppt = $('#modalCppt');
             const addRow = `<tr id="rowRacikan${rowCount}">
-                <td id="colNoRacik${rowCount}"><input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount+1}"/>${rowCount+1}</td>
+                <td id="colNoRacik${rowCount}" class="racik"><input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount+1}"/>${rowCount+1}</td>
                 <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"></select></td>
                 <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}" /></td>
                 <td><select class="form-control" name="metode[]" id="metode${rowCount}" style="width:100%"></select></td>
@@ -194,7 +221,7 @@
             tabel.append(addRow)
             const racikan = $(`#nmRacik${rowCount}`)
             const metode = $(`#metode${rowCount}`)
-            selectMetode(racikan, modalCppt)
+            selectTemplate(racikan, modalCppt)
             selectMetode(metode, modalCppt)
         }
 
@@ -231,6 +258,40 @@
                             results: data.map((item) => {
                                 const items = {
                                     id: item.kd_racik,
+                                    text: item.nm_racik,
+                                }
+                                return items;
+                            })
+                        }
+                    }
+
+                },
+                cache: true
+            }).on('select2:select', (e) => {
+                e.preventDefault();
+            })
+        }
+
+        function selectTemplate(element, parrent) {
+            element.select2({
+                dropdownParent: parrent,
+                delay: 2,
+                tags: true,
+                ajax: {
+                    url: 'resep/racikan/template/search',
+                    dataType: 'JSON',
+
+                    data: (params) => {
+                        const query = {
+                            racik: params.term
+                        }
+                        return query
+                    },
+                    processResults: (data) => {
+                        return {
+                            results: data.map((item) => {
+                                const items = {
+                                    id: item.nm_racik,
                                     text: item.nm_racik,
                                 }
                                 return items;
