@@ -379,6 +379,9 @@
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
         })
+        $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
+            $('#modalCppt').modal('hide');
+        })
 
         function showModalKunjunganPcare(data) {
             const filteredData = Object.fromEntries(

@@ -23,9 +23,11 @@
     <script>
         function setResepRacikan(no_resep) {
             getResepRacikan(no_resep).done((response) => {
-                $('#tabelResepRacikan').removeClass('d-none');
                 $('#tabelResepRacikan').find('tbody').empty();
                 if (response.length) {
+                    $('#tabelResepRacikan').removeClass('d-none');
+                    btnTambahRacikan.removeClass('d-none')
+                    btnSimpanRacikan.removeClass('d-none')
                     response.map((racikan, index) => {
                         let obat = '';
                         let detailObat = '';

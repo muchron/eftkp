@@ -37,9 +37,12 @@
         }
 
         function setResepDokter(no_resep) {
-            bodyResepUmum.empty()
             getResepDokter(no_resep).done((reseps) => {
+                bodyResepUmum.empty()
                 if (reseps.length) {
+                    tabelResepUmum.removeClass('d-none')
+                    btnSimpanObat.removeClass('d-none')
+                    btnTambahObat.removeClass('d-none')
                     reseps.map((resepDokter, index) => {
                         const numb = parseInt(index) + 1
                         const row = `<tr id="row${numb}">
@@ -51,7 +54,7 @@
                                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
                             </td>    
                         </tr>`;
-                        $('#tabelResepUmum tbody').append(row).fadeIn();
+                        bodyResepUmum.append(row).fadeIn();
                     })
                 }
 

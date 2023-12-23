@@ -97,16 +97,19 @@
                 if (result.isConfirmed) {
                     deleteResep(no_rawat).done((response) => {
                         alertSuccessAjax().then(() => {
+                            $('#no_resep').val('');
                             btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
                             btnTambahResep.text('Buat Resep')
-                            tabelResepUmum.addClass('d-none')
-                            tabelResepRacikan.addClass('d-none')
                             btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
+
                             btnSimpanObat.addClass('d-none')
-                            btnSimpanRacikan.addClass('d-none')
                             btnTambahObat.addClass('d-none')
-                            btnTambahRacikan.addClass('d-none')
+                            tabelResepUmum.addClass('d-none')
                             tabelResepUmum.find('tbody').empty();
+
+                            btnTambahRacikan.addClass('d-none')
+                            tabelResepRacikan.addClass('d-none')
+                            btnSimpanRacikan.addClass('d-none')
                             tabelResepRacikan.find('tbody').empty();
                             btnCetakResep.addClass('d-none')
                         })
