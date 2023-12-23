@@ -338,7 +338,6 @@
                         resep.map((res) => {
                             btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
                             $(`#no_resep`).val(res.no_resep);
-
                             if (res.resep_dokter.length)
                                 setResepDokter(res.no_resep);
                             if (res.resep_racikan.length)
@@ -354,6 +353,17 @@
                         btnTambahObat.removeClass('d-none')
                         btnTambahRacikan.removeClass('d-none')
                         btnCetakResep.removeClass('d-none')
+                    } else {
+                        btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                        btnTambahResep.text('TambahResep')
+                        btnCetakResep.removeAttr('onclick')
+                        tabelResepUmum.addClass('d-none')
+                        tabelResepRacikan.addClass('d-none')
+                        btnSimpanObat.addClass('d-none')
+                        btnSimpanRacikan.addClass('d-none')
+                        btnTambahObat.addClass('d-none')
+                        btnTambahRacikan.addClass('d-none')
+                        btnCetakResep.addClass('d-none')
                     }
                 });
                 if (response.pemeriksaan_ralan) {
