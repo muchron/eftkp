@@ -15,4 +15,7 @@ class PcareKunjungan extends Model
     function pasien(){
         return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
     }
+    function rujukSubspesialis(){
+        return $this->hasOne(PcareRujukSubspesialis::class, 'noKunjungan', 'noKunjungan');
+    }
 }

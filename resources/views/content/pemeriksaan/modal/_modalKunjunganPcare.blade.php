@@ -6,6 +6,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="">
+                <div id="alertKunjungan" class="alert alert-success d-none" role="alert">
+                    <h4 class="alert-title"></h4>
+                    <div class="text-secondary"></div>
+                </div>
                 <form id="formKunjunganPcare">
                     <fieldset class="form-fieldset">
                         <div class="row gy-2">
@@ -35,8 +39,8 @@
                                 <input type="text" class="form-control" name="tgl_daftar" id="tgl_daftar">
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <label class="form-label">Keluhan</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="keluhan">
+                                <label class="form-label">No. Kunjungan</label>
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="noKunjungan" readonly>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label for="form-label">Jenis Kunjungan</label>
@@ -67,6 +71,10 @@
                                         <span class="form-check-label">Promotif Preventif</span>
                                     </label>
                                 </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                <label class="form-label">Keluhan</label>
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="keluhan">
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12">
                                 <div class="mb-1">
@@ -135,17 +143,6 @@
                                 </div>
                             </div>
                             <div class="col-xl-1 col-lg-1 col-md-3 col-sm-12">
-                                <div class="mb-1">
-                                    <label class="form-label">Heart Rate</label>
-                                    <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="heartRate" value="0">
-                                        <span class="input-group-text">
-                                            dpm
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
@@ -248,7 +245,7 @@
                                 <div class="input-group">
                                     <input class="form-control" id="kdPpkRujukan" name="kdPpkRujukan" value="">
                                     <input class="form-control w-50" id="ppkRujukan" name="ppkRujukan" value="">
-                                    <button class="btn btn-outline-secondary" type="button" id="btnPpkRujukan"><i class="ti ti-search"></i></button>
+                                    <button class="btn btn-outline-secondary" type="button" id="btnPpkRujukan" name="btnPpkRujukan"><i class="ti ti-search"></i></button>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
@@ -367,6 +364,13 @@
             return getKunjungan;
         }
 
+        function getKunjunganUmum(data) {
+            const kunjungan = $.get('pcare/kunjungan/get',
+                data
+            )
+            return kunjungan;
+        }
+
         function createRujukSubSpesialis(data) {
             const create = $.post('pcare/kunjungan/rujuk/subspesialis',
                 data
@@ -407,6 +411,73 @@
                     formKunjunganPcare.find(`input[name=diagnosa${diagnosa.prioritas}]`).val(diagnosa.penyakit.nm_penyakit)
                 })
             })
+
+            getKunjunganUmum({
+                no_rawat: data.no_rawat
+            }).done((response) => {
+                console.log('KUNJUNGAN ===', response);
+                if (Object.values(response).length) {
+                    formKunjunganPcare.find('input[name=noKunjungan]').val(response.noKunjungan)
+                    formKunjunganPcare.find('input[name=noKunjungan]').addClass('is-valid')
+                    formKunjunganPcare.find('input[name=tglPulang]').val(splitTanggal(response.tglPulang))
+                    formKunjunganPcare.find('input[name=tglKunjungan]').val(splitTanggal(response.tglPulang))
+                    if (response.kdStatusPulang == 4) {
+                        formKunjunganPcare.find('select[name=sttsPulang]').val(response.kdStatusPulang).change()
+                        formKunjunganPcare.find('input[name=kdPpkRujukan]').val(response.rujuk_subspesialis.kdPPK)
+                        formKunjunganPcare.find('input[name=ppkRujukan]').val(response.rujuk_subspesialis.nmPPK)
+                        formKunjunganPcare.find('input[name=tglEstRujukan]').val(splitTanggal(response.rujuk_subspesialis.tglEstRujuk))
+                        if (Object.values(response.rujuk_subspesialis).length) {
+                            formRujukanSpesialis.find('input').prop('disabled', false)
+                            formRujukanSpesialis.find('button').prop('disabled', false)
+                            formKunjunganPcare.find('button[name=btnPpkRujukan]').attr('disabled', false)
+                            formKunjunganPcare.find('button[name=btnPpkRujukan]').attr('onclick', 'renderRujukan()')
+                            formRujukanSpesialis.find('input[name=jenisRujukan][value=spesialis]').prop('checked', true);
+                            formRujukanSpesialis.find('input[name=spesialis]').val(response.rujuk_subspesialis.nmPoli);
+                            formRujukanSpesialis.find('input[name=subSpesialis]').val(response.rujuk_subspesialis.nmSubSpesialis);
+                            formRujukanSpesialis.find('input[name=kdSpesialis]').val(response.rujuk_subspesialis.kdPoli);
+                            formRujukanSpesialis.find('input[name=kdSubSpesialis]').val(response.rujuk_subspesialis.kdSubSpesialis);
+                            formRujukanSpesialis.find('input[name=sarana]').val(response.rujuk_subspesialis.nmSarana);
+                            formRujukanSpesialis.find('input[name=kdSarana]').val(response.rujuk_subspesialis.kdSarana);
+                        }
+                    }
+                } else {
+                    formKunjunganPcare.find('input[name=noKunjungan]').val()
+                    formKunjunganPcare.find('input[name=noKunjungan]').removeClass('is-valid')
+
+                }
+            })
+
+            // getKunjunganUmum(data.no_rkm_medis).done((response) => {
+            // response.map((kunjungan) => {
+            // console.log('KUNJUNGAN ===', kunjungan.no_rawat, data.no_rawat);
+            // if (kunjungan.no_rawat == data.no_rawat) {
+            //     if (Object.values(response).length) {
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val(response.noKunjungan)
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).addClass(`is-valid`)
+            //         return true;
+            //     } else {
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val('')
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).removeClass(`is-valid`)
+            //         return false;
+            //     }
+            // }
+            // })
+            // set nokujungan
+            // const kj = response.filter((kunjungan) => {
+            //     console.log(kunjungan.no_rawat, data.no_rawat);
+            //     return kunjungan.no_rawat === data.no_rawat
+            // }).map((result) => {
+            //     if (Object.values(result).length) {
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val(result.noKunjungan)
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).addClass(`is-valid`)
+            //     } else {
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val('')
+            //         formKunjunganPcare.find(`input[name=noKunjungan]`).removeClass(`is-valid`)
+            //     }
+            // });
+
+            // console.log('KUNJUNHAN ===', kj);
+            // })
 
             $('#modalKunjunganPcare').modal('show')
         }
@@ -486,10 +557,10 @@
                 })
             }
         }
-        $('#btnPpkRujukan').on('click', (e) => {
-            e.preventDefault();
-            renderReferensiSpesialis()
-        })
+        // $('#btnPpkRujukan').on('click', (e) => {
+        //     e.preventDefault();
+        //     renderReferensiSpesialis()
+        // })
 
         $('#btnKhusus').on('click', (e) => {
             e.preventDefault();

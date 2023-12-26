@@ -20,4 +20,5 @@ class DiagnosaPasien extends Model
     {
         return $this->belongsTo(Penyakit::class, 'kd_penyakit', 'kd_penyakit');
     }
+
 }

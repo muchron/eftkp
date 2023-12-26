@@ -20,12 +20,15 @@ class PemeriksaanRalanController extends Controller
 
     function show(Request $req)
     {
-        $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)->first();
+        $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)
+         ->with(['diagnosa', 'prosedur'])->first();
         return $pemeriksaan;
     }
     function get(Request $req)
     {
-        $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)->first();
+        $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)
+        ->with(['diagnosa', 'prosedur'])
+        ->first();
         return $pemeriksaan;
     }
 

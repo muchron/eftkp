@@ -16,4 +16,12 @@ class PemeriksaanRalan extends Model
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
     }
+    function diagnosa()
+    {
+        return $this->hasMany(DiagnosaPasien::class, 'no_rawat', 'no_rawat');
+    }
+    function prosedur()
+    {
+        return $this->hasMany(ProsedurPasien::class, 'no_rawat', 'no_rawat');
+    }
 }

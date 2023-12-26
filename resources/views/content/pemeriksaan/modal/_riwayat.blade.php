@@ -14,6 +14,7 @@
             const noResep = $('#no_resep').val();
             const noRawat = formCpptRajal.find('input[name=no_rawat]').val();
             const dokter = formCpptRajal.find('input[name=nip]').val();
+
             // set pemeriksaan
             getPemeriksaanRalan(no_rawat).done((response) => {
                 Object.keys(response).map((key, index) => {
@@ -37,7 +38,10 @@
                         select.find(`option:contains("${response[key]}")`).attr('selected', 'selected')
                     }
                 })
+
             })
+
+            //copy resep
             getResep({
                 no_rawat: no_rawat
             }).done((resep) => {
@@ -84,6 +88,7 @@
                                                 dataObat
                                             }).done((response) => {
                                                 setResepDokter(dataObat[0].no_resep)
+                                                alertSuccessAjax('Resep umum berhasil ditambah');
                                                 // console.log('no_RESEP', bodyResepUmum);
                                             })
 
@@ -105,6 +110,7 @@
                                             createResepRacikan(resepRacik).done((resposeRacik) => {
                                                 createDetailRacikan(resepRacik.no_resep, resepRacik.no_racik, resepRacikDetail).done((responseDetail) => {
                                                     setResepRacikan(resepRacik[0].no_resep)
+                                                    alertSuccessAjax('Resep racikan berhasil ditambah');
                                                 })
                                             })
                                         }
@@ -133,8 +139,49 @@
                             })
                         }
                     });
+
                 }
             })
+
+            // copy diagnosa
+            getDiagnosaPasien(no_rawat).done((resDiagnosa) => {
+                if (resDiagnosa.length) {
+                    const diagnosa = resDiagnosa.map((dx) => {
+                        return {
+                            no_rawat: noRawat,
+                            kd_penyakit: dx.kd_penyakit,
+                            prioritas: dx.prioritas,
+                        }
+                    })
+                    // copy diagnosa
+                    $.post('diagnosa/pasien/create', {
+                        data: diagnosa
+                    }).fail((request) => {
+                        alertErrorAjax(request)
+                    })
+                }
+
+            })
+
+            // copy tindakan/prosedur
+            getTindakanPasien(no_rawat).done((resTindakan) => {
+                if (resTindakan.length) {
+                    const tindakan = resTindakan.map((px) => {
+                        return {
+                            no_rawat: noRawat,
+                            kode: px.kode,
+                            prioritas: px.prioritas
+                        }
+                    });
+
+                    $.post('prosedur/pasien/create', {
+                        data: tindakan
+                    }).fail((request) => {
+                        alertErrorAjax(request)
+                    })
+                }
+            })
+
         }
         $('#listRiwayat').on('show.bs.collapse', function(e) {
             const id = e.target.id;
