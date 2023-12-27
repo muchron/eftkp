@@ -17,7 +17,7 @@ class BridgingPcareSettingController extends Controller
     }
     function create(Request $request)
     {
-        $pcareSetting = BridgingPcareSetting::first();
+        $pcareSetting = BridgingPcareSetting::where('consId', $request->consId)->first();
         if ($pcareSetting) {
             return $this->update($request);
         }
