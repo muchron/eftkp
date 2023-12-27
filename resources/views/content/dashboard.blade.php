@@ -94,7 +94,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center">
-                            <div class="subheader">Diperiksa</div>
+                            <div class="subheader">Diperiksa/Dirujuk</div>
                         </div>
                         <div class="d-flex align-items-baseline">
                             <div class="h1 mb-3 me-2" id="totalDiperiksa">0</div>
@@ -123,10 +123,14 @@
                 const totalDiperiksa = response.filter((regPeriksa) => {
                     return regPeriksa.stts == 'Sudah';
                 }).length
+                const totalDirujuk = response.filter((regPeriksa) => {
+                    return regPeriksa.stts == 'Dirujuk';
+                }).length
                 $('#totalKunjungan').html(totalKunjungan)
                 $('#totalBpjs').html(totalBpjs)
                 $('#totalUmum').html(totalUmum)
-                $('#totalDiperiksa').html(totalDiperiksa)
+                // $('#totalDiperiksa').html(totalDiperiksa)
+                $('#totalDiperiksa').html(`${totalDiperiksa} / ${totalDirujuk}`)
             })
         }
     </script>
