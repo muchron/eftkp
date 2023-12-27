@@ -76,28 +76,28 @@
 
 @push('script')
     <script>
-        function validatePassword(password) {
-            const hasUppercase = /[A-Z]/.test(password);
-            const hasSymbol = /[!@#$%^&*()_+[\]{}|;:,.<>?]/.test(password);
-            const hasNumber = /\d/.test(password);
+        // function validatePassword(password) {
+        //     const hasUppercase = /[A-Z]/.test(password);
+        //     const hasSymbol = /[!@#$%^&*()_+[\]{}|;:,.<>?]/.test(password);
+        //     const hasNumber = /\d/.test(password);
 
-            // Check if all criteria are met
-            const isValid = hasUppercase && hasSymbol && hasNumber;
+        //     // Check if all criteria are met
+        //     const isValid = hasUppercase && hasSymbol && hasNumber;
 
-            return isValid;
-        }
-        $('#formSettingPcare').submit((e) => {
+        //     return isValid;
+        // }
+        // $('#formSettingPcare').submit((e) => {
 
-            const data = getDataForm('formSettingPcare', 'input')
-            const isValidate = validatePassword(data.passPcare);
+        //     const data = getDataForm('formSettingPcare', 'input')
+        //     const isValidate = validatePassword(data.passPcare);
 
-            if (!isValidate) {
-                $('#formSettingPcare input[name=passPcare]').addClass('is-invalid')
-                $('#errorPassword').html('Password harus terdapat huruf kapital [A-a], angka [0-9], dan symbol')
-                return false
-            }
-            alertSuccessAjax();
-            $('#formSettingPcare input[name=passPcare]').removeClass('is-invalid')
-        })
+        //     if (!isValidate) {
+        //         $('#formSettingPcare input[name=passPcare]').addClass('is-invalid')
+        //         $('#errorPassword').html('Password harus terdapat huruf kapital [A-a], angka [0-9], dan symbol')
+        //         return false
+        //     }
+        //     alertSuccessAjax();
+        //     $('#formSettingPcare input[name=passPcare]').removeClass('is-invalid')
+        // })
     </script>
 @endpush
