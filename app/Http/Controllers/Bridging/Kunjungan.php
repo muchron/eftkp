@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Bridging;
 
-use AamDsam\Bpjs\Pcare;
+use AamDsam\Bpjs\PCare;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Traits\PcareConfig;
 use Illuminate\Http\Request;
