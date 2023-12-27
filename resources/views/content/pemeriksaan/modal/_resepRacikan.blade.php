@@ -119,7 +119,6 @@
                     $.get('resep/racikan/template/get', {
                         nm_racik: val.nama_racik
                     }).done((resRacikan) => {
-                        // console.log('RACIKAN ===', );
                         if (Object.values(resRacikan).length) {
                             const dataObat = resRacikan.detail.map((valObat) => {
                                 return {

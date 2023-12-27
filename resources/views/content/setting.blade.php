@@ -94,7 +94,6 @@
             if (!isValidate) {
                 $('#formSettingPcare input[name=passPcare]').addClass('is-invalid')
                 $('#errorPassword').html('Password harus terdapat huruf kapital [A-a], angka [0-9], dan symbol')
-                console.log(data.passPcare.length);
                 return false
             }
             alertSuccessAjax();

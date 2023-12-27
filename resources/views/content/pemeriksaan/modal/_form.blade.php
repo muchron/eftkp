@@ -416,6 +416,7 @@
             })
             data['alergi'] = alergi.join(', ');
             $.post('pemeriksaan/ralan/create', data).done((response) => {
+
                 createAlergi({
                     no_rkm_medis: data['no_rkm_medis'],
                     alergi: alergi
@@ -435,8 +436,6 @@
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
                                 setStatusLayan(data['no_rawat'], 'Sudah')
-                                loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
-
                             })
                             return false;
                         }
@@ -452,8 +451,6 @@
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
                         setStatusLayan(data['no_rawat'], 'Sudah')
-                        loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
-
                     })
                 }
 

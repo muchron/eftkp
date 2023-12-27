@@ -89,7 +89,6 @@
                                             }).done((response) => {
                                                 setResepDokter(dataObat[0].no_resep)
                                                 alertSuccessAjax('Resep umum berhasil ditambah');
-                                                // console.log('no_RESEP', bodyResepUmum);
                                             })
 
                                         }

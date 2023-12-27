@@ -18,29 +18,33 @@ class EfktpPcareAlergiController extends Controller
 
         ];
         $arrAlergi = $request->alergi;
-        $countAlergi =  count($arrAlergi);
-        try {
-
-            $findalergi = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->get();
-            if ($findalergi) {
-                $deleted = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->delete();
-                if ($deleted) {
-                    $this->deleteSql(new EfktpPcareAlergi(), ['no_rkm_medis' => $request->no_rkm_medis]);
+        if ($arrAlergi) {
+            $countAlergi =  count($arrAlergi);
+            try {
+                $findalergi = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->get();
+                if ($findalergi) {
+                    $deleted = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->delete();
+                    if ($deleted) {
+                        $this->deleteSql(new EfktpPcareAlergi(), ['no_rkm_medis' => $request->no_rkm_medis]);
+                    }
                 }
-            }
-            for ($i = 0; $i < $countAlergi; $i++) {
-                $data = [
-                    'no_rkm_medis' => $request->no_rkm_medis,
-                    'alergi' => $arrAlergi[$i]
-                ];
-                $alergi = EfktpPcareAlergi::create($data);
-                if ($alergi) {
-                    $this->insertSql(new EfktpPcareAlergi(), $data);
+                for ($i = 0; $i < $countAlergi; $i++) {
+                    $data = [
+                        'no_rkm_medis' => $request->no_rkm_medis,
+                        'alergi' => $arrAlergi[$i]
+                    ];
+                    $alergi = EfktpPcareAlergi::create($data);
+                    if ($alergi) {
+                        $this->insertSql(new EfktpPcareAlergi(), $data);
+                    }
                 }
+                return response()->json('SUKES', 201);
+            } catch (QueryException $e) {
+                return response()->json($e->errorInfo, 500);
             }
-            return response()->json('SUKES', 201);
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo, 500);
+        } else {
+            $deleted = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)->delete();
+            return response()->json($deleted);
         }
     }
     function get(Request $request)

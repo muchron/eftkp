@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                 <label for="form-label">Tanggal Daftar</label>
-                                <input type="text" class="form-control" name="tgl_daftar" id="tgl_daftar">
+                                <input type="text" class="form-control" name="tgl_daftar" id="tgl_daftar" readonly>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <label class="form-label">No. Kunjungan</label>
@@ -74,13 +74,13 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <label class="form-label">Keluhan</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="keluhan">
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="keluhan" readonly>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12">
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tensi">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tensi" readonly>
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -91,7 +91,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" readonly>
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -102,7 +102,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" readonly>
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -113,7 +113,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" readonly>
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -124,7 +124,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" readonly>
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -135,7 +135,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" readonly>
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -146,7 +146,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut">
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" readonly>
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -161,11 +161,11 @@
                                 <div class="row gy-2">
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Tgl Kunjungan</label>
-                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglKunjungan" name="tglKunjungan" value="{{ date('d-m-Y') }}">
+                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglKunjungan" name="tglKunjungan" value="{{ date('d-m-Y') }}" readonly>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Tgl Pulang</label>
-                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglPulang" name="tglPulang" value="{{ date('d-m-Y') }}">
+                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglPulang" name="tglPulang" value="{{ date('d-m-Y') }}" readonly>
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Kesadaran</label>
@@ -268,8 +268,8 @@
                                             Sarana
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="kdSarana" name="kdSarana">
-                                            <input type="text" class="form-control w-50" id="sarana" name="sarana">
+                                            <input type="text" class="form-control" id="kdSarana" name="kdSarana" readonly>
+                                            <input type="text" class="form-control w-50" id="sarana" name="sarana" readonly>
                                             <button class="btn btn-outline-secondary" type="button" id="btnSarana"><i class="ti ti-search"></i></button>
                                         </div>
                                     </div>
@@ -346,7 +346,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="createKunjungan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" id="btnSimpanKunjungan" onclick="createKunjungan()"><i class="ti ti-device-floppy"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -371,23 +371,43 @@
             return kunjungan;
         }
 
+        function updateKunjunganUmum(data) {
+            const kunjungan = $.post('pcare/kunjungan/update',
+                data
+            )
+            return kunjungan;
+        }
+
         function createRujukSubSpesialis(data) {
             const create = $.post('pcare/kunjungan/rujuk/subspesialis',
                 data
             )
             return create;
         }
+
+        function updateRujukSubSpesialis(data) {
+            const create = $.post('pcare/kunjungan/rujuk/subspesialis/update',
+                data
+            )
+            return create;
+        }
         $('#modalKunjunganPcare').on('shown.bs.modal', () => {
-            formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
-            formRujukanLanjut.find('input').prop('disabled', 'disabled')
-            formRujukanLanjut.find('button').prop('disabled', 'disabled')
-            formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
+            // formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
+            // formRujukanLanjut.find('input').prop('disabled', 'disabled')
+            // formRujukanLanjut.find('button').prop('disabled', 'disabled')
+            // formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
         })
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
         })
 
         function showModalKunjunganPcare(data) {
+
+            formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
+            formRujukanLanjut.find('input').prop('disabled', 'disabled')
+            formRujukanLanjut.find('button').prop('disabled', 'disabled')
+            formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
+
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
             );
@@ -415,13 +435,13 @@
             getKunjunganUmum({
                 no_rawat: data.no_rawat
             }).done((response) => {
-                console.log('KUNJUNGAN ===', response);
                 if (Object.values(response).length) {
                     formKunjunganPcare.find('input[name=noKunjungan]').val(response.noKunjungan)
                     formKunjunganPcare.find('input[name=noKunjungan]').addClass('is-valid')
                     formKunjunganPcare.find('input[name=tglPulang]').val(splitTanggal(response.tglPulang))
                     formKunjunganPcare.find('input[name=tglKunjungan]').val(splitTanggal(response.tglPulang))
                     if (response.kdStatusPulang == 4) {
+                        formRujukanSpesialis.find(['input', 'button']).removeAttr('disabled');
                         formKunjunganPcare.find('select[name=sttsPulang]').val(response.kdStatusPulang).change()
                         formKunjunganPcare.find('input[name=kdPpkRujukan]').val(response.rujuk_subspesialis.kdPPK)
                         formKunjunganPcare.find('input[name=ppkRujukan]').val(response.rujuk_subspesialis.nmPPK)
@@ -438,6 +458,8 @@
                             formRujukanSpesialis.find('input[name=kdSubSpesialis]').val(response.rujuk_subspesialis.kdSubSpesialis);
                             formRujukanSpesialis.find('input[name=sarana]').val(response.rujuk_subspesialis.nmSarana);
                             formRujukanSpesialis.find('input[name=kdSarana]').val(response.rujuk_subspesialis.kdSarana);
+                            $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()');
+                            $('#btnSarana').removeAttr('onclick').attr('onclick', `renderReferensiSubspesialis('${response.rujuk_subspesialis.kdPoli}')`);
                         }
                     }
                 } else {
@@ -446,39 +468,6 @@
 
                 }
             })
-
-            // getKunjunganUmum(data.no_rkm_medis).done((response) => {
-            // response.map((kunjungan) => {
-            // console.log('KUNJUNGAN ===', kunjungan.no_rawat, data.no_rawat);
-            // if (kunjungan.no_rawat == data.no_rawat) {
-            //     if (Object.values(response).length) {
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val(response.noKunjungan)
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).addClass(`is-valid`)
-            //         return true;
-            //     } else {
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val('')
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).removeClass(`is-valid`)
-            //         return false;
-            //     }
-            // }
-            // })
-            // set nokujungan
-            // const kj = response.filter((kunjungan) => {
-            //     console.log(kunjungan.no_rawat, data.no_rawat);
-            //     return kunjungan.no_rawat === data.no_rawat
-            // }).map((result) => {
-            //     if (Object.values(result).length) {
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val(result.noKunjungan)
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).addClass(`is-valid`)
-            //     } else {
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).val('')
-            //         formKunjunganPcare.find(`input[name=noKunjungan]`).removeClass(`is-valid`)
-            //     }
-            // });
-
-            // console.log('KUNJUNHAN ===', kj);
-            // })
-
             $('#modalKunjunganPcare').modal('show')
         }
 
@@ -586,7 +575,9 @@
                         $.post('pcare/kunjungan', data).done((response) => {
                             $('#modalKunjunganPcare').modal('hide')
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
-                                getKunjunganRujuk(noKunjungan).done((resRujukan) => {
+                                data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
+                                data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
+                                getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
                                         alertSuccessAjax('Berhasil buat rujukan')
@@ -615,6 +606,50 @@
             })
 
 
+        }
+
+        function editKunjungan() {
+
+            element = ['input', 'select'];
+            const data = getDataForm('formKunjunganPcare', element);
+            data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
+            data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
+            data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
+            data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
+            loadingAjax();
+            // UPDATE KUNJUNGAN BRIDGING
+            $.post('bridging/pcare/kunjungan/update', data).done((response) => {
+                if (response.metaData.code == 200) {
+                    // UPDATE KUNJUNGAN UMUM LOCAL
+                    updateKunjunganUmum(data).done((resKunjungan) => {
+                        if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
+                            data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
+                            data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
+                            // APAKAH MEMILIKI RUJUKAN
+                            getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
+                                dataRujukan = Object.assign(data, resRujukan)
+                                // UPDATE RUJUKAN
+                                updateRujukSubSpesialis(dataRujukan)
+                            })
+                            $('#modalKunjunganPcare').modal('hide')
+                            setStatusLayan(data['no_rawat'], 'Dirujuk');
+                        } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
+                            setStatusLayan(data['no_rawat'], 'Sudah');
+                        }
+                        alertSuccessAjax('BERHASIL UBAH KUNJUNGAN');
+                    })
+                } else {
+                    const statusCode = response.metaData.code;
+                    const statusText = response.metaData.message.split('response:')[1];
+                    const errorMsg = {
+                        status: statusCode,
+                        statusText: statusText,
+                    }
+                    alertErrorAjax(errorMsg)
+                }
+            }).fail((request) => {
+                alertErrorAjax(request)
+            })
         }
     </script>
 @endpush

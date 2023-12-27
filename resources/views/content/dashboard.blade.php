@@ -127,7 +127,6 @@
                 $('#totalBpjs').html(totalBpjs)
                 $('#totalUmum').html(totalUmum)
                 $('#totalDiperiksa').html(totalDiperiksa)
-                console.log('RESPONSE ===', response);
             })
         }
     </script>

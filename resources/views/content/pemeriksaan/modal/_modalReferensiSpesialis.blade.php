@@ -18,6 +18,7 @@
         function setSpesialis(kdSpesialis, spesialis) {
             formRujukanSpesialis.find('input[name=kdSpesialis]').val(kdSpesialis)
             formRujukanSpesialis.find('input[name=spesialis]').val(spesialis)
+            $('#btnSarana').attr('onclick', `renderReferensiSubspesialis('${kdSpesialis}')`)
         }
 
         function renderReferensiSpesialis() {

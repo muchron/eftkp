@@ -29,6 +29,7 @@
     <script>
         $('#modalCppt').on('hidden.bs.modal', (e) => {
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
+            loadTabelRegistrasi();
         })
     </script>
 @endpush

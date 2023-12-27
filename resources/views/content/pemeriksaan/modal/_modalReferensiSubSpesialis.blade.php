@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <h5 class="m-0">Referensi Sarana <i class="ti-ti-search" onclick="renderTbSarana()"></i></h5>
+                        <h5 class="m-0">Referensi Sarana <i class="ti ti-search" onclick="renderTbSarana()"></i></h5>
                         <div class="table-responsive">
                             <table id="tbReferensiSarana" class="table table-stripped d-none" width="100%"></table>
                         </div>

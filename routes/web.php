@@ -119,12 +119,14 @@ Route::middleware('auth')->group(function () {
     // PCARE KUNJUNGAN
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
     Route::post('/pcare/kunjungan', [PcareKunjunganController::class, 'create']);
+    Route::post('/pcare/kunjungan/update', [PcareKunjunganController::class, 'update']);
     Route::get('/pcare/kunjungan/get', [PcareKunjunganController::class, 'get']);
     Route::post('/pcare/kunjungan/delete/{noKunjungan}', [PcareKunjunganController::class, 'delete']);
     Route::post('/pcare/kunjungan/print/{noKunjungan}', [PcareKunjunganController::class, 'print']);
 
     // PCARE KUNJUNGAN RUJUK SUBSPESIALIS
     Route::post('/pcare/kunjungan/rujuk/subspesialis/', [PcareRujukSubspesialisController::class, 'create']);
+    Route::post('/pcare/kunjungan/rujuk/subspesialis/update', [PcareRujukSubspesialisController::class, 'update']);
     Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
 
@@ -146,6 +148,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::delete('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
     Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
+    Route::post('/bridging/pcare/kunjungan/update', [Bridging\Kunjungan::class, 'put']);
     Route::post('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);

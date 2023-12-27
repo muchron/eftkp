@@ -28,7 +28,7 @@ class Kunjungan extends Controller
     public function post(Request $request)
     {
         $data = $request->all();
-        $parameter = [
+        $data = [
             "noKunjungan" => null,
             "noKartu" => $data['no_peserta'],
             "tglDaftar" => $data['tgl_daftar'],
@@ -48,49 +48,116 @@ class Kunjungan extends Controller
             "kdDiag1" => $data['kdDiagnosa1'],
             "kdDiag2" => $data['kdDiagnosa2'],
             "kdDiag3" => $data['kdDiagnosa3'],
-            "kdPoliRujukInternal" => $data['kdInternal'] ? $data['kdInternal'] : null,
+            "kdPoliRujukInternal" => $request->kdInnternal ? $request->kdInnternal : null,
         ];
 
         if ($request->jenisRujukan) {
-            if ($data['jenisRujukan'] == 'spesialis') {
-                $parameter['rujukLanjut'] = [
-                    "kdppk" => $data['kdPpkRujukan'],
-                    "tglEstRujuk" => $data['tglEstRujukan'],
+            if ($request->jenisRujukan == 'spesialis') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
                     "subSpesialis" => [
-                        "kdSubSpesialis1" => $data['kdSubSpesialis'],
-                        "kdSarana" => $data['kdSarana'],
+                        "kdSubSpesialis1" => $request->kdSubSpesialis,
+                        "kdSarana" => $request->kdSarana,
                     ],
                     'khusus' => null,
                 ];
-                $parameter['kdTacc'] = -1;
-                $parameter['alasanTacc'] = null;
-            } else if ($data['jenisRujukan'] == 'khusus') {
-                $parameter['rujukLanjut'] = [
-                    "kdppk" => $data['kdPpkRujukan'],
-                    "tglEstRujuk" => $data['tglEstRujukan'],
+                $data['kdTacc'] = -1;
+                $data['alasanTacc'] = null;
+            } else if ($request->jenisRujukan == 'khusus') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
                     "subSpesialis" => null,
                     'khusus' => [
-                        'kdKhusus' => $data['kdKhusus'],
-                        'kdSubSpesialis' => $data['kdKhususSub'],
-                        'catatan' => $data['catatanKhusus']
+                        'kdKhusus' => $request->kdKhusus,
+                        'kdSubSpesialis' => $request->kdKhususSub,
+                        'catatan' => $request->catatanKhusus
                     ],
                 ];
-                $parameter['kdTacc'] = 0;
-                $parameter['alasanTacc'] = null;
-            } else if ($data['jenisRujukan'] == 'internal') {
-                $parameter['rujukLanjut'] = [
-                    "kdppk" => $data['kdPpkRujukan'],
-                    "tglEstRujuk" => $data['tglEstRujukan'],
+                $data['kdTacc'] = 0;
+                $data['alasanTacc'] = null;
+            } else if ($request->jenisRujukan == 'internal') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
                     "subSpesialis" => null,
                 ];
-                $parameter['kdTacc'] = $data['kdTacc'];
-                $parameter['alasanTacc'] = $data['alasanTacc'];
+                $data['kdTacc'] = $request->kdTacc;
+                $data['alasanTacc'] = $request->kalasanTacc;
             }
         }
 
         try {
             $bpjs = $this->bpjs;
-            return $bpjs->store($parameter);
+            return $bpjs->store($data);
+        } catch (QueryException $e) {
+            return $e->errorInfo;
+        }
+    }
+    function put(Request $request)
+    {
+        $data = [
+            "noKunjungan" => $request->noKunjungan,
+            "noKartu" => $request->no_peserta,
+            "tglDaftar" => $request->tgl_daftar,
+            "kdPoli" => $request->kd_poli_pcare,
+            "keluhan" => $request->keluhan,
+            "kdSadar" => $request->kesadaran,
+            "sistole" => $request->tensi != '-' ? explode('/', $request->tensi)[0] : '',
+            "diastole" => $request->tensi != '-' ? explode('/', $request->tensi)[1] : '',
+            "beratBadan" => $request->berat,
+            "tinggiBadan" => $request->tinggi,
+            "respRate" => $request->respirasi,
+            "heartRate" => $request->nadi,
+            "lingkarPerut" => $request->lingkar_perut,
+            "kdStatusPulang" => $request->sttsPulang,
+            "tglPulang" => $request->tglPulang,
+            "kdDokter" => $request->kd_dokter_pcare,
+            "kdDiag1" => $request->kdDiagnosa1,
+            "kdDiag2" => $request->kdDiagnosa2,
+            "kdDiag3" => $request->kdDiagnosa3,
+            "kdPoliRujukInternal" => $request->kdInnternal ? $request->kdInnternal : null,
+        ];
+        if ($request->jenisRujukan) {
+            if ($request->jenisRujukan == 'spesialis') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
+                    "subSpesialis" => [
+                        "kdSubSpesialis1" => $request->kdSubSpesialis,
+                        "kdSarana" => $request->kdSarana,
+                    ],
+                    'khusus' => null,
+                ];
+                $data['kdTacc'] = -1;
+                $data['alasanTacc'] = null;
+            } else if ($request->jenisRujukan == 'khusus') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
+                    "subSpesialis" => null,
+                    'khusus' => [
+                        'kdKhusus' => $request->kdKhusus,
+                        'kdSubSpesialis' => $request->kdKhususSub,
+                        'catatan' => $request->catatanKhusus
+                    ],
+                ];
+                $data['kdTacc'] = 0;
+                $data['alasanTacc'] = null;
+            } else if ($request->jenisRujukan == 'internal') {
+                $data['rujukLanjut'] = [
+                    "kdppk" => $request->kdPpkRujukan,
+                    "tglEstRujuk" => $request->tglEstRujukan,
+                    "subSpesialis" => null,
+                ];
+                $data['kdTacc'] = $request->kdTacc;
+                $data['alasanTacc'] = $request->kalasanTacc;
+            }
+        }
+        try {
+            $bpjs = $this->bpjs;
+            return $bpjs->update($data);
         } catch (QueryException $e) {
             return $e->errorInfo;
         }
@@ -134,8 +201,9 @@ class Kunjungan extends Controller
             'jadwal' => $response->jadwal,
             'kdPPK' => $response->ppkRujuk->kdPPK,
             'nmPPK' => $response->ppkRujuk->nmPPK,
-            'kdSubSpesialis' => $response->poli->kdPoli,
-            'nmSubSpesialis' => $response->poli->nmPoli,
+            'kdPoli' => $response->poli->kdPoli,
+            'nmPoli' => $response->poli->nmPoli,
+
         ];
 
         return $data;
