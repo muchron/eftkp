@@ -15,7 +15,7 @@ class RegPeriksaController extends Controller
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
-        $this->relation = ['dokter', 'pasien', 'penjab', 'pemeriksaanRalan', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
+        $this->relation = ['dokter', 'pasien.kelurahan','pasien.kecamatan','pasien.kabupaten','pasien.propinsi', 'penjab', 'pemeriksaanRalan', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
     }
 
     function get(Request $req)

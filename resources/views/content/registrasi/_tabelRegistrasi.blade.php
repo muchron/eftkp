@@ -58,6 +58,7 @@
                 columns: [{
                         title: '',
                         render: (data, type, row, meta) => {
+                            console.log(row);
                             let attr = 'javascript:void(0)';
                             let target = '';
                             if (row.stts == 'Belum') {
@@ -133,7 +134,7 @@
                     {
                         title: 'Alamat',
                         render: (data, type, row, meta) => {
-                            return `${row.pasien.alamatpj}, ${row.pasien.kelurahanpj}, ${row.pasien.kecamatanpj}`;
+                            return `${row.pasien.alamat}, ${row.pasien.kelurahan.nm_kel}, ${row.pasien.kecamatan.nm_kec}`;
                         },
                     },
                     {
