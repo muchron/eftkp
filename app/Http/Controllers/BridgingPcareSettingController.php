@@ -17,14 +17,15 @@ class BridgingPcareSettingController extends Controller
     }
     function create(Request $request)
     {
+
         $pcareSetting = BridgingPcareSetting::where('consId', $request->consId)->first();
         if ($pcareSetting) {
             return $this->update($request);
         }
         try {
-            $post = BridgingPcareSetting::create($request->all());
+            $post = BridgingPcareSetting::create($request->except(['_token', 'cosnIdExisting']));
             if ($post) {
-                $this->insertSql(new BridgingPcareSetting(), $request->all());
+                $this->insertSql(new BridgingPcareSetting(), $request->except(['_token', 'cosnIdExisting']));
             }
             return redirect('setting/pcare')->with('status', ['title' => 'Berhasil', 'message' => 'Menambahkan profile setting bridging PCARE']);
         } catch (QueryException $e) {
