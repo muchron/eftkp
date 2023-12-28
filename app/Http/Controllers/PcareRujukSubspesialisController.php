@@ -207,4 +207,9 @@ class PcareRujukSubspesialisController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+
+    function getAll($no_rkm_medis){
+        $kunjungan = PcareRujukSubspesialis::where('no_rkm_medis', $no_rkm_medis)->with('detail')->orderBy('tglEstRujuk', 'ASC')->get();
+        return response()->json($kunjungan);
+    }
 }

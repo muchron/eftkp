@@ -391,12 +391,11 @@
             )
             return create;
         }
-        $('#modalKunjunganPcare').on('shown.bs.modal', () => {
-            // formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
-            // formRujukanLanjut.find('input').prop('disabled', 'disabled')
-            // formRujukanLanjut.find('button').prop('disabled', 'disabled')
-            // formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
-        })
+
+        function getRiwayatRujukSpesialis(no_rkm_medis) {
+            const riwayat = $.get(`pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
+            return riwayat;
+        }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
         })
@@ -468,6 +467,21 @@
 
                 }
             })
+
+            getRiwayatRujukSpesialis(data.no_rkm_medis).done((response) => {
+                const rujuk = response.map((val) => {
+                    return val.detail.tglAkhirRujuk
+                }).slice(-1).join('')
+
+                console.log(data);
+                const dateNow =
+                    const parseDate1 = new Date(rujuk)
+                const parseDate2 = new Date()
+                const diff = parseDate1.getTime() - parseDate2.getTime();
+                const dayDiff = diff / (1000 * 60 * 60 * 24)
+                console.log(`${dateDiff} hari`);
+            })
+
             $('#modalKunjunganPcare').modal('show')
         }
 
