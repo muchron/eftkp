@@ -54,6 +54,52 @@ function formatTanggal(tanggal) {
     }
     return `${t.getDate()} ${bulan} ${t.getFullYear()}${tanggal.split(' ')[1] ? tanggal.split(' ')[1] : ''}`;
 }
+// HITUNG UMUR
+function hitungUmur(tgl_lahir) {
+    sekarang = new Date();
+    hari = new Date(sekarang.getFullYear(), sekarang.getMonth(), sekarang.getDate());
+
+    var tahunSekarang = sekarang.getFullYear();
+    var bulanSekarang = sekarang.getMonth();
+    var tanggalSekarang = sekarang.getDate();
+
+    splitTgl = tgl_lahir.split('-');
+    lahir = new Date(splitTgl[0], splitTgl[1] - 1, splitTgl[2]);
+
+
+    tahunLahir = lahir.getFullYear();
+    bulanLahir = lahir.getMonth();
+    tanggalLahir = lahir.getDate();
+
+    umurTahun = tahunSekarang - tahunLahir;
+    if (bulanSekarang >= bulanLahir) {
+        umurBulan = bulanSekarang - bulanLahir;
+    } else {
+        umurTahun--;
+        umurBulan = 12 + bulanSekarang - bulanLahir;
+    }
+
+    if (tanggalSekarang >= tanggalLahir) {
+        umurTanggal = tanggalSekarang - tanggalLahir;
+    } else {
+        umurBulan--;
+        if (bulanSekarang == '1') {
+            if (bulanSekarang % 4 == 0) {
+                jmlHari = 29;
+            } else {
+                jmlHari = 28;
+            }
+        } else if (bulanSekarang == '0' && bulanSekarang == '2' && bulanSekarang == '4' && bulanSekarang == '6' &&
+            bulanSekarang == '8' && bulanSekarang == '9') {
+            jmlHari = 31;
+        } else {
+            jmlHari = 30;
+        }
+        umurTanggal = jmlHari + tanggalSekarang - tanggalLahir;
+    }
+
+    return umurTahun + ';' + umurBulan + ';' + umurTanggal;
+}
 
 function getDataForm(form, element, except = []) {
     let data = {};

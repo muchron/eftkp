@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table id="tbPendaftaranPcate" class="table table-sm table-stripped" width="100%"></table>
+                    <table id="tbPendaftaranPcare" class="table table-sm table-stripped" width="100%"></table>
                 </div>
             </div>
             <div class="modal-footer">
@@ -15,30 +15,58 @@
         </div>
     </div>
 </div>
+@include('content.pcare.pendaftaran._modalPasien')
 @push('script')
     <script>
-        function renderPendaftaranPcare() {
-            var customStart = 0;
-            var customLength = 15;
-            // $('#modalPendaftaranPcare').modal('show')
-            const tbReferensi = new DataTable('#tbPendaftaranPcate', {
+        function getNokaPasien(noKartu) {
+            const pasien = $.get(`../pasien/get/nokartu/${noKartu}`)
+            return pasien;
+        }
+
+        function createPasienBpjs(noKartu) {
+            loadingAjax();
+            $.get(`../bridging/pcare/peserta/${noKartu}`).done((result) => {
+                loadingAjax().close();
+                $('#modalPasien').modal('show')
+                const umur = splitTanggal(result.response.tglLahir);
+                formPasien.find('input[name=nm_pasien]').val(result.response.nama)
+                formPasien.find('select[name=jk]').val(result.response.sex).change()
+                formPasien.find('select[name=jk]').val(result.response.sex).change()
+                formPasien.find('select[name=gol_darah]').val(result.response.golDarah == 0 ? '-' : result.response.golDarah).change()
+                formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
+                formPasien.find('input[name=umurTahun]').val(.split(';')[0])
+
+
+                console.log('RESPONSE ==', result.response);
+
+            })
+        }
+
+
+        function renderPendaftaranPcare(start = '', length = '') {
+            var customStart = start ? start : 0;
+            var customLength = start ? start : 15;
+            const tbReferensi = new DataTable('#tbPendaftaranPcare', {
                 autoWidth: true,
                 serverSide: true,
                 destroy: true,
                 processing: true,
                 searching: false,
                 lengthChange: false,
+                deferRender: true,
+                responsive: true,
+                scroller: true,
+                scrollCollapse: true,
+                scrollY: 700,
+                colReorder: true,
                 "preDrawCallback": function(settings) {
                     // Modify the custom start value before drawing the table
                     customStart = settings._iDisplayStart;
                 },
                 "drawCallback": function(settings) {
-                    console.log(settings);
-                    // Adjust the custom length based on the total count
-                    var totalCount = settings.json.response.count;
-                    var maxCustomLength = 15;
 
-                    // Calculate the custom length as a multiple of 15
+                    var maxCustomLength = 15;
+                    var totalCount = settings.json.response.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
 
                 },
@@ -51,6 +79,21 @@
                         return q;
                     }
                 },
+                columnDefs: [{
+                    'targets': [0, 1, 2, 3, 4, 5],
+                    'createdCell': (td, cellData, rowData, row, col) => {}
+                }],
+                createdRow: (row, data, index) => {
+                    const noKartu = data.peserta.noKartu;
+                    getNokaPasien(noKartu).done((response) => {
+                        if (response.no_peserta) {
+                            $(row).addClass('text-sucess')
+                        } else {
+                            $(row).attr('onclick', `createPasienBpjs('${noKartu}')`)
+                            $(row).addClass('text-danger').css('cursor', 'pointer')
+                        }
+                    })
+                },
                 columns: [{
                         title: 'No Urut',
                         data: 'noUrut',
@@ -62,7 +105,7 @@
                         title: 'No. Kartu',
                         data: 'peserta.noKartu',
                         render: (data, type, row, meta) => {
-                            return data;
+                            return `<span id='${data}'>${data}</span>`;
                         }
                     },
                     {
@@ -73,12 +116,20 @@
                         }
                     },
                     {
+                        title: 'Umur',
+                        data: 'peserta.tglLahir',
+                        render: (data, type, row, meta) => {
+                            return `${hitungUmur(splitTanggal(data)).split(';')[0]} Th`;
+                        }
+                    },
+                    {
                         title: 'Tgl Lahir',
                         data: 'peserta.tglLahir',
                         render: (data, type, row, meta) => {
                             return `${data} (${row.peserta.sex})`;
                         }
                     },
+
                     {
                         title: 'Poli',
                         data: 'poli.nmPoli',
@@ -88,11 +139,8 @@
                     },
                 ],
                 infoCallback: (settings, start) => {
-                    // var pageInfo = settings._iDisplayLength > 0 ?
-                    //     'Showing ' + (start * customStart) + ' to ' + (customLength) + ' of ' + totalCount + ' entries' :
-                    //     'Showing 0 to 0 of 0 entries';
 
-                    // return pageInfo;
+                    return `Total pendaftaran ${settings.json?.response?.count} pasien`;
                 }
             })
         }

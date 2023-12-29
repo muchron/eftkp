@@ -27,7 +27,6 @@
                 <div class="input-group mb-2">
                     <input autocomplete="off" value="-" type="text" class="form-control" name="pembiayaan" readonly>
                     <input autocomplete="off" value="-" type="text" class="form-control w-50" name="no_peserta" readonly>
-                    <input autocomplete="off" value="-" type="hidden" name="kdDiagnosa1" readonly>
                 </div>
             </div>
         </div>

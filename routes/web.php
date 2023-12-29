@@ -23,6 +23,7 @@ use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\setNoRkmMedisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,11 @@ Route::middleware('auth')->group(function () {
 
     // pasien
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
+    Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
+
+    // SET NO RKM MEDIS
+    Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
+    Route::post('/set/norm/delete', [setNoRkmMedisController::class, 'delete']);
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');
@@ -172,4 +178,7 @@ Route::middleware('auth')->group(function () {
 
     // STATUS PULANG
     Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);
+
+    // PESERTA
+    Route::get('/bridging/pcare/peserta/{noKartu}', [Bridging\Peserta::class, 'index']);
 });
