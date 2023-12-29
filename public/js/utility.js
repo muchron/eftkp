@@ -199,3 +199,11 @@ function loadingAjax() {
 
     return loading;
 }
+
+function dateDiff(date1, date2) {
+    const parseDate1 = new Date(date1)
+    const parseDate2 = new Date(date2)
+    const diff = parseDate1.getTime() - parseDate2.getTime();
+    const dateDiffs = diff / (1000 * 60 * 60 * 24)
+    return dateDiffs.toFixed(1);
+}
