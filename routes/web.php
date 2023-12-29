@@ -130,7 +130,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/riwayat/{no_rkm_medis}', [PcareRujukSubspesialisController::class, 'getAll']);
-    
+
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
@@ -144,7 +144,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
 
     // PENDAFTARAN 
-    Route::get('/bidging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
 
     // KUNJUNGAN
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
