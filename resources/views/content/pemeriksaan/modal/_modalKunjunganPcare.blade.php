@@ -398,6 +398,7 @@
         }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
+            document.getElementById('formKunjunganPcare').reset();
         })
 
         function showModalKunjunganPcare(data) {
