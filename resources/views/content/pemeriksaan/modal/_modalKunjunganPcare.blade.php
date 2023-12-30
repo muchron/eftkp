@@ -500,6 +500,9 @@
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
             if (elementVal == 4) {
                 formRujukanLanjut.removeClass('d-none');
+                formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
+                formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
+                formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
                 getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
                     const rujuk = response.map((val) => {
                         return val.detail.tglAkhirRujuk
