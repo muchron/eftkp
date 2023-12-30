@@ -126,7 +126,7 @@
                                 {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}
                             </td>
                             <td>
-                                {{ $rd->aturan_pakai }}
+                                {{ $rr->aturan_pakai }}
                             </td>
                         </tr>
                         <tr style="border:0!important">
