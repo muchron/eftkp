@@ -58,7 +58,6 @@
                 columns: [{
                         title: '',
                         render: (data, type, row, meta) => {
-                            console.log(row);
                             let attr = 'javascript:void(0)';
                             let target = '';
                             if (row.stts == 'Belum') {

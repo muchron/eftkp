@@ -377,8 +377,10 @@
                         } else {
                             textarea.val('0')
                         }
+
                         if (input.length) {
-                            input.val(pemeriksaan[key])
+                            const periksa = key == 'nip' ? response.kd_dokter : pemeriksaan[key]
+                            input.val(periksa)
                         } else {
                             input.val('-')
                         }
