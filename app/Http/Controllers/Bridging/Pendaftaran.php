@@ -16,9 +16,13 @@ class Pendaftaran extends Controller
     {
         $this->bpjs = new Pcare\Pendaftaran($this->config());
     }
-    function get()
+    function get(Request $request)
     {
+        $row = $request->start;
+        $limit = $request->length;
+
+        // return $request;
         $bpjs = $this->bpjs;
-        return $bpjs->nomorUrut(33)->tanggalDaftar(date('d-m-Y'))->index();
+        return $bpjs->tanggalDaftar(date('d-m-Y'))->index($row, $limit);
     }
 }

@@ -391,14 +391,14 @@
             )
             return create;
         }
-        $('#modalKunjunganPcare').on('shown.bs.modal', () => {
-            // formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
-            // formRujukanLanjut.find('input').prop('disabled', 'disabled')
-            // formRujukanLanjut.find('button').prop('disabled', 'disabled')
-            // formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
-        })
+
+        function getRiwayatRujukSpesialis(no_rkm_medis) {
+            const riwayat = $.get(`pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
+            return riwayat;
+        }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
+            document.getElementById('formKunjunganPcare').reset();
         })
 
         function showModalKunjunganPcare(data) {
@@ -442,10 +442,14 @@
                     formKunjunganPcare.find('input[name=tglKunjungan]').val(splitTanggal(response.tglPulang))
                     if (response.kdStatusPulang == 4) {
                         formRujukanSpesialis.find(['input', 'button']).removeAttr('disabled');
-                        formKunjunganPcare.find('select[name=sttsPulang]').val(response.kdStatusPulang).change()
+                        formKunjunganPcare.find('select[name=sttsPulang]').val(response.kdStatusPulang)
                         formKunjunganPcare.find('input[name=kdPpkRujukan]').val(response.rujuk_subspesialis.kdPPK)
                         formKunjunganPcare.find('input[name=ppkRujukan]').val(response.rujuk_subspesialis.nmPPK)
                         formKunjunganPcare.find('input[name=tglEstRujukan]').val(splitTanggal(response.rujuk_subspesialis.tglEstRujuk))
+                        formKunjunganPcare.find('input[name=tglEstRujukan]').prop('disabled', false)
+                        formKunjunganPcare.find('input[name=kdPpkRujukan]').prop('disabled', false)
+                        formKunjunganPcare.find('input[name=ppkRujukan]').prop('disabled', false)
+                        formRujukanLanjut.removeClass('d-none');
                         if (Object.values(response.rujuk_subspesialis).length) {
                             formRujukanSpesialis.find('input').prop('disabled', false)
                             formRujukanSpesialis.find('button').prop('disabled', false)
@@ -468,13 +472,29 @@
 
                 }
             })
+
+
+
             $('#modalKunjunganPcare').modal('show')
+        }
+
+        function cekRujukanAktif(no_rkm_medis) {
+            const riwayat = getRiwayatRujukSpesialis(data.no_rkm_medis).done((response) => {
+                const rujuk = response.map((val) => {
+                    return val.detail.tglAkhirRujuk
+                }).slice(-1).join('')
+
+                const dateNow = formKunjunganPcare.find('input[name=tglKunjungan]').val();
+                const diff = dateDiff(rujuk, dateNow)
+                console.log(diff);
+            });
         }
 
         $('#sttsPulang').on('change', (e) => {
             const element = $(e.currentTarget)
             const elementVal = element.val()
             const formRujukanLanjut = $('#formRujukanLanjut');
+            const no_rkm_medis = formKunjunganPcare.find('input[name=no_rkm_medis]').val()
             const btnRujukan = $('#rujukanLanjut');
             const button = formRujukanLanjut.find('button')
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
@@ -483,6 +503,36 @@
                 formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
                 formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
                 formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
+                getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
+                    const rujuk = response.map((val) => {
+                        return val.detail.tglAkhirRujuk
+                    }).slice(-1).join('')
+
+                    const dateNow = formKunjunganPcare.find('input[name=tglKunjungan]').val();
+                    const diff = dateDiff(rujuk, splitTanggal(dateNow))
+                    if (diff > 0) {
+                        Swal.fire({
+                            title: "Informasi",
+                            html: `Pasien ini masih memiliki rujukan aktif <br/> hingga <b class="text-danger">${splitTanggal(rujuk)}</b>, buat rujukan lagi ?`,
+                            icon: 'info',
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Iya, Yakin",
+                            cancelButtonText: "Tidak, Batalkan"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                formRujukanLanjut.removeClass('d-none');
+                                formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
+                                formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
+                                formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
+                            } else {
+                                $(e.currentTarget).val(3).change()
+                            }
+                        });
+                    }
+                });
+
             } else {
                 formRujukanLanjut.addClass('d-none');
                 formRujukanLanjut.find('#tglEstRujukan').attr('disabled', true);
@@ -546,10 +596,6 @@
                 })
             }
         }
-        // $('#btnPpkRujukan').on('click', (e) => {
-        //     e.preventDefault();
-        //     renderReferensiSpesialis()
-        // })
 
         $('#btnKhusus').on('click', (e) => {
             e.preventDefault();

@@ -29,7 +29,7 @@
     <script>
         $('#modalCppt').on('hidden.bs.modal', (e) => {
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
-            loadTabelRegistrasi();
+            loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
         })
     </script>
 @endpush

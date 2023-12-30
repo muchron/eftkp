@@ -23,6 +23,7 @@ use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\setNoRkmMedisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,11 @@ Route::middleware('auth')->group(function () {
 
     // pasien
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
+    Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
+
+    // SET NO RKM MEDIS
+    Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
+    Route::post('/set/norm/delete', [setNoRkmMedisController::class, 'delete']);
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');
@@ -129,6 +135,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/pcare/kunjungan/rujuk/subspesialis/update', [PcareRujukSubspesialisController::class, 'update']);
     Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
+    Route::get('/pcare/kunjungan/rujuk/subspesialis/riwayat/{no_rkm_medis}', [PcareRujukSubspesialisController::class, 'getAll']);
+
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
@@ -142,7 +150,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
 
     // PENDAFTARAN 
-    Route::get('/bidging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
 
     // KUNJUNGAN
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);
@@ -170,4 +178,7 @@ Route::middleware('auth')->group(function () {
 
     // STATUS PULANG
     Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);
+
+    // PESERTA
+    Route::get('/bridging/pcare/peserta/{noKartu}', [Bridging\Peserta::class, 'index']);
 });

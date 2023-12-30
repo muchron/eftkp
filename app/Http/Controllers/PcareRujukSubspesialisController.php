@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Traits\Track;
 use App\Models\Setting;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\PcareRujukSubspesialis;
 use Illuminate\Database\QueryException;
@@ -206,5 +206,11 @@ class PcareRujukSubspesialisController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    function getAll($no_rkm_medis)
+    {
+        $kunjungan = PcareRujukSubspesialis::where('no_rkm_medis', $no_rkm_medis)->with('detail')->orderBy('tglEstRujuk', 'ASC')->get();
+        return response()->json($kunjungan);
     }
 }

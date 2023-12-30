@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 
 class PasienController extends Controller
 {
-    function get()
+    function getByNoka($noKartu)
     {
+        $pasien = Pasien::where('no_peserta', $noKartu)->first();
+        return response()->json($pasien);
     }
 
     function getRiwayat(Request $request)

@@ -31,12 +31,16 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                                <button type="button" class="btn btn-success" onclick="showPendaftaranPcare()"> Bridging</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @include('content.pcare.pendaftaran._modalPendaftaran')
 @endsection
 @push('script')
     <script>
@@ -64,6 +68,10 @@
             });
         })
 
+        function showPendaftaranPcare() {
+            renderPendaftaranPcare();
+            $('#modalPendaftaranPcare').modal('show')
+        }
 
         $('#formFilterTanggal').on('submit', (e) => {
             e.preventDefault();
