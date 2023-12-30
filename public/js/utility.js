@@ -245,6 +245,21 @@ function loadingAjax() {
 
     return loading;
 }
+function toast(message = '', type = '') {
+    const textMessage = message ? message : 'Berhasil'
+    const typeIcon = type ? type : 'success'
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+    });
+    Toast.fire({
+        icon: typeIcon,
+        title: `${textMessage}`,
+    });
+}
 
 function dateDiff(date1, date2) {
     const parseDate1 = new Date(date1)
@@ -252,4 +267,181 @@ function dateDiff(date1, date2) {
     const diff = parseDate1.getTime() - parseDate2.getTime();
     const dateDiffs = diff / (1000 * 60 * 60 * 24)
     return dateDiffs.toFixed(1);
+}
+
+function getSukuBangsa(suku) {
+    return bangsa = $.get('../suku', {
+        suku: suku,
+    });
+}
+
+function selectSukuBangsa(element, parrent, initVal = '-') {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        tags: true,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '../suku',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    suku: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.id,
+                            text: `${item.nama_suku_bangsa}`,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    getSukuBangsa(initVal).done((response) => {
+        response.map((sk) => {
+            const option = new Option(sk.nama_suku_bangsa, sk.id, true, true);
+            element.append(option).trigger('change');
+        })
+    })
+    return select2;
+}
+
+function getBahasa(bahasa) {
+    return bahasa = $.get('../bahasa', {
+        bahasa: bahasa,
+    });
+}
+
+function selectBahasaPasien(element, parrent, initVal = '-') {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        tags: true,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '../bahasa',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    bahasa: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.id,
+                            text: `${item.nama_bahasa}`,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            },
+        },
+        cache: true,
+    });
+
+    getBahasa(initVal).done((response) => {
+        response.map((bhs) => {
+            const option = new Option(bhs.nama_bahasa, bhs.id, true, true);
+            element.append(option).trigger('change');
+        })
+    })
+    return select2;
+}
+function getCacatFisik(cacat) {
+    return cacat = $.get('../cacat', {
+        cacat: cacat,
+    });
+}
+
+function selectCacatFisik(element, parrent, initVal = '-') {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        tags: true,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '../cacat',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    cacat: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.id,
+                            text: item.nama_cacat,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            },
+        },
+        cache: true,
+    });
+
+    getCacatFisik(initVal).done((response) => {
+        response.map((cct) => {
+            const option = new Option(cct.nama_cacat, cct.id, true, true);
+            element.append(option).trigger('change');
+        })
+    })
+    return select2;
+}
+function selectPenjab(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        tags: true,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '../penjab',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    penjab: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_pj,
+                            text: `${item.kd_pj} - ${item.png_jawab}`,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            },
+        },
+        cache: true,
+    });
+
+    // const option = new Option('-', '-', true, true);
+    // element.append(option).trigger('change');
+    return select2;
 }

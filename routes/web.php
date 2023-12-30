@@ -3,6 +3,7 @@
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BahasaPasienController;
 use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\ResepObatController;
 use App\Http\Controllers\DataBarangController;
@@ -18,12 +19,16 @@ use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
+use App\Http\Controllers\CacatFisikController;
 use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\PenjabController;
 use App\Http\Controllers\setNoRkmMedisController;
+use App\Http\Controllers\SukuBangsaController;
+use App\Models\SukuBangsa;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +53,18 @@ Route::middleware('auth')->group(function () {
     // pasien
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
     Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
+
+    // SUKU BANGSA
+    Route::get('suku', [SukuBangsaController::class, 'get']);
+    Route::post('suku', [SukuBangsaController::class, 'create']);
+    // SUKU BAHASAS
+    Route::get('bahasa', [BahasaPasienController::class, 'get']);
+    Route::post('bahasa', [BahasaPasienController::class, 'create']);
+    // CACAT FISIK
+    Route::get('cacat', [CacatFisikController::class, 'get']);
+    Route::post('cacat', [CacatFisikController::class, 'create']);
+    // PENJAB
+    Route::get('penjab', [PenjabController::class, 'get']);
 
     // SET NO RKM MEDIS
     Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
