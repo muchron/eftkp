@@ -499,6 +499,7 @@
             const button = formRujukanLanjut.find('button')
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
             if (elementVal == 4) {
+                formRujukanLanjut.removeClass('d-none');
                 getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
                     const rujuk = response.map((val) => {
                         return val.detail.tglAkhirRujuk
