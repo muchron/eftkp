@@ -46,12 +46,12 @@
                      <a href="{{ url('farmasi/racik/template') }}" class="dropdown-item {{ Request::is('template') ? 'active' : '' }}">
                          Template Racikan
                      </a>
-                     <a href="{{ url('farmasi/resep') }}" class="dropdown-item">
+                     {{-- <a href="{{ url('farmasi/resep') }}" class="dropdown-item">
                          Peresepan
                      </a>
                      <a href="{{ url('farmasi/obat') }}" class="dropdown-item">
                          Obat
-                     </a>
+                     </a> --}}
                  </div>
              </div>
          </div>

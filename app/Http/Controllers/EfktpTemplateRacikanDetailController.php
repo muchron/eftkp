@@ -24,7 +24,7 @@ class EfktpTemplateRacikanDetailController extends Controller
                     'kode_brng' => $obat[$i]['kode_brng'],
                 ];
                 $create = EfktpTemplateRacikanDetail::create($data);
-                if($create){
+                if ($create) {
                     $this->insertSql(new EfktpTemplateRacikanDetail(), $data);
                 }
             } catch (QueryException $e) {
@@ -32,5 +32,17 @@ class EfktpTemplateRacikanDetailController extends Controller
             }
         }
         return response()->json('SUKSES');
+    }
+    function delete(Request $request)
+    {
+        try {
+            $delete = EfktpTemplateRacikanDetail::where('id_racik', $request->id)->delete();
+            if ($delete) {
+                $this->deleteSql(new EfktpTemplateRacikanDetail(), ['id_racik' => $request->id]);
+            }
+            return response()->json('SUKSES');
+        } catch (QueryException $e) {
+            throw $e->errorInfo;
+        }
     }
 }

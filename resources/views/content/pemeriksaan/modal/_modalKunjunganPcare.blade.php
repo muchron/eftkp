@@ -486,7 +486,6 @@
 
                 const dateNow = formKunjunganPcare.find('input[name=tglKunjungan]').val();
                 const diff = dateDiff(rujuk, dateNow)
-                console.log(diff);
             });
         }
 

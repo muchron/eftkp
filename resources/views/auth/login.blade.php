@@ -75,8 +75,6 @@
         })
         $('#btnShowPassword').click((e) => {
             const inputPassword = $('#password')
-
-            console.log();
             if (inputPassword.attr('type') == 'password') {
                 inputPassword.attr('type', 'text');
                 $('#btnShowPassword').attr('title', 'Sembunyikan password').find('i').removeClass('ti-eye').addClass('ti-eye-off');

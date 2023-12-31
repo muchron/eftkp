@@ -9,13 +9,15 @@ class EfktpTemplateRacikan extends Model
 {
     use HasFactory;
     protected $table = 'efktp_template_racikan';
-    protected $guarded =['id'];
+    protected $guarded = [''];
     public $timestamps = false;
 
-    function detail(){
+    function detail()
+    {
         return $this->hasMany(EfktpTemplateRacikanDetail::class, 'id_racik', 'id');
     }
-    function dokter(){
+    function dokter()
+    {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
 }

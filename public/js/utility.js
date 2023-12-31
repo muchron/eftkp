@@ -363,11 +363,6 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
     })
     return select2;
 }
-function getCacatFisik(cacat) {
-    return cacat = $.get('../cacat', {
-        cacat: cacat,
-    });
-}
 
 function selectCacatFisik(element, parrent, initVal = '-') {
     const select2 = element.select2({
@@ -443,5 +438,76 @@ function selectPenjab(element, parrent) {
 
     // const option = new Option('-', '-', true, true);
     // element.append(option).trigger('change');
+    return select2;
+}
+function selectDataBarang(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/barang/get',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    barang: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kode_brng,
+                            text: item.nama_brng,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+
+    return select2;
+}
+
+function selectDokter(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/dokter/get',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    dokter: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_dokter,
+                            text: item.nm_dokter,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+
     return select2;
 }

@@ -40,7 +40,6 @@
 
                 const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
                 formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
-                console.log('RESPONSE ==', result.response);
 
             })
         }

@@ -146,7 +146,6 @@
         var penjab = formPasien.find('select[name=kd_pj]');
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
-            console.log(formPasien.serializeArray());
         })
         $('#modalPasien').on('shown.bs.modal', (e) => {
             $.get('../set/norm').done((response) => {
@@ -173,7 +172,6 @@
 
         bahasaPasien.on('select2:select', (e) => {
             const selectBahasa = e.currentTarget.value;
-            console.log(selectBahasa);
             $.post('../bahasa', {
                 bahasa: selectBahasa,
             }).done((response) => {

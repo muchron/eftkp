@@ -20,6 +20,7 @@ use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\CacatFisikController;
+use App\Http\Controllers\DokterController;
 use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PcareKunjunganController;
@@ -90,7 +91,8 @@ Route::middleware('auth')->group(function () {
     // Prosedur/tindakan ata ic9
     Route::get('/tindakan/get', [Icd9Controller::class, 'get']);
 
-
+    // Dokter
+    Route::get('/dokter/get', [DokterController::class, 'get']);
     //Diagnosa Pasien
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
     Route::post('/diagnosa/pasien/delete', [DiagnosaPasienController::class, 'delete']);
@@ -136,6 +138,8 @@ Route::middleware('auth')->group(function () {
     Route::get('resep/racikan/template/get', [EfktpTemplateRacikanController::class, 'get']);
     Route::get('resep/racikan/template/search', [EfktpTemplateRacikanController::class, 'search']);
     Route::post('resep/racikan/template/create', [EfktpTemplateRacikanController::class, 'create']);
+    Route::post('resep/racikan/template/update', [EfktpTemplateRacikanController::class, 'update']);
+    Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
 
 
 
