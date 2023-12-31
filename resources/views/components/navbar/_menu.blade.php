@@ -29,15 +29,15 @@
              </span>
          </a>
      </li>
-     {{-- <li class="nav-item  {{ Request::segment(1) == 'farmasi' ? 'active' : '' }} dropdown">
+     <li class="nav-item  {{ Request::segment(1) == 'farmasi' ? 'active' : '' }} dropdown">
          <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true">
              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pill" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                  <path d="M4.5 12.5l8 -8a4.94 4.94 0 0 1 7 7l-8 8a4.94 4.94 0 0 1 -7 -7" />
                  <path d="M8.5 8.5l7 7" />
              </svg>
-             <span class="nav-link-title">
-                 Obat & Resep
+             <span class="ms-2 nav-link-title">
+                 Fasmasi
              </span>
          </a>
          <div class="dropdown-menu" data-bs-popper="static">
@@ -55,7 +55,7 @@
                  </div>
              </div>
          </div>
-     </li> --}}
+     </li>
      <li class="nav-item  {{ Request::segment(1) == 'pcare' ? 'active' : '' }} dropdown">
          <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true">
              <span class="nav-link-icon d-md-none d-lg-inline-block">

@@ -124,42 +124,5 @@
         function cetakResep(noRawat) {
             window.open(`resep/print?no_rawat=${noRawat}`)
         }
-
-
-        function selectDataBarang(element, parrent) {
-            const select2 = element.select2({
-                dropdownParent: parrent,
-                delay: 0,
-                scrollAfterSelect: true,
-                ajax: {
-                    url: 'barang/get',
-                    dataType: 'JSON',
-
-                    data: (params) => {
-                        const query = {
-                            barang: params.term
-                        }
-                        return query
-                    },
-                    processResults: (data) => {
-                        return {
-                            results: data.map((item) => {
-                                const items = {
-                                    id: item.kode_brng,
-                                    text: item.nama_brng,
-                                    detail: item
-                                }
-                                return items;
-                            })
-                        }
-                    }
-
-                },
-                cache: true
-
-            });
-
-            return select2;
-        }
     </script>
 @endpush

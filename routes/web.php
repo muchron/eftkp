@@ -29,6 +29,7 @@ use App\Http\Controllers\PenjabController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\SukuBangsaController;
 use App\Models\SukuBangsa;
+use App\Models\EfktpTemplateRacikan;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/barang/get', [DataBarangController::class, 'get']);
 
 
+
     // Resep Obat
     Route::post('/resep/create', [ResepObatController::class, 'create']);
     Route::get('/resep/get', [ResepObatController::class, 'get']);
@@ -130,9 +132,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
 
     // Template Racikan
+    Route::get('farmasi/racik/template', [EfktpTemplateRacikanController::class, 'index']);
     Route::get('resep/racikan/template/get', [EfktpTemplateRacikanController::class, 'get']);
     Route::get('resep/racikan/template/search', [EfktpTemplateRacikanController::class, 'search']);
     Route::post('resep/racikan/template/create', [EfktpTemplateRacikanController::class, 'create']);
+
 
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
