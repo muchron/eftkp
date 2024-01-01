@@ -124,6 +124,7 @@
             $.get(`${url}/resep/racikan/template/get`, {
                 id: id
             }).done((response) => {
+                listObat.empty();
                 formTemplateResep.find('input[name=nm_racik]').val(response.nm_racik)
                 formTemplateResep.find('input[name=id]').val(response.id)
                 selectDokter(dokter, '');
@@ -132,14 +133,14 @@
 
                 response.detail.map((detail, index) => {
                     const select = `
-                    <div class="row gy-2 mb-2" id="rowObat${index}">
-                            <div class="col-11">
-                                <select class="form-select mb-2" id="obat${index}" style="width:100%" name="kode_brng"></select>
-                            </div>
-                            <div class="col-1">
-                                <a href="javascript:void(0)" onclick="hapusObatTemplate('${index}')" class="text-danger mt-1"><i class="ti ti-trash"></i></a>
-                            </div>
-                    </div>`
+                        <div class="row gy-2 mb-2" id="rowObat${index}">
+                                <div class="col-11">
+                                    <select class="form-select mb-2" id="obat${index}" style="width:100%" name="kode_brng"></select>
+                                </div>
+                                <div class="col-1">
+                                    <a href="javascript:void(0)" onclick="hapusObatTemplate('${index}')" class="text-danger mt-1"><i class="ti ti-trash"></i></a>
+                                </div>
+                        </div>`
                     listObat.append(select);
                     const barangSelect = $(`#obat${index}`);
                     selectDataBarang(barangSelect, '');
