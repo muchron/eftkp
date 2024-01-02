@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pasien;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PasienController extends Controller
 {
@@ -19,6 +20,15 @@ class PasienController extends Controller
             return $query->whereIn('stts', ['Sudah', 'Dirujuk'])->with(['diagnosa.penyakit', 'prosedur.icd9'])->orderBy('tgl_registrasi', 'DESC');
         }])->first();
         return response()->json($riwayat);
+    }
+    function get(Request $request)
+    {
+        $pasien = Pasien::orderBy('tgl_daftar', 'DESC')
+            ->with(['kel', 'kec', 'kab', 'prop'])->get();
+        if ($request->datatable) {
+            return DataTables::of($pasien)->make(true);
+        }
+        return response()->json($pasien);
     }
     function create(Request $request)
     {
