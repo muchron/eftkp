@@ -517,3 +517,151 @@ function selectDokter(element, parrent) {
 
     return select2;
 }
+function selectKelurahan(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        tags: true,
+        ajax: {
+            url: '/efktp/kelurahan',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    kelurahan: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_kel,
+                            text: item.nm_kel,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
+function selectKecamatan(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        tags: true,
+        ajax: {
+            url: '/efktp/kecamatan',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    kecamatan: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_kec,
+                            text: item.nm_kec,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
+function selectKabupaten(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        tags: true,
+        ajax: {
+            url: '/efktp/kabupaten',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    kabupaten: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_kab,
+                            text: item.nm_kab,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
+function selectPropinsi(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        tags: true,
+        ajax: {
+            url: '/efktp/propinsi',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    propinsi: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_prop,
+                            text: item.nm_prop,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
