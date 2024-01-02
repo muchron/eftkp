@@ -29,6 +29,7 @@ use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PenjabController;
+use App\Http\Controllers\PerusahaanPasienController;
 use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\SukuBangsaController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     // pasien
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
+    Route::post('/pasien', [PasienController::class, 'create']);
     Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
 
     // SUKU BANGSA
@@ -81,7 +83,9 @@ Route::middleware('auth')->group(function () {
     // PROPINSI
     Route::get('propinsi', [PropinsiController::class, 'get']);
     Route::post('propinsi', [PropinsiController::class, 'create']);
-
+    // PERUSAHAAN
+    Route::get('perusahaan', [PerusahaanPasienController::class, 'get']);
+    Route::post('perusahaan', [PerusahaanPasienController::class, 'create']);
     // SET NO RKM MEDIS
     Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
     Route::post('/set/norm/delete', [setNoRkmMedisController::class, 'delete']);

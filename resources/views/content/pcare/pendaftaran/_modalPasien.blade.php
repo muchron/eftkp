@@ -48,7 +48,7 @@
                                     </div>
                                     <div class="col-lg-5 col-md-12 col-sm-12">
                                         <label class="form-label">Umur</label>
-                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="umurTahun" id="umurTahun" placeholder="">
+                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="umur" id="umur" placeholder="">
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Nama Ibu</label>
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Penanggung Jawab</label>
-                                        <select class="form-select" name="kekuarga" id="kekuarga">
+                                        <select class="form-select" name="keluarga" id="keluarga">
                                             <option value="SAUDARA">SAUDARA</option>
                                             <option value="IBU">IBU</option>
                                             <option value="ISTRI">ISTRI</option>
@@ -124,13 +124,30 @@
                                         <label for="no_peserta" class="form-label">No Kartu</label>
                                         <input name="no_peserta" id="no_peserta" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
                                     </div>
-                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
                                         <label for="no_tlp" class="form-label">No Telp/Hp.</label>
                                         <input name="no_tlp" id="no_tlp" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value='-' />
                                     </div>
-                                    <div class="col-xl-6 col-md-6 col-sm-12">
-                                        <label for="kd_pj" class="form-label">E-Mail</label>
-                                        <input name="kd_pj" id="kd_pj" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="email" class="form-label">E-Mail</label>
+                                        <input name="email" id="email" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="pnd" class="form-label">Pendidikan</label>
+                                        <select name="pnd" id="pnd" class="form-select">
+                                            <option value="-" selected>-</option>
+                                            <option value="TK">TK</option>
+                                            <option value="SD">SD</option>
+                                            <option value="SMA">SMA</option>
+                                            <option value="SLTA/SEDERAJAT">SLTA/SEDERAJAT</option>
+                                            <option value="D1">D1</option>
+                                            <option value="D2">D2</option>
+                                            <option value="D3">D3</option>
+                                            <option value="D4">D4</option>
+                                            <option value="S1">S1</option>
+                                            <option value="S2">S2</option>
+                                            <option value="S3">S3</option>
+                                        </select>
                                     </div>
                                     <div class="col-xl-4 col-md-6 col-sm-12">
                                         <label for="kd_pj" class="form-label">Pekerjaan</label>
@@ -170,7 +187,7 @@
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="checkPj">
+                                            <input class="form-check-input" type="checkbox" id="checkPj" name="checkPj">
                                             <span class="form-check-label">Alamat PJ</span>
                                         </label>
                                         <input name="alamatpj" id="alamatpj" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-" />
@@ -208,23 +225,33 @@
         var kecamatan = formPasien.find('select[name=kd_kec]');
         var kabupaten = formPasien.find('select[name=kd_kab]');
         var propinsi = formPasien.find('select[name=kd_prop]');
+        var perusahaan = formPasien.find('select[name=perusahaan_pasien]');
         var checkPj = formPasien.find('input[id=checkPj]');
         var url = "{{ url('') }}"
+
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
+            const data = getDataForm('formPasien', ['input', 'select']);
+            $.post(`${url}/pasien`, data).done((response) => {
+                console.log('RESPONSE ===', response);
+            })
         })
+
+
         $('#modalPasien').on('shown.bs.modal', (e) => {
             $.get(`${url}/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
-                selectSukuBangsa(sukuBangsa, modalPasien, 'JAWA');
-                selectBahasaPasien(bahasaPasien, modalPasien, 'jawa');
-                selectCacatFisik(cacatFisik, modalPasien, 'TIDAK ADA');
-                selectPenjab(penjab, modalPasien);
-                selectKelurahan(kelurahan, modalPasien);
-                selectKecamatan(kecamatan, modalPasien);
-                selectKabupaten(kabupaten, modalPasien);
-                selectPropinsi(propinsi, modalPasien);
             })
+            selectSukuBangsa(sukuBangsa, modalPasien, 'JAWA');
+            selectBahasaPasien(bahasaPasien, modalPasien, 'jawa');
+            selectCacatFisik(cacatFisik, modalPasien, 'TIDAK ADA');
+            selectPenjab(penjab, modalPasien);
+            selectKelurahan(kelurahan, modalPasien);
+            selectKecamatan(kecamatan, modalPasien);
+            selectKabupaten(kabupaten, modalPasien);
+            selectPropinsi(propinsi, modalPasien);
+            selectPerusahaan(propinsi, modalPasien);
+            selectPerusahaan(perusahaan, modalPasien);
         })
 
         checkPj.on('change', (e) => {
@@ -236,7 +263,7 @@
                 const kabText = kabupaten.find(`option:selected`).text()
                 const kecText = kecamatan.find(`option:selected`).text()
                 const kelText = kelurahan.find(`option:selected`).text()
-                alamatpj = `${alamatText}, ${kelText}, ${kecText}, ${kelText}`
+                alamatpj = `${alamatText}, ${kelText}, ${kecText}, ${kabText}, ${propText}`
             } else {
                 alamatpj = `-`
             }

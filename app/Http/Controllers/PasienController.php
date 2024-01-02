@@ -20,4 +20,47 @@ class PasienController extends Controller
         }])->first();
         return response()->json($riwayat);
     }
+    function create(Request $request)
+    {
+        $data = [
+            'no_rkm_medis' => $request->no_rkm_medis,
+            'nm_pasien' => $request->nm_pasien,
+            'no_ktp' => $request->no_ktp,
+            'jk' => $request->jk,
+            'tmp_lahir' => $request->tmp_lahir,
+            'tgl_lahir' => $request->tgl_lahir,
+            'nm_ibu' => $request->nm_ibu,
+            'alamat' => $request->alamat,
+            'gol_darah' => $request->gol_darah,
+            'pekerjaan' => $request->pekerjaan,
+            'stts_nikah' => $request->stts_nikah,
+            'agama' => $request->agama,
+            'tgl_daftar' => $request->tgl_daftar,
+            'no_tlp' => $request->no_tlp,
+            'umur' => $request->umur,
+            'pnd' => $request->pnd,
+            'keluarga' => $request->keluarga,
+            'namakeluarga' => $request->namakeluarga,
+            'kd_pj' => $request->kd_pj,
+            'no_peserta' => $request->no_peserta,
+            'kd_kel' => $request->kd_kel,
+            'kd_kec' => $request->kd_kec,
+            'kd_kab' => $request->kd_kab,
+            'pekerjaanpj' => $request->pekerjaanpj,
+            'alamatpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[0] : '-',
+            'kelurahanpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[1] : '-',
+            'kecamatanpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[2] : '-',
+            'kabupatenpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[3] : '-',
+            'propinsipj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[3] : '-',
+            'perusahaan_pasien' => $request->perusahaan_pasien,
+            'suku_bangsa' => $request->suku_bangsa,
+            'bahasa_pasien' => $request->bahasa_pasien,
+            'cacat_fisik' => $request->cacat_fisik,
+            'email' => $request->email,
+            'nip' => $request->nip,
+            'kd_prop' => $request->kd_prop,
+        ];
+        return $data;
+        $pasien = Pasien::create($data);
+    }
 }

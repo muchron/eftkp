@@ -665,3 +665,40 @@ function selectPropinsi(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+function selectPerusahaan(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        tags: true,
+        ajax: {
+            url: '/efktp/perusahaan',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    perusahaan: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kode_perusahaan,
+                            text: item.nama_perusahaan,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
