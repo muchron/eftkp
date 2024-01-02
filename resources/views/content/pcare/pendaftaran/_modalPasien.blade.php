@@ -10,16 +10,16 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <fieldset class="form-fieldset">
-                                <div class="row gy-2">
+                                <div class="row gy-1">
                                     <div class="col-lg-3 col-md-12 col-sm-12">
                                         <label class="form-label required">No. Rekam Medis</label>
                                         <div class="input-group">
-                                            <input type="text" name="no_rkm_medis" class="form-control" autocomplete="off" readonly>
+                                            <input type="text" name="no_rkm_medis" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-9 col-md-12 col-sm-12">
                                         <label class="form-label required">Nama Pasien</label>
-                                        <input type="text" name="nm_pasien" id="nm_pasien" class="form-control" autocomplete="off">
+                                        <input type="text" name="nm_pasien" id="nm_pasien" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off">
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                         <label class="form-label required">Jenis Kelamin</label>
@@ -40,19 +40,19 @@
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label class="form-label required">Tempat Lahir</label>
-                                        <input type="text" class="form-control" name="tmp_lahir" id="tmp_lahir" autocomplete="off" value="-">
+                                        <input type="text" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="tmp_lahir" id="tmp_lahir" autocomplete="off" value="-">
                                     </div>
                                     <div class="col-lg-3 col-md-6 col-sm-12">
                                         <label class="form-label required">Tgl Lahir</label>
-                                        <input type="text" class="form-control" name="tgl_lahir" id="tgl_lahir" autocomplete="off" readonly>
+                                        <input type="text" class="form-control filterTangal" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="tgl_lahir" id="tgl_lahir" autocomplete="off" value="{{ date('d-m-Y') }}">
                                     </div>
                                     <div class="col-lg-5 col-md-12 col-sm-12">
                                         <label class="form-label">Umur</label>
-                                        <input type="text" value="-" class="form-control" name="umurTahun" id="umurTahun" placeholder="">
+                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="umurTahun" id="umurTahun" placeholder="">
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Nama Ibu</label>
-                                        <input type="text" value="-" class="form-control" name="nm_ibu" id="nm_ibu" placeholder="">
+                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="nm_ibu" id="nm_ibu" placeholder="">
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Penanggung Jawab</label>
@@ -68,11 +68,11 @@
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Nama P.J.</label>
-                                        <input type="text" value="-" class="form-control" name="namakeluarga" id="namakeluarga" placeholder="">
+                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="namakeluarga" id="namakeluarga" placeholder="">
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Pekerjaan</label>
-                                        <input type="text" value="-" class="form-control" name="pekerjaanpj" id="pekerjaanpj" placeholder="">
+                                        <input type="text" value="-" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pekerjaanpj" id="pekerjaanpj" placeholder="">
                                     </div>
                                     <div class="col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Suku/Bangsa</label>
@@ -114,16 +114,76 @@
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <fieldset class="form-fieldset">
-                                <div class="row gy-2">
-                                    <div class="col-xl-6 col-md-6 col-lg-12">
+                                <div class="row gy-1">
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
                                         <label for="kd_pj" class="form-label">Asuransi</label>
                                         <select name="kd_pj" id="kd_pj" class="form-select" style="width:100%">
                                         </select>
                                     </div>
-                                    <div class="col-xl-6 col-md-6 col-lg-12">
-                                        <label for="kd_pj" class="form-label">No Kartu</label>
-                                        <input name="no_peserta" id="no_peserta" class="form-control" style="width:100%" />
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label for="no_peserta" class="form-label">No Kartu</label>
+                                        <input name="no_peserta" id="no_peserta" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
                                     </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label for="no_tlp" class="form-label">No Telp/Hp.</label>
+                                        <input name="no_tlp" id="no_tlp" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value='-' />
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label for="kd_pj" class="form-label">E-Mail</label>
+                                        <input name="kd_pj" id="kd_pj" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="kd_pj" class="form-label">Pekerjaan</label>
+                                        <input name="pekerjaan" id="pekerjaan" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value='-' />
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="no_ktp" class="form-label">No. KTP/SIM</label>
+                                        <input name="no_ktp" id="no_ktp" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" style="width:100%" value="-" />
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="tgl_daftar" class="form-label">Tgl. Daftar</label>
+                                        <input name="tgl_daftar" id="tgl_daftar" class="form-control filterTanggal" value="{{ date('d-m-Y') }}" />
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label for="alamat" class="form-label">Alamat</label>
+                                        <input name="alamat" id="alamat" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-" />
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label for="kd_kel" class="form-label">Kelurahan/Desa</label>
+                                        <select name="kd_kel" id="kd_kel" class="form-select" style="width: 100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="kd_kec" class="form-label">Kecamatan</label>
+                                        <select name="kd_kec" id="kd_kec" class="form-select" style="width: 100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="kd_kab" class="form-label">Kabupaten</label>
+                                        <select name="kd_kab" id="kd_kab" class="form-select" style="width: 100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6 col-sm-12">
+                                        <label for="kd_prop" class="form-label">Propinsi</label>
+                                        <select name="kd_prop" id="kd_prop" class="form-select" style="width: 100%">
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-12 col-md-12 col-sm-12">
+                                        <label class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="checkPj">
+                                            <span class="form-check-label">Alamat PJ</span>
+                                        </label>
+                                        <input name="alamatpj" id="alamatpj" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-" />
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label class="form-label" for="perusahaan_pasien">Instansi/Peruhasaan</label>
+                                        <select name="perusahaan_pasien" id="perusahaan_pasien" class="form-select"></select>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12">
+                                        <label class="form-label" for="nip">Instansi/Peruhasaan</label>
+                                        <input name="nip" id="nip" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-" />
+                                    </div>
+
                                 </div>
                             </fieldset>
                         </div>
@@ -131,7 +191,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-save"> Simpan</i></button>
+                <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -144,23 +204,49 @@
         var bahasaPasien = formPasien.find('select[name=bahasa_pasien]');
         var cacatFisik = formPasien.find('select[name=cacat_fisik]');
         var penjab = formPasien.find('select[name=kd_pj]');
+        var kelurahan = formPasien.find('select[name=kd_kel]');
+        var kecamatan = formPasien.find('select[name=kd_kec]');
+        var kabupaten = formPasien.find('select[name=kd_kab]');
+        var propinsi = formPasien.find('select[name=kd_prop]');
+        var checkPj = formPasien.find('input[id=checkPj]');
+        var url = "{{ url('') }}"
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
-            console.log(formPasien.serializeArray());
         })
         $('#modalPasien').on('shown.bs.modal', (e) => {
-            $.get('../set/norm').done((response) => {
+            $.get(`${url}/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 selectSukuBangsa(sukuBangsa, modalPasien, 'JAWA');
                 selectBahasaPasien(bahasaPasien, modalPasien, 'jawa');
                 selectCacatFisik(cacatFisik, modalPasien, 'TIDAK ADA');
                 selectPenjab(penjab, modalPasien);
+                selectKelurahan(kelurahan, modalPasien);
+                selectKecamatan(kecamatan, modalPasien);
+                selectKabupaten(kabupaten, modalPasien);
+                selectPropinsi(propinsi, modalPasien);
             })
+        })
+
+        checkPj.on('change', (e) => {
+            const isChecked = $(e.currentTarget).is(':checked');
+            let alamatpj = '';
+            if (isChecked) {
+                const alamatText = formPasien.find(`input[name=alamat]`).val()
+                const propText = propinsi.find(`option:selected`).text()
+                const kabText = kabupaten.find(`option:selected`).text()
+                const kecText = kecamatan.find(`option:selected`).text()
+                const kelText = kelurahan.find(`option:selected`).text()
+                alamatpj = `${alamatText}, ${kelText}, ${kecText}, ${kelText}`
+            } else {
+                alamatpj = `-`
+            }
+            formPasien.find('input[name=alamatpj]').val(alamatpj)
+
         })
 
         sukuBangsa.on('select2:select', (e) => {
             const selectedSuku = e.currentTarget.value;
-            $.post('../suku', {
+            $.post(`${url}/suku`, {
                 suku: selectedSuku,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -173,7 +259,6 @@
 
         bahasaPasien.on('select2:select', (e) => {
             const selectBahasa = e.currentTarget.value;
-            console.log(selectBahasa);
             $.post('../bahasa', {
                 bahasa: selectBahasa,
             }).done((response) => {
@@ -181,6 +266,42 @@
                     toast();
                     const option = new Option(selectBahasa, response.id, true, true);
                     bahasaPasien.append(option).trigger('change');
+                }
+            })
+        })
+        kelurahan.on('select2:select', (e) => {
+            const nmKelurahan = e.currentTarget.value.toUpperCase();
+            $.post(`${url}/kelurahan`, {
+                kelurahan: nmKelurahan,
+            }).done((response) => {
+                if (response.message == 'SUKSES') {
+                    toast();
+                    const option = new Option(nmKelurahan, response.id, true, true);
+                    kelurahan.append(option).trigger('change');
+                }
+            })
+        })
+        kabupaten.on('select2:select', (e) => {
+            const nmKabupaten = e.currentTarget.value.toUpperCase();
+            $.post(`${url}/kabupaten`, {
+                kabupaten: nmKabupaten,
+            }).done((response) => {
+                if (response.message == 'SUKSES') {
+                    toast();
+                    const option = new Option(nmKabupaten, response.id, true, true);
+                    kabupaten.append(option).trigger('change');
+                }
+            })
+        })
+        propinsi.on('select2:select', (e) => {
+            const nmPropinsi = e.currentTarget.value.toUpperCase();
+            $.post(`${url}/propinsi`, {
+                propinsi: nmPropinsi,
+            }).done((response) => {
+                if (response.message == 'SUKSES') {
+                    toast();
+                    const option = new Option(nmPropinsi, response.id, true, true);
+                    propinsi.append(option).trigger('change');
                 }
             })
         })

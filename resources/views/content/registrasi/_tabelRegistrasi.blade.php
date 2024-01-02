@@ -25,6 +25,9 @@
                     </div>
                 </form>
             </div>
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
+                <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
+            </div>
         </div>
     </div>
 </div>
@@ -35,6 +38,7 @@
 @include('content.pemeriksaan.modal._diagnosaPasien')
 @include('content.pemeriksaan.modal._tindakanPasien')
 @include('content.pemeriksaan.modal._modalEditRacikan')
+@include('content.pcare.pendaftaran._modalPasien')
 @push('script')
     <script type="" src="{{asset('public/libs/list.js/dist/list.min.js')}}"></script>
     <script>

@@ -163,7 +163,7 @@ function isEmpty(input) {
 }
 
 function isEmptyNumber(input) {
-    if (input.value == '') {
+    if (input.value == '' || input.value == '-' || input.value == '0') {
         $(input).val('0');
     }
 }
@@ -270,7 +270,7 @@ function dateDiff(date1, date2) {
 }
 
 function getSukuBangsa(suku) {
-    return bangsa = $.get('../suku', {
+    return bangsa = $.get('/efktp/suku', {
         suku: suku,
     });
 }
@@ -282,7 +282,7 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '../suku',
+            url: '/efktp/suku',
             dataType: 'JSON',
 
             data: (params) => {
@@ -318,7 +318,7 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
 }
 
 function getBahasa(bahasa) {
-    return bahasa = $.get('../bahasa', {
+    return bahasa = $.get('/efktp/bahasa', {
         bahasa: bahasa,
     });
 }
@@ -330,7 +330,7 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '../bahasa',
+            url: '/efktp/bahasa',
             dataType: 'JSON',
 
             data: (params) => {
@@ -363,11 +363,13 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
     })
     return select2;
 }
+
 function getCacatFisik(cacat) {
-    return cacat = $.get('../cacat', {
+    return bahasa = $.get('/efktp/cacat', {
         cacat: cacat,
     });
 }
+
 
 function selectCacatFisik(element, parrent, initVal = '-') {
     const select2 = element.select2({
@@ -376,7 +378,7 @@ function selectCacatFisik(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '../cacat',
+            url: '/efktp/cacat',
             dataType: 'JSON',
 
             data: (params) => {
@@ -416,7 +418,7 @@ function selectPenjab(element, parrent) {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '../penjab',
+            url: '/efktp/penjab',
             dataType: 'JSON',
 
             data: (params) => {
@@ -440,8 +442,78 @@ function selectPenjab(element, parrent) {
         },
         cache: true,
     });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
+function selectDataBarang(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/barang/get',
+            dataType: 'JSON',
 
-    // const option = new Option('-', '-', true, true);
-    // element.append(option).trigger('change');
+            data: (params) => {
+                const query = {
+                    barang: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kode_brng,
+                            text: item.nama_brng,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+
+    return select2;
+}
+
+function selectDokter(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/dokter/get',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    dokter: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_dokter,
+                            text: item.nm_dokter,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+
     return select2;
 }

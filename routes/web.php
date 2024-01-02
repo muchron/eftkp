@@ -22,10 +22,14 @@ use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\CacatFisikController;
 use App\Http\Controllers\EfktpPcareAlergiController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\KabupatenController;
+use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PenjabController;
+use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\SukuBangsaController;
 use App\Models\SukuBangsa;
@@ -65,6 +69,18 @@ Route::middleware('auth')->group(function () {
     Route::post('cacat', [CacatFisikController::class, 'create']);
     // PENJAB
     Route::get('penjab', [PenjabController::class, 'get']);
+    // KELURAHAN
+    Route::get('kelurahan', [KelurahanController::class, 'get']);
+    Route::post('kelurahan', [KelurahanController::class, 'create']);
+    // KECAMATAN
+    Route::get('kecamatan', [KecamatanController::class, 'get']);
+    Route::post('kecamatan', [KecamatanController::class, 'create']);
+    // KABUPATEN
+    Route::get('kabupaten', [KabupatenController::class, 'get']);
+    Route::post('kabupaten', [KabupatenController::class, 'create']);
+    // PROPINSI
+    Route::get('propinsi', [PropinsiController::class, 'get']);
+    Route::post('propinsi', [PropinsiController::class, 'create']);
 
     // SET NO RKM MEDIS
     Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
