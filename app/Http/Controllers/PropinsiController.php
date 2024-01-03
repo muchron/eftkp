@@ -12,14 +12,14 @@ class PropinsiController extends Controller
     use Track;
     function get(Request $request)
     {
-        $kabupaten = Propinsi::where('nm_prop', 'like', "{$request->propinsi}%")->get();
-        return response()->json($kabupaten);
+        $propinsi = Propinsi::where('nm_prop', 'like', "%{$request->propinsi}%")->get();
+        return response()->json($propinsi);
     }
     function create(Request $request)
     {
-        $kabupaten = Propinsi::where('nm_prop', 'like', "%{$request->propinsi}%")
+        $propinsi = Propinsi::where('nm_prop', 'like', "{$request->propinsi}%")
             ->orWhere('kd_prop', $request->propinsi)->first();
-        if (!$kabupaten) {
+        if (!$propinsi) {
             try {
                 $data = [
                     'nm_prop' => strtoupper($request->propinsi)

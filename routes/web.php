@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     // pasien
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
     Route::post('/pasien', [PasienController::class, 'create']);
+    Route::get('/pasien', [PasienController::class, 'get']);
     Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
 
     // SUKU BANGSA

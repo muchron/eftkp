@@ -37,10 +37,7 @@
                 formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
                 formPasien.find('input[name=umur]').val(contentUmur)
                 formPasien.find('input[name=no_peserta]').val(noKartu)
-
-                const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
-
+                formPasien.find('input[name=sttsForm]').val('bridging')
             })
         }
 

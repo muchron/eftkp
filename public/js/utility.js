@@ -550,7 +550,7 @@ function selectKelurahan(element, parrent) {
         cache: true
 
     });
-    const option = new Option('-', '-', true, true);
+    const option = new Option('-', 1, true, true);
     element.append(option).trigger('change');
     return select2;
 }
@@ -587,7 +587,7 @@ function selectKecamatan(element, parrent) {
         cache: true
 
     });
-    const option = new Option('-', '-', true, true);
+    const option = new Option('-', 1, true, true);
     element.append(option).trigger('change');
     return select2;
 }
@@ -624,7 +624,7 @@ function selectKabupaten(element, parrent) {
         cache: true
 
     });
-    const option = new Option('-', '-', true, true);
+    const option = new Option('-', 1, true, true);
     element.append(option).trigger('change');
     return select2;
 }
@@ -661,7 +661,7 @@ function selectPropinsi(element, parrent) {
         cache: true
 
     });
-    const option = new Option('-', '-', true, true);
+    const option = new Option('-', 1, true, true);
     element.append(option).trigger('change');
     return select2;
 }

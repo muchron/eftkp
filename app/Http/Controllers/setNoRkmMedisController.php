@@ -12,7 +12,8 @@ class setNoRkmMedisController extends Controller
     function get()
     {
         $noRkmMedis = setNoRkmMedis::first();
-        return response()->json($noRkmMedis);
+        $setNoRm = $noRkmMedis->no_rkm_medis + 1;
+        return response()->json(sprintf('%06d', $setNoRm));
     }
     function delete()
     {

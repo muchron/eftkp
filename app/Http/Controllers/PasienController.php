@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
+use App\Models\setNoRkmMedis;
+use App\Traits\Track;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class PasienController extends Controller
 {
+    use Track;
     function getByNoka($noKartu)
     {
         $pasien = Pasien::where('no_peserta', $noKartu)->first();
@@ -23,7 +27,7 @@ class PasienController extends Controller
     }
     function get(Request $request)
     {
-        $pasien = Pasien::orderBy('tgl_daftar', 'DESC')
+        $pasien = Pasien::orderBy('tgl_daftar', 'ASC')
             ->with(['kel', 'kec', 'kab', 'prop'])->get();
         if ($request->datatable) {
             return DataTables::of($pasien)->make(true);
@@ -38,14 +42,14 @@ class PasienController extends Controller
             'no_ktp' => $request->no_ktp,
             'jk' => $request->jk,
             'tmp_lahir' => $request->tmp_lahir,
-            'tgl_lahir' => $request->tgl_lahir,
+            'tgl_lahir' => date('Y-m-d', strtotime($request->tgl_lahir)),
             'nm_ibu' => $request->nm_ibu,
             'alamat' => $request->alamat,
             'gol_darah' => $request->gol_darah,
             'pekerjaan' => $request->pekerjaan,
             'stts_nikah' => $request->stts_nikah,
             'agama' => $request->agama,
-            'tgl_daftar' => $request->tgl_daftar,
+            'tgl_daftar' => date('Y-m-d', strtotime($request->tgl_daftar)),
             'no_tlp' => $request->no_tlp,
             'umur' => $request->umur,
             'pnd' => $request->pnd,
@@ -70,7 +74,21 @@ class PasienController extends Controller
             'nip' => $request->nip,
             'kd_prop' => $request->kd_prop,
         ];
-        return $data;
-        $pasien = Pasien::create($data);
+
+        try {
+            $pasien = Pasien::create($data);
+            if ($pasien) {
+                $this->insertSql(new Pasien(), $data);
+                $setRm = setNoRkmMedis::truncate();
+                if ($setRm)
+                    $this->deleteSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
+                $createNoRm = setNoRkmMedis::create(['no_rkm_medis' => $request->no_rkm_medis]);
+                if ($createNoRm)
+                    $this->insertSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
+            }
+            return response()->json('SUKSES', 200);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
     }
 }
