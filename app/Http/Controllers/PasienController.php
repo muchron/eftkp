@@ -28,7 +28,7 @@ class PasienController extends Controller
     function get(Request $request)
     {
         $pasien = Pasien::orderBy('tgl_daftar', 'ASC')
-            ->with(['kel', 'kec', 'kab', 'prop'])->get();
+            ->with(['kel', 'kec', 'kab', 'prop', 'penjab'])->get();
         if ($request->datatable) {
             return DataTables::of($pasien)->make(true);
         }

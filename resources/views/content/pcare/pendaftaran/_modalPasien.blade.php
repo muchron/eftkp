@@ -471,7 +471,23 @@
                             return `${data}, ${row.kel.nm_kel}, ${row.kec.nm_kec}`;
                         }
 
-                    }
+                    },
+                    {
+                        title: 'Asuransi',
+                        data: 'penjab',
+                        render: (data, type, row, meta) => {
+                            return `${data.png_jawab}`;
+                        }
+
+                    },
+                    {
+                        title: 'No. Peserta',
+                        data: 'no_peserta',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+
+                    },
 
                 ],
             })
