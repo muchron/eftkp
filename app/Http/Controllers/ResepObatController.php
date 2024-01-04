@@ -78,11 +78,13 @@ class ResepObatController extends Controller
     function print(Request $request)
     {
         $data = $this->get($request);
-        $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with('regPeriksa.pasien', 'resepDokter.obat', 'resepRacikan.detail.obat.satuan', 'dokter')->first();
+        $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with(['regPeriksa.pasien' => function ($query) {
+            return $query->with(['kel', 'kec', 'kab', 'prop']);
+        }, 'resepDokter.obat', 'resepRacikan.detail.obat.satuan', 'dokter'])->first();
         $setting = Setting::first();
         $pdf = PDF::loadView('content.print.resep', ['data' => $resepObat, 'setting' => $setting])
             ->setPaper(array(0, 0, 283, 567.00))
             ->setOptions(['defaultFont' => 'serif', 'isRemoteEnabled' => true]);
-        return $pdf->stream('cetak resep');
+        return $pdf->stream('cetak resep.pdf');
     }
 }

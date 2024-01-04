@@ -1,13 +1,16 @@
 @extends('content.print.main')
 
 @section('content')
+    {{-- {{ $setting->logo }} --}}
+
     <div width="100%" style="">
-        <div style="text-align: center">
-            <h3 style="margin-bottom: 0px">{{ $setting->nama_instansi }}</h3>
+        <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute">
+        <div style="text-align: center; margin-left:60px">
+            <p style="margin-bottom: 0px;font-size:12px;font-weight: bold">{{ $setting->nama_instansi }}</p>
             <p style="font-size: 9px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
             <p style="font-size: 9px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
-            <hr>
         </div>
+        <hr>
         <div class="info" style="font-size: 11px;margin-bottom:10px">
             <table class="" width="100%" style="border-spacing: 0px;font-size:9px">
                 <tr>
@@ -40,7 +43,8 @@
                         :
                     </td>
                     <td>
-                        {{ $data->regPeriksa->pasien->alamatpj }}, {{ $data->regPeriksa->pasien->kelurahanpj }}, {{ $data->regPeriksa->pasien->kecamatanpj }}
+
+                        {{ $data->regPeriksa->pasien->alamat }}, {{ $data->regPeriksa->pasien->kel->nm_kel }}, {{ $data->regPeriksa->pasien->kec->nm_kec }}
                     </td>
                 </tr>
                 <tr>

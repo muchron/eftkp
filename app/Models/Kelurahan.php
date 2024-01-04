@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kelurahan extends Model
 {
-    use HasFactory;
+  use HasFactory;
   protected $table = 'kelurahan';
   protected $guarded = [];
-  public $timestamps= false;
-  }
+  public $timestamps = false;
+}

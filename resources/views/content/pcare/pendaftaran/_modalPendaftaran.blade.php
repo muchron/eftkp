@@ -26,8 +26,8 @@
         function createPasienBpjs(noKartu) {
             loadingAjax();
             $.get(`../bridging/pcare/peserta/${noKartu}`).done((result) => {
-                loadingAjax().close();
                 $('#modalPasien').modal('show')
+                loadingAjax().close();
                 const umur = hitungUmur(splitTanggal(result.response.tglLahir));
                 const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
                 formPasien.find('input[name=nm_pasien]').val(result.response.nama)
@@ -35,8 +35,9 @@
                 formPasien.find('select[name=jk]').val(result.response.sex).change()
                 formPasien.find('select[name=gol_darah]').val('-')
                 formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
-                formPasien.find('input[name=umurTahun]').val(contentUmur)
+                formPasien.find('input[name=umur]').val(contentUmur)
                 formPasien.find('input[name=no_peserta]').val(noKartu)
+                formPasien.find('input[name=sttsForm]').val('bridging')
 
                 const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
                 formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
