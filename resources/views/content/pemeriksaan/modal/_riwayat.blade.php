@@ -9,14 +9,14 @@
 </div>
 @push('script')
     <script>
-        function salinCppt(no_rawat) {
+        function salinCppt(no_rawat, nip) {
             const formCpptRajal = $('#formCpptRajal');
             const noResep = $('#no_resep').val();
             const noRawat = formCpptRajal.find('input[name=no_rawat]').val();
             const dokter = formCpptRajal.find('input[name=nip]').val();
 
             // set pemeriksaan
-            getPemeriksaanRalan(no_rawat).done((response) => {
+            getPemeriksaanRalan(no_rawat, nip).done((response) => {
                 Object.keys(response).map((key, index) => {
                     const select = formCpptRajal.find(`select[name=${key}]`)
                     const input = formCpptRajal.find(`input[name=${key}]`)
@@ -191,88 +191,103 @@
             if (isShow) {
                 body.empty()
                 getPemeriksaanRalan(no_rawat).done((response) => {
-                    const ttv = `<div class="card mb-1">
-                            <div class="ribbon bg-red">TTV</div>
-                            <div class="card-body card-text">
-                                <div class="row gy-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Suhu : ${response.suhu_tubuh} °C
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Tinggi : ${response.tinggi} cm
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Berat : ${response.berat} Kg
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Tensi : ${response.tensi} mmHg
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Respirasi : ${response.respirasi} x/mnt
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Nadi : ${response.nadi} x/mnt
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        SpO² : ${response.spo2} %
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        GCS : ${response.gcs} (E,V,M)
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Kesadaran : ${response.kesadaran}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Alergi : ${response.alergi}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
-                                        Lingkar Perut : ${response.lingkar_perut} cm
+                    response.map((result) => {
+                        const ttv = `<div class="card mb-1">
+                                <div class="ribbon bg-red">TTV</div>
+                                <div class="card-body card-text">
+                                    <div class="row gy-2">
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Suhu : ${result.suhu_tubuh} °C
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Tinggi : ${result.tinggi} cm
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Berat : ${result.berat} Kg
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Tensi : ${result.tensi} mmHg
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Respirasi : ${result.respirasi} x/mnt
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Nadi : ${result.nadi} x/mnt
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            SpO² : ${result.spo2} %
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            GCS : ${result.gcs} (E,V,M)
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Kesadaran : ${result.kesadaran}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Alergi : ${result.alergi}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                                            Lingkar Perut : ${result.lingkar_perut} cm
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>`
-                    const pemeriksaan = `<div class="card mb-1">
-                            <div class="ribbon bg-red">SOAP</div>
-                            <div class="card-body card-text">
-                                <div class="row gy-2">
-                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                        <strong>Subjek </strong>
+                            </div>`
+                        const pemeriksaan = `<div class="card mb-1">
+                                <div class="ribbon bg-red">SOAP</div>
+                                <div class="card-body card-text">
+                                    <div class="row gy-2">
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Petugas/Dokter </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${result.rujuk_internal ? result.rujuk_internal.dokter.nm_dokter : result.pegawai.nama}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Poliklinik</strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${result.rujuk_internal ? result.rujuk_internal.poliklinik.nm_poli : result.reg_periksa.poliklinik.nm_poli}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Subjek </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${stringPemeriksaan(result.keluhan)}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Objek </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${stringPemeriksaan(result.pemeriksaan)}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                           <strong> Asesmen </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${stringPemeriksaan(result.penilaian)}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Plan </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${stringPemeriksaan(result.rtl)}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Instruksi </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${stringPemeriksaan(result.instruksi)}
+                                        </div>
+    
                                     </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                                         : ${stringPemeriksaan(response.keluhan)}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                        <strong>Objek </strong>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                                         : ${stringPemeriksaan(response.pemeriksaan)}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                       <strong> Asesmen </strong>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                                         : ${stringPemeriksaan(response.penilaian)}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                        <strong>Plan </strong>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                                         : ${stringPemeriksaan(response.rtl)}
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
-                                        <strong>Instruksi </strong>
-                                    </div>
-                                    <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
-                                         : ${stringPemeriksaan(response.instruksi)}
-                                    </div>
-
+                                    <button class="btn btn-sm btn-primary mt-3" type="button" onclick="salinCppt('${result.no_rawat}', '${result.nip}')">
+                                        <i class="ti ti-copy"></i> Copy CPPT
+                                    </button>
                                 </div>
-                                <button class="btn btn-sm btn-primary mt-3" type="button" onclick="salinCppt('${response.no_rawat}')">
-                                    <i class="ti ti-copy"></i> Copy CPPT
-                                </button>
-                            </div>
-                        </div>`
-                    body.append([ttv, pemeriksaan]).hide().fadeIn()
+                            </div>`
+                        body.append([ttv, pemeriksaan]).hide().fadeIn()
+                    })
+                    // }
                 })
             }
         });

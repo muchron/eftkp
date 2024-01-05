@@ -19,8 +19,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()"><i class="ti ti-device-floppy"></i> Simpan</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Keluar</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-1"></i>Keluar</button>
             </div>
         </div>
     </div>
@@ -29,7 +29,6 @@
     <script>
         $('#modalCppt').on('hidden.bs.modal', (e) => {
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
-            loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
         })
     </script>
 @endpush

@@ -7,13 +7,14 @@ use App\Models\Pasien;
 use App\Models\Penjab;
 use App\Models\PemeriksaanRalan;
 use App\Models\PcareRujukSubspesialis;
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RegPeriksa extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
     protected $table = 'reg_periksa';
     protected $guarded = [];
     public $timestamps = false;
@@ -34,6 +35,14 @@ class RegPeriksa extends Model
     function pemeriksaanRalan()
     {
         return $this->hasOne(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
+    }
+    function pemeriksaanDokter()
+    {
+        return $this->hasOne(PemeriksaanRalan::class, ['no_rawat', 'nip'], ['no_rawat', 'kd_dokter']);
+    }
+    function riwayatPemeriksaan()
+    {
+        return $this->hasMany(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
     }
     function resepObat()
     {

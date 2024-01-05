@@ -610,13 +610,13 @@
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             loadingAjax();
             $.post('bridging/pcare/kunjungan/post', data).done((response) => {
-                loadingAjax().close();
-                if (response.metaData.code == 201) {
+                if (response.metaData.code == 201 && response.metaData.message == 'CREATED') {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
                     }).join(',');
                     data['noKunjungan'] = noKunjungan
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
+                        loadingAjax().close();
                         $.post('pcare/kunjungan', data).done((response) => {
                             $('#modalKunjunganPcare').modal('hide')
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {

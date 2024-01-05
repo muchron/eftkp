@@ -20,15 +20,19 @@ class PemeriksaanRalanController extends Controller
 
     function show(Request $req)
     {
-        $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)
-         ->with(['diagnosa', 'prosedur'])->first();
-        return $pemeriksaan;
+        $pemeriksaan = $this->pemeriksaan->with(['diagnosa', 'prosedur', 'pegawai', 'regPeriksa.poliklinik', 'rujukInternal.dokter', 'rujukInternal.poliklinik']);
+        if ($req->nip) {
+            $result = $pemeriksaan->where('no_rawat', $req->no_rawat)->where('nip', $req->nip)->first();
+        } else {
+            $result = $pemeriksaan->where('no_rawat', $req->no_rawat)->get();
+        }
+        return response()->json($result);
     }
     function get(Request $req)
     {
         $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)
-        ->with(['diagnosa', 'prosedur'])
-        ->first();
+            ->with(['diagnosa', 'prosedur', 'pegawai', 'regPeriksa.poliklinik'])
+            ->first();
         return $pemeriksaan;
     }
 
@@ -57,7 +61,9 @@ class PemeriksaanRalanController extends Controller
             'instruksi' => $req->instruksi,
             'evaluasi' => '-',
         ];
-        if ($this->show($req)) {
+
+        $find = PemeriksaanRalan::where(['no_rawat' => $req->no_rawat, 'nip' => $req->nip])->first();
+        if ($find) {
             unset($data['tgl_rawat'], $data['jam_rawat']);
             $request = $req->merge($data); //convert array data menjadi object request laravel
             return $update = $this->update($request);
@@ -95,7 +101,8 @@ class PemeriksaanRalanController extends Controller
             'evaluasi' => '-',
         ];
         $keys = [
-            'no_rawat' => $req->no_rawat
+            'no_rawat' => $req->no_rawat,
+            'nip' => $req->nip
         ];
         try {
             $pemeriksaan = $this->pemeriksaan->where($keys)->update($data);

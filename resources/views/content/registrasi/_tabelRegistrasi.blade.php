@@ -59,6 +59,9 @@
                         stts: stts,
                     },
                 },
+                createdRow: (row, data, index) => {
+                    $(row).addClass('table-rows').attr('data-id', data.no_rawat);
+                },
                 columns: [{
                         title: '',
                         render: (data, type, row, meta) => {
@@ -190,8 +193,6 @@
             })
             return registrasi;
         }
-
-        function panggil(no_rawat) {}
 
         function setStatusLayan(no_rawat, status) {
             const postStatus = $.post('registrasi/update', {

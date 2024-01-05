@@ -702,18 +702,18 @@ function selectPerusahaan(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
-function selectDataBarang(element, parrent) {
+function selectPoliklinik(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/barang/get',
+            url: '/efktp/poliklinik',
             dataType: 'JSON',
 
             data: (params) => {
                 const query = {
-                    barang: params.term
+                    poli: params.term
                 }
                 return query
             },
@@ -721,8 +721,8 @@ function selectDataBarang(element, parrent) {
                 return {
                     results: data.map((item) => {
                         const items = {
-                            id: item.kode_brng,
-                            text: item.nama_brng,
+                            id: item.kd_poli,
+                            text: `${item.kd_poli} - ${item.nm_poli}`,
                             detail: item
                         }
                         return items;
@@ -734,17 +734,17 @@ function selectDataBarang(element, parrent) {
         cache: true
 
     });
-
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
     return select2;
 }
-
 function selectDokter(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/dokter/get',
+            url: '/efktp/dokter',
             dataType: 'JSON',
 
             data: (params) => {
@@ -758,7 +758,7 @@ function selectDokter(element, parrent) {
                     results: data.map((item) => {
                         const items = {
                             id: item.kd_dokter,
-                            text: item.nm_dokter,
+                            text: `${item.kd_dokter} - ${item.nm_dokter}`,
                             detail: item
                         }
                         return items;
@@ -770,6 +770,51 @@ function selectDokter(element, parrent) {
         cache: true
 
     });
-
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
     return select2;
 }
+// CONTEXT MENU
+$.contextMenu({
+    selector: '.table-rows',
+    build: (element, event) => {
+        const no_rawat = element.data('id');
+        return {
+            items: {
+                "cppt": {
+                    name: "CPPT",
+                    icon: "",
+                    callback: function (item, option, e, x, y) {
+                        modalCppt(`${no_rawat}`)
+                    }
+
+                },
+                "rujukInternal": {
+                    name: "Rujuk Internal",
+                    icon: "fa-paper-plane",
+                    callback: (item) => {
+                        rujukInternal(`${no_rawat}`);
+                    }
+                },
+            }
+        }
+    }
+});
+$.contextMenu({
+    selector: '.rows-rujuk',
+    build: (element, event) => {
+        const no_rawat = element.data('id');
+        return {
+            items: {
+                "cppt": {
+                    name: "CPPT",
+                    icon: "",
+                    callback: function (item, option, e, x, y) {
+                        modalCpptRujuk(`${no_rawat}`)
+                    }
+
+                },
+            }
+        }
+    }
+});

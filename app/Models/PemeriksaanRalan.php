@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PemeriksaanRalan extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
     protected $table = 'pemeriksaan_ralan';
     protected $guarded = [];
     public $timestamps = false;
@@ -23,5 +24,13 @@ class PemeriksaanRalan extends Model
     function prosedur()
     {
         return $this->hasMany(ProsedurPasien::class, 'no_rawat', 'no_rawat');
+    }
+    function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'nip', 'nik');
+    }
+    function rujukInternal()
+    {
+        return $this->hasOne(RujukInternal::class, ['kd_dokter', 'no_rawat'], ['nip', 'no_rawat']);
     }
 }

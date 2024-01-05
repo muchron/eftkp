@@ -25,6 +25,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -98,6 +100,8 @@
     <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('public/js/utility.js') }}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
         (function(factory) {
             typeof define === 'function' && define.amd ? define(factory) :

@@ -31,7 +31,9 @@ use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PenjabController;
 use App\Http\Controllers\PerusahaanPasienController;
+use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\PropinsiController;
+use App\Http\Controllers\RujukInternalController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\SukuBangsaController;
 use App\Models\SukuBangsa;
@@ -92,6 +94,12 @@ Route::middleware('auth')->group(function () {
     // SET NO RKM MEDIS
     Route::get('/set/norm', [setNoRkmMedisController::class, 'get']);
     Route::post('/set/norm/delete', [setNoRkmMedisController::class, 'delete']);
+    // POLIKLINIK
+    Route::get('/poliklinik', [PoliklinikController::class, 'get']);
+    Route::post('/poliklinik', [PoliklinikController::class, 'delete']);
+    // DOKTER
+    Route::get('/dokter', [DokterController::class, 'get']);
+    Route::post('/dokter', [DokterController::class, 'delete']);
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');
@@ -163,10 +171,17 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
 
 
+    // RUJUK INTERNAL POLI
+    Route::get('/rujuk/internal/poli', [RujukInternalController::class, 'get']);
+    Route::post('/rujuk/internal/poli', [RujukInternalController::class, 'create']);
+    Route::get('/rujuk/internal/poli/show', [RujukInternalController::class, 'show']);
+    Route::post('/rujuk/internal/poli/delete', [RujukInternalController::class, 'delete']);
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
     Route::get('/pcare/pendaftaran/get', [PcarePendaftaranController::class, 'get']);
     Route::post('/pcare/pendaftaran/delete', [PcarePendaftaranController::class, 'delete']);
+
+
 
     // PCARE KUNJUNGAN
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
