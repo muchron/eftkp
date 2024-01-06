@@ -26,14 +26,17 @@
                                         <div class="col-lg-6 col-md-12 col-sm-12">
                                             <fieldset class="form-fieldset">
                                                 <div class="row gy-1">
-                                                    <div class="col-lg-3 col-md-12 col-sm-12">
+                                                    <div class="col-lg-4 col-md-12 col-sm-12">
                                                         <label class="form-label required">No. Rekam Medis</label>
                                                         <div class="input-group">
+                                                            <input type="text" name="no_rkm_medis" id="no_rkm_medis" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" value="-" disabled>
                                                             <input type="hidden" name="sttsForm">
-                                                            <input type="text" name="no_rkm_medis" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" readonly>
+                                                            <span class="input-group-text">
+                                                                <input class="form-check-input m-0" type="checkbox" checked id="checkNoRm" />
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-9 col-md-12 col-sm-12">
+                                                    <div class="col-lg-8 col-md-12 col-sm-12">
                                                         <label class="form-label required">Nama Pasien</label>
                                                         <input type="text" name="nm_pasien" id="nm_pasien" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" value="-">
                                                     </div>
@@ -252,8 +255,10 @@
         var propinsi = formPasien.find('select[name=kd_prop]');
         var perusahaan = formPasien.find('select[name=perusahaan_pasien]');
         var checkPj = formPasien.find('input[id=checkPj]');
+        var checkNoRm = formPasien.find('input[id=checkNoRm]');
         var tglLahir = formPasien.find('input[name=tgl_lahir]');
         var url = "{{ url('') }}"
+
 
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
@@ -288,8 +293,8 @@
         })
 
         function resetSelect() {
-            selectSukuBangsa(sukuBangsa, modalPasien, 'JAWA');
-            selectBahasaPasien(bahasaPasien, modalPasien, 'jawa');
+            selectSukuBangsa(sukuBangsa, modalPasien, '-');
+            selectBahasaPasien(bahasaPasien, modalPasien, 'INDONESIA');
             selectCacatFisik(cacatFisik, modalPasien, 'TIDAK ADA');
             selectPenjab(penjab, modalPasien);
 
@@ -335,6 +340,18 @@
             }
             formPasien.find('input[name=alamatpj]').val(alamatpj)
 
+        })
+        checkNoRm.on('change', (e) => {
+            const isChecked = $(e.currentTarget).is(':checked');
+            const noRkmMedis = formPasien.find('input[name=no_rkm_medis]');
+            if (isChecked) {
+                $.get(`${url}/set/norm`).done((response) => {
+                    noRkmMedis.attr('disabled', true);
+                    noRkmMedis.val(response)
+                })
+            } else {
+                noRkmMedis.attr('disabled', false);
+            }
         })
 
         sukuBangsa.on('select2:select', (e) => {
@@ -420,6 +437,7 @@
                 searching: true,
                 responsive: true,
                 scroller: true,
+                fixedHeader: true,
                 ajax: {
                     url: `${url}/pasien`,
                     data: {
@@ -428,7 +446,10 @@
                     }
                 },
 
-                createdRow: (row, data, index) => {},
+                createdRow: (row, data, index) => {
+                    $(row).addClass('rows-pasien');
+                    $(row).prop('data-id', data.no_rkm_medis);
+                },
                 columns: [{
                         title: 'No RM.',
                         data: 'no_rkm_medis',
@@ -439,6 +460,13 @@
                     {
                         title: 'Nama',
                         data: 'nm_pasien',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'JK',
+                        data: 'jk',
                         render: (data, type, row, meta) => {
                             return data;
                         }
@@ -488,7 +516,14 @@
                         }
 
                     },
+                    {
+                        title: '',
+                        data: 'no_rkm_medis',
+                        render: (data, type, row, meta) => {
+                            return `<button class="btn btn-primary btn-sm"><i class="ti ti-plus"></i></button>`;
+                        }
 
+                    },
                 ],
             })
         }

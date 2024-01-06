@@ -32,10 +32,11 @@
                 const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
                 formPasien.find('input[name=nm_pasien]').val(result.response.nama)
                 formPasien.find('select[name=jk]').val(result.response.sex).change()
-                formPasien.find('select[name=jk]').val(result.response.sex).change()
                 formPasien.find('select[name=gol_darah]').val('-')
                 formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
                 formPasien.find('input[name=umur]').val(contentUmur)
+                formPasien.find('input[name=no_ktp]').val(result.response.noKTP)
+                formPasien.find('input[name=no_tlp]').val(result.response.noHP)
                 formPasien.find('input[name=no_peserta]').val(noKartu)
                 formPasien.find('input[name=sttsForm]').val('bridging')
 
@@ -82,10 +83,6 @@
                         return q;
                     }
                 },
-                columnDefs: [{
-                    'targets': [0, 1, 2, 3, 4, 5],
-                    'createdCell': (td, cellData, rowData, row, col) => {}
-                }],
                 createdRow: (row, data, index) => {
                     const noKartu = data.peserta.noKartu;
                     getNokaPasien(noKartu).done((response) => {
@@ -93,7 +90,8 @@
                             $(row).addClass('text-sucess')
                         } else {
                             $(row).attr('onclick', `createPasienBpjs('${noKartu}')`)
-                            $(row).addClass('text-danger').css('cursor', 'pointer')
+                            $(row).find(`#btnPeserta${noKartu}`).removeClass('d-none')
+                            $(row).addClass('bg-red-lt').css('cursor', 'pointer')
                         }
                     })
                 },
@@ -132,7 +130,6 @@
                             return `${data} (${row.peserta.sex})`;
                         }
                     },
-
                     {
                         title: 'Poli',
                         data: 'poli.nmPoli',
@@ -140,9 +137,15 @@
                             return data;
                         }
                     },
+                    {
+                        title: '',
+                        data: 'peserta.noKartu',
+                        render: (data, type, row, meta) => {
+                            return `<button type="button" class="btn btn-sm btn-success d-none" onclick="createPasienBpjs('${data}')" id="btnPeserta${data}"><i class="ti ti-http-get"></i></button>`;
+                        }
+                    },
                 ],
                 infoCallback: (settings, start) => {
-
                     return `Total pendaftaran ${settings.json?.response?.count} pasien`;
                 }
             })

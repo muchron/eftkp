@@ -818,3 +818,34 @@ $.contextMenu({
         }
     }
 });
+$.contextMenu({
+    selector: '.rows-pasien',
+    build: (element, event) => {
+        const no_rkm_medis = element.data('id');
+        return {
+            items: {
+                "registrasi": {
+                    name: "Registrasi",
+                    callback: function (item, option, e, x, y) {
+                        registrasiPoli(`${no_rkm_medis}`)
+                    }
+
+                },
+                "edit": {
+                    name: "Edit",
+                    callback: function (item, option, e, x, y) {
+                        editPasien(`${no_rkm_medis}`)
+                    }
+
+                },
+                "delete": {
+                    name: "Hapus",
+                    callback: function (item, option, e, x, y) {
+                        hapusPasien(`${no_rkm_medis}`)
+                    }
+
+                },
+            }
+        }
+    }
+});

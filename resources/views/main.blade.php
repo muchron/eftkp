@@ -19,7 +19,6 @@
     <link href="{{ asset('/public/css/tabler.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
 
-    <link href="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
@@ -131,7 +130,6 @@
             }
 
         }));
-
         $(document).ready(() => {
             const tanggal = "{{ date('Y-m-d') }}";
 
@@ -154,6 +152,12 @@
                 language: "id",
             });
         })
+
+        $(function() {
+            $('tr').on('click', function(e) {
+                console.log('clicked', e.currentTarget.data);
+            })
+        });
     </script>
     @stack('script')
 </body>

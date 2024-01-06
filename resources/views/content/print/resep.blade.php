@@ -103,7 +103,7 @@
                                 {{ $rd->jml }}
                             </td>
                             <td>
-                                {{ $rd->aturan_pakai }}
+                                S {{ $rd->aturan_pakai }}
                             </td>
                         </tr>
                     @endforeach
@@ -115,9 +115,10 @@
             <table width="100%" class="table-print">
                 <thead>
                     <tr>
-                        <th width="2%">
+                        <th width="2%" colspan="4">
+                            RESEP RACIKAN
                         </th>
-                        <th width="50%">
+                        {{-- <th width="50%">
                             Racikan
                         </th>
                         <th>
@@ -125,12 +126,12 @@
                         </th>
                         <th>
                             Aturan Pkai
-                        </th>
+                        </th> --}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->resepRacikan as $rr)
-                        <tr style="border:0!important;margin:0px">
+                        {{-- <tr style="border:0!important;margin:0px">
                             <td>
                                 R/
                             </td>
@@ -143,9 +144,10 @@
                             <td>
                                 {{ $rr->aturan_pakai }}
                             </td>
-                        </tr>
+                        </tr> --}}
                         <tr style="border:0!important">
                             <td colspan="4">
+                                <p>R/ Jumlah : {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}, Aturan Pakai : {{ $rr->aturan_pakai }}</p>
                                 <ul style="padding:10px;margin:0px">
                                     @foreach ($rr->detail as $detail)
                                         <li>{{ $detail->obat->nama_brng }}, Dosis : {{ $detail->kandungan }} gr , Jumlah : {{ $detail->jml }}</li>
