@@ -8,15 +8,16 @@
     <title>EFKTP</title>
     <style>
         @page {
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            margin-top: 10px;
-            margin-right: 20px;
-            margin-left: 20px;
-            margin-bottom: 10px;
+            /* font-family: 'Calibri', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            margin-top: 5px;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-bottom: 5px;
         }
 
         p {
-            font-size: 11px;
+            font-size: 16px;
             margin: 0px;
         }
 
@@ -34,12 +35,12 @@
 
         .table-print td {
             padding: 5px;
-            font-size: 11px;
+            font-size: 16px;
         }
 
         .table-print th {
             text-align: left;
-            font-size: 11px;
+            font-size: 16px;
             padding: 5px;
         }
 

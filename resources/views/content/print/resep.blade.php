@@ -5,14 +5,14 @@
 
     <div width="100%" style="">
         <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute">
-        <div style="text-align: center; margin-left:60px">
-            <p style="margin-bottom: 0px;font-size:12px;font-weight: bold">{{ $setting->nama_instansi }}</p>
+        <div style="text-align: center; margin-left:60px;font-size:14px;">
+            <p style="margin-bottom: 0px;font-weight: bold">{{ $setting->nama_instansi }}</p>
             <p style="font-size: 9px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
             <p style="font-size: 9px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
         </div>
         <hr>
-        <div class="info" style="font-size: 11px;margin-bottom:10px">
-            <table class="" width="100%" style="border-spacing: 0px;font-size:9px">
+        <div class="info" style="margin-bottom:10px">
+            <table class="" width="100%" style="border-spacing: 0px;font-size:14px;">
                 <tr>
                     <td width="25%">
                         Nama/JK
@@ -44,7 +44,7 @@
                     </td>
                     <td>
 
-                        {{ $data->regPeriksa->pasien->alamat }}, {{ $data->regPeriksa->pasien->kel->nm_kel }}, {{ $data->regPeriksa->pasien->kec->nm_kec }}
+                        {{ $data->regPeriksa->pasien->alamat }}, {{ $data->regPeriksa->pasien->kel->nm_kel }}
                     </td>
                 </tr>
                 <tr>
@@ -73,8 +73,8 @@
 
         </div>
         @if ($data->resepDokter)
-            <table width="100%" class="table-print">
-                <thead>
+            <table width="100%" class="table-print" style="font-size: 15px">
+                {{-- <thead>
                     <tr>
                         <th width="2%" style="border: no">
 
@@ -86,10 +86,10 @@
                             Jml
                         </th>
                         <th>
-                            Aturan Pkai
+                            S
                         </th>
                     </tr>
-                </thead>
+                </thead> --}}
                 <tbody>
                     @foreach ($data->resepDokter as $rd)
                         <tr>
@@ -147,10 +147,10 @@
                         </tr> --}}
                         <tr style="border:0!important">
                             <td colspan="4">
-                                <p>R/ Jumlah : {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}, Aturan Pakai : {{ $rr->aturan_pakai }}</p>
+                                <p>R/ Jumlah : {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}, S: {{ $rr->aturan_pakai }}</p>
                                 <ul style="padding:10px;margin:0px">
                                     @foreach ($rr->detail as $detail)
-                                        <li>{{ $detail->obat->nama_brng }}, Dosis : {{ $detail->kandungan }} gr , Jumlah : {{ $detail->jml }}</li>
+                                        <li>{{ $detail->obat->nama_brng }} ({{ $detail->kandungan }} gr) , Jml: {{ $detail->jml }}</li>
                                     @endforeach
                                 </ul>
                             </td>
