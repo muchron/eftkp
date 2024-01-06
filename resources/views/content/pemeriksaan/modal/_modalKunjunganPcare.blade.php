@@ -618,21 +618,22 @@
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
                         loadingAjax().close();
                         $.post('pcare/kunjungan', data).done((response) => {
-                            $('#modalKunjunganPcare').modal('hide')
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
-                                        alertSuccessAjax('Berhasil buat rujukan')
+                                        alertSuccessAjax('Berhasil buat rujukan').then(() => {
+                                            $('#modalKunjunganPcare').modal('hide')
+                                            setStatusLayan(data['no_rawat'], 'Dirujuk');
+                                        })
                                     })
                                 })
-                                setStatusLayan(data['no_rawat'], 'Dirujuk');
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
+                                $('#modalCppt').modal('hide');
                             }
-                            $('#modalCppt').modal('hide');
                             loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
                         }).fail((request) => {
                             alertErrorAjax(request)

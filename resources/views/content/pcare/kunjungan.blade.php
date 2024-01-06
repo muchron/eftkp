@@ -162,10 +162,9 @@
                         title: '',
                         data: 'noKunjungan',
                         render: (data, type, row, meta) => {
-                            if (row.kdStatusPulang == 4) {
+                            if (row.rujuk_subspesialis) {
                                 return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
                                 <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
-
                             }
                             return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                         },

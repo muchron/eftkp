@@ -76,6 +76,9 @@
             <table width="100%" class="table-print">
                 <thead>
                     <tr>
+                        <th width="2%" style="border: no">
+
+                        </th>
                         <th width="50%">
                             Obat
                         </th>
@@ -90,6 +93,9 @@
                 <tbody>
                     @foreach ($data->resepDokter as $rd)
                         <tr>
+                            <td>
+                                R/
+                            </td>
                             <td>
                                 {{ $rd->obat->nama_brng }}
                             </td>
@@ -109,6 +115,8 @@
             <table width="100%" class="table-print">
                 <thead>
                     <tr>
+                        <th width="2%">
+                        </th>
                         <th width="50%">
                             Racikan
                         </th>
@@ -124,6 +132,9 @@
                     @foreach ($data->resepRacikan as $rr)
                         <tr style="border:0!important;margin:0px">
                             <td>
+                                R/
+                            </td>
+                            <td>
                                 {{ $rr->nama_racik }}
                             </td>
                             <td>
@@ -134,7 +145,7 @@
                             </td>
                         </tr>
                         <tr style="border:0!important">
-                            <td colspan="3">
+                            <td colspan="4">
                                 <ul style="padding:10px;margin:0px">
                                     @foreach ($rr->detail as $detail)
                                         <li>{{ $detail->obat->nama_brng }}, Dosis : {{ $detail->kandungan }} gr , Jumlah : {{ $detail->jml }}</li>
