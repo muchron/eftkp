@@ -60,8 +60,6 @@
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
                 setRiwayat(response.no_rkm_medis)
-
-
                 if (response.pasien.alergi.length) {
                     const alergi = response.pasien.alergi;
                     inputAlergi.empty()
@@ -123,8 +121,10 @@
                         } else {
                             textarea.val('0')
                         }
+
                         if (input.length) {
-                            input.val(pemeriksaan[key])
+                            const periksa = key == 'nip' ? response.kd_dokter : pemeriksaan[key]
+                            input.val(periksa)
                         } else {
                             input.val('-')
                         }
@@ -133,6 +133,7 @@
                         }
                     })
                 }
+
             })
             $('#modalCppt').modal('show')
         }
