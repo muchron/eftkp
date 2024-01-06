@@ -295,30 +295,6 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                if (response.pemeriksaan_ralan) {
-                    const pemeriksaan = response.pemeriksaan_ralan;
-                    Object.keys(pemeriksaan).map((key, index) => {
-                        select = $(`#formCpptRajal select[name=${key}]`);
-                        input = $(`#formCpptRajal input[name=${key}]`);
-                        textarea = $(`#formCpptRajal textarea[name=${key}]`);
-
-                        if (textarea.length) {
-                            textarea.val(pemeriksaan[key])
-                        } else {
-                            textarea.val('0')
-                        }
-
-                        if (input.length) {
-                            // const periksa = key == 'nip' ? response.kd_dokter : pemeriksaan[key]
-                            input.val(pemeriksaan[key])
-                        } else {
-                            input.val('-')
-                        }
-                        if (select.length) {
-                            select.find(`option:contains("${pemeriksaan[key]}")`).attr('selected', 'selected')
-                        }
-                    })
-                }
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -390,7 +366,31 @@
                         btnCetakResep.addClass('d-none')
                     }
                 });
+                if (response.pemeriksaan_ralan) {
+                    const pemeriksaan = response.pemeriksaan_ralan;
+                    Object.keys(pemeriksaan).map((key, index) => {
+                        select = $(`#formCpptRajal select[name=${key}]`);
+                        input = $(`#formCpptRajal input[name=${key}]`);
+                        textarea = $(`#formCpptRajal textarea[name=${key}]`);
 
+                        if (textarea.length) {
+                            textarea.val(pemeriksaan[key])
+                        } else {
+                            textarea.val('0')
+                        }
+
+                        if (input.length) {
+                            const periksa = key == 'nip' ? response.kd_dokter : pemeriksaan[key]
+                            input.val(periksa)
+                        } else {
+                            input.val('-')
+                        }
+                        if (select.length) {
+                            select.find(`option:contains("${pemeriksaan[key]}")`).attr('selected', 'selected')
+                        }
+                    })
+                    $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
+                }
             })
             $('#modalCppt').modal('show')
         }
