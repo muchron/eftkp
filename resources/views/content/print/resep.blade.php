@@ -5,14 +5,14 @@
 
     <div width="100%" style="">
         <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute">
-        <div style="text-align: center; margin-left:60px;font-size:20px;">
-            <p style="margin-bottom: 0px;font-weight: bold">{{ $setting->nama_instansi }}</p>
-            <p style="font-size: 16px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
-            <p style="font-size: 16px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
+        <div style="text-align: center; margin-left:60px;">
+            <p style="margin-bottom: 0px;font-weight: bold;font-size:25px">{{ $setting->nama_instansi }}</p>
+            <p style="font-size: 20px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
+            <p style="font-size: 20px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
         </div>
         <hr>
         <div class="info" style="margin-bottom:20px">
-            <table class="" width="100%" style="border-spacing: 0px;font-size:14px;">
+            <table class="" width="100%" style="border-spacing: 0px;font-size:18px;">
                 <tr>
                     <td width="25%">
                         Nama/JK
@@ -73,7 +73,7 @@
 
         </div>
         @if ($data->resepDokter)
-            <table width="100%" class="table-print" style="font-size: 15px">
+            <table width="100%" class="table-print" style="font-size: 20px">
                 {{-- <thead>
                     <tr>
                         <th width="2%" style="border: no">
