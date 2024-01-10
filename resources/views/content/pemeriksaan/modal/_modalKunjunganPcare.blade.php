@@ -610,7 +610,7 @@
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             loadingAjax();
             $.post('bridging/pcare/kunjungan/post', data).done((response) => {
-                if (response.metaData.code == 201 && response.metaData.message == 'CREATED') {
+                if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
                     }).join(',');
@@ -622,18 +622,20 @@
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
+                                    console.log('NO KUNJUNGAN ===', resRujukan);
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
+                                        console.log('RESPONSE RUJUKAN ===', responseRujukan);
                                         alertSuccessAjax('Berhasil buat rujukan').then(() => {
-                                            $('#modalKunjunganPcare').modal('hide')
                                             setStatusLayan(data['no_rawat'], 'Dirujuk');
                                         })
                                     })
                                 })
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
-                                $('#modalCppt').modal('hide');
                             }
+                            $('#modalKunjunganPcare').modal('hide')
+                            $('#modalCppt').modal('hide');
                             loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
                         }).fail((request) => {
                             alertErrorAjax(request)
@@ -642,7 +644,7 @@
                     })
                 } else {
                     const statusCode = response.metaData.code;
-                    const statusText = response.metaData.message.split('response:')[1];
+                    const statusText = response.metaData.message ? response.metaData.message.split('response:')[1] : 'Terjadi Kesalahan';
                     const errorMsg = {
                         status: statusCode,
                         statusText: statusText,
