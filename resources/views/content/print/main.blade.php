@@ -17,7 +17,7 @@
         }
 
         p {
-            font-size: 20px;
+            font-size: 11px;
             margin: 0px;
         }
 
@@ -35,12 +35,12 @@
 
         .table-print td {
             padding: 5px;
-            font-size: 20px;
+            font-size: 11px;
         }
 
         .table-print th {
             text-align: left;
-            font-size: 20px;
+            font-size: 11px;
             padding: 5px;
         }
 
