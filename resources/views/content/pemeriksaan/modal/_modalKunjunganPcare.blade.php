@@ -462,10 +462,10 @@
                             formRujukanSpesialis.find('input[name=kdSubSpesialis]').val(response.rujuk_subspesialis.kdSubSpesialis);
                             formRujukanSpesialis.find('input[name=sarana]').val(response.rujuk_subspesialis.nmSarana);
                             formRujukanSpesialis.find('input[name=kdSarana]').val(response.rujuk_subspesialis.kdSarana);
-                            $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()');
                             $('#btnSarana').removeAttr('onclick').attr('onclick', `renderReferensiSubspesialis('${response.rujuk_subspesialis.kdPoli}')`);
                         }
                     }
+                    $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()');
                 } else {
                     formKunjunganPcare.find('input[name=noKunjungan]').val()
                     formKunjunganPcare.find('input[name=noKunjungan]').removeClass('is-valid')
