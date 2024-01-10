@@ -6,7 +6,7 @@
     <div width="100%" style="">
         <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute">
         <div style="text-align: center; margin-left:60px;">
-            <p style="margin-bottom: 0px;font-weight: bold;font-size:20px">{{ $setting->nama_instansi }}</p>
+            <p style="margin-bottom: 0px;font-weight: bold;font-size:16px">{{ $setting->nama_instansi }}</p>
             <p style="font-size: 10px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
             <p style="font-size: 10px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
         </div>
