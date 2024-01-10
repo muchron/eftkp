@@ -73,23 +73,7 @@
 
         </div>
         @if ($data->resepDokter)
-            <table width="100%" class="table-print" style="font-size: 20px">
-                {{-- <thead>
-                    <tr>
-                        <th width="2%" style="border: no">
-
-                        </th>
-                        <th width="50%">
-                            Obat
-                        </th>
-                        <th>
-                            Jml
-                        </th>
-                        <th>
-                            S
-                        </th>
-                    </tr>
-                </thead> --}}
+            <table width="100%" class="table-print" style="font-size: 12px">
                 <tbody>
                     @foreach ($data->resepDokter as $rd)
                         <tr>
@@ -118,33 +102,10 @@
                         <th width="2%" colspan="4">
                             RESEP RACIKAN
                         </th>
-                        {{-- <th width="50%">
-                            Racikan
-                        </th>
-                        <th>
-                            Jml
-                        </th>
-                        <th>
-                            Aturan Pkai
-                        </th> --}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->resepRacikan as $rr)
-                        {{-- <tr style="border:0!important;margin:0px">
-                            <td>
-                                R/
-                            </td>
-                            <td>
-                                {{ $rr->nama_racik }}
-                            </td>
-                            <td>
-                                {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}
-                            </td>
-                            <td>
-                                {{ $rr->aturan_pakai }}
-                            </td>
-                        </tr> --}}
                         <tr style="border:0!important">
                             <td colspan="4">
                                 <p>R/ Jumlah : {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}, S: {{ $rr->aturan_pakai }}</p>
