@@ -31,8 +31,9 @@
                                                         <div class="input-group">
                                                             <input type="text" name="no_rkm_medis" id="no_rkm_medis" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" value="-" disabled>
                                                             <input type="hidden" name="sttsForm">
+                                                            <input type="hidden" name="noUrut">
                                                             <span class="input-group-text">
-                                                                <input class="form-check-input m-0" type="checkbox" checked id="checkNoRm" />
+                                                                <input class="form-check-input m-0" type="checkbox" checked id="checkNoRm" name="checkNoRm" />
                                                             </span>
                                                         </div>
                                                     </div>
@@ -241,6 +242,7 @@
         </div>
     </div>
 </div>
+@include('content.registrasi._modalRegistrasiPaisen')
 @push('script')
     <script>
         var formPasien = $('#formPasien');
@@ -258,20 +260,41 @@
         var checkNoRm = formPasien.find('input[id=checkNoRm]');
         var tglLahir = formPasien.find('input[name=tgl_lahir]');
         var url = "{{ url('') }}"
+        var periksaPendaftaran = $('#periksaPendaftaran');
 
+        function setUmurDaftar(tglLahir) {
+            let umurArray = hitungUmur(tglLahir).split(';');
+            const umur = umurArray.map((val, index) => {
+                if (val > 0) {
+                    return {
+                        value: val,
+                        index: index
+                    };
+                }
+            }).find(element => element !== undefined)
+            if (!umur) {
+                return '0 Hr';
+            } else {
+                return `${umur.value} ${umur.index == 0 ? 'Th' : umur.index == 1 ? 'Bl' : 'Hr'}`;
+            }
+        }
 
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
             const data = getDataForm('formPasien', ['input', 'select']);
+            loadingAjax();
             $.post(`${url}/pasien`, data).done((response) => {
                 if (response) {
                     alertSuccessAjax('Berhasil menambah pasien').then(
                         () => {
+                            regPoliBpjs(data);
                             renderTbPasien();
                             document.getElementById('formPasien').reset();
-                            $.get(`${url}/set/norm`).done((response) => {
-                                formPasien.find('input[name=no_rkm_medis]').val(response)
-                            })
+                            if (data.checkNoRm) {
+                                $.get(`${url}/set/norm`).done((response) => {
+                                    formPasien.find('input[name=no_rkm_medis]').val(response)
+                                })
+                            }
                         }
                     )
                     resetSelect();
@@ -279,11 +302,84 @@
                         renderPendaftaranPcare(start = '', length = '')
                     }
                     modalPasien.modal('hide');
+
                 }
             }).fail((request) => {
                 alertErrorAjax(request)
             })
         })
+
+        function regPoliBpjs(data) {
+            console.log('DATA ===', data);
+            $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
+                if (pendaftaran.metaData.code == 200) {
+                    const response = pendaftaran.response;
+                    periksaPendaftaran.removeClass('d-none');
+                    formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(response.poli.nmPoli)
+                    formRegistrasiPoli.find('input[name=bridging]').val('bridging')
+                    formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
+                    formRegistrasiPoli.find('input[name=tkp]').val(response.tkp.nmTkp == 'RJTP' ? 'RAWAT JALAN' : 'RAWAT INAP')
+                    formRegistrasiPoli.find('input[name=kdTkp]').val(response.tkp.kdTkp)
+                    formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
+                    formRegistrasiPoli.find('input[name=sistole]').val(response.sistole)
+                    formRegistrasiPoli.find('input[name=diastole]').val(response.diastole)
+                    formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggiBadan)
+                    formRegistrasiPoli.find('input[name=berat]').val(response.beratBadan)
+                    formRegistrasiPoli.find('input[name=respirasi]').val(response.respRate)
+                    formRegistrasiPoli.find('input[name=nadi]').val(response.heartRate)
+                    formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkarPerut)
+                    formRegistrasiPoli.find('input[name=no_peserta]').val(response.peserta.noKartu)
+                    formRegistrasiPoli.find('input[name=no_rkm_medis]').val(data.no_rkm_medis)
+                    formRegistrasiPoli.find('input[name=nm_pasien]').val(data.nm_pasien)
+                    formRegistrasiPoli.find('input[name=umurdaftar]').val(data.umurdaftar)
+                    formRegistrasiPoli.find('input[name=namakeluarga]').val(data.namakeluarga)
+                    formRegistrasiPoli.find('input[name=keluarga]').val(data.keluarga)
+                    formRegistrasiPoli.find('input[name=alamatpj]').val(data.alamatpj)
+                    formRegistrasiPoli.find('input[name=status]').val('Baru')
+                    formRegistrasiPoli.find('input[name=noUrut]').val(data.noUrut)
+                    formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(splitTanggal(response.peserta.tglLahir)))
+
+                    // SET PENJAB
+                    selectPenjab(formRegistrasiPoli.find('select[name=kd_pj]'), modalRegistrasi);
+                    const bpjs = new Option(`BPJ - BPJS`, 'BPJ', true, true);
+                    formRegistrasiPoli.find('select[name=kd_pj]').append(bpjs).trigger('change');
+
+
+                    // SET POLIKLINIK
+                    $.get(`${url}/mapping/pcare/poliklinik`, {
+                        kdPoliPcare: response.poli.kdPoli
+                    }).done((resultPoli) => {
+                        selectPoliklinik(formRegistrasiPoli.find('select[name=kd_poli]'), modalRegistrasi);
+                        const poli = new Option(`${resultPoli.poliklinik.kd_poli} - ${resultPoli.poliklinik.nm_poli}`, `${resultPoli.poliklinik.kd_poli}`, true, true);
+                        formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
+                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
+                    })
+
+                    // GET DOKTER
+                    $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
+                        const dokter = respDokter.response.list
+                        const kdDokterPcare = dokter.map((dr, index) => {
+                            if (index == 0) {
+                                return dr.kdDokter;
+                            }
+                        }).join('')
+
+                        $.get(`${url}/mapping/pcare/dokter`, {
+                            kdDokterPcare: kdDokterPcare
+                        }).done((resDokter) => {
+                            selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
+                            const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
+                            formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
+                            formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                        })
+                    })
+
+
+                    modalRegistrasi.modal('show')
+                    loadingAjax().close();
+                }
+            })
+        }
 
         tglLahir.on('change', (e) => {
             const tanggal = splitTanggal(e.currentTarget.value);
@@ -448,7 +544,7 @@
 
                 createdRow: (row, data, index) => {
                     $(row).addClass('rows-pasien');
-                    $(row).prop('data-id', data.no_rkm_medis);
+                    $(row).attr('data-id', data.no_rkm_medis);
                 },
                 columns: [{
                         title: 'No RM.',
@@ -520,7 +616,7 @@
                         title: '',
                         data: 'no_rkm_medis',
                         render: (data, type, row, meta) => {
-                            return `<button class="btn btn-primary btn-sm"><i class="ti ti-plus"></i></button>`;
+                            return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>`;
                         }
 
                     },

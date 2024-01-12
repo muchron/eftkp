@@ -15,7 +15,7 @@ class Dokter extends Controller
 
   function dokter()
   {
-    $bpjs = new Pcare\Kunjungan($this->config());
-    return $bpjs->riwayat('0001306194502')->index();
+    $bpjs = new Pcare\Dokter($this->config());
+    return $bpjs->index(0, 10);
   }
 }

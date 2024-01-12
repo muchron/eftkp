@@ -734,7 +734,7 @@ function selectPoliklinik(element, parrent) {
         cache: true
 
     });
-    const option = new Option('-', '-', true, true);
+    const option = new Option('U0009 - Poliklinik Umum', 'U0009', true, true);
     element.append(option).trigger('change');
     return select2;
 }

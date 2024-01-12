@@ -469,6 +469,7 @@
                 } else {
                     formKunjunganPcare.find('input[name=noKunjungan]').val()
                     formKunjunganPcare.find('input[name=noKunjungan]').removeClass('is-valid')
+                    $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'createKunjungan()');
 
                 }
             })

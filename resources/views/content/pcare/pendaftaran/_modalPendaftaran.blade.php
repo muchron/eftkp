@@ -23,7 +23,7 @@
             return pasien;
         }
 
-        function createPasienBpjs(noKartu) {
+        function createPasienBpjs(noKartu, noUrut = '') {
             loadingAjax();
             $.get(`../bridging/pcare/peserta/${noKartu}`).done((result) => {
                 $('#modalPasien').modal('show')
@@ -39,6 +39,7 @@
                 formPasien.find('input[name=no_tlp]').val(result.response.noHP)
                 formPasien.find('input[name=no_peserta]').val(noKartu)
                 formPasien.find('input[name=sttsForm]').val('bridging')
+                formPasien.find('input[name=noUrut]').val(noUrut)
 
                 const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
                 formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
@@ -49,7 +50,7 @@
 
         function renderPendaftaranPcare(start = '', length = '') {
             var customStart = start ? start : 0;
-            var customLength = start ? start : 15;
+            var customLength = start ? start : 10;
             const tbReferensi = new DataTable('#tbPendaftaranPcare', {
                 autoWidth: true,
                 serverSide: true,
@@ -68,8 +69,8 @@
                     customStart = settings._iDisplayStart;
                 },
                 "drawCallback": function(settings) {
-
-                    var maxCustomLength = 15;
+                    console.log(settings.json.response);
+                    var maxCustomLength = 10;
                     var totalCount = settings.json.response.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
 
@@ -87,12 +88,17 @@
                     const noKartu = data.peserta.noKartu;
                     getNokaPasien(noKartu).done((response) => {
                         if (response.no_peserta) {
-                            $(row).addClass('text-sucess')
+                            if (response.reg_periksa.length) {
+                                $(row).addClass('bg-green-lt').css('cursor', 'pointer')
+                                return false;
+                            }
+                            $(row).addClass('bg-yellow-lt').css('cursor', 'pointer')
+                            $(row).attr('onclick', `registrasiPoli('${response.no_rkm_medis}', '${data.noUrut}')`)
                         } else {
-                            $(row).attr('onclick', `createPasienBpjs('${noKartu}')`)
-                            $(row).find(`#btnPeserta${noKartu}`).removeClass('d-none')
+                            $(row).attr('onclick', `createPasienBpjs('${noKartu}', '${data.noUrut}')`)
                             $(row).addClass('bg-red-lt').css('cursor', 'pointer')
                         }
+                        $(row).find(`#btnPeserta${noKartu}`).removeClass('d-none')
                     })
                 },
                 columns: [{

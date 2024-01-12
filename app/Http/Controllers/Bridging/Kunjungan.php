@@ -97,11 +97,11 @@ class Kunjungan extends Controller
     }
     function put(Request $request)
     {
+
         $data = [
             "noKunjungan" => $request->noKunjungan,
             "noKartu" => $request->no_peserta,
             "tglDaftar" => $request->tgl_daftar,
-            "kdPoli" => $request->kd_poli_pcare,
             "keluhan" => $request->keluhan,
             "kdSadar" => $request->kesadaran,
             "sistole" => $request->tensi != '-' ? explode('/', $request->tensi)[0] : '',
@@ -155,6 +155,7 @@ class Kunjungan extends Controller
                 $data['alasanTacc'] = $request->kalasanTacc;
             }
         }
+
         try {
             $bpjs = $this->bpjs;
             return $bpjs->update($data);

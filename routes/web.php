@@ -26,6 +26,8 @@ use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\MapingDokterController;
+use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
@@ -100,6 +102,10 @@ Route::middleware('auth')->group(function () {
     // DOKTER
     Route::get('/dokter', [DokterController::class, 'get']);
     Route::post('/dokter', [DokterController::class, 'delete']);
+
+    Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
+    Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
+    Route::post('/registrasi', [RegPeriksaController::class, 'create']);
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');
@@ -178,6 +184,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/rujuk/internal/poli/delete', [RujukInternalController::class, 'delete']);
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
+    Route::post('/pcare/pendaftaran', [PcarePendaftaranController::class, 'create']);
     Route::get('/pcare/pendaftaran/get', [PcarePendaftaranController::class, 'get']);
     Route::post('/pcare/pendaftaran/delete', [PcarePendaftaranController::class, 'delete']);
 
@@ -199,6 +206,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/pcare/kunjungan/rujuk/subspesialis/riwayat/{no_rkm_medis}', [PcareRujukSubspesialisController::class, 'getAll']);
 
 
+    // MAPPING
+    Route::get('mapping/pcare/poliklinik', [MappingPoliklinikPcareController::class, 'get']);
+    Route::get('mapping/pcare/dokter', [MapingDokterController::class, 'get']);
+
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare/post', [BridgingPcareSettingController::class, 'create']);
@@ -208,10 +219,11 @@ Route::middleware('auth')->group(function () {
     Route::get('pasien/alergi', [EfktpPcareAlergiController::class, 'get']);
 
     // BRIDGING
-    Route::get('/bridging/pcare/dokter', [\App\Http\Controllers\Bridging\Dokter::class, 'dokter']);
+    Route::get('/bridging/pcare/dokter', [Bridging\Dokter::class, 'dokter']);
 
     // PENDAFTARAN 
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);
 
     // KUNJUNGAN
     Route::get('/bridging/pcare/kunjungan/{nokartu}', [Bridging\Kunjungan::class, 'get']);

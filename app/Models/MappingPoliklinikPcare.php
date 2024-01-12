@@ -11,4 +11,9 @@ class MappingPoliklinikPcare extends Model
     protected $table = 'maping_poliklinik_pcare';
     protected $guarded = [];
     public $timestamp = false;
+
+    function poliklinik()
+    {
+        return $this->belongsTo(Poliklinik::class, 'kd_poli_rs', 'kd_poli');
+    }
 }

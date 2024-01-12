@@ -9,14 +9,15 @@ class PcarePendaftaran extends Model
 {
     use HasFactory;
     protected $table = 'pcare_pendaftaran';
-    protected $guard = [];
+    protected $guarded = [];
     public $timestamps = false;
 
-    function pasien(){
+    function pasien()
+    {
         return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
     }
-    function regPeriksa(){
+    function regPeriksa()
+    {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
-        
     }
 }

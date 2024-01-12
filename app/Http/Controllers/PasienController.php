@@ -14,7 +14,9 @@ class PasienController extends Controller
     use Track;
     function getByNoka($noKartu)
     {
-        $pasien = Pasien::where('no_peserta', $noKartu)->first();
+        $pasien = Pasien::where('no_peserta', $noKartu)->with('regPeriksa', function ($q) use ($noKartu) {
+            $q->where('tgl_registrasi', date('Y-m-d'));
+        })->first();
         return response()->json($pasien);
     }
 
@@ -27,9 +29,12 @@ class PasienController extends Controller
     }
     function get(Request $request)
     {
-        $pasien = Pasien::orderBy('tgl_daftar', 'ASC')->limit(100)
-            ->with(['kel', 'kec', 'kab', 'prop', 'penjab'])->get();
+        $pasien = Pasien::with(['kel', 'kec', 'kab', 'prop', 'penjab', 'regPeriksa']);
+        if ($request->no_rkm_medis) {
+            $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
+        }
         if ($request->datatable) {
+            $pasien = $pasien->orderBy('tgl_daftar', 'ASC')->limit(100)->get();
             return DataTables::of($pasien)->make(true);
         }
         return response()->json($pasien);
@@ -87,6 +92,20 @@ class PasienController extends Controller
                     $this->insertSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
             }
             return response()->json('SUKSES', 200);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+    }
+    function updateUmur(Request $request)
+    {
+        $key  = ['no_rkm_medis', $request->no_rkm_medis];
+        $umur = ['umur' => $request->umur];
+        try {
+            $pasien = Pasien::where($key)->update($umur);
+            if ($pasien) {
+                $this->updateSql(new Pasien(), $umur, $key);
+            }
+            return response()->json('SUKSES');
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }

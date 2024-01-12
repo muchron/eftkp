@@ -82,6 +82,18 @@
         .dropdown-item {
             font-size: 11px;
         }
+
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 35px !important;
+        }
     </style>
 </head>
 

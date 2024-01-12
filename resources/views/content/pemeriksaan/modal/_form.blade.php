@@ -67,7 +67,7 @@
                     <textarea class="form-control" rows="6" autocomplete="off" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="pemeriksaan">-</textarea>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Suhu</label>
                     <div class="input-group input-group-flat">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Tinggi</label>
                     <div class="input-group input-group-flat">
@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Berat</label>
                     <div class="input-group input-group-flat">
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Tensi</label>
                     <div class="input-group input-group-flat">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Respirasi</label>
                     <div class="input-group input-group-flat">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Nadi (/mnt)</label>
                     <div class="input-group input-group-flat">
@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">SpO²</label>
                     <div class="input-group input-group-flat">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">GCS</label>
                     <div class="input-group input-group-flat">
