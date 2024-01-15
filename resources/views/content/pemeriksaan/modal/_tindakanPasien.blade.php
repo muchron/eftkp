@@ -89,6 +89,10 @@
 
         }
 
+        function hapusBarisTindakan(id) {
+            $(`#rowPx${id}`).remove();
+        }
+
         function hapustindakanPasien(no_rawat, kode) {
 
             Swal.fire({

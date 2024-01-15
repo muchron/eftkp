@@ -56,6 +56,7 @@
 
         function simpanDiagnosaPasien(no_rawat) {
             let data = new Array();
+
             const row = bodyInfoDiagnosa.find('tr')
             for (let index = 1; index <= row.length; index++) {
                 const findSelect = $(`#rowDx${index}`).find('select')
@@ -91,6 +92,10 @@
 
         }
 
+        function hapusBarisDiagnosa(id) {
+            $(`#rowDx${id}`).remove();
+        }
+
         function hapusDiagnosaPasien(no_rawat, kd_penyakit) {
             Swal.fire({
                 title: "Yakin hapus ?",
@@ -113,6 +118,8 @@
                 }
             });
         }
+
+
 
         function tulisAsesmen(no_rawat) {
             getDiagnosaPasien(no_rawat).done((response) => {
