@@ -382,7 +382,7 @@
         }
 
         tglLahir.on('change', (e) => {
-            const tanggal = splitTanggal(e.currentTarget.value);
+            var tanggal = splitTanggal(e.currentTarget.value);
             const umur = hitungUmur(tanggal)
             const textTglLahir = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
             formPasien.find('input[name=umur]').val(textTglLahir)

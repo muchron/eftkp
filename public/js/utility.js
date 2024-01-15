@@ -195,23 +195,12 @@ function alertSuccessAjax(message) {
 }
 
 function alertErrorAjax(request) {
-    const errorMsg = request.responseJSON ? request.responseJSON[2] : '';
+    const errorMsg = Array.isArray(request.responseJSON) ? request.responseJSON[2] : request.responseJSON;
     Swal.fire(
         'Gagal',
         'Terjadi kesalahan<br>  Error Code : ' + request.status + ', ' + request.statusText + '<br/> <p class="text-danger" p-0>' + errorMsg + '</span>',
         'error'
     );
-}
-
-function alertSuccessAjax(message) {
-    return Swal.fire({
-        title: 'Berhasil',
-        text: message,
-        showConfirmButton: false,
-        icon: 'success',
-        timer: 1200,
-    })
-
 }
 
 function alertSessionExpired(requestStatus) {
@@ -244,6 +233,15 @@ function loadingAjax() {
     });
 
     return loading;
+}
+
+function alertError(msg = '') {
+    const message = msg ? msg : 'Terjadi Kesalahan';
+    Swal.fire(
+        'Gagal',
+        `${message}`,
+        'error'
+    );
 }
 function toast(message = '', type = '') {
     const textMessage = message ? message : 'Berhasil'
@@ -794,6 +792,20 @@ $.contextMenu({
                     icon: "fa-paper-plane",
                     callback: (item) => {
                         rujukInternal(`${no_rawat}`);
+                    }
+                },
+                "SuratSakit": {
+                    name: "Surat Sakit",
+                    icon: "fa-paper-plane",
+                    callback: (item) => {
+                        suratSakit(`${no_rawat}`);
+                    }
+                },
+                "hapusRegistrasi": {
+                    name: "Hapus Pasien",
+                    icon: "fa-paper-plane",
+                    callback: (item) => {
+                        hapusRegistrasi(`${no_rawat}`);
                     }
                 },
             }

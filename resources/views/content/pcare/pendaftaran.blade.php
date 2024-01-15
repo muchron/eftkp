@@ -45,7 +45,7 @@
 @push('script')
     <script>
         $(document).ready(() => {
-            const tanggal = "{{ date('Y-m-d') }}";
+            var tanggal = "{{ date('Y-m-d') }}";
 
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;

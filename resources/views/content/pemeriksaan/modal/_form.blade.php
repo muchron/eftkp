@@ -331,10 +331,11 @@
                         confirmButtonText: "Lanjut",
                         cancelButtonText: "Tidak"
                     }).then((result) => {
+                        setStatusLayan(data['no_rawat'], 'Sudah')
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
-                                setStatusLayan(data['no_rawat'], 'Sudah')
+                                loadTabelRegistrasi(tglAwal, tglAkhir)
                             })
                             return false;
                         }
@@ -349,6 +350,7 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
+                        loadTabelRegistrasi(tglAwal, tglAkhir)
                         setStatusLayan(data['no_rawat'], 'Sudah')
                     })
                 }

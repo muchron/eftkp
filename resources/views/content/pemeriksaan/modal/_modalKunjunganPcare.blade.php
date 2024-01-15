@@ -398,6 +398,7 @@
         }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
+            loadTabelRegistrasi(tglAwal, tglAkhir)
             document.getElementById('formKunjunganPcare').reset();
         })
 
@@ -473,9 +474,6 @@
 
                 }
             })
-
-
-
             $('#modalKunjunganPcare').modal('show')
         }
 

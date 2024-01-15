@@ -213,11 +213,13 @@
         var formRegistrasiPoli = $('#formRegistrasiPoli')
         var kd_dokter = formRegistrasiPoli.find('select[name=kd_dokter]')
         var kd_poli = formRegistrasiPoli.find('select[name=kd_poli]')
+        var tglReg = formRegistrasiPoli.find('input[name=tgl_registrasi]')
+        var noReg = formRegistrasiPoli.find('input[name=no_reg]')
         var tabelRegistrasi = $('#tabelRegistrasi')
         var btnSimpanReg = $('#btnSimpanReg')
         var periksaPendaftaran = $('#periksaPendaftaran')
         var url = "{{ url('') }}";
-        const tanggal = "{{ date('Y-m-d') }}";
+        var tanggal = "{{ date('Y-m-d') }}";
         var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
         var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
         var timeDisplay = $('.jam');
@@ -234,6 +236,7 @@
                 formRegistrasiPoli.find('input[name=no_reg]').val(response)
             });
         })
+
         //fungsi
         function refreshTime() {
             setTime = setInterval(() => {
@@ -254,6 +257,7 @@
         }
 
         function setNoRawat(tgl_registrasi = '') {
+
             const setNoRawat = $.get(`${url}/registrasi/set/norawat`, {
                 tgl_registrasi: tgl_registrasi
             })
@@ -265,8 +269,9 @@
         btnSimpanReg.on('click', () => {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             $.post(`${url}/registrasi`, data).done((response) => {
+                console.log('RESPONSE ===', response);
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
-                    if (tabelRegistrasi.lenght) {
+                    if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir)
                     }
                     if (data.bridging) {
@@ -310,7 +315,40 @@
             }
         })
 
+        kd_poli.on('change', (e) => {
+            const kdPoli = e.currentTarget.value
+            const tgl = splitTanggal(tglReg.val());
+            setNoReg({
+                tgl_registrasi: tgl,
+                kd_poli: kdPoli,
+                kd_dokter: kd_dokter.val(),
+            }).done((response) => {
+                noReg.val(response)
+            })
+        })
 
+        kd_dokter.on('change', (e) => {
+            const kdDokter = e.currentTarget.value
+            const tgl = splitTanggal(tglReg.val());
+            setNoReg({
+                tgl_registrasi: tgl,
+                kd_poli: kd_poli.val(),
+                kd_dokter: kdDokter,
+            }).done((response) => {
+                noReg.val(response)
+            })
+        })
+
+        tglReg.on('change', (e) => {
+            const tgl = splitTanggal(e.currentTarget.value)
+            setNoReg({
+                tgl_registrasi: tgl,
+                kd_poli: kd_poli.val(),
+                kd_dokter: kd_dokter.val(),
+            }).done((response) => {
+                noReg.val(response)
+            })
+        })
 
         function setNoReg(data = {}) {
             const setNoReg = $.get(`${url}/registrasi/set/noreg`, {

@@ -38,6 +38,7 @@ use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\RujukInternalController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\SukuBangsaController;
+use App\Http\Controllers\SuratSakitController;
 use App\Models\SukuBangsa;
 use App\Models\EfktpTemplateRacikan;
 
@@ -175,6 +176,13 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/create', [EfktpTemplateRacikanController::class, 'create']);
     Route::post('resep/racikan/template/update', [EfktpTemplateRacikanController::class, 'update']);
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
+
+    // SURAT SAKIT
+    Route::get('surat/sakit', [SuratSakitController::class, 'get']);
+    Route::get('surat/sakit/print/{noSurat}', [SuratSakitController::class, 'print']);
+    Route::post('surat/sakit', [SuratSakitController::class, 'create']);
+    Route::post('surat/sakit/delete/{noSurat}', [SuratSakitController::class, 'delete']);
+    Route::get('surat/sakit/setnomor', [SuratSakitController::class, 'setNoSurat']);
 
 
     // RUJUK INTERNAL POLI

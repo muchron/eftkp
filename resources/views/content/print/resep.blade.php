@@ -4,11 +4,11 @@
     {{-- {{ $setting->logo }} --}}
 
     <div width="100%" style="">
-        <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute">
+        <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute;top:10px">
         <div style="text-align: center; margin-left:60px;">
-            <p style="margin-bottom: 0px;font-weight: bold;font-size:16px">{{ $setting->nama_instansi }}</p>
-            <p style="font-size: 10px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
-            <p style="font-size: 10px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
+            <h6 class="m-0" style="font-size: 15px">{{ $setting->nama_instansi }}</h6>
+            <p class="m-0" style="font-size: 11px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
+            <p class="m-0" style="font-size: 11px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
         </div>
         <hr>
         <div class="info" style="margin-bottom:20px">
@@ -123,10 +123,10 @@
         @endif
 
 
-        <div style="margin-top:10px;text-align: center;left:0px">
+        <div style="margin-top:10px;text-align: center;left:0px;font-size:12px;">
             <p style="margin-bottom:75px">Ttd. Dokter</p>
-            <p><u>{{ $data->dokter->nm_dokter }}</u></p>
-            <p>SIP : {{ $data->dokter->no_ijn_praktek }}</p>
+            <p class="m-0"><u>{{ $data->dokter->nm_dokter }}</u></p>
+            <p class="m-0">SIP : {{ $data->dokter->no_ijn_praktek }}</p>
         </div>
     </div>
 @endsection

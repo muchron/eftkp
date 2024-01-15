@@ -114,6 +114,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
+        var tanggal = "{{ date('Y-m-d') }}"
+        var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
+        var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
         (function(factory) {
             typeof define === 'function' && define.amd ? define(factory) :
                 factory();
@@ -143,7 +146,7 @@
 
         }));
         $(document).ready(() => {
-            const tanggal = "{{ date('Y-m-d') }}";
+            var tanggal = "{{ date('Y-m-d') }}";
 
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;

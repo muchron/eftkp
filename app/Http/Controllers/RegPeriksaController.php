@@ -19,7 +19,7 @@ class RegPeriksaController extends Controller
         $this->regPeriksa = new RegPeriksa();
         $this->relation = ['dokter', 'pasien' => function ($q) {
             return $q->with(['kel', 'kec', 'kab', 'prop']);
-        }, 'penjab', 'pemeriksaanRalan', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
+        }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
     }
 
 
@@ -136,6 +136,17 @@ class RegPeriksaController extends Controller
                 'kd_poli' => $request->kd_poli,
             ])),
         ];
+
+
+        $regPeriksa = RegPeriksa::where([
+            'no_rkm_medis' => $request->no_rkm_medis,
+            'kd_dokter' => $request->kd_dokter,
+            'kd_poli' => $request->kd_poli,
+        ])->first();
+
+        if ($regPeriksa) {
+            return response()->json("Pasien sudah terdaftar di Poli yang sama dengan dokter yang sama", 409);
+        }
 
         try {
             $regPeriksa = RegPeriksa::create($data);

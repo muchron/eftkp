@@ -9,6 +9,7 @@
         </div>
     </div>
     @include('content.registrasi._modalRujukanInternal')
+    @include('content.registrasi._modalSuratSakit')
 @endsection
 @push('script')
     <script>
@@ -16,7 +17,7 @@
         var formRujukInternalPoli = $('#formRujukanInternalPoli');
         $(document).ready(() => {
 
-            const tanggal = "{{ date('Y-m-d') }}";
+            var tanggal = "{{ date('Y-m-d') }}";
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 

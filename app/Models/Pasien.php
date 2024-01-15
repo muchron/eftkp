@@ -47,4 +47,8 @@ class Pasien extends Model
     {
         return $this->hasOne(Propinsi::class, 'kd_prop', 'kd_prop');
     }
+    function instansi()
+    {
+        return $this->hasOne(PerusahaanPasien::class, 'kode_perusahaan', 'perusahaan_pasien');
+    }
 }

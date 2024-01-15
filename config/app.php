@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Riskihajar\Terbilang\TerbilangServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Terbilang' => Riskihajar\Terbilang\Facades\Terbilang::class,
     ])->toArray(),
 
 
@@ -196,6 +198,6 @@ return [
     'bpjsPcare' => env('BPJS_PCARE'),
     'icareUrl' => env('ICARE_URL'),
     'apotekUserKey' => env('APOTEK_USER_KEY'),
-    'bpjsPass' => env('BPJS_PASS'), 
+    'bpjsPass' => env('BPJS_PASS'),
     'bpjsKode' => env('BPJS_KODE'),
 ];

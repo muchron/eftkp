@@ -69,7 +69,6 @@
                     customStart = settings._iDisplayStart;
                 },
                 "drawCallback": function(settings) {
-                    console.log(settings.json.response);
                     var maxCustomLength = 10;
                     var totalCount = settings.json.response.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
