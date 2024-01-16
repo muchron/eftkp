@@ -6,6 +6,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="row gy-2">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="input-group" id="filterIndex">
+                            <span class="input-group-text">Index</span>
+                            <input type="number" class="form-control" id="start" name="start" placeholder="Baris Awal">
+                            <span class="input-group-text">Limit</span>
+                            <input type="number" class="form-control" id="limit" name="limit" placeholder="Jumlah Baris">
+                            <button type="button" class="btn btn-primary" id="btnFilterPendaftaran"><i class="ti ti-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <div class="input-group" id="filterNoUrut">
+                            <span class="input-group-text">No Urut</span>
+                            <input type="text" class="form-control" id="noUrut" name="noUrut">
+                            <button type="button" class="btn btn-primary" id="btnFilterUrutPendaftaran"><i class="ti ti-search"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table id="tbPendaftaranPcare" class="table table-sm table-stripped" width="100%"></table>
                 </div>
@@ -49,8 +67,9 @@
 
 
         function renderPendaftaranPcare(start = '', length = '') {
-            var customStart = start ? start : 0;
-            var customLength = start ? start : 10;
+            var customStart = start ? start - 1 : 0;
+            var customLength = length ? length : 15;
+            $('#tbPendaftaranPcare').empty();
             const tbReferensi = new DataTable('#tbPendaftaranPcare', {
                 autoWidth: true,
                 serverSide: true,
@@ -62,14 +81,15 @@
                 responsive: true,
                 scroller: true,
                 scrollCollapse: true,
-                scrollY: 700,
+                scrollY: 600,
                 colReorder: true,
                 "preDrawCallback": function(settings) {
                     // Modify the custom start value before drawing the table
-                    customStart = settings._iDisplayStart;
+
+                    customStart = customStart ? customStart : settings._iDisplayStart;
                 },
                 "drawCallback": function(settings) {
-                    var maxCustomLength = 10;
+                    var maxCustomLength = 15;
                     var totalCount = settings.json.response.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
 
@@ -155,5 +175,56 @@
                 }
             })
         }
+        $('#btnFilterPendaftaran').on('click', () => {
+            const start = $('#filterIndex').find('input[name="start"]').val();
+            const limit = $('#filterIndex').find('input[name="limit"]').val();
+            renderPendaftaranPcare(start, limit);
+        })
+
+        $('#btnFilterUrutPendaftaran').on('click', () => {
+            const noUrut = $('#filterNoUrut').find('input[name="noUrut"]').val();
+            const tbPendaftaranPcare = $('#tbPendaftaranPcare')
+            if (noUrut) {
+                $.get(`${url}/bridging/pcare/pendaftaran/nourut/${noUrut}`).done((response) => {
+                    if (response.response) {
+                        data = response.response;
+                        tbPendaftaranPcare.empty();
+                        const html = `<tbody width="100%"><tr id="${data.peserta.noKartu}">
+                                <td width="11%">${data.noUrut}</td>
+                                <td width="16%">${data.peserta.noKartu}</td>
+                                <td width="32%">${data.peserta.nama}</td>
+                                <td width="9%">${hitungUmur(splitTanggal(data.peserta.tglLahir)).split(';')[0]} Th</td>
+                                <td width="14%">${data.peserta.tglLahir}</td>
+                                <td width="12%">${data.poli.nmPoli}</td>
+                                <td width=""><button type="button" class="btn btn-sm btn-success d-none" onclick="createPasienBpjs('${data.peserta.noKartu}')" id="btnPeserta${data.peserta.noKartu}"><i class="ti ti-http-get"></i></button></td>
+                            </tr></tbody>`;
+                        tbPendaftaranPcare.append(html)
+
+                        getNokaPasien(noKartu).done((result) => {
+                            if (Object.keys(result).length) {
+                                if (result.reg_periksa.length) {
+                                    $(`#${noKartu}`).addClass('bg-green-lt').css('cursor', 'pointer')
+                                    return false;
+                                }
+                                $(`#${noKartu}`).addClass('bg-yellow-lt').css('cursor', 'pointer')
+                                $(`#${noKartu}`).attr('onclick', `registrasiPoli('${result.no_rkm_medis}', '${data.noUrut}')`)
+                            } else {
+                                $(`#${noKartu}`).attr('onclick', `createPasienBpjs('${noKartu}', '${data.noUrut}')`)
+                                $(`#${noKartu}`).addClass('bg-red-lt').css('cursor', 'pointer')
+                            }
+                            $(`#${noKartu}`).find(`#btnPeserta${noKartu}`).removeClass('d-none')
+                        })
+
+                    } else {
+                        const error = {
+                            status: response.metaData.code,
+                            statusText: response.metaData.message,
+                            responseJSON: 'Nomor pendaftaran tidak ditemukan',
+                        }
+                        alertErrorAjax(error);
+                    }
+                })
+            }
+        })
     </script>
 @endpush
