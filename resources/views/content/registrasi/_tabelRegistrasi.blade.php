@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <div id="table-default" class="table-responsive">
-            <table class="table table-sm" id="tabelRegistrasi" width="100%">
+            <table class="table table-sm table-striped table-hover" id="tabelRegistrasi" width="100%">
             </table>
         </div>
     </div>
@@ -35,6 +35,7 @@
 {{-- MODAL --}}
 
 @include('content.pemeriksaan.modalCppt')
+@include('content.pemeriksaan.modal._pemeriksaanGigi')
 @include('content.pemeriksaan.modal._diagnosaPasien')
 @include('content.pemeriksaan.modal._tindakanPasien')
 @include('content.pemeriksaan.modal._modalEditRacikan')
@@ -50,6 +51,7 @@
                 destroy: true,
                 processing: true,
                 scrollY: 370,
+                scrollX: true,
                 ajax: {
                     url: 'registrasi/get',
                     data: {
@@ -60,7 +62,7 @@
                     },
                 },
                 createdRow: (row, data, index) => {
-                    $(row).addClass('table-rows').attr('data-id', data.no_rawat);
+                    $(row).addClass('table-rows').attr('data-id', data.no_rawat).attr('data-poli', data.kd_poli);
                 },
                 columns: [{
                         title: '',
@@ -93,15 +95,17 @@
                             return row.no_reg;
                         }
                     },
-                    {
-                        title: 'No Rawat',
-                        render: (data, type, row, meta) => {
-                            return row.no_rawat;
-                        }
-                    },
+
                     {
                         title: 'Poli',
                         data: 'poliklinik.nm_poli',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Dokter',
+                        data: 'dokter.nm_dokter',
                         render: (data, type, row, meta) => {
                             return data;
                         }
@@ -118,17 +122,18 @@
                             return row.jam_reg;
                         },
                     },
+
                     {
-                        title: 'No RM',
+                        title: 'No. RM',
+                        data: 'no_rkm_medis',
                         render: (data, type, row, meta) => {
-                            return row.pasien.no_rkm_medis;
-                        },
-                    },
-                    {
-                        title: 'Pasien (JK)',
+                            return data;
+                        }
+                    }, {
+                        title: 'Pasien',
                         render: (data, type, row, meta) => {
-                            return `${row.pasien.nm_pasien} (${row.pasien.jk})`;
-                        },
+                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.no_rawat}</span> <br/> ${row.pasien.nm_pasien} (${row.pasien.jk})`;
+                        }
                     },
                     {
                         title: 'Umur',
@@ -199,6 +204,15 @@
                 stts: status,
                 no_rawat: no_rawat
             })
+        }
+
+        function pemeriksaanGigi(no_rawat) {
+            $.get(`${url}/registrasi/get/detail`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
+            })
+            $('#modalPemeriksaanGigi').modal('show');
         }
     </script>
 @endpush()
