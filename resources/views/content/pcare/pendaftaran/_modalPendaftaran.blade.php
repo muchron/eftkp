@@ -36,6 +36,9 @@
 @include('content.pcare.pendaftaran._modalPasien')
 @push('script')
     <script>
+        var start = $('#filterIndex').find('input[name="start"]').val();
+        var limit = $('#filterIndex').find('input[name="limit"]').val();
+
         function getNokaPasien(noKartu) {
             const pasien = $.get(`../pasien/get/nokartu/${noKartu}`)
             return pasien;
@@ -67,8 +70,12 @@
 
 
         function renderPendaftaranPcare(start = '', length = '') {
+            var startInput = $('#filterIndex').find('input[name="start"]').val();
+            var limitInput = $('#filterIndex').find('input[name="limit"]').val();
+
             var customStart = start ? start - 1 : 0;
             var customLength = length ? length : 15;
+
             $('#tbPendaftaranPcare').empty();
             const tbReferensi = new DataTable('#tbPendaftaranPcare', {
                 autoWidth: true,
@@ -85,11 +92,10 @@
                 colReorder: true,
                 "preDrawCallback": function(settings) {
                     // Modify the custom start value before drawing the table
-
-                    customStart = customStart ? customStart : settings._iDisplayStart;
+                    customStart = startInput ? startInput : settings._iDisplayStart;
                 },
                 "drawCallback": function(settings) {
-                    var maxCustomLength = 15;
+                    var maxCustomLength = limitInput ? limitInput : 15;
                     var totalCount = settings.json.response.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
 
@@ -171,7 +177,7 @@
                     },
                 ],
                 infoCallback: (settings, start) => {
-                    return `Total pendaftaran ${settings.json?.response?.count} pasien`;
+                    return `Total menampilkan ${customLength} pendaftaran ${settings.json?.response?.count} pasien`;
                 }
             })
         }
@@ -200,7 +206,7 @@
                             </tr></tbody>`;
                         tbPendaftaranPcare.append(html)
 
-                        getNokaPasien(noKartu).done((result) => {
+                        getNokaPasien(data.peserta.noKartu).done((result) => {
                             if (Object.keys(result).length) {
                                 if (result.reg_periksa.length) {
                                     $(`#${noKartu}`).addClass('bg-green-lt').css('cursor', 'pointer')

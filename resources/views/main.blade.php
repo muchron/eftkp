@@ -1,12 +1,4 @@
 <!doctype html>
-<!--
-* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-* @version 1.0.0-beta19
-* @link https://tabler.io
-* Copyright 2018-2023 The Tabler Authors
-* Copyright 2018-2023 codecalm.net Paweł Kuna
-* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
--->
 <html lang="en">
 
 <head>
@@ -94,6 +86,26 @@
         .select2-selection__arrow {
             height: 35px !important;
         }
+
+        .gigi_posterior {
+            background: url({{ asset('public/img/gigi/posterior.png') }});
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .gigi_anterior {
+            background: url({{ asset('public/img/gigi/anterior.png') }});
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+
+        .gigi {
+            height: 40px !important;
+            width: 40px !important;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -168,11 +180,11 @@
             });
         })
 
-        $(function() {
-            $('tr').on('click', function(e) {
-                console.log('clicked', e.currentTarget.data);
-            })
-        });
+        // $(function() {
+        //     $('tr').on('click', function(e) {
+        //         console.log('clicked', e.currentTarget.data);
+        //     })
+        // });
     </script>
     @stack('script')
 </body>

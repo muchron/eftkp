@@ -35,7 +35,7 @@
 {{-- MODAL --}}
 
 @include('content.pemeriksaan.modalCppt')
-{{-- @include('content.pemeriksaan.modal._pemeriksaanGigi') --}}
+@include('content.pemeriksaan.modal._pemeriksaanGigi')
 @include('content.pemeriksaan.modal._diagnosaPasien')
 @include('content.pemeriksaan.modal._tindakanPasien')
 @include('content.pemeriksaan.modal._modalEditRacikan')

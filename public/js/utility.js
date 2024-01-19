@@ -464,7 +464,7 @@ function selectDataBarang(element, parrent) {
                     results: data.map((item) => {
                         const items = {
                             id: item.kode_brng,
-                            text: item.nama_brng,
+                            text: `${item.nama_brng}`,
                             detail: item
                         }
                         return items;
@@ -772,11 +772,49 @@ function selectDokter(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+function selectPenyakit(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/penyakit/get',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    penyakit: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_penyakit,
+                            text: `${item.kd_penyakit} - ${item.nm_penyakit}`,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
 // CONTEXT MENU
 $.contextMenu({
     selector: '.table-rows',
     build: (element, event) => {
         const no_rawat = element.data('id');
+        const poli = element.data('poli');
+        const isDisable = poli == 'U0010' ? false : true;
         return {
             items: {
                 "cppt": {
@@ -801,13 +839,23 @@ $.contextMenu({
                         suratSakit(`${no_rawat}`);
                     }
                 },
-                "hapusRegistrasi": {
-                    name: "Hapus Pasien",
+                "PeriksaGigi": {
+                    name: "Pemeriksaan Gigi",
                     icon: "fa-paper-plane",
-                    callback: (item) => {
-                        hapusRegistrasi(`${no_rawat}`);
+                    disabled: () => {
+                        return isDisable;
+                    },
+                    callback: (item, opt) => {
+                        pemeriksaanGigi(`${no_rawat}`);
                     }
                 },
+                // "hapusRegistrasi": {
+                //     name: "Hapus Registrasi",
+                //     icon: "fa-paper-plane",
+                //     callback: (item) => {
+                //         hapusRegistrasi(`${no_rawat}`);
+                //     }
+                // },
             }
         }
     }

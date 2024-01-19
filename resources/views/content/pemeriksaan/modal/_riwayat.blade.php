@@ -23,7 +23,7 @@
                     const textarea = formCpptRajal.find(`textarea[name=${key}]`)
 
                     if (textarea.length) {
-                        textarea.val(response[key])
+                        textarea.val(response[key] ? response[key] : '-')
                     } else {
                         textarea.val('0')
                     }

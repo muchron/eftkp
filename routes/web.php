@@ -1,46 +1,47 @@
 <?php
 
 use App\Models\Setting;
+use App\Models\SukuBangsa;
+use App\Models\EfktpTemplateRacikan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BahasaPasienController;
-use App\Http\Controllers\PenyakitController;
-use App\Http\Controllers\ResepObatController;
-use App\Http\Controllers\DataBarangController;
-use App\Http\Controllers\RegPeriksaController;
-use App\Http\Controllers\MetodeRacikController;
-use App\Http\Controllers\ResepDokterController;
-use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\Icd9Controller;
-use App\Http\Controllers\PasienController;
-use App\Http\Controllers\PemeriksaanRalanController;
-use App\Http\Controllers\ProsedurPasienController;
-use App\Http\Controllers\ResepDokterRacikanController;
-use App\Http\Controllers\ResepDokterRacikanDetailController;
-use App\Http\Controllers\Bridging as Bridging;
-use App\Http\Controllers\BridgingPcareSettingController;
-use App\Http\Controllers\CacatFisikController;
 use App\Http\Controllers\DokterController;
-use App\Http\Controllers\EfktpPcareAlergiController;
-use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PenjabController;
+use App\Http\Controllers\PenyakitController;
+use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
-use App\Http\Controllers\MapingDokterController;
-use App\Http\Controllers\MappingPoliklinikPcareController;
-use App\Http\Controllers\PcareKunjunganController;
-use App\Http\Controllers\PcarePendaftaranController;
-use App\Http\Controllers\PcareRujukSubspesialisController;
-use App\Http\Controllers\PenjabController;
-use App\Http\Controllers\PerusahaanPasienController;
+use App\Http\Controllers\ResepObatController;
+use App\Http\Controllers\Bridging as Bridging;
+use App\Http\Controllers\CacatFisikController;
+use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\PoliklinikController;
-use App\Http\Controllers\PropinsiController;
-use App\Http\Controllers\RujukInternalController;
-use App\Http\Controllers\setNoRkmMedisController;
+use App\Http\Controllers\RegPeriksaController;
 use App\Http\Controllers\SukuBangsaController;
 use App\Http\Controllers\SuratSakitController;
-use App\Models\SukuBangsa;
-use App\Models\EfktpTemplateRacikan;
+use App\Http\Controllers\MetodeRacikController;
+use App\Http\Controllers\ResepDokterController;
+use App\Http\Controllers\BahasaPasienController;
+use App\Http\Controllers\MapingDokterController;
+use App\Http\Controllers\RujukInternalController;
+use App\Http\Controllers\setNoRkmMedisController;
+use App\Http\Controllers\DiagnosaPasienController;
+use App\Http\Controllers\PcareKunjunganController;
+use App\Http\Controllers\ProsedurPasienController;
+use App\Http\Controllers\EfktpPcareAlergiController;
+use App\Http\Controllers\PcarePendaftaranController;
+use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\PerusahaanPasienController;
+use App\Http\Controllers\ResepDokterRacikanController;
+use App\Http\Controllers\BridgingPcareSettingController;
+use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\PemeriksaanGigiHasilController;
+use App\Http\Controllers\MappingPoliklinikPcareController;
+use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\ResepDokterRacikanDetailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +121,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/pemeriksaan/ralan/show', [PemeriksaanRalanController::class, 'show']);
     Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
 
+    // PEMERIKSAAN GIGI
+    Route::post('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'create']);
 
     // Dignosa/Penyakit
     Route::get('/penyakit/get', [PenyakitController::class, 'get']);

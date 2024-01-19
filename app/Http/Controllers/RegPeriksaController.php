@@ -139,9 +139,10 @@ class RegPeriksaController extends Controller
 
 
         $regPeriksa = RegPeriksa::where([
-            'no_rkm_medis' => $request->no_rkm_medis,
-            'kd_dokter' => $request->kd_dokter,
-            'kd_poli' => $request->kd_poli,
+            'no_rkm_medis' => $data['no_rkm_medis'],
+            'kd_dokter' => $data['kd_dokter'],
+            'kd_poli' => $data['kd_poli'],
+            'tgl_registrasi' => $data['tgl_registrasi'],
         ])->first();
 
         if ($regPeriksa) {

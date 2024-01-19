@@ -315,7 +315,6 @@
             })
             data['alergi'] = alergi.join(', ');
             $.post('pemeriksaan/ralan/create', data).done((response) => {
-
                 createAlergi({
                     no_rkm_medis: data['no_rkm_medis'],
                     alergi: alergi
@@ -350,8 +349,8 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
-                        loadTabelRegistrasi(tglAwal, tglAkhir)
                         setStatusLayan(data['no_rawat'], 'Sudah')
+                        loadTabelRegistrasi(tglAwal, tglAkhir)
                     })
                 }
 
