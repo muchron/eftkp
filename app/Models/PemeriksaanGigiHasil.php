@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class PemeriksaanGigiHasil extends Model
 {
     use HasFactory;
-    protected $table = 'pemeriksaan_gigi_hasil';
+    protected $table = 'efktp_pemeriksaan_gigi_hasil';
     protected $guarded = [];
 
     function regPeriksa()
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
+    }
+    function dokter()
+    {
+        return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
 }

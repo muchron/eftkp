@@ -16,8 +16,10 @@ class PemeriksaanGigiHasilController extends Controller
             'no_rawat' => $request->no_rawat,
             'posisi_gigi' => $request->posisi_gigi,
             'hasil' => $request->hasil,
+            'kd_penyakit' => $request->kd_penyakit,
+            'kd_tindakan' => $request->kd_tindakan,
             'keterangan' => $request->keterangan,
-            'dokter' => $request->dokter,
+            'kd_dokter' => session()->get('pegawai')->nik,
         ];
 
         try {
@@ -29,5 +31,11 @@ class PemeriksaanGigiHasilController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    function get(Request $request)
+    {
+        $gigi = PemeriksaanGigiHasil::where('no_rawat', $request->no_rawat)->get();
+        return response()->json($gigi, 200);
     }
 }

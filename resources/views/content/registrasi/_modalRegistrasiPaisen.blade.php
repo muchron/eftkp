@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Keluhan</label>
-                                <input autocomplete="off" type="text" class="form-control" name="keluhan" readonly>
+                                <input autocomplete="off" type="text" class="form-control" name="keluhan">
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <div class="mb-1">
@@ -134,7 +134,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="-" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="-">
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -145,7 +145,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="-">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -156,7 +156,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="-">
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -167,7 +167,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="-">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -178,7 +178,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="-">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -189,7 +189,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="-">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -232,7 +232,6 @@
                 formRegistrasiPoli.find('input[name=no_rawat]').val(response)
             });
             setNoReg().done((response) => {
-                console.log(response);
                 formRegistrasiPoli.find('input[name=no_reg]').val(response)
             });
         })
@@ -269,7 +268,6 @@
         btnSimpanReg.on('click', () => {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             $.post(`${url}/registrasi`, data).done((response) => {
-                console.log('RESPONSE ===', response);
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir)
@@ -277,11 +275,11 @@
                     if (data.bridging) {
                         data['tensi'] = `${data.sistole}/${data.diastole}`
                         data['nip'] = data.kd_dokter
-                        data['spo2'] = '-'
+                        data['spo2'] = '98'
                         data['alergi'] = '-'
                         data['rtl'] = '-'
                         data['penilaian'] = '-'
-                        data['gcs'] = '-'
+                        data['gcs'] = '15'
                         data['instruksi'] = '-'
                         data['kesadaran'] = 'Compos Mentis'
                         data['pemeriksaan'] = '-'

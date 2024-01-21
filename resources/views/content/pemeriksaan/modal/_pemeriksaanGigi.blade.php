@@ -39,14 +39,14 @@
                                     <td id="gigi22" class="gigi gigi_anterior" onclick="tambahPeriksaGigi('22')"></td>
                                     <td id="gigi21" class="gigi gigi_anterior" onclick="tambahPeriksaGigi('21')"></td>
                                     <th style="width:20px"></th>
-                                    <td id="gigi11" class="gigi gigi_anterior"></td>
-                                    <td id="gigi12" class="gigi gigi_anterior"></td>
-                                    <td id="gigi13" class="gigi gigi_anterior"></td>
-                                    <td id="gigi14" class="gigi gigi_anterior"></td>
-                                    <td id="gigi15" class="gigi gigi_posterior"></td>
-                                    <td id="gigi16" class="gigi gigi_posterior"></td>
-                                    <td id="gigi17" class="gigi gigi_posterior"></td>
-                                    <td id="gigi18" class="gigi gigi_posterior"></td>
+                                    <td id="gigi11" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(11)"></td>
+                                    <td id="gigi12" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(12)"></td>
+                                    <td id="gigi13" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(13)"></td>
+                                    <td id="gigi14" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(14)"></td>
+                                    <td id="gigi15" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(15)"></td>
+                                    <td id="gigi16" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(16)"></td>
+                                    <td id="gigi17" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(17)"></td>
+                                    <td id="gigi18" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(18)"></td>
                                 </tr>
 
                                 <tr class="mt-5" style="text-align: center">
@@ -97,11 +97,8 @@
                                     <td></td>
                                     <td></td>
                                     <td id="gigi85" class="gigi gigi_posterior">
-                                        <i class="ti ti-circle-filled text-orange" style="font-size:30px"></i>
                                     </td>
                                     <td id="gigi84" class="gigi gigi_posterior">
-                                        <i class="ti ti-letter-v text-purple" style="font-size:30px"></i>
-
                                     </td>
                                     <td id="gigi83" class="gigi gigi_anterior"></td>
                                     <td id="gigi82" class="gigi gigi_anterior"></td>
@@ -205,11 +202,10 @@
 @push('script')
     <script>
         var formPemeriksaanGigi = $('#formPemeriksaanGigi')
+        var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
 
         function tambahPeriksaGigi(id) {
-
             cek = formPemeriksaanGigiHasil.find('input[name=posisi_gigi]').val(id)
-            console.log(cek);
             modalPemeriksaanGigiHasil.modal('show')
         }
     </script>

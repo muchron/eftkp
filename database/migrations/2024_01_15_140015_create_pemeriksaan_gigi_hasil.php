@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemeriksaan_gigi_hasil', function (Blueprint $table) {
+        Schema::create('efktp_pemeriksaan_gigi_hasil', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->charset = 'latin1';
             $table->collation = 'latin1_swedish_ci';
-            $table->string('no_rawat', 20)->index()->primary();
+            $table->id();
+            $table->string('no_rawat', 20)->index();
             $table->integer('posisi_gigi', false, true);
             $table->string('hasil', 20);
             $table->string('kd_penyakit', 20)->index();

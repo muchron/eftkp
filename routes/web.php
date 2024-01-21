@@ -123,6 +123,7 @@ Route::middleware('auth')->group(function () {
 
     // PEMERIKSAAN GIGI
     Route::post('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'create']);
+    Route::get('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'get']);
 
     // Dignosa/Penyakit
     Route::get('/penyakit/get', [PenyakitController::class, 'get']);

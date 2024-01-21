@@ -34,13 +34,13 @@
                         </div>
                         <div class="col-xl-12 col-sm-12">
                             <label for="hasil">Keterangan</label>
-                            <textarea class="form-control"id="keterangan" name="keterangan" cols="10" rows="5"></textarea>
+                            <textarea class="form-control" id="keterangan" name="keterangan" cols="10" rows="5"></textarea>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="simpanDetailRacikan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanGigi()"><i class="ti ti-device-floppy"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -49,9 +49,26 @@
     <script>
         var modalPemeriksaanGigiHasil = $('#modalPemeriksaanGigiHasil')
         var formPemeriksaanGigiHasil = $('#formPemeriksaanGigiHasil')
-        var selectKdPenyakit = formPemeriksaanGigiHasil.find('select[name="kd_penyakit]')
+        var selectKdPenyakit = formPemeriksaanGigiHasil.find('select[name=kd_penyakit]')
+        var selectKdTindakan = formPemeriksaanGigiHasil.find('select[name=kd_tindakan]')
         modalPemeriksaanGigiHasil.on('shown.bs.modal', () => {
+            var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
             selectPenyakit(selectKdPenyakit, modalPemeriksaanGigiHasil)
+            selectTindakan(selectKdTindakan, modalPemeriksaanGigiHasil)
+
         });
+
+        function simpanPemeriksaanGigi() {
+            const data = getDataForm('formPemeriksaanGigiHasil', ['input', 'select', 'textarea']);
+            data['no_rawat'] = formPemeriksaanGigi.find('input[name=no_rawat]').val();
+            $.post(`${url}/pemeriksaan/gigi`, data).done((response) => {
+                renderHasilGigi(data['no_rawat']);
+                alertSuccessAjax();
+                formPemeriksaanGigiHasil.trigger('reset');
+                modalPemeriksaanGigiHasil.modal('hide')
+            }).fail((response) => {
+                alertErrorAjax(response);
+            })
+        }
     </script>
 @endpush

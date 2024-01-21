@@ -212,7 +212,45 @@
             }).done((response) => {
                 formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
             })
+
+            renderHasilGigi(no_rawat)
             $('#modalPemeriksaanGigi').modal('show');
+        }
+
+        function renderHasilGigi(no_rawat) {
+            $.get(`${url}/pemeriksaan/gigi`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                response.map((item) => {
+                    $(`#gigi${item.posisi_gigi}`).html(symbolGigi(item.hasil))
+                })
+            })
+        }
+
+        function symbolGigi(hasil) {
+            switch (hasil) {
+                case 'Tumpatan':
+                    return '<i class="ti ti-circle-filled" style="font-size:35px"></i>'
+                    break;
+                case 'Erupsi':
+                    return '<i class="ti ti-arrows-horizontal" style="font-size:35px"></i>'
+                    break;
+                case 'Hilang':
+                    return '<i class="ti ti-x" style="font-size:35px"></i>'
+                    break;
+                case 'Sisa Akar':
+                    return '<i class="ti ti-letter-v" style="font-size:35px"></i>';
+                    break;
+                case 'Karies':
+                    return '<i class="ti ti-circle" style="font-size:35px"></i>';
+                    break;
+                case 'Goyang':
+                    return '<i class="ti ti-currency-euro" style="font-size:35px"></i>';
+                    break;
+
+                default:
+                    break;
+            }
         }
     </script>
 @endpush()

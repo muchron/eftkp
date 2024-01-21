@@ -154,41 +154,5 @@
             })
             return tindakan
         }
-
-        function selectTindakan(element, parrent) {
-            const select2 = element.select2({
-                dropdownParent: parrent,
-                delay: 0,
-                scrollAfterSelect: true,
-                ajax: {
-                    url: 'tindakan/get',
-                    dataType: 'JSON',
-
-                    data: (params) => {
-                        const query = {
-                            kode: params.term
-                        }
-                        return query
-                    },
-                    processResults: (data) => {
-                        return {
-                            results: data.map((item) => {
-                                const items = {
-                                    id: item.kode,
-                                    text: `${item.kode} - ${item.deskripsi_pendek}`,
-                                    detail: item
-                                }
-                                return items;
-                            })
-                        }
-                    }
-
-                },
-                cache: true
-
-            });
-
-            return select2;
-        }
     </script>
 @endpush
