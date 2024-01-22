@@ -207,6 +207,7 @@
                         tbPendaftaranPcare.append(html)
 
                         getNokaPasien(data.peserta.noKartu).done((result) => {
+                            const noKartu = data.peserta.noKartu;
                             if (Object.keys(result).length) {
                                 if (result.reg_periksa.length) {
                                     $(`#${noKartu}`).addClass('bg-green-lt').css('cursor', 'pointer')
