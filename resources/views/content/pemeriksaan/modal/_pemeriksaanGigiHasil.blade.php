@@ -17,7 +17,7 @@
                             <select class="form-select" id="hasil" name="hasil">
                                 <option value="-">-</option>
                                 <option value="Erupsi">Erupsi</option>
-                                <option value="Tanggal">Tanggal</option>
+                                <option value="Hilang">Hilang</option>
                                 <option value="Karies">Karies</option>
                                 <option value="Sisa Akar">Sisa Akar</option>
                                 <option value="Tumpatan">Tumpatan</option>
@@ -26,15 +26,15 @@
                         </div>
                         <div class="col-xl-6 col-sm-12">
                             <label for="kd_penyakit" class="form-label">Diagnosa</label>
-                            <select class="form-select" width="100%" id="kd_penyakit" name="kd_penyakit"></select>
+                            <select class="form-select" style="width: 100%" id="kd_penyakit" name="kd_penyakit"></select>
                         </div>
                         <div class="col-xl-6 col-sm-12">
                             <label for="kd_tindakan" class="form-label">Tindakan</label>
-                            <select class="form-select" width="100%" id="kd_tindakan" name="kd_tindakan"></select>
+                            <select class="form-select" style="width: 100%" id="kd_tindakan" name="kd_tindakan"></select>
                         </div>
                         <div class="col-xl-12 col-sm-12">
                             <label for="hasil">Keterangan</label>
-                            <textarea class="form-control" id="keterangan" name="keterangan" cols="10" rows="5"></textarea>
+                            <textarea class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" id="keterangan" name="keterangan" cols="10" rows="5">-</textarea>
                         </div>
                     </div>
                 </form>
@@ -51,21 +51,25 @@
         var formPemeriksaanGigiHasil = $('#formPemeriksaanGigiHasil')
         var selectKdPenyakit = formPemeriksaanGigiHasil.find('select[name=kd_penyakit]')
         var selectKdTindakan = formPemeriksaanGigiHasil.find('select[name=kd_tindakan]')
+
         modalPemeriksaanGigiHasil.on('shown.bs.modal', () => {
             var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
-            selectPenyakit(selectKdPenyakit, modalPemeriksaanGigiHasil)
-            selectTindakan(selectKdTindakan, modalPemeriksaanGigiHasil)
+        });
 
+        modalPemeriksaanGigiHasil.on('hidden.bs.modal', () => {
+            formPemeriksaanGigiHasil.trigger('reset');
         });
 
         function simpanPemeriksaanGigi() {
             const data = getDataForm('formPemeriksaanGigiHasil', ['input', 'select', 'textarea']);
             data['no_rawat'] = formPemeriksaanGigi.find('input[name=no_rawat]').val();
             $.post(`${url}/pemeriksaan/gigi`, data).done((response) => {
-                renderHasilGigi(data['no_rawat']);
-                alertSuccessAjax();
-                formPemeriksaanGigiHasil.trigger('reset');
-                modalPemeriksaanGigiHasil.modal('hide')
+                alertSuccessAjax().then(() => {
+                    renderHasilGigi(data['no_rawat']);
+                    loadHasilPemeriksaanGigi(data['no_rawat'])
+                    formPemeriksaanGigiHasil.trigger('reset');
+                    modalPemeriksaanGigiHasil.modal('hide')
+                });
             }).fail((response) => {
                 alertErrorAjax(response);
             })

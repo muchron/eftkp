@@ -211,9 +211,13 @@
                 no_rawat: no_rawat
             }).done((response) => {
                 formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
+                formPemeriksaanGigi.find('input[name="nm_pasien"]').val(`${response.no_rkm_medis} -  ${response.pasien.nm_pasien} (${response.pasien.jk})`)
+                formPemeriksaanGigi.find('input[name="tgl_lahir"]').val(`${splitTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
+                formPemeriksaanGigi.find('input[name="dokter"]').val(response.dokter.nm_dokter)
             })
 
             renderHasilGigi(no_rawat)
+            loadHasilPemeriksaanGigi(no_rawat)
             $('#modalPemeriksaanGigi').modal('show');
         }
 

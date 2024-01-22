@@ -27,6 +27,7 @@
                     } else {
                         textarea.val('0')
                     }
+
                     if (input.length) {
                         if (key != 'no_rawat') {
                             input.val(response[key])
@@ -34,6 +35,7 @@
                     } else {
                         input.val('-')
                     }
+
                     if (select.length) {
                         select.find(`option:contains("${response[key]}")`).attr('selected', 'selected')
                     }

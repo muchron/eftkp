@@ -19,4 +19,12 @@ class PemeriksaanGigiHasil extends Model
     {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
     }
+    function diagnosa()
+    {
+        return $this->belongsTo(Penyakit::class, 'kd_penyakit', 'kd_penyakit');
+    }
+    function tindakan()
+    {
+        return $this->belongsTo(Icd9::class, 'kd_tindakan', 'kode');
+    }
 }

@@ -122,8 +122,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
 
     // PEMERIKSAAN GIGI
-    Route::post('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'create']);
     Route::get('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'get']);
+    Route::post('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'create']);
+    Route::post('/pemeriksaan/gigi/update', [PemeriksaanGigiHasilController::class, 'update']);
+    Route::post('/pemeriksaan/gigi/delete', [PemeriksaanGigiHasilController::class, 'delete']);
 
     // Dignosa/Penyakit
     Route::get('/penyakit/get', [PenyakitController::class, 'get']);
