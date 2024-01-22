@@ -93,18 +93,17 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td id="gigi55" class="gigi gigi_posterior"></td>
-                                <td id="gigi54" class="gigi gigi_posterior"></td>
-                                <td id="gigi53" class="gigi gigi_anterior"></td>
-                                <td id="gigi52" class="gigi gigi_anterior"></td>
-                                <td id="gigi51" class="gigi gigi_anterior"></td>
+                                <td id="gigi55" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(55)"></td>
+                                <td id="gigi54" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(54)"></td>
+                                <td id="gigi53" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(53)"></td>
+                                <td id="gigi52" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(52)"></td>
+                                <td id="gigi51" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(51)"></td>
                                 <th style="width:20px"></th>
-                                <td id="gigi61" class="gigi gigi_anterior">
-                                </td>
-                                <td id="gigi62" class="gigi gigi_anterior"></td>
-                                <td id="gigi63" class="gigi gigi_posterior"></td>
-                                <td id="gigi64" class="gigi gigi_posterior"></td>
-                                <td id="gigi65" class="gigi gigi_posterior"></td>
+                                <td id="gigi61" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(61)"></td>
+                                <td id="gigi62" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(62)"></td>
+                                <td id="gigi63" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(63)"></td>
+                                <td id="gigi64" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(64)"></td>
+                                <td id="gigi65" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(65)"></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -117,19 +116,17 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td id="gigi85" class="gigi gigi_posterior">
-                                </td>
-                                <td id="gigi84" class="gigi gigi_posterior">
-                                </td>
-                                <td id="gigi83" class="gigi gigi_anterior"></td>
-                                <td id="gigi82" class="gigi gigi_anterior"></td>
-                                <td id="gigi81" class="gigi gigi_anterior"></td>
+                                <td id="gigi85" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(85)"></td>
+                                <td id="gigi84" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(84)"></td>
+                                <td id="gigi83" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(83)"></td>
+                                <td id="gigi82" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(82)"></td>
+                                <td id="gigi81" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(81)"></td>
                                 <th style="width:20px"></th>
-                                <td id="gigi71" class="gigi gigi_anterior"></td>
-                                <td id="gigi72" class="gigi gigi_anterior"></td>
-                                <td id="gigi73" class="gigi gigi_posterior"></td>
-                                <td id="gigi74" class="gigi gigi_posterior"></td>
-                                <td id="gigi75" class="gigi gigi_posterior"></td>
+                                <td id="gigi71" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(71)"></td>
+                                <td id="gigi72" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(72)"></td>
+                                <td id="gigi73" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(73)"></td>
+                                <td id="gigi74" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(74)"></td>
+                                <td id="gigi75" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(75)"></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -156,23 +153,23 @@
                             </tr>
 
                             <tr>
-                                <td id="gigi48" class="gigi gigi_posterior"></td>
-                                <td id="gigi47" class="gigi gigi_posterior"></td>
-                                <td id="gigi46" class="gigi gigi_posterior"></td>
-                                <td id="gigi45" class="gigi gigi_posterior"></td>
-                                <td id="gigi44" class="gigi gigi_anterior"></td>
-                                <td id="gigi43" class="gigi gigi_anterior"></td>
-                                <td id="gigi42" class="gigi gigi_anterior"></td>
-                                <td id="gigi41" class="gigi gigi_anterior"></td>
+                                <td id="gigi48" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(48)"></td>
+                                <td id="gigi47" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(47)"></td>
+                                <td id="gigi46" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(46)"></td>
+                                <td id="gigi45" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(45)"></td>
+                                <td id="gigi44" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(44)"></td>
+                                <td id="gigi43" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(43)"></td>
+                                <td id="gigi42" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(42)"></td>
+                                <td id="gigi41" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(41)"></td>
                                 <th style="width:20px"></th>
-                                <td id="gigi31" class="gigi gigi_anterior"></td>
-                                <td id="gigi32" class="gigi gigi_anterior"></td>
-                                <td id="gigi33" class="gigi gigi_anterior"></td>
-                                <td id="gigi34" class="gigi gigi_anterior"></td>
-                                <td id="gigi35" class="gigi gigi_posterior"></td>
-                                <td id="gigi36" class="gigi gigi_posterior"></td>
-                                <td id="gigi37" class="gigi gigi_posterior"></td>
-                                <td id="gigi38" class="gigi gigi_posterior"></td>
+                                <td id="gigi31" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(31)"></td>
+                                <td id="gigi32" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(32)"></td>
+                                <td id="gigi33" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(33)"></td>
+                                <td id="gigi34" class="gigi gigi_anterior" onclick="tambahPeriksaGigi(34)"></td>
+                                <td id="gigi35" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(35)"></td>
+                                <td id="gigi36" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(36)"></td>
+                                <td id="gigi37" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(37)"></td>
+                                <td id="gigi38" class="gigi gigi_posterior" onclick="tambahPeriksaGigi(38)"></td>
                             </tr>
                             <tr style="text-align: center">
                                 <th>48</th>
