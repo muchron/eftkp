@@ -119,11 +119,11 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" type="text" class="form-control text-end" name="sistole" readonly>
+                                        <input autocomplete="off" type="text" class="form-control text-end" name="sistole">
                                         <span class="input-group-text" style="width:10px;padding:2px;">
                                             /
                                         </span>
-                                        <input autocomplete="off" type="text" class="form-control text-end" name="diastole" readonly>
+                                        <input autocomplete="off" type="text" class="form-control text-end" name="diastole">
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -236,12 +236,11 @@
             });
         })
 
-        //fungsi
         function refreshTime() {
             setTime = setInterval(() => {
                 var dateString = new Date().toLocaleString("id-ID", {
                     timeZone: "Asia/Jakarta"
-                }); //gettime
+                });
                 var formattedString = dateString.replace(",", "-");
                 var splitarray = new Array();
                 splitarray = formattedString.split(" ");
