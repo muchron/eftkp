@@ -1,7 +1,6 @@
 @extends('content.print.main')
 
 @section('content')
-    {{-- @dd($data) --}}
     <div width="100%" style="font-size: 11px">
         <table width="100%">
             <tr>

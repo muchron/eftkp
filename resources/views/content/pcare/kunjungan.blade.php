@@ -70,10 +70,10 @@
 
         $('#formFilterTanggal').on('submit', (e) => {
             e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
-            localStorage.setItem('tglAwal', tglAwal)
-            localStorage.setItem('tglAkhir', tglAkhir)
+            const t1 = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
+            const t2 = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
+            localStorage.setItem('tglAwal', t1)
+            localStorage.setItem('tglAkhir', t2)
             loadTbPcareKunjungan(tglAwal, tglAkhir);
         })
 
@@ -200,7 +200,7 @@
                         $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
                             if (resDelete.metaData.code == 200) {
                                 alertSuccessAjax(`${resDelete.response}`).then(() => {
-                                    loadTbPcareKunjungan(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
+                                    loadTbPcareKunjungan(splitTanggal(tglAwal), splitTanggal(tglAkhir));
                                     $.post(`pendaftaran/delete`, {
                                         no_rawat: no_rawat
                                     }).done(() => {

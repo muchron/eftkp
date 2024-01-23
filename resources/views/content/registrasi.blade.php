@@ -118,14 +118,14 @@
                         textarea = $(`#formCpptRajal textarea[name=${key}]`);
 
                         if (textarea.length) {
-                            textarea.val(pemeriksaan[key])
+                            textarea.val(pemeriksaan[key] ? pemeriksaan[key] : '-')
                         } else {
-                            textarea.val('0')
+                            textarea.text('0')
                         }
 
                         if (input.length) {
                             const periksa = key == 'nip' ? response.kd_dokter : pemeriksaan[key]
-                            input.val(periksa)
+                            input.val(periksa ? periksa : '0')
                         } else {
                             input.val('-')
                         }
