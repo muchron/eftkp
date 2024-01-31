@@ -41,7 +41,9 @@ use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Models\PemeriksaanGigi;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,10 +124,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
 
     // PEMERIKSAAN GIGI
-    Route::get('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'get']);
-    Route::post('/pemeriksaan/gigi', [PemeriksaanGigiHasilController::class, 'create']);
-    Route::post('/pemeriksaan/gigi/update', [PemeriksaanGigiHasilController::class, 'update']);
-    Route::post('/pemeriksaan/gigi/delete', [PemeriksaanGigiHasilController::class, 'delete']);
+    Route::get('/pemeriksaan/gigi', [PemeriksaanGigiController::class, 'get']);
+    Route::get('/pemeriksaan/gigi/riwayat', [PemeriksaanGigiController::class, 'getRiwayat']);
+    Route::get('/pemeriksaan/gigi/hasil', [PemeriksaanGigiHasilController::class, 'get']);
+    Route::post('/pemeriksaan/gigi/hasil', [PemeriksaanGigiHasilController::class, 'create']);
+    Route::post('/pemeriksaan/gigi/hasil/update', [PemeriksaanGigiHasilController::class, 'update']);
+    Route::post('/pemeriksaan/gigi/hasil/delete', [PemeriksaanGigiHasilController::class, 'delete']);
 
     // Dignosa/Penyakit
     Route::get('/penyakit/get', [PenyakitController::class, 'get']);
@@ -226,7 +230,7 @@ Route::middleware('auth')->group(function () {
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
-    Route::post('/setting/pcare/post', [BridgingPcareSettingController::class, 'create']);
+    Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
 
     // EFKTP
     Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);

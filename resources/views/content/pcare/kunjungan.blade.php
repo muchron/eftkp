@@ -84,7 +84,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: 370,
+                scrollY: '60vh',
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {

@@ -54,6 +54,8 @@
 
         modalPemeriksaanGigiHasil.on('shown.bs.modal', () => {
             var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
+            // var no_rkm_medis = formPemeriksaanGigi.find('input[name=no_rkm_medis]').val();
+
         });
 
         modalPemeriksaanGigiHasil.on('hidden.bs.modal', () => {
@@ -63,7 +65,7 @@
         function simpanPemeriksaanGigi() {
             const data = getDataForm('formPemeriksaanGigiHasil', ['input', 'select', 'textarea']);
             data['no_rawat'] = formPemeriksaanGigi.find('input[name=no_rawat]').val();
-            $.post(`${url}/pemeriksaan/gigi`, data).done((response) => {
+            $.post(`${url}/pemeriksaan/gigi/hasil`, data).done((response) => {
                 alertSuccessAjax().then(() => {
                     renderHasilGigi(data['no_rawat']);
                     loadHasilPemeriksaanGigi(data['no_rawat'])

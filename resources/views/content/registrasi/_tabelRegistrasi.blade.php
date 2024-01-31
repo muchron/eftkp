@@ -50,7 +50,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: 370,
+                scrollY: '60vh',
                 scrollX: true,
                 ajax: {
                     url: 'registrasi/get',
@@ -211,9 +211,11 @@
                 no_rawat: no_rawat
             }).done((response) => {
                 formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
-                formPemeriksaanGigi.find('input[name="nm_pasien"]').val(`${response.no_rkm_medis} -  ${response.pasien.nm_pasien} (${response.pasien.jk})`)
+                formPemeriksaanGigi.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
+                formPemeriksaanGigi.find('input[name="nm_pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`)
                 formPemeriksaanGigi.find('input[name="tgl_lahir"]').val(`${splitTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
                 formPemeriksaanGigi.find('input[name="dokter"]').val(response.dokter.nm_dokter)
+                loadRiwayatGigi(response.no_rkm_medis)
             })
 
             renderHasilGigi(no_rawat)
@@ -222,7 +224,7 @@
         }
 
         function renderHasilGigi(no_rawat) {
-            $.get(`${url}/pemeriksaan/gigi`, {
+            $.get(`${url}/pemeriksaan/gigi/hasil`, {
                 no_rawat: no_rawat
             }).done((response) => {
                 response.map((item) => {
@@ -231,25 +233,25 @@
             })
         }
 
-        function symbolGigi(hasil) {
+        function symbolGigi(hasil, size = '') {
             switch (hasil) {
                 case 'Tumpatan':
-                    return '<i class="ti ti-circle-filled" style="font-size:35px"></i>'
+                    return `<i class="ti ti-circle-filled" style="font-size:${size ? size : 35}px"></i>`
                     break;
                 case 'Erupsi':
-                    return '<i class="ti ti-arrows-horizontal" style="font-size:35px"></i>'
+                    return `<i class="ti ti-arrows-horizontal" style="font-size:${size ? size : 35}px"></i>`
                     break;
                 case 'Hilang':
-                    return '<i class="ti ti-x" style="font-size:35px"></i>'
+                    return `<i class="ti ti-x" style="font-size:${size ? size : 35}px"></i>`
                     break;
                 case 'Sisa Akar':
-                    return '<i class="ti ti-letter-v" style="font-size:35px"></i>';
+                    return `<i class="ti ti-letter-v" style="font-size:${size ? size : 35}px"></i>`;
                     break;
                 case 'Karies':
-                    return '<i class="ti ti-circle" style="font-size:35px"></i>';
+                    return `<i class="ti ti-circle" style="font-size:${size ? size : 35}px"></i>`;
                     break;
                 case 'Goyang':
-                    return '<i class="ti ti-currency-euro" style="font-size:35px"></i>';
+                    return `<i class="ti ti-currency-euro" style="font-size:${size ? size : 35}px"></i>`;
                     break;
 
                 default:

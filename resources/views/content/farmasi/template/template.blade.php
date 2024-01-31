@@ -70,7 +70,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: 400,
+                scrollY: '70vh',
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {
@@ -150,8 +150,6 @@
 
                 })
             })
-
-            // selectDataBarang(element, parrent)
         }
 
         function closeEdit(id) {

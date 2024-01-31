@@ -96,7 +96,17 @@
                 },
                 "drawCallback": function(settings) {
                     var maxCustomLength = limitInput ? limitInput : 15;
-                    var totalCount = settings.json.response.count;
+                    console.log(settings.json);
+                    if (settings.json.metaData.code == 500) {
+                        const error = {
+                            status: settings.json.metaData.code,
+                            statusText: '',
+                            responseJSON: settings.json.metaData.message
+                        }
+                        alertErrorAjax(error);
+                        return false;
+                    }
+                    var totalCount = settings.json.response?.count;
                     customLength = Math.min(maxCustomLength, Math.ceil(totalCount / maxCustomLength) * maxCustomLength);
 
                 },
@@ -107,7 +117,7 @@
                         q.start = customStart;
                         q.length = customLength;
                         return q;
-                    }
+                    },
                 },
                 createdRow: (row, data, index) => {
                     const noKartu = data.peserta.noKartu;

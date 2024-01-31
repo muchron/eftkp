@@ -17,9 +17,12 @@ class BridgingPcareSettingController extends Controller
     }
     function create(Request $request)
     {
-        $pcareSetting = BridgingPcareSetting::where('consId', $request->consId)->first();
+        $pcareSetting = BridgingPcareSetting::first();
         if ($pcareSetting) {
-            return $this->update($request);
+            $delete = BridgingPcareSetting::where('id', $pcareSetting->id)->delete();
+            if ($delete) {
+                $this->deleteSql(new BridgingPcareSetting(), ['id' => $pcareSetting->id]);
+            }
         }
         try {
             $post = BridgingPcareSetting::create($request->except(['_token', 'consIdExisting']));
@@ -27,20 +30,6 @@ class BridgingPcareSettingController extends Controller
                 $this->insertSql(new BridgingPcareSetting(), $request->except(['_token', 'consIdExisting']));
             }
             return redirect('setting/pcare')->with('status', ['title' => 'Berhasil', 'message' => 'Menambahkan profile setting bridging PCARE']);
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo, 500);
-        }
-    }
-
-    function update(Request $request)
-    {
-        $key = ['consId' => $request->consIdExisting];
-        try {
-            $post = BridgingPcareSetting::where($key)->update($request->except('consIdExisting'));
-            if ($post) {
-                $this->updateSql(new BridgingPcareSetting(), $request->except('consIdExisting'), $key);
-            }
-            return redirect('setting/pcare')->with('status', ['title' => 'Berhasil', 'message' => 'Mengubah profile setting bridging PCARE']);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }

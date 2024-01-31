@@ -23,7 +23,10 @@ class PasienController extends Controller
     function getRiwayat(Request $request)
     {
         $riwayat = Pasien::where(['no_rkm_medis' => $request->no_rkm_medis])->with(['regPeriksa' => function ($query) {
-            return $query->whereIn('stts', ['Sudah', 'Dirujuk'])->with(['diagnosa.penyakit', 'prosedur.icd9'])->orderBy('tgl_registrasi', 'DESC');
+            return $query->whereIn('stts', ['Sudah', 'Dirujuk'])
+                ->with(['diagnosa.penyakit', 'prosedur.icd9'])
+                ->with(['gigi.hasil'])
+                ->orderBy('tgl_registrasi', 'DESC');
         }])->first();
         return response()->json($riwayat);
     }
@@ -34,8 +37,17 @@ class PasienController extends Controller
             $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
         }
         if ($request->datatable) {
-            $pasien = $pasien->orderBy('tgl_daftar', 'ASC')->limit(100)->get();
-            return DataTables::of($pasien)->make(true);
+            $pasien = $pasien->orderBy('tgl_daftar', 'ASC');
+            return DataTables::of($pasien)
+                ->filter(function ($query) use ($request) {
+                    if ($request->has('search') && $request->get('search')['value']) {
+                        return $query->whereHas('regPeriksa.pasien', function ($query) use ($request) {
+                            $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
+                                ->orWhere('no_rkm_medis', $request->get('search')['value']);
+                        });
+                    }
+                })
+                ->make(true);
         }
         return response()->json($pasien);
     }

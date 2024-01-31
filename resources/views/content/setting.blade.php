@@ -16,7 +16,7 @@
                 <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
             </div>
         @endif
-        <form class="card" id="formSettingPcare" name="formSettingPcare" method="post" action="{{ url('setting/pcare/post') }}">
+        <form class="card" id="formSettingPcare" name="formSettingPcare" method="post" action="{{ url('setting/pcare') }}">
             <div class="card-header">
                 <h3 class="card-title">Setting PCARE </h3>
             </div>

@@ -529,6 +529,7 @@
             const tbReferensi = new DataTable('#tbPasien', {
                 destroy: true,
                 stateSave: true,
+                serverSide: true,
                 processing: true,
                 searching: true,
                 responsive: true,

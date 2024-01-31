@@ -68,4 +68,8 @@ class RegPeriksa extends Model
     {
         return $this->belongsTo(PcareRujukSubspesialis::class, 'no_rawat', 'no_rawat');
     }
+    function gigi()
+    {
+        return $this->hasOne(PemeriksaanGigi::class, 'no_rawat', 'no_rawat');
+    }
 }
