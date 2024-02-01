@@ -1,7 +1,7 @@
 <div class="row gy-2">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <form action="" id="formPemeriksaanGigi">
-            <div class="row">
+            <div class="row gy-2">
                 <div class="col-xl-2 col-md-6 col-sm-12">
                     <label for="no_rawat">No. Rawat</label>
                     <input type="text" class="form-control" id="no_rawat" name="no_rawat" readonly>
@@ -20,9 +20,87 @@
                 <div class="col-xl-3 col-md-6 col-sm-12">
                     <label for="dokter">Dokter</label>
                     <input type="text" class="form-control" id="dokter" name="dokter" readonly>
+                    <input type="hidden" id="kd_dokter" name="kd_dokter">
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="oklusi">Oklusi</label>
+                    <select class="form-select" id="oklusi" name="oklusi">
+                        <option value="-" selected>-</option>
+                        <option value="Normal Bite">Normal Bite</option>
+                        <option value="Cross Bite">Cross Bite</option>
+                        <option value="Step Bite">Step Bite</option>
+                    </select>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="palatinus">Palatinus</label>
+                    <select class="form-select" id="palatinus" name="palatinus">
+                        <option value="-" selected>-</option>
+                        <option value="Tidak Ada">Tidak Ada</option>
+                        <option value="Kecil">Kecil</option>
+                        <option value="Sedang">Sedang</option>
+                        <option value="Multiple">Multiple</option>
+                    </select>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="mandibularis">Mandibularis</label>
+                    <select class="form-select" id="mandibularis" name="mandibularis">
+                        <option value="-" selected>-</option>
+                        <option value="Tidak Ada">Tidak Ada</option>
+                        <option value="Sisi Kanan">Sisi Kanan</option>
+                        <option value="Sisi Kiri">Sisi Kiri</option>
+                        <option value="Kedua Sisi">Kedua Sisi</option>
+                    </select>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="palatum">Palatum</label>
+                    <select class="form-select" id="palatum" name="palatum">
+                        <option value="-" selected>-</option>
+                        <option value="Dalam">Dalam</option>
+                        <option value="Sedang">Sedang</option>
+                        <option value="Rendah">Rendah</option>
+                    </select>
+                </div>
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <label for="diastema">Diastema</label>
+                    <div class="input-group">
+                        <select class="form-select" id="diastema" name="diastema">
+                            <option value="-" selected>-</option>
+                            <option value="Ada">Ada</option>
+                            <option value="Tidak Ada">Tidak Ada</option>
+                        </select>
+                        <input type="text" class="form-control w-50" name="ket_diastema" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6 col-sm-12">
+                    <label for="anomali">Anomali</label>
+                    <div class="input-group">
+                        <select class="form-select" id="anomali" name="anomali">
+                            <option value="-" selected>-</option>
+                            <option value="Tidak Ada">Tidak Ada</option>
+                            <option value="Ada">Ada</option>
+                        </select>
+                        <input type="text" class="form-control w-50" name="ket_anomali" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="lainnya">Lainnya</label>
+                    <input type="text" class="form-control" name="lainnya" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="d">D</label>
+                    <input type="text" class="form-control" name="d" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="m">M</label>
+                    <input type="text" class="form-control" name="m" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-12">
+                    <label for="f">F</label>
+                    <input type="text" class="form-control" name="f" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)">
                 </div>
             </div>
         </form>
+        <hr />
     </div>
     <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
         <table class="tb-odonto" style="margin: 0px auto">
@@ -227,6 +305,10 @@
 @push('script')
     <script>
         var formPemeriksaanGigi = $('#formPemeriksaanGigi')
+        var formPemeriksaanGigiHasil = $('#formPemeriksaanGigiHasil')
+        var selectKdPenyakit = formPemeriksaanGigiHasil.find('select[name=kd_penyakit]')
+        var selectKdTindakan = formPemeriksaanGigiHasil.find('select[name=kd_tindakan]')
+        var modalPemeriksaanGigiHasil = $('#modalPemeriksaanGigiHasil')
         var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
 
         function tambahPeriksaGigi(id) {

@@ -125,6 +125,8 @@ Route::middleware('auth')->group(function () {
 
     // PEMERIKSAAN GIGI
     Route::get('/pemeriksaan/gigi', [PemeriksaanGigiController::class, 'get']);
+    Route::post('/pemeriksaan/gigi', [PemeriksaanGigiController::class, 'create']);
+
     Route::get('/pemeriksaan/gigi/riwayat', [PemeriksaanGigiController::class, 'getRiwayat']);
     Route::get('/pemeriksaan/gigi/hasil', [PemeriksaanGigiHasilController::class, 'get']);
     Route::post('/pemeriksaan/gigi/hasil', [PemeriksaanGigiHasilController::class, 'create']);

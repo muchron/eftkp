@@ -40,18 +40,18 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanGigi()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanHasilGigi()"><i class="ti ti-device-floppy"></i> Simpan</button>
             </div>
         </div>
     </div>
 </div>
 @push('script')
     <script>
-        var modalPemeriksaanGigiHasil = $('#modalPemeriksaanGigiHasil')
+        var formPemeriksaanGigi = $('#formPemeriksaanGigi')
         var formPemeriksaanGigiHasil = $('#formPemeriksaanGigiHasil')
         var selectKdPenyakit = formPemeriksaanGigiHasil.find('select[name=kd_penyakit]')
         var selectKdTindakan = formPemeriksaanGigiHasil.find('select[name=kd_tindakan]')
-
+        var modalPemeriksaanGigiHasil = $('#modalPemeriksaanGigiHasil')
         modalPemeriksaanGigiHasil.on('shown.bs.modal', () => {
             var no_rawat = formPemeriksaanGigi.find('input[name=no_rawat]').val();
             // var no_rkm_medis = formPemeriksaanGigi.find('input[name=no_rkm_medis]').val();
@@ -62,12 +62,14 @@
             formPemeriksaanGigiHasil.trigger('reset');
         });
 
-        function simpanPemeriksaanGigi() {
+        function simpanPemeriksaanHasilGigi() {
             const data = getDataForm('formPemeriksaanGigiHasil', ['input', 'select', 'textarea']);
             data['no_rawat'] = formPemeriksaanGigi.find('input[name=no_rawat]').val();
+            const no_rkm_medis = formPemeriksaanGigi.find('input[name=no_rkm_medis]').val();
             $.post(`${url}/pemeriksaan/gigi/hasil`, data).done((response) => {
                 alertSuccessAjax().then(() => {
                     renderHasilGigi(data['no_rawat']);
+                    loadRiwayatGigi(no_rkm_medis)
                     loadHasilPemeriksaanGigi(data['no_rawat'])
                     formPemeriksaanGigiHasil.trigger('reset');
                     modalPemeriksaanGigiHasil.modal('hide')

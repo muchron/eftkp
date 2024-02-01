@@ -37,13 +37,75 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="simpanDetailRacikan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanGigi()"><i class="ti ti-device-floppy"></i> Simpan</button>
             </div>
         </div>
     </div>
 </div>
-{{-- @include('content.pemeriksaan.modal.gigi._periksaGigi') --}}
-{{-- @include('content.pemeriksaan.modal.gigi._pemeriksaanGigiHasil') --}}
 @push('script')
-    <script></script>
+    <script>
+        function simpanPemeriksaanGigi() {
+            const data = getDataForm('formPemeriksaanGigi', ['input', 'select']);
+            $.post(`${url}/pemeriksaan/gigi`,
+                data
+            ).done((response) => {
+                alertSuccessAjax('Berhasil').then(() => {
+                    loadRiwayatGigi(data['no_rkm_medis']);
+                    setStatusLayan(data['no_rawat'], 'Sudah');
+                    loadTabelRegistrasi();
+                    $('#modalPemeriksaanGigi').modal('hide');
+                });
+            })
+
+        }
+
+        function pemeriksaanGigi(no_rawat) {
+            formPemeriksaanGigi.trigger('reset');
+            $.get(`${url}/registrasi/get/detail`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
+                formPemeriksaanGigi.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
+                formPemeriksaanGigi.find('input[name="nm_pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`)
+                formPemeriksaanGigi.find('input[name="tgl_lahir"]').val(`${splitTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
+                formPemeriksaanGigi.find('input[name="dokter"]').val(response.dokter.nm_dokter)
+                formPemeriksaanGigi.find('input[name="kd_dokter"]').val(response.kd_dokter)
+                loadRiwayatGigi(response.no_rkm_medis)
+            })
+
+            $.get(`${url}/pemeriksaan/gigi`, {
+                no_rawat: no_rawat,
+            }).done((response) => {
+                if (Object.values(response).length) {
+                    formPemeriksaanGigi.find('select[name="oklusi"]').val(response.oklusi).change();
+                    formPemeriksaanGigi.find('select[name="palatinus"]').val(response.palatinus).change();
+                    formPemeriksaanGigi.find('select[name="mandibularis"]').val(response.mandibularis).change();
+                    formPemeriksaanGigi.find('select[name="palatium"]').val(response.palatium).change();
+                    formPemeriksaanGigi.find('select[name="diastema"]').val(response.diastema).change();
+                    formPemeriksaanGigi.find('input[name="ket_diastema"]').val(response.ket_diastema);
+                    formPemeriksaanGigi.find('select[name="anomali"]').val(response.anomali).change();
+                    formPemeriksaanGigi.find('input[name="ket_anomali"]').val(response.ket_anomali);
+                    formPemeriksaanGigi.find('input[name="lainnya"]').val(response.lainnya);
+                    formPemeriksaanGigi.find('input[name="d"]').val(response.d);
+                    formPemeriksaanGigi.find('input[name="m"]').val(response.m);
+                    formPemeriksaanGigi.find('input[name="f"]').val(response.f);
+                }
+            })
+
+            renderHasilGigi(no_rawat);
+            loadHasilPemeriksaanGigi(no_rawat);
+            $('#modalPemeriksaanGigi').modal('show');
+        }
+
+        function renderHasilGigi(no_rawat) {
+            $('.tb-odonto').find('td').html('');
+            $.get(`${url}/pemeriksaan/gigi/hasil`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                response.map((item) => {
+                    $(`#gigi${item.posisi_gigi}`).html(symbolGigi(item.hasil))
+                })
+            })
+        }
+    </script>
 @endpush

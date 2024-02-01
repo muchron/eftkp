@@ -206,32 +206,6 @@
             })
         }
 
-        function pemeriksaanGigi(no_rawat) {
-            $.get(`${url}/registrasi/get/detail`, {
-                no_rawat: no_rawat
-            }).done((response) => {
-                formPemeriksaanGigi.find('input[name="no_rawat"]').val(no_rawat)
-                formPemeriksaanGigi.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
-                formPemeriksaanGigi.find('input[name="nm_pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`)
-                formPemeriksaanGigi.find('input[name="tgl_lahir"]').val(`${splitTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
-                formPemeriksaanGigi.find('input[name="dokter"]').val(response.dokter.nm_dokter)
-                loadRiwayatGigi(response.no_rkm_medis)
-            })
-
-            renderHasilGigi(no_rawat)
-            loadHasilPemeriksaanGigi(no_rawat)
-            $('#modalPemeriksaanGigi').modal('show');
-        }
-
-        function renderHasilGigi(no_rawat) {
-            $.get(`${url}/pemeriksaan/gigi/hasil`, {
-                no_rawat: no_rawat
-            }).done((response) => {
-                response.map((item) => {
-                    $(`#gigi${item.posisi_gigi}`).html(symbolGigi(item.hasil))
-                })
-            })
-        }
 
         function symbolGigi(hasil, size = '') {
             switch (hasil) {
