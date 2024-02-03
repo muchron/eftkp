@@ -49,7 +49,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '60vh',
+                scrollY: '50vh',
                 scrollX: true,
                 ajax: {
                     url: 'resep/get',

@@ -50,7 +50,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '60vh',
+                scrollY: '50vh',
                 scrollX: true,
                 ajax: {
                     url: 'registrasi/get',
@@ -66,11 +66,18 @@
                 },
                 columns: [{
                         title: '',
+                        data: 'no_rawat',
                         render: (data, type, row, meta) => {
                             let attr = 'javascript:void(0)';
                             let target = '';
+                            let action = '';
                             if (row.stts == 'Belum') {
                                 btnStatusLayanan = 'btn-primary'
+                                action = `setPanggil('${data}')`
+                            } else if (row.stts == 'Berkas Diterima' || row.stts == 'Dirawat') {
+                                btnStatusLayanan = 'btn-purple'
+                                action = `setBelum('${data}')`
+                                row.stts = 'Diperiksa';
                             } else if (row.stts == 'Batal') {
                                 btnStatusLayanan = 'btn-danger'
                             } else if (row.stts == 'Sudah') {
@@ -83,7 +90,7 @@
                                 }
                             }
 
-                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" style="width:100%" >${row.stts.toUpperCase()}</a>`
+                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" >${row.stts.toUpperCase()}</a>`
 
 
                             return button;
@@ -203,7 +210,9 @@
             const postStatus = $.post('registrasi/update', {
                 stts: status,
                 no_rawat: no_rawat
-            })
+            });
+
+            return postStatus;
         }
 
 
@@ -231,6 +240,21 @@
                 default:
                     break;
             }
+        }
+
+        function setPanggil(no_rawat) {
+            setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
+                loadTabelRegistrasi(tglAwal, tglAkhir);
+                setTimeout(() => {
+                    setStatusLayan(no_rawat, 'Dirawat')
+                }, 2000);
+            });
+        }
+
+        function setBelum(no_rawat) {
+            setStatusLayan(no_rawat, 'Belum').done((response) => {
+                loadTabelRegistrasi(tglAwal, tglAkhir);
+            });
         }
     </script>
 @endpush()

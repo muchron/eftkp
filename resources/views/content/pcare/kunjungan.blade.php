@@ -85,7 +85,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '60vh',
+                scrollY: '50vh',
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {
@@ -164,10 +164,8 @@
                         data: 'noKunjungan',
                         render: (data, type, row, meta) => {
                             if (row.rujuk_subspesialis) {
-                                //     return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
-                            // <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                                 return `<button type="button" class="btn btn-sm btn-success" onclick="showPrintRujukan('${data}')"><i class="ti ti-printer"></i></button>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                             }
                             return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                         },

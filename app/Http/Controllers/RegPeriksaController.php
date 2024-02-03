@@ -83,9 +83,9 @@ class RegPeriksaController extends Controller
 
         if ($req->tglAwal || $req->tglAkhir) {
             // jika ada filter tanggal, ambil tgl registrasi yang ditentukan
-            $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->get();
+            $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->orderBy('no_reg', 'ASC')->get();
         } else {
-            $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->get();
+            $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
         if ($req->dataTable) {
             return DataTables::of($regPeriksa)->make(true);
@@ -161,5 +161,14 @@ class RegPeriksaController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    function getPanggil(Request $request)
+    {
+        $panggil = RegPeriksa::where('tgl_registrasi', date('Y-m-d'))
+            ->where('stts', 'Berkas Diterima')
+            ->with($this->relation)
+            ->first();
+        return response()->json($panggil);
     }
 }
