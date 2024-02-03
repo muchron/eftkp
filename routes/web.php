@@ -61,6 +61,17 @@ use App\Models\PenilaianAwalKeperawatanRalan;
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
 
+Route::get('/antrian/poliklinik', function () {
+    $settings = Setting::select()->get();
+
+    foreach ($settings as $setting) {
+        $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
+        $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
+    }
+    return view('antrian.poliklinik', ['data' => $setting]);
+})->middleware('guest');
+
+
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
@@ -108,17 +119,6 @@ Route::middleware('auth')->group(function () {
     // DOKTER
     Route::get('/dokter', [DokterController::class, 'get']);
     Route::post('/dokter', [DokterController::class, 'delete']);
-
-    Route::get('/antrian/poliklinik', function () {
-        $settings = Setting::select()->get();
-
-        foreach ($settings as $setting) {
-            $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
-            $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
-        }
-        return view('antrian.poliklinik', ['data' => $setting]);
-    });
-
 
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
