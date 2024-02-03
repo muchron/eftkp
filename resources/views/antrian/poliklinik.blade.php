@@ -68,6 +68,7 @@
     {{-- @dd($data) --}}
 @endsection
 @push('script')
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
     <script>
         var tanggal = "{{ date('Y-m-d') }}";
         var url = "{{ url('') }}";
@@ -82,6 +83,13 @@
                         $('#poliklinik').html(response.poliklinik.nm_poli)
                         $('#dokter').html(response.dokter.nm_dokter)
                         $('#penjab').html(response.penjab.png_jawab)
+                        const speech = response.pasien.nm_pasien.split(', ');
+                        responsiveVoice.speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`, 'Indonesian Female', {
+                            rate: 0.9,
+                            volume: 20,
+                        });
+                        setInterval(blinkText($('#nama')), 2000);
+                        setInterval(blinkText($('#nomor')), 2000);
                     }
                 })
             }, 1000);
@@ -102,6 +110,11 @@
             }, 1000);
 
             return setTime;
+        }
+
+        function blinkText(element) {
+            element.fadeOut(500)
+            element.fadeIn(500)
         }
     </script>
 @endpush
