@@ -13,7 +13,7 @@
                 </td>
             </tr>
         </table>
-        <img style="position: absolute;top:120px;right:30px" src="data:image/png;base64,{{ DNS1D::getBarcodePNG($data['noKunjungan'], 'C39E') }}" height="30" width="200" />
+        <img style="position: absolute;top:90px;right:30px" src="data:image/png;base64,{{ DNS1D::getBarcodePNG($data['noKunjungan'], 'C39E') }}" height="35" width="200" />
         <h2 style="text-align:center">Rujukan FKTP</h2>
         <div style="border:1px solid; padding:10px">
             <div style="border:1px solid; padding:10px">

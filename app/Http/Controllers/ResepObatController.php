@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\ResepObat;
 use App\Models\Setting;
+use App\Traits\Track;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ResepObatController extends Controller
 {
-
+    use Track;
+    function index()
+    {
+        return view('content.farmasi.resep.resepObat');
+    }
     function create(Request $request)
     {
         $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat, 'tgl_peresepan' => date('Y-m-d')])->first();
@@ -45,8 +51,21 @@ class ResepObatController extends Controller
                 'resepRacikan.detail.obat.satuan',
                 'resepRacikan.metode'
             )->first();
-        } else {
+        } else if ($request->no_rawat) {
             $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with('resepDokter.obat.satuan', 'resepRacikan.detail.obat.satuan', 'resepRacikan.metode')->get();
+        } else  if ($request->tgl_awal && $request->tgl_akhir) {
+            $resepObat = ResepObat::whereBetween('tgl_peresepan', [$request->tgl_awal, $request->tgl_akhir])
+                ->with(['regPeriksa' => function ($q) {
+                    return $q->with(['pasien', 'poliklinik', 'dokter']);
+                }, 'dokter'])
+                ->get();
+        } else {
+            $resepObat = ResepObat::where('tgl_peresepan', date('Y-m-d'))->with(['regPeriksa' => function ($q) {
+                return $q->with(['pasien', 'poliklinik', 'dokter']);
+            }, 'dokter'])->get();
+        }
+        if ($request->dataTable) {
+            return DataTables::of($resepObat)->make(true);
         }
         return response()->json($resepObat);
     }
@@ -86,5 +105,21 @@ class ResepObatController extends Controller
             ->setPaper(array(0, 0, 283, 567.00))
             ->setOptions(['defaultFont' => 'serif', 'isRemoteEnabled' => true]);
         return $pdf->stream('cetak resep.pdf');
+    }
+    function setPenyerahan(Request $request)
+    {
+        $data = [
+            'tgl_penyerahan' => date('Y-m-d'),
+            'jam_penyerahan' => date('H:i:s'),
+        ];
+        try {
+            $resep = ResepObat::where('no_resep', $request->no_resep)->update($data);
+            if ($resep) {
+                $this->updateSql(new ResepObat(), $data, ['no_resep' => $request->no_resep]);
+            }
+            return response()->json('SUKSES', 201);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
     }
 }

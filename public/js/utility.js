@@ -857,7 +857,7 @@ $.contextMenu({
             items: {
                 "cppt": {
                     name: "CPPT",
-                    icon: "",
+                    icon: "fas fa-stethoscope",
                     callback: function (item, option, e, x, y) {
                         modalCppt(`${no_rawat}`)
                     }
@@ -865,21 +865,21 @@ $.contextMenu({
                 },
                 "rujukInternal": {
                     name: "Rujuk Internal",
-                    icon: "fa-paper-plane",
+                    icon: "fas fa-clinic-medical",
                     callback: (item) => {
                         rujukInternal(`${no_rawat}`);
                     }
                 },
                 "SuratSakit": {
                     name: "Surat Sakit",
-                    icon: "fa-paper-plane",
+                    icon: "fas fa-envelope-open-text",
                     callback: (item) => {
                         suratSakit(`${no_rawat}`);
                     }
                 },
                 "PeriksaGigi": {
                     name: "Pemeriksaan Gigi",
-                    icon: "fa-paper-plane",
+                    icon: "fas fa-tooth",
                     disabled: () => {
                         return isDisable;
                     },
@@ -887,6 +887,30 @@ $.contextMenu({
                         pemeriksaanGigi(`${no_rawat}`);
                     }
                 },
+                "PenilaianAwal": {
+                    name: "Penilaian Awal",
+                    items: {
+                        "Keperawatan": {
+                            name: "Keperawatan",
+                            icon: "fas fa-edit",
+                            disabled: () => {
+                                return true;
+                            },
+                            callback: (item, opt) => {
+                                penilaianAwalKeperawatan(`${no_rawat}`);
+                            }
+                        },
+                        "SkriningResikoJatuh": {
+                            name: "Skrining Resiko Jatuh",
+                            icon: "fas fa-edit",
+                            disabled: () => { return true; },
+                            callback: (item, opt) => {
+                                skriningResikoJatuh(`${no_rawat}`);
+                            }
+                        },
+                    }
+                },
+
                 // "hapusRegistrasi": {
                 //     name: "Hapus Registrasi",
                 //     icon: "fa-paper-plane",

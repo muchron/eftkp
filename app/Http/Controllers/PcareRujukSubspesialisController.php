@@ -171,15 +171,22 @@ class PcareRujukSubspesialisController extends Controller
         }
     }
 
-    function print($noKunjungan)
+    function print(Request $request)
     {
         $key = [
-            'noKunjungan' => $noKunjungan
+            'noKunjungan' => $request->noKunjungan
         ];
         $pcare = PcareRujukSubspesialis::where($key)->with('detail', 'pasien', 'regPeriksa')->first()->toArray();
         $setting = Setting::first();
-        $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $pcare, 'setting' => $setting])
-            ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+
+
+        if ($request->size) {
+            $pdf = PDF::loadView('content.print.rujukanVertikal4', ['data' => $pcare, 'setting' => $setting]);
+            $pdf->setPaper([0, 0, $request->size * 28.3465, 500])->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+        } else {
+            $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $pcare, 'setting' => $setting]);
+            $pdf->setPaper('a5', 'landscape')->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+        }
         return $pdf->stream($pcare['noKunjungan']);
     }
 

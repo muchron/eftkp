@@ -164,10 +164,10 @@ class PcareKunjunganController extends Controller
         }
     }
 
-    function print($noKunjungan)
+    function print(Request $request)
     {
         $key = [
-            'noKunjungan' => $noKunjungan,
+            'noKunjungan' => $request->noKunjungan,
         ];
         $pcare = PcareKunjungan::where($key)->first();
         $setting = Setting::first();

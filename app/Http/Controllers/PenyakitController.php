@@ -11,7 +11,7 @@ class PenyakitController extends Controller
     {
         $penyakits = new Penyakit();
         if ($request->penyakit) {
-            $penyakit = $penyakits->where('kd_penyakit', 'like', "%{$request->penyakit}%")->orWhere('nm_penyakit', 'like', "%{$request->penyakit}%")->get();
+            $penyakit = $penyakits->where('kd_penyakit', 'like', "%{$request->penyakit}%")->orWhere('nm_penyakit', 'like', "%{$request->penyakit}%")->limit(10)->get();
         } else {
             $penyakit = $penyakits->limit(10)->get();
         }

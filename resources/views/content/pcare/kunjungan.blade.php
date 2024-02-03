@@ -37,6 +37,7 @@
             </div>
         </div>
     </div>
+    @include('content.pcare._modalPrintKunjungan')
 @endsection
 @push('script')
     <script>
@@ -163,8 +164,10 @@
                         data: 'noKunjungan',
                         render: (data, type, row, meta) => {
                             if (row.rujuk_subspesialis) {
-                                return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                                //     return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
+                            // <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                                return `<button type="button" class="btn btn-sm btn-success" onclick="showPrintRujukan('${data}')"><i class="ti ti-printer"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                             }
                             return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
                         },
@@ -180,7 +183,9 @@
         }
 
         function printKunjungan(noKunjungan) {
-            $.post(`kunjungan/print/${noKunjungan}`).done((response) => {})
+            $.post(`kunjungan/print`, {
+                noKunjungan: noKunjungan,
+            }).done((response) => {})
         }
 
         function deleteRujukSubspesialis(noKunjungan, no_rawat) {
@@ -220,6 +225,49 @@
                     });
                 }
             });
+        }
+
+        function showPrintRujukan(noKunjungan) {
+            Swal.fire({
+                title: "Tunggu",
+                html: "Sedang mengambil data...",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+            modalPrintKunjungan.find('#print').on('load', (e) => {
+                if (e.currentTarget.src) {
+                    toast('Berhasil');
+                }
+
+            })
+            modalPrintKunjungan.find('#noKunjungan').val(noKunjungan)
+            modalPrintKunjungan.find('#print').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}`);
+            modalPrintKunjungan.modal('show');
+        }
+
+        modalPrintKunjungan.on('hidden.bs.modal', () => {
+            modalPrintKunjungan.find('#print').removeAttr('src');
+        })
+
+        function renderPrintRujukan(noKunjungan, width = '') {
+            const size = width == 'a5' ? '' : `&size=${width}`;
+            Swal.fire({
+                title: "Tunggu",
+                html: "Sedang mengambil data...",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+            modalPrintKunjungan.find('#print').on('load', (e) => {
+                if (e.currentTarget.src) {
+                    toast('Berhasil');
+                }
+
+            })
+            modalPrintKunjungan.find('#print').removeAttr('src').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}${size}`);
         }
     </script>
 @endpush

@@ -42,8 +42,10 @@ use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PemeriksaanGigiController;
+use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Models\PemeriksaanGigi;
+use App\Models\PenilaianAwalKeperawatanRalan;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +120,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
+    // PENILIAIAN AWAL/SKRINING
+
+    Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
+
+
     // Pemeriksaan
     Route::get('/pemeriksaan/ralan/get', [PemeriksaanRalanController::class, 'get']);
     Route::get('/pemeriksaan/ralan/show', [PemeriksaanRalanController::class, 'show']);
@@ -181,6 +188,11 @@ Route::middleware('auth')->group(function () {
     // Metode Racikan
     Route::get('/metode/racik/get', [MetodeRacikController::class, 'get']);
 
+    // FARMASI
+    Route::get('farmasi/resep', [ResepObatController::class, 'index']);
+    Route::get('farmasi/resep/get', [ResepObatController::class, 'get']);
+    Route::post('farmasi/resep/set/penyerahan', [ResepObatController::class, 'setPenyerahan']);
+
     // Template Racikan
     Route::get('farmasi/racik/template', [EfktpTemplateRacikanController::class, 'index']);
     Route::get('resep/racikan/template/get', [EfktpTemplateRacikanController::class, 'get']);
@@ -222,7 +234,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/pcare/kunjungan/rujuk/subspesialis/', [PcareRujukSubspesialisController::class, 'create']);
     Route::post('/pcare/kunjungan/rujuk/subspesialis/update', [PcareRujukSubspesialisController::class, 'update']);
     Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
-    Route::get('/pcare/kunjungan/rujuk/subspesialis/print/{noKunjungan}', [PcareRujukSubspesialisController::class, 'print']);
+    Route::get('/pcare/kunjungan/rujuk/subspesialis/print', [PcareRujukSubspesialisController::class, 'print']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/riwayat/{no_rkm_medis}', [PcareRujukSubspesialisController::class, 'getAll']);
 
 

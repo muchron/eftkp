@@ -10,6 +10,7 @@
     </div>
     @include('content.registrasi._modalRujukanInternal')
     @include('content.registrasi._modalSuratSakit')
+    @include('content.pemeriksaan.modal.penilaianAwal._modalPenilaianAwal')
 @endsection
 @push('script')
     <script>
