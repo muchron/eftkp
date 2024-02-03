@@ -44,11 +44,11 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="card border rounded-4 text-center" style="height: 70vh">
-                    <div class="card-body">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/rKyvmVnVmxA" title="Pekerjaan Idaman 5 Tahun Sekali ?!?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    </div>
-                </div>
+                {{-- <div class="card border rounded-4 text-center" style="height: 70vh"> --}}
+                {{-- <div class="card-body"> --}}
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                {{-- </div> --}}
+                {{-- </div> --}}
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card border rounded-4 text-center" style="height: 10vh">
