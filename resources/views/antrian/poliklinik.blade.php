@@ -14,9 +14,9 @@
                             {{-- </div> --}}
                             {{-- <div class="col"> --}}
                             <div class="ms-3">
-                                <h1 class="m-0">{{ $data->nama_instansi }}</h1>
-                                <p class="m-0">{{ $data->alamat_instansi }}, {{ $data->kabupaten }}, {{ $data->propinsi }}</p>
-                                <p class="m-0">{{ $data->email }}, {{ $data->kontak }}, {{ $data->propinsi }}</p>
+                                <h1 class="m-0" style="font-size: 300%">{{ $data->nama_instansi }}</h1>
+                                <p class="m-0" style="font-size: 120%">{{ $data->alamat_instansi }}, {{ $data->kabupaten }}, {{ $data->propinsi }}</p>
+                                <p class="m-0" style="font-size: 120%">{{ $data->email }}, {{ $data->kontak }}, {{ $data->propinsi }}</p>
                             </div>
                             {{-- </div> --}}
                         </div>
@@ -74,7 +74,10 @@
         var url = "{{ url('') }}";
         $(document).ready(() => {
             jam();
-            $('#tanggal').html(formatTanggal(tanggal));
+            const date = new Date();
+
+            const hari = setHari(date.getDay());
+            $('#tanggal').html(`${hari}, ${formatTanggal(tanggal)}`);
             setInterval(() => {
                 $.get(`${url}/registrasi/get/panggil`).done((response) => {
                     if (Object.keys(response).length) {

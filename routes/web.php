@@ -69,7 +69,8 @@ Route::get('/antrian/poliklinik', function () {
         $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
     }
     return view('antrian.poliklinik', ['data' => $setting]);
-})->middleware('guest');
+});
+Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
 
 
 Route::middleware('auth')->group(function () {
@@ -123,7 +124,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
     Route::post('/registrasi', [RegPeriksaController::class, 'create']);
-    Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
+
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');

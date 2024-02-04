@@ -101,6 +101,37 @@ function hitungUmur(tgl_lahir) {
     return umurTahun + ';' + umurBulan + ';' + umurTanggal;
 }
 
+function setHari(hari) {
+    let d = '';
+    switch (hari) {
+        case 0:
+            d = 'Minggu';
+            break;
+        case 1:
+            d = 'Senin';
+            break;
+        case 2:
+            d = 'Selasa';
+            break;
+        case 3:
+            d = 'Rabu';
+            break;
+        case 4:
+            d = 'Kamis';
+            break;
+        case 5:
+            d = 'Jumat';
+            break;
+        case 6:
+            d = 'Sabtu';
+            break;
+        default:
+            d = 'Minggu';
+            break;
+    }
+    return d;
+}
+
 function getDataForm(form, element, except = []) {
     let data = {};
 
@@ -169,7 +200,6 @@ function isEmptyNumber(input) {
 }
 
 function hanyaAngka(evt) {
-    console.log(charCode);
     var charCode = (evt.which) ? evt.which : evt.keyCode
     if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
         return false;
