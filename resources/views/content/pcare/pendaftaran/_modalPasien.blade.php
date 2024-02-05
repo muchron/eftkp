@@ -229,7 +229,7 @@
                             </div>
                             <div class="tab-pane" id="pane-pasien">
                                 <div class="table-responsive">
-                                    <table class="table table-sm nowrap" id="tbPasien" width="100%"></table>
+                                    <table class="table table-sm table-hover nowrap" id="tbPasien" width="100%"></table>
                                 </div>
                             </div>
                         </div>
