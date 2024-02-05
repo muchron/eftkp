@@ -18,14 +18,14 @@
   </div>
 
   <div class="nav-item dropdown">
-      <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+      <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu" data-bs-target="#dropdownMenu">
           <span class="avatar avatar-sm" style="background-image: url('{{ asset('/public/img/profile.png') }}')"></span>
           <div class="d-none d-xl-block ps-2">
               <div>{{ session()->get('pegawai')->nama }}</div>
               <div class="mt-1 small text-muted">{{ session()->get('pegawai')->jbtn }}</div>
           </div>
       </a>
-      <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+      <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="dropdownMenu">
           <a href="{{ url('setting/pcare') }}" class="dropdown-item"><i class="ti ti-settings me-2"></i> Setting Pcare</a>
           <a href="{{ url('setting/user') }}" class="dropdown-item"><i class="ti ti-user me-2"></i> Profile</a>
           <form action="{{ url('logout') }}" method="post">

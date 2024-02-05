@@ -956,6 +956,7 @@ $.contextMenu({
     selector: '.rows-rujuk',
     build: (element, event) => {
         const no_rawat = element.data('id');
+
         return {
             items: {
                 "cppt": {
@@ -974,6 +975,8 @@ $.contextMenu({
     selector: '.rows-pasien',
     build: (element, event) => {
         const no_rkm_medis = element.data('id');
+        const poli = element.data('poli');
+        const peserta = element.data('peserta');
         return {
             items: {
                 "registrasi": {
@@ -1003,8 +1006,11 @@ $.contextMenu({
                 "cekBpjs": {
                     name: "Cek Peserta BPJS",
                     icon: 'fas fa-circle-question',
+                    disabled: () => {
+                        return poli == 'BPJS' ? false : true;
+                    },
                     callback: function (item, option, e, x, y) {
-                        editPasien(`${no_rkm_medis}`)
+                        getPeserta(`${peserta}`)
                     }
                 }
             }

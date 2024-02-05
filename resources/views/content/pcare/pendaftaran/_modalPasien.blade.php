@@ -10,16 +10,16 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                             <li class="nav-item">
-                                <a href="#pane-form" id="tabs-form" class="nav-link active" data-bs-toggle="tab"><i class="ti ti-user me-2"></i> Form Pasien</a>
+                                <a href="#pane1" id="tabs1" class="nav-link" data-bs-toggle="tab"><i class="ti ti-user me-2"></i> Form Pasien</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#pane-pasien" id="tabs-pasien" class="nav-link" data-bs-toggle="tab"><i class="ti ti-list me-2"></i> Data Pasien</a>
+                                <a href="#pane2" id="tabs2" class="nav-link" data-bs-toggle="tab"><i class="ti ti-list me-2"></i> Data Pasien</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane active show" id="pane-form">
+                            <div class="tab-pane" id="pane1">
                                 <h4>Form Input Pasien</h4>
                                 <form action="" id="formPasien">
                                     <div class="row">
@@ -227,7 +227,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="tab-pane" id="pane-pasien">
+                            <div class="tab-pane" id="pane2">
                                 <div class="table-responsive">
                                     <table class="table table-sm table-hover nowrap" id="tbPasien" width="100%"></table>
                                 </div>
@@ -244,6 +244,7 @@
     </div>
 </div>
 @include('content.registrasi._modalRegistrasiPaisen')
+@include('content.registrasi._modalPesertaBpjs')
 @push('script')
     <script>
         var formPasien = $('#formPasien');
@@ -262,12 +263,22 @@
         var tglLahir = formPasien.find('input[name=tgl_lahir]');
         var url = "{{ url('') }}"
         var periksaPendaftaran = $('#periksaPendaftaran');
-        var tabFormPasien = new bootstrap.Tab('#tabs-form');
-        var tabTablePasien = new bootstrap.Tab($('#tabs-pasien'));
+        var tabFormPasien = $('#pane1');
+        var tabTablePasien = $('#pane2');
+
 
         modalPasien.on('show.bs.modal', () => {
-            tabFormPasien.show()
+            switchTab('tabs1')
         })
+
+        function switchTab(tabId) {
+            $('.nav-link').removeClass('active');
+            $('.tab-pane').removeClass('show active');
+
+            // Tambahkan kelas 'active' pada tab dan tab-pane yang diinginkan
+            $('#' + tabId).addClass('active');
+            $('#pane' + tabId.slice(-1)).addClass('show active');
+        }
 
         function setUmurDaftar(tglLahir) {
             let umurArray = hitungUmur(tglLahir).split(';');
@@ -307,7 +318,7 @@
                         renderPendaftaranPcare(start = '', length = '')
                     }
                     // modalPasien.modal('hide');
-                    tabTablePasien.show();
+                    switchTab('tabs2')
                 }
             }).fail((request) => {
                 alertErrorAjax(request)
@@ -538,8 +549,6 @@
                 processing: true,
                 searching: true,
                 responsive: true,
-                scroller: true,
-                fixedHeader: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
                         targets: 0
@@ -556,12 +565,21 @@
                         tglRegistrasi: tglRegistrasi,
                     }
                 },
-
                 createdRow: (row, data, index) => {
                     $(row).addClass('rows-pasien');
                     $(row).attr('data-id', data.no_rkm_medis);
+                    $(row).attr('data-poli', data.penjab.png_jawab);
+                    $(row).attr('data-peserta', data.no_peserta);
                 },
                 columns: [{
+                        title: '',
+                        data: 'no_rkm_medis',
+                        render: (data, type, row, meta) => {
+                            return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>
+                            <button class="btn btn-warning btn-sm" onclick="editPasien('${data}')"><i class="ti ti-pencil"></i></button>`;
+                        }
+
+                    }, {
                         title: 'No RM.',
                         data: 'no_rkm_medis',
                         render: (data, type, row, meta) => {
@@ -627,15 +645,7 @@
                         }
 
                     },
-                    {
-                        title: '',
-                        data: 'no_rkm_medis',
-                        render: (data, type, row, meta) => {
-                            return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>
-                            <button class="btn btn-warning btn-sm" onclick="editPasien('${data}')"><i class="ti ti-pencil"></i></button>`;
-                        }
 
-                    },
                 ],
             })
         }
@@ -653,6 +663,7 @@
             $.get(`${url}/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {
+                console.log('RESPONSE ==', response);
                 formPasien.find('input[name=no_rkm_medis]').val(no_rkm_medis);
                 formPasien.find('input[name=checkNoRm]').attr('disabled', true);
                 formPasien.find('input[name=nm_pasien]').val(response.nm_pasien);
@@ -668,7 +679,8 @@
                 formPasien.find('input[name=pekerjaanpj]').val(response.pekerjaanpj);
                 formPasien.find('select[name=agama]').val(response.agama).change();
                 formPasien.find('select[name=stts_nikah]').val(response.stts_nikah).change();
-                formPasien.find('input[name=no_kartu]').val(response.no_kartu);
+                formPasien.find('input[name=no_peserta]').val(response.no_peserta);
+                formPasien.find('input[name=no_ktp]').val(response.no_ktp);
                 formPasien.find('input[name=no_tlp]').val(response.no_tlp);
                 formPasien.find('input[name=email]').val(response.email);
                 formPasien.find('select[name=pnd]').val(response.pnd).change();
@@ -706,7 +718,7 @@
 
                 // formPasien.find('input[name=nm_pasien]').val('');
                 console.log(response.alamatpj);
-                tabFormPasien.show();
+                switchTab('tabs1')
             })
         }
     </script>
