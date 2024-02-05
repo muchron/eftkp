@@ -237,8 +237,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
                 <button type="button" class="btn btn-warning" id="btnResetPasien"><i class="ti ti-reload me-2"></i>Baru</button>
+                <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -631,7 +631,8 @@
                         title: '',
                         data: 'no_rkm_medis',
                         render: (data, type, row, meta) => {
-                            return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>`;
+                            return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>
+                            <button class="btn btn-warning btn-sm" onclick="editPasien('${data}')"><i class="ti ti-pencil"></i></button>`;
                         }
 
                     },
