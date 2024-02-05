@@ -532,7 +532,6 @@
             $.post(`${url}/propinsi`, {
                 propinsi: nmPropinsi,
             }).done((response) => {
-                console.log(response);
                 if (response.message == 'SUKSES') {
                     toast();
                     const option = new Option(nmPropinsi, response.id, true, true);
@@ -663,7 +662,6 @@
             $.get(`${url}/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {
-                console.log('RESPONSE ==', response);
                 formPasien.find('input[name=no_rkm_medis]').val(no_rkm_medis);
                 formPasien.find('input[name=checkNoRm]').attr('disabled', true);
                 formPasien.find('input[name=nm_pasien]').val(response.nm_pasien);
@@ -715,9 +713,6 @@
                 const inst = new Option(`${response.perusahaan_pasien.nama_perusahaan}`, `${response.perusahaan_pasien.kode_perusahaan}`, true, true);
                 perusahaan.append(inst).trigger('change');
 
-
-                // formPasien.find('input[name=nm_pasien]').val('');
-                console.log(response.alamatpj);
                 switchTab('tabs1')
             })
         }

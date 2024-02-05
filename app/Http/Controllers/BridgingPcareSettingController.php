@@ -19,7 +19,7 @@ class BridgingPcareSettingController extends Controller
     {
         $pcareSetting = BridgingPcareSetting::first();
         if ($pcareSetting) {
-            $delete = BridgingPcareSetting::where('id', $pcareSetting->id)->delete();
+            $delete = BridgingPcareSetting::truncate();
             if ($delete) {
                 $this->deleteSql(new BridgingPcareSetting(), ['id' => $pcareSetting->id]);
             }
