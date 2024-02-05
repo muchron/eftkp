@@ -32,19 +32,17 @@ class PasienController extends Controller
     }
     function get(Request $request)
     {
-        $pasien = Pasien::with(['kel', 'kec', 'kab', 'prop', 'penjab', 'regPeriksa']);
+        $pasien = Pasien::with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
         if ($request->no_rkm_medis) {
             $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
         }
         if ($request->datatable) {
-            $pasien = $pasien->orderBy('tgl_daftar', 'ASC');
+            // $pasien = $pasien->orderBy('no_rkm_medis', 'ASC');
             return DataTables::of($pasien)
                 ->filter(function ($query) use ($request) {
                     if ($request->has('search') && $request->get('search')['value']) {
-                        return $query->whereHas('regPeriksa.pasien', function ($query) use ($request) {
-                            $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
-                                ->orWhere('no_rkm_medis', $request->get('search')['value']);
-                        });
+                        return $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
+                            ->orWhere('no_rkm_medis', $request->get('search')['value']);
                     }
                 })
                 ->make(true);
@@ -53,6 +51,8 @@ class PasienController extends Controller
     }
     function create(Request $request)
     {
+        $pasien = Pasien::where('no_rkm_medis', $request->no_rkm_medis)->first();
+
         $data = [
             'no_rkm_medis' => $request->no_rkm_medis,
             'nm_pasien' => $request->nm_pasien,
@@ -91,6 +91,9 @@ class PasienController extends Controller
             'nip' => $request->nip,
             'kd_prop' => $request->kd_prop,
         ];
+        if ($pasien) {
+            return $this->update($request);
+        }
 
         try {
             $pasien = Pasien::create($data);
@@ -102,6 +105,58 @@ class PasienController extends Controller
                 $createNoRm = setNoRkmMedis::create(['no_rkm_medis' => $request->no_rkm_medis]);
                 if ($createNoRm)
                     $this->insertSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
+            }
+            return response()->json('SUKSES', 200);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+    }
+    function update(Request $request)
+    {
+        $key = ['no_rkm_medis' => $request->no_rkm_medis];
+        $data = [
+            'nm_pasien' => $request->nm_pasien,
+            'no_ktp' => $request->no_ktp,
+            'jk' => $request->jk,
+            'tmp_lahir' => $request->tmp_lahir,
+            'tgl_lahir' => date('Y-m-d', strtotime($request->tgl_lahir)),
+            'nm_ibu' => $request->nm_ibu,
+            'alamat' => $request->alamat,
+            'gol_darah' => $request->gol_darah,
+            'pekerjaan' => $request->pekerjaan,
+            'stts_nikah' => $request->stts_nikah,
+            'agama' => $request->agama,
+            'tgl_daftar' => date('Y-m-d', strtotime($request->tgl_daftar)),
+            'no_tlp' => $request->no_tlp,
+            'umur' => $request->umur,
+            'pnd' => $request->pnd,
+            'keluarga' => $request->keluarga,
+            'namakeluarga' => $request->namakeluarga,
+            'kd_pj' => $request->kd_pj,
+            'no_peserta' => $request->no_peserta,
+            'kd_kel' => $request->kd_kel,
+            'kd_kec' => $request->kd_kec,
+            'kd_kab' => $request->kd_kab,
+            'pekerjaanpj' => $request->pekerjaanpj,
+            'alamatpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[0] : '-',
+            'kelurahanpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[1] : '-',
+            'kecamatanpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[2] : '-',
+            'kabupatenpj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[3] : '-',
+            'propinsipj' => $request->alamatpj != '-' ? explode(', ', $request->alamatpj)[3] : '-',
+            'perusahaan_pasien' => $request->perusahaan_pasien,
+            'suku_bangsa' => $request->suku_bangsa,
+            'bahasa_pasien' => $request->bahasa_pasien,
+            'cacat_fisik' => $request->cacat_fisik,
+            'email' => $request->email,
+            'nip' => $request->nip,
+            'kd_prop' => $request->kd_prop,
+        ];
+
+
+        try {
+            $pasien = Pasien::where($key)->update($data);
+            if ($pasien) {
+                $this->updateSql(new Pasien(), $key, $data);
             }
             return response()->json('SUKSES', 200);
         } catch (QueryException $e) {

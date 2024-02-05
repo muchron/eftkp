@@ -10,16 +10,16 @@
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
                             <li class="nav-item">
-                                <a href="#tabs-form" class="nav-link active" data-bs-toggle="tab"><i class="ti ti-user me-2"></i> Form Pasien</a>
+                                <a href="#pane-form" id="tabs-form" class="nav-link active" data-bs-toggle="tab"><i class="ti ti-user me-2"></i> Form Pasien</a>
                             </li>
                             <li class="nav-item">
-                                <a href="#tabs-pasien" class="nav-link" data-bs-toggle="tab"><i class="ti ti-list me-2"></i> Data Pasien</a>
+                                <a href="#pane-pasien" id="tabs-pasien" class="nav-link" data-bs-toggle="tab"><i class="ti ti-list me-2"></i> Data Pasien</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content">
-                            <div class="tab-pane active show" id="tabs-form">
+                            <div class="tab-pane active show" id="pane-form">
                                 <h4>Form Input Pasien</h4>
                                 <form action="" id="formPasien">
                                     <div class="row">
@@ -123,7 +123,7 @@
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Status Menikah</label>
                                                         <select class="form-select" name="stts_nikah" id="stts_nikah" style="width:100%">
-                                                            <option value="BELUM">BELUM MENIKAH</option>
+                                                            <option value="BELUM MENIKAH" selected>BELUM MENIKAH</option>
                                                             <option value="MENIKAH">MENIKAH</option>
                                                             <option value="JANDA">JANDA</option>
                                                             <option value="DUDHA">DUDA</option>
@@ -227,9 +227,9 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="tab-pane" id="tabs-pasien">
+                            <div class="tab-pane" id="pane-pasien">
                                 <div class="table-responsive">
-                                    <table class="table table-sm" id="tbPasien" width="100%"></table>
+                                    <table class="table table-sm nowrap" id="tbPasien" width="100%"></table>
                                 </div>
                             </div>
                         </div>
@@ -238,6 +238,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+                <button type="button" class="btn btn-warning" id="btnResetPasien"><i class="ti ti-reload me-2"></i>Baru</button>
             </div>
         </div>
     </div>
@@ -261,6 +262,12 @@
         var tglLahir = formPasien.find('input[name=tgl_lahir]');
         var url = "{{ url('') }}"
         var periksaPendaftaran = $('#periksaPendaftaran');
+        var tabFormPasien = new bootstrap.Tab('#tabs-form');
+        var tabTablePasien = new bootstrap.Tab($('#tabs-pasien'));
+
+        modalPasien.on('show.bs.modal', () => {
+            tabFormPasien.show()
+        })
 
         function setUmurDaftar(tglLahir) {
             let umurArray = hitungUmur(tglLahir).split(';');
@@ -285,24 +292,22 @@
             loadingAjax();
             $.post(`${url}/pasien`, data).done((response) => {
                 if (response) {
-                    alertSuccessAjax('Berhasil menambah pasien').then(
-                        () => {
-                            regPoliBpjs(data);
-                            renderTbPasien();
-                            document.getElementById('formPasien').reset();
-                            if (data.checkNoRm) {
-                                $.get(`${url}/set/norm`).done((response) => {
-                                    formPasien.find('input[name=no_rkm_medis]').val(response)
-                                })
-                            }
+                    alertSuccessAjax('Berhasil').then(() => {
+                        renderTbPasien();
+                        document.getElementById('formPasien').reset();
+                        if (data.checkNoRm) {
+                            $.get(`${url}/set/norm`).done((response) => {
+                                formPasien.find('input[name=no_rkm_medis]').val(response)
+                            })
                         }
-                    )
+                    })
                     resetSelect();
                     if (formPasien.find('input[name=sttsForm]').val() == 'bridging') {
+                        regPoliBpjs(data);
                         renderPendaftaranPcare(start = '', length = '')
                     }
-                    modalPasien.modal('hide');
-
+                    // modalPasien.modal('hide');
+                    tabTablePasien.show();
                 }
             }).fail((request) => {
                 alertErrorAjax(request)
@@ -310,7 +315,6 @@
         })
 
         function regPoliBpjs(data) {
-            console.log('DATA ===', data);
             $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
                 if (pendaftaran.metaData.code == 200) {
                     const response = pendaftaran.response;
@@ -389,6 +393,7 @@
         })
 
         function resetSelect() {
+            formPasien.find('input[name=checkNoRm]').attr('disabled', false);
             selectSukuBangsa(sukuBangsa, modalPasien, '-');
             selectBahasaPasien(bahasaPasien, modalPasien, 'INDONESIA');
             selectCacatFisik(cacatFisik, modalPasien, 'TIDAK ADA');
@@ -535,6 +540,15 @@
                 responsive: true,
                 scroller: true,
                 fixedHeader: true,
+                columnDefs: [{
+                        name: "no_rkm_medis",
+                        targets: 0
+                    },
+                    {
+                        name: "nm_pasien",
+                        targets: 1
+                    },
+                ],
                 ajax: {
                     url: `${url}/pasien`,
                     data: {
@@ -622,6 +636,76 @@
 
                     },
                 ],
+            })
+        }
+
+        $('#btnResetPasien').on('click', (e) => {
+            resetSelect();
+            formPasien.find('input[name=checkNoRm]').attr('disabled', false);
+            $('#formPasien').trigger('reset');
+            $.get(`${url}/set/norm`).done((response) => {
+                formPasien.find('input[name=no_rkm_medis]').val(response)
+            })
+        })
+
+        function editPasien(no_rkm_medis) {
+            $.get(`${url}/pasien`, {
+                no_rkm_medis: no_rkm_medis,
+            }).done((response) => {
+                formPasien.find('input[name=no_rkm_medis]').val(no_rkm_medis);
+                formPasien.find('input[name=checkNoRm]').attr('disabled', true);
+                formPasien.find('input[name=nm_pasien]').val(response.nm_pasien);
+                formPasien.find('select[name=jk]').val(response.jk).change();
+                formPasien.find('select[name=gol_darah]').val(response.gol_darah).change();
+                formPasien.find('input[name=tmp_lahir]').val(response.tmp_lahir);
+                formPasien.find('input[name=tgl_lahir]').val(splitTanggal(response.tgl_lahir));
+                formPasien.find('input[name=umur]').val(response.umur);
+                formPasien.find('input[name=nm_ibu]').val(response.nm_ibu);
+                formPasien.find('select[name=keluarga]').val(response.keluarga);
+                formPasien.find('input[name=pekerjaan]').val(response.pekerjaan);
+                formPasien.find('input[name=namakeluarga]').val(response.namakeluarga);
+                formPasien.find('input[name=pekerjaanpj]').val(response.pekerjaanpj);
+                formPasien.find('select[name=agama]').val(response.agama).change();
+                formPasien.find('select[name=stts_nikah]').val(response.stts_nikah).change();
+                formPasien.find('input[name=no_kartu]').val(response.no_kartu);
+                formPasien.find('input[name=no_tlp]').val(response.no_tlp);
+                formPasien.find('input[name=email]').val(response.email);
+                formPasien.find('select[name=pnd]').val(response.pnd).change();
+                formPasien.find('input[name=alamat]').val(response.alamat);
+                formPasien.find('input[name=alamatpj]').val(`${response.alamatpj}, ${response.kecamatanpj}, ${response.kabupatenpj}, ${response.propinsipj}`);
+                formPasien.find('input[name=nip]').val(response.nip);
+
+                const suku = new Option(`${response.suku_bangsa.nama_suku_bangsa}`, `${response.suku_bangsa.id}`, true, true);
+                formPasien.find('select[name=suku_bangsa]').append(suku).trigger('change');
+
+                const bahasa = new Option(`${response.bahasa_pasien.nama_bahasa}`, `${response.bahasa_pasien.id}`, true, true);
+                formPasien.find('select[name=bahasa_pasien]').append(bahasa).trigger('change');
+
+                const cacat = new Option(`${response.cacat_fisik.nama_cacat}`, `${response.cacat_fisik.id}`, true, true);
+                formPasien.find('select[name=cacat_fisik]').append(cacat).trigger('change');
+
+                const penjab = new Option(`${response.penjab.png_jawab}`, `${response.penjab.kd_pj}`, true, true);
+                formPasien.find('select[name=kd_pj]').append(penjab).trigger('change');
+
+                const kel = new Option(`${response.kel.nm_kel}`, `${response.kel.kd_kel}`, true, true);
+                kelurahan.append(kel).trigger('change');
+
+                const kec = new Option(`${response.kec.nm_kec}`, `${response.kec.kd_kec}`, true, true);
+                kecamatan.append(kec).trigger('change');
+
+                const kab = new Option(`${response.kab.nm_kab}`, `${response.kab.kd_kab}`, true, true);
+                kabupaten.append(kab).trigger('change');
+
+                const prop = new Option(`${response.prop.nm_prop}`, `${response.prop.kd_prop}`, true, true);
+                propinsi.append(prop).trigger('change');
+
+                const inst = new Option(`${response.perusahaan_pasien.nama_perusahaan}`, `${response.perusahaan_pasien.kode_perusahaan}`, true, true);
+                perusahaan.append(inst).trigger('change');
+
+
+                // formPasien.find('input[name=nm_pasien]').val('');
+                console.log(response.alamatpj);
+                tabFormPasien.show();
             })
         }
     </script>

@@ -978,6 +978,7 @@ $.contextMenu({
             items: {
                 "registrasi": {
                     name: "Registrasi",
+                    icon: 'fa-regular fa-address-card',
                     callback: function (item, option, e, x, y) {
                         registrasiPoli(`${no_rkm_medis}`)
                     }
@@ -985,18 +986,27 @@ $.contextMenu({
                 },
                 "edit": {
                     name: "Edit",
+                    icon: 'fas fa-edit',
                     callback: function (item, option, e, x, y) {
                         editPasien(`${no_rkm_medis}`)
                     }
 
                 },
-                "delete": {
-                    name: "Hapus",
+                "riwayat": {
+                    name: "Riwayat",
+                    icon: 'fas fa-book',
                     callback: function (item, option, e, x, y) {
-                        hapusPasien(`${no_rkm_medis}`)
+                        editPasien(`${no_rkm_medis}`)
                     }
 
                 },
+                "cekBpjs": {
+                    name: "Cek Peserta BPJS",
+                    icon: 'fas fa-circle-question',
+                    callback: function (item, option, e, x, y) {
+                        editPasien(`${no_rkm_medis}`)
+                    }
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ class Pasien extends Model
     }
     function penjab()
     {
-        return $this->hasOne(Penjab::class, 'kd_pj', 'kd_pj');
+        return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
     }
     function alergi()
     {
@@ -33,22 +33,38 @@ class Pasien extends Model
     }
     function kel()
     {
-        return $this->hasOne(Kelurahan::class, 'kd_kel', 'kd_kel');
+        return $this->belongsTo(Kelurahan::class, 'kd_kel', 'kd_kel');
     }
     function kec()
     {
-        return $this->hasOne(Kecamatan::class, 'kd_kec', 'kd_kec');
+        return $this->belongsTo(Kecamatan::class, 'kd_kec', 'kd_kec');
     }
     function kab()
     {
-        return $this->hasOne(Kabupaten::class, 'kd_kab', 'kd_kab');
+        return $this->belongsTo(Kabupaten::class, 'kd_kab', 'kd_kab');
     }
     function prop()
     {
-        return $this->hasOne(Propinsi::class, 'kd_prop', 'kd_prop');
+        return $this->belongsTo(Propinsi::class, 'kd_prop', 'kd_prop');
     }
     function instansi()
     {
-        return $this->hasOne(PerusahaanPasien::class, 'kode_perusahaan', 'perusahaan_pasien');
+        return $this->belongsTo(PerusahaanPasien::class, 'kode_perusahaan', 'perusahaan_pasien');
+    }
+    function sukuBangsa()
+    {
+        return $this->belongsTo(SukuBangsa::class, 'suku_bangsa', 'id');
+    }
+    function bahasaPasien()
+    {
+        return $this->belongsTo(BahasaPasien::class, 'bahasa_pasien', 'id');
+    }
+    function cacatFisik()
+    {
+        return $this->belongsTo(CacatFisik::class, 'cacat_fisik', 'id');
+    }
+    function perusahaanPasien()
+    {
+        return $this->belongsTo(PerusahaanPasien::class, 'perusahaan_pasien', 'kode_perusahaan');
     }
 }

@@ -105,12 +105,7 @@
             const dosis = $(`#dosis${id}`).val();
             const p1 = $(`#p1${id}`).val();
             const p2 = $(`#p2${id}`).val();
-            if (parseInt(dosis) <= parseInt(kapasitas)) {
-                const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
-                $(`#jml${id}`).val(jml_obat)
-                $(`#p1${id}`).val(1);
-                $(`#p2${id}`).val(1);
-            } else {
+            if (parseInt(dosis) > parseInt(kapasitas)) {
                 Swal.fire(
                     'Ada yang salah !',
                     'Dosis tidak boleh lebih besar dari kapasitas obat',
@@ -118,6 +113,11 @@
                 ).then(() => {
                     $(`#dosis${id}`).val(0);
                 });
+            } else {
+                const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
+                $(`#jml${id}`).val(jml_obat)
+                $(`#p1${id}`).val(1);
+                $(`#p2${id}`).val(1);
             }
 
         }
