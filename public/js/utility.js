@@ -212,6 +212,12 @@ function splitTanggal(tanggal) {
     return txtTanggal;
 }
 
+function hitungBmi(bb, tb) {
+    const tbMeter = parseFloat(tb) / 100;
+    const bmi = parseFloat(bb) / parseFloat(tbMeter * tbMeter)
+    return bmi.toFixed(2);
+}
+
 // ALERT
 function alertSuccessAjax(message) {
     return Swal.fire({
@@ -924,7 +930,7 @@ $.contextMenu({
                             name: "Keperawatan",
                             icon: "fas fa-edit",
                             disabled: () => {
-                                return true;
+                                // return true;
                             },
                             callback: (item, opt) => {
                                 penilaianAwalKeperawatan(`${no_rawat}`);
@@ -933,7 +939,9 @@ $.contextMenu({
                         "SkriningResikoJatuh": {
                             name: "Skrining Resiko Jatuh",
                             icon: "fas fa-edit",
-                            disabled: () => { return true; },
+                            disabled: () => {
+                                // return true;
+                            },
                             callback: (item, opt) => {
                                 skriningResikoJatuh(`${no_rawat}`);
                             }

@@ -39,7 +39,10 @@
                             </div>
                         </div>
                     </fieldset>
-                    <div class="separator mt-2">1. Keadaan Umum</div>
+                    <div class="separator mt-2">1. Keadaan Umum <a href="javascript:void(0)" onclick="" id="btnPemeriksaanRalan">
+                            <i class="ti ti-search ms-2" font-size: 1em;></i>
+                        </a></div>
+
                     <div class="row gy-2">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <label for="keluhan" class="form-label">Keluhan</label>
@@ -126,8 +129,8 @@
                                 <option value="Marah">Marah</option>
                             </select>
                         </div>
-                        <div class="col-lg-2 col-md-6 col-sm-12">
-                            <label for="hub_keluarga" class="form-label">Hubungan dengan keluarga</label>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <label for="hub_keluarga" class="form-label">Hubungan pasien dengan anggota keluarga</label>
                             <select class="form-select" name="hub_keluarga" id="hub_keluarga">
                                 <option value="Baik" selected>Baik</option>
                                 <option value="Tidak Baik">Tidak Baik</option>
@@ -171,7 +174,7 @@
                             <label for="cacat_fisik" class="form-label">Cacat Fisik</label>
                             <input type="text" class="form-control" id="cacat_fisik" name="cacat_fisik" onfocus="return removeZero(this)" onblur="isEmpty(this)" readonly value="-">
                         </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
+                        {{-- <div class="col-lg-3 col-md-6 col-sm-12">
                             <label for="prothesa" class="form-label">Prothesa</label>
                             <div class="input-group">
                                 <select class="form-select" id="prothesa" name="prothesa">
@@ -180,7 +183,7 @@
                                 </select>
                                 <input type="text" class="form-control w-25" id="ket_protesha" name="ket_protesha" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <label for="adl" class="form-label">ADL</label>
                             <select class="form-select" id="adl" name="adl">
@@ -201,7 +204,7 @@
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
-                            <input type="text" class="form-control" id="n1" name="n1" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
+                            <input type="text" class="form-control" id="n1" name="n1" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <label for="sg2" class="form-label mt-3">Apakah ada penurunan nafsu makan ?</label>
@@ -213,47 +216,93 @@
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
-                            <input type="text" class="form-control" id="n2" name="n2" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
+                            <input type="text" class="form-control" id="n2" name="n2" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 d-flex ms-auto">
-                            <input type="text" class="form-control" id="n2" name="n2" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
+                            <input type="text" class="form-control" id="total_hasil" name="total_hasil" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                         </div>
                     </div>
                     <div class="separator mt-2">5. Penilaian Resiko Jatuh</div>
-                    <div class="row gy-2 mt-2">
+                    <div class="row gy-2">
                         <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="sg1" class="form-label mt-3">Penilaian resiko jatuh Get Up and Go</label>
+                            <label for="sg1" class="form-label">Penilaian resiko jatuh Get Up and Go</label>
                             <select name="sg1" id="sg1" class="form-select">
                                 <option value="Tidak" selected>Tidak</option>
                                 <option value="Ya">Ya</option>
                             </select>
                         </div>
                     </div>
-            </div>
-            </form>
+                </form>
 
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+            </div>
         </div>
     </div>
-</div>
 </div>
 @push('script')
     <script>
         var modalPenilaianAwalKeperawatan = $('#modalPenilaianAwalKeperawatan')
 
         function penilaianAwalKeperawatan(no_rawat) {
-            console.log(no_rawat);
             getRegDetail(no_rawat).done((response) => {
-                console.log(response);
+                console.log(response.pasien);
                 modalPenilaianAwalKeperawatan.find('input[name="no_rawat"]').val(response.no_rawat);
                 modalPenilaianAwalKeperawatan.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis);
                 modalPenilaianAwalKeperawatan.find('input[name="pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`);
                 modalPenilaianAwalKeperawatan.find('input[name="tgl_lahir"]').val(`${splitTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`);
+                modalPenilaianAwalKeperawatan.find('input[name="pekerjaan"]').val(response.pasien.pekerjaan);
+                modalPenilaianAwalKeperawatan.find('input[name="pendidikan"]').val(response.pasien.pnd);
+                modalPenilaianAwalKeperawatan.find('input[name="cacat_fisik"]').val(response.pasien.cacat_fisik.nama_cacat);
                 modalPenilaianAwalKeperawatan.modal('show');
 
             })
+
+            getPemeriksaanRalan(no_rawat).done((response) => {
+                if (response.length) {
+                    console.log(response);
+                    response.map((item) => {
+                        modalPenilaianAwalKeperawatan.find("#keluhan").val(item.keluhan)
+                        modalPenilaianAwalKeperawatan.find("#td").val(item.tensi)
+                        modalPenilaianAwalKeperawatan.find("#nadi").val(item.nadi)
+                        modalPenilaianAwalKeperawatan.find("#rr").val(item.respirasi)
+                        modalPenilaianAwalKeperawatan.find("#suhu").val(item.suhu_tubuh)
+                        modalPenilaianAwalKeperawatan.find("#alergi").val(item.alergi)
+                        modalPenilaianAwalKeperawatan.find("#bb").val(item.berat)
+                        modalPenilaianAwalKeperawatan.find("#tb").val(item.tinggi)
+                        modalPenilaianAwalKeperawatan.find("#bmi").val(hitungBmi(item.berat, item.tinggi))
+                    })
+                }
+            });
+        }
+
+
+
+
+        $('#sg1').on('change', (e) => {
+            if (e.target.value == 'Ya') {
+                $('#n1').val(1);
+            } else {
+                $('#n1').val(0);
+            }
+            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val())
+            $('#total_hasil').val(totalHasil);
+        })
+        $('#sg2').on('change', (e) => {
+            if (e.target.value == 'Ya') {
+                $('#n2').val(1);
+            } else {
+                $('#n2').val(0);
+            }
+            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val())
+            $('#total_hasil').val(totalHasil);
+        })
+
+        function simpanPenilaianAwalKeperawatan() {
+            const data = getDataForm('formPenilaianAwalKeperawatan', ['input', 'select']);
+
+            console.log(data);
         }
     </script>
 @endpush
