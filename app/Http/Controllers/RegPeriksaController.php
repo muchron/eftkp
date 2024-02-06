@@ -19,7 +19,7 @@ class RegPeriksaController extends Controller
         $this->regPeriksa = new RegPeriksa();
         $this->relation = ['dokter', 'pasien' => function ($q) {
             return $q->with(['kel', 'kec', 'kab', 'prop']);
-        }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis'];
+        }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik'];
     }
 
 

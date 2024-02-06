@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table nowrap" id="tbResepObat" width="100%"></table>
+                            <table class="table nowrap table-sm table-hover" id="tbResepObat" width="100%"></table>
                         </div>
                     </div>
                     <div class="card-footer">
