@@ -28,12 +28,19 @@
     <script>
         var modalPrintKunjungan = $('#modalPrintKunjungan');
         var selectSize = modalPrintKunjungan.find('#size');
+        var setPaper = localStorage.getItem('setPaper') ? localStorage.getItem('setPaper') : 'a5';
 
         selectSize.on('change', (e) => {
             const size = e.currentTarget.value;
             const noKunjungan = modalPrintKunjungan.find('#noKunjungan').val();
+            localStorage.setItem('setPaper', size)
             renderPrintRujukan(noKunjungan, size)
             // modalPrintKunjungan.find("#print").removeAttr('src').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}${size}`)
+        })
+
+        modalPrintKunjungan.on('shown.bs.modal', () => {
+            paper = localStorage.getItem('setPaper');
+            selectSize.val(setPaper).change();
         })
     </script>
 @endpush

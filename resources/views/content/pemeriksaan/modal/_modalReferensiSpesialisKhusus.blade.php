@@ -15,6 +15,8 @@
 </div>
 @push('script')
     <script>
+        var dataKhuhus = [];
+
         function setSpesialisKhusus(kdKhusus, khusus) {
             formRujukanKhusus.find('input[name=kdKhusus]').val(kdKhusus)
             formRujukanKhusus.find('input[name=khusus]').val(khusus)
@@ -23,14 +25,116 @@
                 formRujukanKhusus.find('#kdKhususSub').attr('disabled', true)
                 formRujukanKhusus.find('#khususSub').val('')
                 formRujukanKhusus.find('#khususSub').attr('disabled', true)
-                const data = {
+                dataKhusus = {
                     kdKhusus: kdKhusus,
                     noKartu: formKunjunganPcare.find('#no_peserta').val(),
                     tglEstRujuk: formRujukanLanjut.find('#tglEstRujukan').val()
                 }
-                renderFaskesKhusus(data)
+                renderFaskesKhusus(dataKhusus.kdKhusus, dataKhusus.noKartu, dataKhusus.tglEstRujuk);
 
             }
+        }
+
+        function setPpkRujukanKhusus(kdPpk, nmPpk) {
+            $('#kdPpkRujukan').val(kdPpk)
+            $('#ppkRujukan').val(nmPpk)
+            formKunjunganPcare.find('button[name=btnPpkRujukan]').attr('disabled', false).attr('onclick', `renderFaskesKhusus('${dataKhusus.kdKhusus}', '${dataKhusus.noKartu}', '${dataKhusus.tglEstRujuk}')`);
+            $('#modalReferensiRujukan').modal('hide')
+        }
+
+        function renderFaskesKhusus(kode, noKartu, tglEstRujuk) {
+            const loading = loadingAjax();
+            $.get(`bridging/pcare/spesialis/rujukan/khusus`, {
+                kdKhusus: kode,
+                noKartu: noKartu,
+                tglEstRujuk: tglEstRujuk
+            }).done((response) => {
+                if (response.metaData.code == 200) {
+                    loading.close();
+                    $('#modalReferensiRujukan').modal('show')
+                    $('#modalReferensiSpesialisKhusus').modal('hide')
+                    const tbReferensi = new DataTable('#tbRujukan', {
+                        autoWidth: true,
+                        stateSave: true,
+                        serverSide: false,
+                        destroy: true,
+                        processing: true,
+                        data: response.response.list,
+                        columnDefs: [{
+                            'targets': [0, 1],
+                            'createdCell': (td, cellData, rowData, row, col) => {
+                                $(td).attr('onclick', `setPpkRujukanKhusus('${rowData.kdppk}', '${rowData.nmppk}')`);
+                                $(td).attr('style', `cursor:pointer`);
+                            }
+                        }],
+                        columns: [{
+                                title: 'Kode PPK',
+                                data: 'kdppk',
+                                render: (data, type, row, meta) => {
+                                    return `<button type="button" class="btn btn-sm btn-outline-secondary">${data}</button>`
+                                }
+                            },
+                            {
+                                title: 'Nama Faskes',
+                                data: 'nmppk',
+                                render: (data, type, row, meta) => {
+                                    return `<button type="button" class="btn btn-sm btn-outline-secondary">${data}</button>`
+                                }
+                            },
+                            {
+                                title: 'alamatPpk',
+                                data: 'alamatPpk',
+                                render: (data, type, row, meta) => {
+                                    const jarak = row.distance / 1000
+                                    return `${data} (${jarak.toFixed(2)} KM)`
+                                }
+                            },
+                            {
+                                title: 'Kelas',
+                                data: 'kelas',
+                                render: (data, type, row, meta) => {
+                                    return data
+                                }
+                            },
+                            {
+                                title: 'Telp.',
+                                data: 'telpPpk',
+                                render: (data, type, row, meta) => {
+                                    return data
+                                }
+                            },
+                            {
+                                title: 'Jml. Rujukan',
+                                data: 'jmlRujuk',
+                                render: (data, type, row, meta) => {
+                                    return `${data} (${row.persentase} %)`
+                                }
+                            },
+                            {
+                                title: 'Kapasitas',
+                                data: 'kapasitas',
+                                render: (data, type, row, meta) => {
+                                    return data
+                                }
+                            },
+                            {
+                                title: 'Jadwal',
+                                data: 'jadwal',
+                                render: (data, type, row, meta) => {
+                                    return `${data}`
+                                }
+                            },
+                        ]
+                    })
+                    console.log(response);
+                } else {
+                    const error = {
+                        status: response.metaData.code,
+                        statusText: response.metaData.message,
+                    }
+                    alertErrorAjax(error);
+                }
+            })
         }
 
         function renderReferensiSpesialisKhusus() {

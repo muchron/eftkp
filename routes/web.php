@@ -284,6 +284,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
     Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
     Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);
+    Route::get('/bridging/pcare/spesialis/rujukan/khusus', [Bridging\Spesialis::class, 'getFaskesKhusus']);
 
     // POLI FKTP
     Route::get('/bridging/pcare/fktp/poli', [Bridging\Poli::class, 'index']);

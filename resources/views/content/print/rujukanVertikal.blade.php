@@ -1,7 +1,7 @@
 @extends('content.print.main')
 
 @section('content')
-    <div width="100%" style="font-size: 11px">
+    <div width="100%" style="font-size: 12px">
         <table width="100%">
             <tr>
                 <td width="60%" style="padding-right: 10px">
@@ -35,11 +35,11 @@
                     </tr>
                 </table>
             </div>
-            <table>
+            <table class="mt-2">
                 <tr>
                     <td>Kepada Yth. Dokter </td>
                     <td>:</td>
-                    <td>{{ $data['nmSubSpesialis'] }}</td>
+                    <td>{{ $data['nmPoli'] }}</td>
                 </tr>
                 <tr>
                     <td>Di</td>
@@ -48,14 +48,14 @@
                 </tr>
             </table>
             <p style="margin:10px">Mohon pemeriksaan dan penanganan lebih lanjut kepada pasien : </p>
-            <table width="100%">
+            <table width="100%" class="table" style="vertical-align: top;">
                 <tr>
-                    <td>Nama </td>
-                    <td>:</td>
-                    <td>{{ $data['nm_pasien'] }} ({{ $data['pasien']['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' }})</td>
-                    <td>Umur</td>
-                    <td>:</td>
-                    <td>{{ $data['reg_periksa']['umurdaftar'] }} {{ $data['reg_periksa']['sttsumur'] }} / {{ date('d F Y', strtotime($data['pasien']['tgl_lahir'])) }}</td>
+                    <td width="10%">Nama </td>
+                    <td width="2%">:</td>
+                    <td width="50%">{{ $data['nm_pasien'] }} ({{ $data['pasien']['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' }})</td>
+                    <td width="10%">Umur</td>
+                    <td width="2%">:</td>
+                    <td width="20%">{{ $data['reg_periksa']['umurdaftar'] }} {{ $data['reg_periksa']['sttsumur'] }} / {{ date('d F Y', strtotime($data['pasien']['tgl_lahir'])) }}</td>
                 </tr>
                 <tr>
                     <td>No Kartu BPJS</td>
@@ -67,34 +67,34 @@
                     <td>:</td>
                     <td>{{ $data['kdDiag1'] }} - {{ $data['nmDiag1'] }}</td>
                 </tr>
+                <tr>
+                    <td>Catatan</td>
+                    <td>:</td>
+                    <td style="vertical-align: bottom;">{{ $data['detail']['catatanRujuk'] }}</td>
+                </tr>
             </table>
             <p style="margin:10px">Atas bantuannya, diucapkan terimakasih</p>
-            <table width="100%">
+            <table>
                 <tr>
                     <td>Tgl Renc. Kunjungan</td>
                     <td>:</td>
                     <td>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</td>
-                    <td colspan="3">Salam Sejawat,{{ date('d/m/Y H:i:s') }}</td>
                 </tr>
                 <tr>
                     <td>Tgl Akhir Rujukan</td>
                     <td>:</td>
                     <td>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</td>
-                    <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td>Jadwal</td>
                     <td>:</td>
                     <td>{{ $data['detail']['jadwal'] }}</td>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <td style="text-align:top"></td>
-                    <td style="text-align:top"></td>
-                    <td style="text-align:top"></td>
-                    <td colspan="3" height="90">{{ $data['nmDokter'] }}</td>
                 </tr>
             </table>
+            <div class="text-end">
+                <p class="mb-5">Salam Sejawat,{{ date('d/m/Y H:i:s') }}</p>
+                <p class="mt-5"><b><u>{{ $data['nmDokter'] }}</u></b></p>
+            </div>
             Info Denda : {{ $data['detail']['infoDenda'] }}
         </div>
     </div>
