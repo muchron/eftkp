@@ -33,7 +33,7 @@
                         let detailObat = '';
                         if (racikan.detail.length) {
                             obat = racikan.detail.map((isian) => {
-                                return `<span class="badge badge-outline text-purple" style="font-size:10px">${isian.obat.nama_brng} ${isian.kandungan} gr</span>`
+                                return `<span class="badge badge-outline text-purple" style="font-size:10px">${isian.obat.nama_brng} (${isian.kandungan} mg)</span>`
                             })
                             detailObat = `<tr>
                                     <td></td>

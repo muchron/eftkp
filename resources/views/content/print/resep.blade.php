@@ -111,7 +111,7 @@
                                 <p>R/ Jumlah : {{ $rr->jml_dr }} {{ $rr->metode->nm_racik }}, S: {{ $rr->aturan_pakai }}</p>
                                 <ul style="padding:10px;margin:0px">
                                     @foreach ($rr->detail as $detail)
-                                        <li>{{ $detail->obat->nama_brng }} ({{ $detail->kandungan }} gr) , Jml: {{ $detail->jml }}</li>
+                                        <li>{{ $detail->obat->nama_brng }} ({{ $detail->kandungan }} mg) , Jml: {{ $detail->jml }}</li>
                                     @endforeach
                                 </ul>
                             </td>
