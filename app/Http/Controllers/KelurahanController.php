@@ -12,12 +12,12 @@ class KelurahanController extends Controller
     use Track;
     function get(Request $request)
     {
-        $kelurahan = Kelurahan::where('nm_kel', 'like', "{$request->kelurahan}%")->get();
+        $kelurahan = Kelurahan::where('nm_kel', 'like', "%{$request->kelurahan}%")->get();
         return response()->json($kelurahan);
     }
     function create(Request $request)
     {
-        $kelurahan = Kelurahan::where('nm_kel', 'like', "%{$request->kelurahan}%")
+        $kelurahan = Kelurahan::where('nm_kel', $request->kelurahan)
             ->orWhere('kd_kel', $request->kelurahan)->first();
         if (!$kelurahan) {
             try {

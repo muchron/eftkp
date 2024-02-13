@@ -213,9 +213,12 @@ function splitTanggal(tanggal) {
 }
 
 function hitungBmi(bb, tb) {
-    const tbMeter = parseFloat(tb) / 100;
-    const bmi = parseFloat(bb) / parseFloat(tbMeter * tbMeter)
-    return bmi.toFixed(2);
+    if (bb & tb) {
+        const tbMeter = parseFloat(tb) / 100;
+        const bmi = parseFloat(bb) / parseFloat(tbMeter * tbMeter)
+        return bmi.toFixed(2);
+    }
+    return '0';
 }
 
 // ALERT

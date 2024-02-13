@@ -44,6 +44,7 @@ use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Models\DiagnosaPasien;
 use App\Models\PemeriksaanGigi;
 use App\Models\PenilaianAwalKeperawatanRalan;
 
@@ -83,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
     Route::post('/pasien', [PasienController::class, 'create']);
     Route::get('/pasien', [PasienController::class, 'get']);
+    Route::get('/pasien/exist', [PasienController::class, 'isExistPasien']);
     Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
 
     // SUKU BANGSA
@@ -102,6 +104,8 @@ Route::middleware('auth')->group(function () {
     // KECAMATAN
     Route::get('kecamatan', [KecamatanController::class, 'get']);
     Route::post('kecamatan', [KecamatanController::class, 'create']);
+    Route::get('pasien/data/kecamatan', [PasienController::class, 'dataKecamatan']);
+
     // KABUPATEN
     Route::get('kabupaten', [KabupatenController::class, 'get']);
     Route::post('kabupaten', [KabupatenController::class, 'create']);
@@ -134,8 +138,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
     // PENILIAIAN AWAL/SKRINING
-
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
+    Route::post('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'createPenilaian']);
 
 
     // Pemeriksaan
@@ -165,6 +169,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
     Route::post('/diagnosa/pasien/delete', [DiagnosaPasienController::class, 'delete']);
     Route::get('/diagnosa/pasien/get', [DiagnosaPasienController::class, 'get']);
+    Route::get('/diagnosa/pasien/grafik', [DiagnosaPasienController::class, 'grafik']);
 
     // Prosedur/tindakan
     Route::get('/prosedur/pasien/get', [ProsedurPasienController::class, 'get']);

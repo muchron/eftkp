@@ -6,6 +6,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="">
+                <div class="alert alert-success d-none" role="alert" id="alertPenilaian">
+                    <h4 class="alert-title">Sudah dilakukan penilaian awal pada</h4>
+                    <div class="text-secondary">
+                        <p id="tgl_penilaian" class="m-0"></p>
+                    </div>
+                </div>
                 <form action="" id="formPenilaianAwalKeperawatan">
                     <fieldset class="form-fieldset">
                         <div class="row gy-2">
@@ -46,7 +52,7 @@
                     <div class="row gy-2">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <label for="keluhan" class="form-label">Keluhan</label>
-                            <textarea class="form-control" id="keluhan" name="keluhan" onfocus="return removeZero(this)" onblur="isEmpty(this)">-</textarea>
+                            <textarea class="form-control" id="keluhan_utama" name="keluhan_utama" onfocus="return removeZero(this)" onblur="isEmpty(this)">-</textarea>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <label for="rpo" class="form-label">Obat yang sering dikonsumsi</label>
@@ -138,7 +144,7 @@
                         </div>
                         <div class="col-lg-2 col-md-6 col-sm-12">
                             <label for="ekonomi" class="form-label">Status Ekonomi</label>
-                            <select class="form-select" name="status_psiko" id="status_psiko">
+                            <select class="form-select" name="ekonomi" id="ekonomi">
                                 <option value="Baik" selected>Baik</option>
                                 <option value="Cukup">Cukup</option>
                                 <option value="Kurang">Kurang</option>
@@ -165,7 +171,7 @@
                             <div class="input-group">
                                 <select class="form-select" id="alat_bantu" name="alat_bantu">
                                     <option value="Tidak Ada" selected>Tidak Ada</option>
-                                    <option value="Ada">Ada</option>
+                                    <option value="Ya">Ya</option>
                                 </select>
                                 <input type="text" class="form-control w-25" id="ket_bantu" name="ket_bantu" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
@@ -174,16 +180,6 @@
                             <label for="cacat_fisik" class="form-label">Cacat Fisik</label>
                             <input type="text" class="form-control" id="cacat_fisik" name="cacat_fisik" onfocus="return removeZero(this)" onblur="isEmpty(this)" readonly value="-">
                         </div>
-                        {{-- <div class="col-lg-3 col-md-6 col-sm-12">
-                            <label for="prothesa" class="form-label">Prothesa</label>
-                            <div class="input-group">
-                                <select class="form-select" id="prothesa" name="prothesa">
-                                    <option value="Tidak Ada" selected>Tidak Ada</option>
-                                    <option value="Ada">Ada</option>
-                                </select>
-                                <input type="text" class="form-control w-25" id="ket_protesha" name="ket_protesha" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
-                            </div>
-                        </div> --}}
                         <div class="col-lg-3 col-md-6 col-sm-12">
                             <label for="adl" class="form-label">ADL</label>
                             <select class="form-select" id="adl" name="adl">
@@ -199,8 +195,12 @@
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
                             <select name="sg1" id="sg1" class="form-select">
-                                <option value="Tidak" selected>Tidak</option>
-                                <option value="Ya">Ya</option>
+                                <option data-nilai="0" value="Tidak" selected>Tidak</option>
+                                <option data-nilai="2" value="Tidak Yakin">Tidak Yakin</option>
+                                <option data-nilai="1" value="Ya, 1-5 Kg">Ya, 1-5 Kg</option>
+                                <option data-nilai="2" value="Ya, 6-10 Kg">Ya, 6-10 Kg</option>
+                                <option data-nilai="3" value="Ya, 11-15 Kg">Ya, 11-15 Kg</option>
+                                <option data-nilai="4" value="Ya, >15 Kg">Ya, 11-15 Kg</option>
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
@@ -211,8 +211,8 @@
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
                             <select name="sg2" id="sg2" class="form-select">
-                                <option value="Tidak" selected>Tidak</option>
-                                <option value="Ya">Ya</option>
+                                <option data-nilai="0" value="Tidak" selected>Tidak</option>
+                                <option data-nilai="1" value="Ya">Ya</option>
                             </select>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12">
@@ -225,8 +225,8 @@
                     <div class="separator mt-2">5. Penilaian Resiko Jatuh</div>
                     <div class="row gy-2">
                         <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="sg1" class="form-label">Penilaian resiko jatuh Get Up and Go</label>
-                            <select name="sg1" id="sg1" class="form-select">
+                            <label for="resiko_jatuh" class="form-label">Penilaian resiko jatuh Get Up and Go</label>
+                            <select name="resiko_jatuh" id="resiko_jatuh" class="form-select">
                                 <option value="Tidak" selected>Tidak</option>
                                 <option value="Ya">Ya</option>
                             </select>
@@ -236,7 +236,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                {{-- <button type="button" class="btn btn-primary" onclick="printPenilaianAwalKeperawatan()"><i class="ti ti-printer me-1"></i> Cetak</button> --}}
+                <button type="button" class="btn btn-success" id="btnCetak" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -247,7 +248,6 @@
 
         function penilaianAwalKeperawatan(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log(response.pasien);
                 modalPenilaianAwalKeperawatan.find('input[name="no_rawat"]').val(response.no_rawat);
                 modalPenilaianAwalKeperawatan.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis);
                 modalPenilaianAwalKeperawatan.find('input[name="pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`);
@@ -258,51 +258,93 @@
                 modalPenilaianAwalKeperawatan.modal('show');
 
             })
+            getPenilaianAwalKeperawatan(no_rawat).done((response) => {
+                if (Object.values(response).length) {
+                    console.log('GET PENILAIAN == ', response);
+                    modalPenilaianAwalKeperawatan.find("#keluhan_utama").val(response.keluhan_utama)
+                    $("#alertPenilaian").removeClass('d-none')
+                    $("#tgl_penilaian").html(response.tanggal)
+                    modalPenilaianAwalKeperawatan.find("#btnCetak").removeClass('d-none')
 
-            getPemeriksaanRalan(no_rawat).done((response) => {
-                if (response.length) {
-                    console.log(response);
-                    response.map((item) => {
-                        modalPenilaianAwalKeperawatan.find("#keluhan").val(item.keluhan)
-                        modalPenilaianAwalKeperawatan.find("#td").val(item.tensi)
-                        modalPenilaianAwalKeperawatan.find("#nadi").val(item.nadi)
-                        modalPenilaianAwalKeperawatan.find("#rr").val(item.respirasi)
-                        modalPenilaianAwalKeperawatan.find("#suhu").val(item.suhu_tubuh)
-                        modalPenilaianAwalKeperawatan.find("#alergi").val(item.alergi)
-                        modalPenilaianAwalKeperawatan.find("#bb").val(item.berat)
-                        modalPenilaianAwalKeperawatan.find("#tb").val(item.tinggi)
-                        modalPenilaianAwalKeperawatan.find("#bmi").val(hitungBmi(item.berat, item.tinggi))
-                    })
+                    modalPenilaianAwalKeperawatan.find("#td").val(response.td)
+                    modalPenilaianAwalKeperawatan.find("#petugas").val(response.pegawai.nama)
+                    modalPenilaianAwalKeperawatan.find("#nadi").val(response.nadi)
+                    modalPenilaianAwalKeperawatan.find("#rr").val(response.rr)
+                    modalPenilaianAwalKeperawatan.find("#suhu").val(response.suhu)
+                    modalPenilaianAwalKeperawatan.find("#alergi").val(response.alergi)
+                    modalPenilaianAwalKeperawatan.find("#bb").val(response.bb)
+                    modalPenilaianAwalKeperawatan.find("#tb").val(response.tb)
+                    modalPenilaianAwalKeperawatan.find("#bmi").val(hitungBmi(response.bb, response.tb))
+                    modalPenilaianAwalKeperawatan.find("#status_psiko").val(response.status_psiko).change();
+                    modalPenilaianAwalKeperawatan.find("#hub_keluarga").val(response.hub_keluarga).change();
+                    modalPenilaianAwalKeperawatan.find("#ekonomi").val(response.ekonomi).change();
+                    modalPenilaianAwalKeperawatan.find("#ket_budaya").val(response.ket_budaya);
+                    modalPenilaianAwalKeperawatan.find("#alat_bantu").val(response.alat_bantu).change();
+                    modalPenilaianAwalKeperawatan.find("#ket_bantu").val(response.ket_bantu);
+                    modalPenilaianAwalKeperawatan.find("#adl").val(response.adl);
+                    modalPenilaianAwalKeperawatan.find("#sg1").val(response.sg1).change();
+                    modalPenilaianAwalKeperawatan.find("#sg2").val(response.sg2).change();
+                    modalPenilaianAwalKeperawatan.find("#n1").val(response.nilai1);
+                    modalPenilaianAwalKeperawatan.find("#n2").val(response.nilai2);
+                    modalPenilaianAwalKeperawatan.find("#total_hasil").val(response.total_hasil);
+                } else {
+                    getPemeriksaanRalan(no_rawat).done((response) => {
+                        $("#alertPenilaian").addClass('d-none')
+                        modalPenilaianAwalKeperawatan.find("#btnCetak").addClass('d-none')
+                        $("#tgl_penilaian").html('')
+                        if (response.length) {
+                            response.map((item) => {
+                                modalPenilaianAwalKeperawatan.find("#keluhan_utama").val(item.keluhan_utama)
+                                modalPenilaianAwalKeperawatan.find("#td").val(item.tensi)
+                                modalPenilaianAwalKeperawatan.find("#nadi").val(item.nadi)
+                                modalPenilaianAwalKeperawatan.find("#rr").val(item.respirasi)
+                                modalPenilaianAwalKeperawatan.find("#suhu").val(item.suhu_tubuh)
+                                modalPenilaianAwalKeperawatan.find("#alergi").val(item.alergi)
+                                modalPenilaianAwalKeperawatan.find("#bb").val(item.berat)
+                                modalPenilaianAwalKeperawatan.find("#tb").val(item.tinggi)
+                                modalPenilaianAwalKeperawatan.find("#bmi").val(hitungBmi(item.berat, item.tinggi))
+                            })
+                        }
+                    });
                 }
-            });
+            })
         }
 
 
 
 
         $('#sg1').on('change', (e) => {
-            if (e.target.value == 'Ya') {
-                $('#n1').val(1);
-            } else {
-                $('#n1').val(0);
-            }
-            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val())
+            const selectedOption = $('#sg1 option:selected');
+            const dataNilai = selectedOption.data('nilai');
+            $('#n1').val(dataNilai);
+            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val());
             $('#total_hasil').val(totalHasil);
         })
+
         $('#sg2').on('change', (e) => {
-            if (e.target.value == 'Ya') {
-                $('#n2').val(1);
-            } else {
-                $('#n2').val(0);
-            }
-            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val())
+            const selectedOption = $('#sg2 option:selected');
+            console.log(selectedOption);
+            const dataNilai = selectedOption.data('nilai');
+            $('#n2').val(dataNilai);
+            const totalHasil = parseInt($('#n2').val()) + parseInt($('#n1').val());
             $('#total_hasil').val(totalHasil);
         })
 
         function simpanPenilaianAwalKeperawatan() {
-            const data = getDataForm('formPenilaianAwalKeperawatan', ['input', 'select']);
+            const data = getDataForm('formPenilaianAwalKeperawatan', ['input', 'select', 'textarea']);
+            $.post(`${url}/penilaian/awal/keperawatan/ralan`, data).done((response) => {
+                console.log('DATA ==', data);
+                alertSuccessAjax();
+            }).fail((request) => {
+                alertErrorAjax(request)
+            })
+        }
 
-            console.log(data);
+        function getPenilaianAwalKeperawatan(no_rawat) {
+            const penilaian = $.get(`${url}/penilaian/awal/keperawatan/ralan`, {
+                no_rawat: no_rawat
+            })
+            return penilaian;
         }
     </script>
 @endpush
