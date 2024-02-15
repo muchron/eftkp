@@ -48,7 +48,6 @@
                     <div class="separator mt-2">1. Keadaan Umum <a href="javascript:void(0)" onclick="" id="btnPemeriksaanRalan">
                             <i class="ti ti-search ms-2" font-size: 1em;></i>
                         </a></div>
-
                     <div class="row gy-2">
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             <label for="keluhan" class="form-label">Keluhan</label>
@@ -236,8 +235,8 @@
 
             </div>
             <div class="modal-footer">
-                {{-- <button type="button" class="btn btn-primary" onclick="printPenilaianAwalKeperawatan()"><i class="ti ti-printer me-1"></i> Cetak</button> --}}
-                <button type="button" class="btn btn-success" id="btnCetak" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
+                <button type="button" class="btn btn-primary" id="btnCetak" onclick="printPenilaianAwalKeperawatan()"><i class="ti ti-printer me-1"></i> Cetak</button>
+                <button type="button" class="btn btn-success" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
             </div>
         </div>
     </div>
@@ -294,7 +293,7 @@
                         $("#tgl_penilaian").html('')
                         if (response.length) {
                             response.map((item) => {
-                                modalPenilaianAwalKeperawatan.find("#keluhan_utama").val(item.keluhan_utama)
+                                modalPenilaianAwalKeperawatan.find("#keluhan_utama").val(item.keluhan)
                                 modalPenilaianAwalKeperawatan.find("#td").val(item.tensi)
                                 modalPenilaianAwalKeperawatan.find("#nadi").val(item.nadi)
                                 modalPenilaianAwalKeperawatan.find("#rr").val(item.respirasi)
@@ -309,9 +308,6 @@
                 }
             })
         }
-
-
-
 
         $('#sg1').on('change', (e) => {
             const selectedOption = $('#sg1 option:selected');
@@ -346,5 +342,10 @@
             })
             return penilaian;
         }
+        $('#bmi').on('focus', () => {
+            const bb = modalPenilaianAwalKeperawatan.find('#bb').val();
+            const tb = modalPenilaianAwalKeperawatan.find('#tb').val();
+            $('#bmi').val(hitungBmi(bb, tb))
+        })
     </script>
 @endpush

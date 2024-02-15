@@ -213,7 +213,7 @@ function splitTanggal(tanggal) {
 }
 
 function hitungBmi(bb, tb) {
-    if (bb & tb) {
+    if (bb.length & tb.length) {
         const tbMeter = parseFloat(tb) / 100;
         const bmi = parseFloat(bb) / parseFloat(tbMeter * tbMeter)
         return bmi.toFixed(2);

@@ -38,6 +38,7 @@ use App\Http\Controllers\PerusahaanPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\EfktpTindakanResikoJatuhController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
@@ -140,6 +141,12 @@ Route::middleware('auth')->group(function () {
     // PENILIAIAN AWAL/SKRINING
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
     Route::post('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'createPenilaian']);
+    Route::get('/penilaian/awal/keperawatan/ralan/print', [PenilaianAwalKeperawatanRalanController::class, 'print']);
+
+    // TINDAKAN SKRINING RESIKO JATUH
+    Route::post('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'create']);
+    Route::get('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'get']);
+    Route::get('/skrining/jatuh/print', [EfktpTindakanResikoJatuhController::class, 'print']);
 
 
     // Pemeriksaan

@@ -48,6 +48,14 @@
         .page-break {
             page-break-after: always;
         }
+
+        .table-border,
+        .table-border th,
+        .table-border td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 3px;
+        }
     </style>
 
 </head>

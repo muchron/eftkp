@@ -6,13 +6,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="">
-                <div class="alert alert-success d-none" role="alert" id="alertPenilaian">
-                    <h4 class="alert-title">Sudah dilakukan penilaian awal pada</h4>
+                <div class="alert alert-success d-none" role="alert" id="alertSkrining">
+                    <h4 class="alert-title">Sudah dilakukan skrining pada</h4>
                     <div class="text-secondary">
                         <p id="tgl_penilaian" class="m-0"></p>
                     </div>
                 </div>
-                <form action="" id="formPenilaianAwalKeperawatan">
+                <form action="" id="formSkriningJatuh">
                     <fieldset class="form-fieldset">
                         <div class="row gy-2">
                             <div class="col-lg-2 col-md-6 col-sm-12">
@@ -43,14 +43,14 @@
                         <div class="separator mt-2">1. Pengkajian Resiko Jatuh Up & Go</div>
                         <div class="col-lg-8"><label for="form-label">a. Pasien memerlukan bantuan saat duduk/berdiri/berjalan</label></div>
                         <div class="col-lg-4">
-                            <select name="bantuan" id="bantuan" class="form-select">
+                            <select name="berjalan_a" id="berjalan_a" class="form-select">
                                 <option value="Tidak" selected>Tidak</option>
                                 <option value="Ya">Ya</option>
                             </select>
                         </div>
                         <div class="col-lg-8"><label for="form-label">b. Pasien tampak tidak seimbang (sempoyongan/limbung)</label></div>
                         <div class="col-lg-4">
-                            <select name="seimbang" id="seimbang" class="form-select">
+                            <select name="berjalan_b" id="berjalan_b" class="form-select">
                                 <option value="Tidak" selected>Tidak</option>
                                 <option value="Ya">Ya</option>
                             </select>
@@ -61,7 +61,7 @@
                             <select name="hasil" id="hasil" class="form-select">
                                 <option value="Tidak beresiko (tidak ditemukan a dan b)" selected>Tidak beresiko (tidak ditemukan a dan b)</option>
                                 <option value="Resiko rendah (ditemukan a/b)">Resiko rendah (ditemukan a/b)</option>
-                                <option value="Resiko tinggi (ditemukan a dan b)">Ditemukan salah satu hasil dari a atau b</option>
+                                <option value="Resiko tinggi (ditemukan a dan b)">Resiko tinggi (ditemukan a dan b)</option>
                             </select>
                         </div>
                         <div class="col-lg-4">
@@ -85,7 +85,21 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnCetak" onclick="simpanPenilaianAwalKeperawatan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
+                <button type="button" class="btn btn-primary d-none" id="btnCetak" onclick="cetakSkriningJatuh()"><i class="ti ti-printer me-1"></i> Cetak</button>
+                <button type="button" class="btn btn-success" id="btnSimpan" onclick="simpanSkriningJatuh()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-blur fade" id="modalCetakSkrining" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content rounded-3">
+            <div class="modal-header">
+                <h5 class="modal-title m-0">Cetak Hasil Skrining</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="" class="m-0">
+                <iframe id="print" type="" width="100%" height="600"></iframe>
             </div>
         </div>
     </div>
@@ -93,6 +107,7 @@
 @push('script')
     <script>
         var modalSkriningJatuh = $('#modalSkriningJatuh')
+        var modalCetakSkrining = $('#modalCetakSkrining')
 
         function skriningResikoJatuh(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
@@ -106,6 +121,44 @@
                 modalSkriningJatuh.modal('show');
 
             })
+
+            $.get(`${url}/skrining/jatuh`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                const result = Object.keys(response).length
+                if (result) {
+                    $('#alertSkrining').removeClass('d-none')
+                    $('#alertSkrining').find('#tgl_penilaian').html(`${response.tanggal}`)
+                    modalSkriningJatuh.find('#btnCetak').removeClass('d-none');
+                    modalSkriningJatuh.find('#berjalan_a').val(response.berjalan_a).change();
+                    modalSkriningJatuh.find('#berjalan_b').val(response.berjalan_b).change();
+                    modalSkriningJatuh.find('#hasil').val(response.hasil).change();
+                    modalSkriningJatuh.find('#ket_hasil').val(response.ket_hasil).change();
+
+                } else {
+                    modalSkriningJatuh.find('#btnCetak').addClass('d-none');
+                }
+            });
+
+        }
+
+        function simpanSkriningJatuh() {
+            const data = getDataForm('formSkriningJatuh', ['input', 'select', 'textarea']);
+            $.post(`${url}/skrining/jatuh`, data).done((response) => {
+                console.log('RESPONSE ==', response);
+            }).fail((request) => {
+                alertErrorAjax(request);
+            })
+        }
+
+        function cetakSkriningJatuh() {
+            const no_rawat = modalSkriningJatuh.find('#no_rawat').val();
+            $.get(`${url}/skrining/jatuh`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                modalCetakSkrining.modal('show')
+                modalCetakSkrining.find('#print').removeAttr('src').attr('src', `${url}/skrining/jatuh/print?no_rawat=${no_rawat}`);
+            });
         }
     </script>
 @endpush

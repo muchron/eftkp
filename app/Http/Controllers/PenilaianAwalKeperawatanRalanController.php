@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Traits\Track;
+use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\PenilaianAwalKeperawatanRalan;
@@ -128,5 +130,15 @@ class PenilaianAwalKeperawatanRalanController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    function print(Request $request)
+    {
+        $data = PenilaianAwalKeperawatanRalan::with('regPeriksa.pasien', 'pegawai')->where('no_rawat', $request->no_rawat)->first();
+        $setting = Setting::first();
+
+        $pdf = PDF::loadView('content.print.penilaianAwal', ['data' => $data, 'setting' => $setting])
+            ->setPaper("a4")->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+        return $pdf->stream('penilaian-awal-keperawatan.pdf');
     }
 }

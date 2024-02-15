@@ -6,6 +6,7 @@ use App\Models\ResepObat;
 use App\Models\Setting;
 use App\Traits\Track;
 use Barryvdh\DomPDF\Facade\Pdf;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -87,12 +88,16 @@ class ResepObatController extends Controller
     {
         $no_resep = $request->no_resep;
         $no_rawat = $request->no_rawat;
-        if ($no_resep) {
-            $resep = ResepObat::where('no_resep', $no_resep)->delete();
-        } else {
-            $resep = ResepObat::where('no_rawat', $no_rawat)->delete();
+        try {
+            $resep = ResepObat::where('no_resep', $no_resep)->orWhere('no_rawat', $no_rawat)->delete();
+            if ($resep) {
+                $this->deleteSql(new ResepObat(), ['no_resep' => $no_resep, 'no_rawat' => $no_rawat]);
+                return response()->json($resep);
+            }
+            return response()->json('Gagal', 500);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
         }
-        return response()->json($resep);
     }
     function print(Request $request)
     {
