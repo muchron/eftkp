@@ -75,8 +75,8 @@ class Kunjungan extends Controller
                         'catatan' => $request->catatanKhusus
                     ],
                 ];
-                $data['kdTacc'] = 0;
-                $data['alasanTacc'] = null;
+                $data['kdTacc'] = $request->kdTacc ? $request->kdTacc : '0';
+                $data['alasanTacc'] = $request->kalasanTacc ? $request->kalasanTacc : null;
             } else if ($request->jenisRujukan == 'internal') {
                 $data['rujukLanjut'] = [
                     "kdppk" => $request->kdPpkRujukan,
@@ -204,6 +204,7 @@ class Kunjungan extends Controller
             'nmPPK' => $response->ppkRujuk->nmPPK,
             'kdPoli' => $response->poli->kdPoli,
             'nmPoli' => $response->poli->nmPoli,
+            'catatanRujuk' => $response->catatanRujuk,
 
         ];
 

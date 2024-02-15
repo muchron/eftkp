@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pasien;
-use App\Models\setNoRkmMedis;
 use App\Traits\Track;
-use Illuminate\Database\QueryException;
+use App\Models\Pasien;
 use Illuminate\Http\Request;
+use App\Models\setNoRkmMedis;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class PasienController extends Controller
 {
@@ -94,6 +95,9 @@ class PasienController extends Controller
         if ($pasien) {
             return $this->update($request);
         }
+        if ($this->isExistPasien($request)) {
+            return response()->json('Pasien sudah terdaftar sebelumnya', 409);
+        }
 
         try {
             $pasien = Pasien::create($data);
@@ -176,5 +180,30 @@ class PasienController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+    function isExistPasien(Request $request)
+    {
+        $pasien = Pasien::where('no_peserta', $request->no_peserta)
+            ->orWhere('no_ktp', $request->no_ktp)
+            ->first();
+
+        if ($pasien) {
+            return true;
+        }
+    }
+
+    function dataKecamatan(Request $request)
+    {
+        $kecamatan = Pasien::select('kd_kec', DB::raw('count(*) as count'))
+            ->groupBy('kd_kec')
+            ->with('kec');
+        if ($request->tgl1 || $request->tgl2) {
+            $kecamatan = $kecamatan->whereBetween('tgl_daftar', [$request->tgl1, $request->tgl2]);
+        } else {
+            $kecamatan = $kecamatan->whereMonth('tgl_daftar', date('m'))
+                ->whereYear('tgl_daftar', date('Y'));
+        }
+        $kecamatan = $kecamatan->orderBy('count', 'DESC')->limit(10)->get();
+        return response()->json($kecamatan);
     }
 }

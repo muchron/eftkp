@@ -11,6 +11,7 @@
     @include('content.registrasi._modalRujukanInternal')
     @include('content.registrasi._modalSuratSakit')
     @include('content.pemeriksaan.modal.penilaianAwal._modalPenilaianAwal')
+    @include('content.pemeriksaan.modal.penilaianAwal._modalSkriningJatuh')
 @endsection
 @push('script')
     <script>
@@ -100,7 +101,7 @@
                         btnCetakResep.removeClass('d-none')
                     } else {
                         btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                        btnTambahResep.text('TambahResep')
+                        btnTambahResep.text('Tambah Resep')
                         btnCetakResep.removeAttr('onclick')
                         tabelResepUmum.addClass('d-none')
                         tabelResepRacikan.addClass('d-none')

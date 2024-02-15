@@ -21,6 +21,9 @@
 
 @push('script')
     <script>
+        var btnTambahRacikan = $('#btnTambahRacikan')
+        var btnSimpanRacikan = $('#btnSimpanRacikan')
+
         function setResepRacikan(no_resep) {
             getResepRacikan(no_resep).done((response) => {
                 $('#tabelResepRacikan').find('tbody').empty();

@@ -102,14 +102,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                @include('content.dashboard._grafikPenyakit')
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                @include('content.dashboard._grafikKecamatan')
+            </div>
         </div>
     </div>
 @endsection
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         $(document).ready(() => {
             setCardKunjungan()
         })
+        var url = "{{ url('') }}"
 
         function setCardKunjungan() {
             getRegPeriksa().done((response) => {

@@ -38,12 +38,14 @@ use App\Http\Controllers\PerusahaanPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\EfktpTindakanResikoJatuhController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Models\DiagnosaPasien;
 use App\Models\PemeriksaanGigi;
 use App\Models\PenilaianAwalKeperawatanRalan;
 
@@ -83,6 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pasien/riwayat', [PasienController::class, 'getRiwayat']);
     Route::post('/pasien', [PasienController::class, 'create']);
     Route::get('/pasien', [PasienController::class, 'get']);
+    Route::get('/pasien/exist', [PasienController::class, 'isExistPasien']);
     Route::get('/pasien/get/nokartu/{noKartu}', [PasienController::class, 'getByNoka']);
 
     // SUKU BANGSA
@@ -102,6 +105,8 @@ Route::middleware('auth')->group(function () {
     // KECAMATAN
     Route::get('kecamatan', [KecamatanController::class, 'get']);
     Route::post('kecamatan', [KecamatanController::class, 'create']);
+    Route::get('pasien/data/kecamatan', [PasienController::class, 'dataKecamatan']);
+
     // KABUPATEN
     Route::get('kabupaten', [KabupatenController::class, 'get']);
     Route::post('kabupaten', [KabupatenController::class, 'create']);
@@ -134,8 +139,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
     // PENILIAIAN AWAL/SKRINING
-
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
+    Route::post('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'createPenilaian']);
+    Route::get('/penilaian/awal/keperawatan/ralan/print', [PenilaianAwalKeperawatanRalanController::class, 'print']);
+
+    // TINDAKAN SKRINING RESIKO JATUH
+    Route::post('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'create']);
+    Route::get('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'get']);
+    Route::get('/skrining/jatuh/print', [EfktpTindakanResikoJatuhController::class, 'print']);
 
 
     // Pemeriksaan
@@ -165,6 +176,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
     Route::post('/diagnosa/pasien/delete', [DiagnosaPasienController::class, 'delete']);
     Route::get('/diagnosa/pasien/get', [DiagnosaPasienController::class, 'get']);
+    Route::get('/diagnosa/pasien/grafik', [DiagnosaPasienController::class, 'grafik']);
 
     // Prosedur/tindakan
     Route::get('/prosedur/pasien/get', [ProsedurPasienController::class, 'get']);
@@ -284,6 +296,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/spesialis/{kdSpesialis}/subspesialis', [Bridging\Spesialis::class, 'getSubspesialis']);
     Route::get('/bridging/pcare/spesialis/sarana', [Bridging\Spesialis::class, 'getsarana']);
     Route::get('/bridging/pcare/spesialis/rujukan', [Bridging\Spesialis::class, 'getFaskes']);
+    Route::get('/bridging/pcare/spesialis/rujukan/khusus', [Bridging\Spesialis::class, 'getFaskesKhusus']);
 
     // POLI FKTP
     Route::get('/bridging/pcare/fktp/poli', [Bridging\Poli::class, 'index']);

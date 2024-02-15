@@ -563,6 +563,10 @@
             formRujukanSpesialis.find('input[type=text]').val('')
             formRujukanLanjut.find('#kdPpkRujukan').val('');
             formRujukanLanjut.find('#ppkRujukan').val('');
+            formRujukanInternal.find('#kdTacc').attr('disabled', false)
+            formRujukanInternal.find('#nmTacc').attr('disabled', false)
+            formRujukanInternal.find('#btnTacc').attr('disabled', false)
+            formRujukanInternal.find('#alasanTacc').attr('disabled', false)
         })
         $('#rujukanInternal').on('change', (e) => {
             switchForm('rujukanInternal', 'formRujukanInternal', ['input', 'button'])

@@ -32,18 +32,18 @@
             <tr>
                 <td>Kepada Yth. Dokter </td>
                 <td>:</td>
-                <td>{{ $data['nmSubSpesialis'] }}</td>
+                <td>{{ $data['nmPoli'] }}</td>
             </tr>
             <tr>
                 <td colspan="3">Di {{ $data['nmPPK'] }}</td>
             </tr>
         </table>
         <p style="margin:10px">Mohon pemeriksaan dan penanganan lebih lanjut kepada pasien : </p>
-        <table width="100%">
+        <table class="table" width="100%" style="vertical-align: top">
             <tr>
-                <td>Nama </td>
-                <td>:</td>
-                <td>{{ $data['nm_pasien'] }} ({{ $data['pasien']['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' }})</td>
+                <td width="20%">Nama </td>
+                <td width="2%">:</td>
+                <td width="70%">{{ $data['nm_pasien'] }} ({{ $data['pasien']['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' }})</td>
             </tr>
             <tr>
                 <td>Umur</td>
@@ -51,7 +51,7 @@
                 <td>{{ $data['reg_periksa']['umurdaftar'] }} {{ $data['reg_periksa']['sttsumur'] }} / {{ date('d F Y', strtotime($data['pasien']['tgl_lahir'])) }}</td>
             </tr>
             <tr>
-                <td>No Kartu BPJS</td>
+                <td>No Peserta</td>
                 <td>:</td>
                 <td>{{ $data['noKartu'] }}</td>
             </tr>
@@ -59,6 +59,11 @@
                 <td>Diagnosa</td>
                 <td>:</td>
                 <td>{{ $data['kdDiag1'] }} - {{ $data['nmDiag1'] }}</td>
+            </tr>
+            <tr>
+                <td>Catatan</td>
+                <td>:</td>
+                <td>{{ $data['detail']['catatanRujuk'] }}</td>
             </tr>
         </table>
         <p style="margin:10px">Atas bantuannya, diucapkan terimakasih</p>
@@ -79,12 +84,10 @@
                 <td>{{ $data['detail']['jadwal'] }}</td>
             </tr>
         </table>
-        <p>Info Denda : {{ $data['detail']['infoDenda'] }}</p>
+        <p class="mt-1">Info Denda : {{ $data['detail']['infoDenda'] }}</p>
         <div style="margin-top:20px;text-align: center;left:0px;font-size:12px;">
             <p style="margin-bottom:50">Salam Sejawat,{{ date('d/m/Y H:i:s') }}</p>
             <p><b><u>{{ $data['nmDokter'] }}</u></b></p>
         </div>
     </div>
-    {{-- @dd($data) --}}
-    {{-- {{ print_r($data) }} --}}
 @endsection

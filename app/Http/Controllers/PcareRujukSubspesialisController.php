@@ -73,6 +73,7 @@ class PcareRujukSubspesialisController extends Controller
                     'tglAkhirRujuk' => $request->tglAkhirRujuk,
                     'jadwal' => $request->jadwal,
                     'infoDenda' => $request->infoDenda ? $request->indoDenda : '-',
+                    'catatanRujuk' => $request->catatanRujuk,
                 ];
                 try {
                     $rujukEfktp = EfktpPcareRujukSubspesialis::create($dataEfktp);
@@ -151,8 +152,9 @@ class PcareRujukSubspesialisController extends Controller
                         'kdKC' => $request->kdKC,
                         'nmKC' => $request->nmKC,
                         'tglAkhirRujuk' => $request->tglAkhirRujuk,
-                        'jadwal' => $request->jadwal,
+                        'jadwal' => $request->jadwal ?  $request->jadwal : '-',
                         'infoDenda' => $request->infoDenda ? $request->indoDenda : '-',
+                        'catatanRujuk' => $request->catatanRujuk,
                     ];
                     try {
                         $rujukEfktp = EfktpPcareRujukSubspesialis::where(['noKunjungan' => $data['noKunjungan']])->update($dataEfktp);

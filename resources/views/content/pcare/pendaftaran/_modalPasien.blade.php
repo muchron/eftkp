@@ -300,6 +300,10 @@
             }
         }
 
+
+        function isExistPasien(data) {
+            $.get(`${url}/pasien/exist`, data)
+        }
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
             const data = getDataForm('formPasien', ['input', 'select']);
@@ -513,6 +517,7 @@
             $.post(`${url}/kecamatan`, {
                 kecamatan: nmKecamatan,
             }).done((response) => {
+                console.log('RESPONSE ==', response);
                 if (response.message == 'SUKSES') {
                     toast();
                     const option = new Option(nmKecamatan, response.id, true, true);

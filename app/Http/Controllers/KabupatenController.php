@@ -17,7 +17,7 @@ class KabupatenController extends Controller
     }
     function create(Request $request)
     {
-        $kabupaten = Kabupaten::where('nm_kab', 'like', "%{$request->kabupaten}%")
+        $kabupaten = Kabupaten::where('nm_kab', $request->kabupaten)
             ->orWhere('kd_kab', $request->kabupaten)->first();
         if (!$kabupaten) {
             try {

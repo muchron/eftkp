@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs" role="tablist">
+        <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs" role="tablist" id="tabObat">
             <li class="nav-item" role="presentation">
                 <a href="#tabsResepUmum" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Umum</a>
             </li>
@@ -73,7 +73,7 @@
             createResepObat(no_rawat, 'ralan', dokter).done((response) => {
                 $('#no_resep').val(response.no_resep)
                 btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
-                btnTambahResep.attr('onclick', `hapusResep('${response.no_resep}')`)
+                btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
                 btnTambahResep.text('Hapus Resep')
             }).fail((request) => {
                 alertErrorAjax(request)

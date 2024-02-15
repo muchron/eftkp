@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DiagnosaPasien;
 use App\Traits\Track;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Models\DiagnosaPasien;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class DiagnosaPasienController extends Controller
 {
@@ -55,5 +56,25 @@ class DiagnosaPasienController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    function grafik(Request $request)
+    {
+        $diagnosa = DiagnosaPasien::with(['penyakit' => function ($q) {
+            return $q->select('kd_penyakit', 'nm_penyakit');
+        }])->where('prioritas', 1)->groupBy('kd_penyakit')
+            ->select('kd_penyakit', DB::raw('COUNT(*) as count'));
+
+        if ($request->tglDiagnosa1 || $request->tglDiagnosa2) {
+            $diagnosa = $diagnosa->whereHas('regPeriksa', function ($q) use ($request) {
+                return $q->whereBetween('tgl_registrasi', [$request->tglDiagnosa1, $request->tglDiagnosa2]);
+            });
+        } else {
+            $diagnosa = $diagnosa->whereHas('regPeriksa', function ($q) use ($request) {
+                return $q->whereMonth('tgl_registrasi', date('m'))->whereYear('tgl_registrasi', date('Y'));
+            });
+        }
+        $diagnosa = $diagnosa->limit(10)->orderBy('count', 'DESC')->get();
+        return response()->json($diagnosa);
     }
 }

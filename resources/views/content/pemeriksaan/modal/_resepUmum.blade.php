@@ -18,6 +18,8 @@
 </div>
 @push('script')
     <script>
+        var btnTambahObat = $('#btnTambahObat')
+        var btnSimpanResep = $('#btnSimpanResep')
         var tabelResepUmum = $('#tabelResepUmum')
         var bodyResepUmum = tabelResepUmum.find('tbody')
 

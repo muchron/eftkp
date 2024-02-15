@@ -15,14 +15,15 @@ class KecamatanController extends Controller
     use Track;
     function get(Request $request)
     {
-        $kecamatan = Kecamatan::where('nm_kec', 'like', "{$request->kecamatan}%")->get();
+        $kecamatan = Kecamatan::where('nm_kec', 'like', "%{$request->kecamatan}%")->get();
         return response()->json($kecamatan);
     }
     function create(Request $request)
     {
-        $kecamatan = Kecamatan::where('nm_kec', 'like', "%{$request->kecamatan}%")
-            ->orWhere('kd_kec', $request->kecamatan)->first();
-        if (!$kecamatan) {
+        $kecamatan = Kecamatan::where('nm_kec', $request->kecamatan)
+            ->orWhere('kd_kec', $request->kecamatan)
+            ->first();
+        if ($kecamatan->kd_kec == 0 || !$kecamatan) {
             try {
                 $data = [
                     'nm_kec' => strtoupper($request->kecamatan)

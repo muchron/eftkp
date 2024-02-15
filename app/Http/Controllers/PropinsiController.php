@@ -17,7 +17,7 @@ class PropinsiController extends Controller
     }
     function create(Request $request)
     {
-        $propinsi = Propinsi::where('nm_prop', 'like', "{$request->propinsi}%")
+        $propinsi = Propinsi::where('nm_prop',  $request->propinsi)
             ->orWhere('kd_prop', $request->propinsi)->first();
         if (!$propinsi) {
             try {
