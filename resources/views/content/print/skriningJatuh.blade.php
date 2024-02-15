@@ -3,7 +3,7 @@
     Carbon\Carbon::setLocale('id');
 @endphp
 @section('content')
-    <div width="100%" style="font-size: 12px; margin:15px">
+    <div class="m-5" width="100%" style="font-size: 13px;">
         <table width="100%">
             <tr>
                 <td>{{ $setting->nama_instansi }}</td>
@@ -82,8 +82,8 @@
         {{-- @dd() --}}
         <div style="margin-top:10px;text-align: center;left:0px;font-size:12px;">
             <p class="m-0">{{ Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y') }}</p>
-            <p class="m-0">Petugas</p>
-            <p class="mt-5"><u>{{ $data->pegawai->nama }}</u></p>
+            <p class="" style="margin-bottom: 100px">Petugas</p>
+            <p class="mt-5"><u><b>{{ $data->pegawai->nama }}</b></u></p>
             {{-- <p class="m-0">NIP : {{ $data->dokter->no_ijn_praktek }}</p> --}}
         </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Clockwork\Request\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,5 +21,10 @@ class PenilaianAwalKeperawatanRalan extends Model
     function pegawai()
     {
         return $this->belongsTo(Pegawai::class, 'nip', 'nik');
+    }
+
+    function skrining()
+    {
+        return $this->hasOne(EfktpTindakanResikoJatuh::class, 'no_rawat', 'no_rawat');
     }
 }

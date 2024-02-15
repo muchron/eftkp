@@ -241,9 +241,23 @@
         </div>
     </div>
 </div>
+<div class="modal modal-blur fade" id="modalCetakPenilaian" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content rounded-3">
+            <div class="modal-header">
+                <h5 class="modal-title m-0">Penilaian Awal Keperawatan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="">
+                <iframe id="print" type="" width="100%" height="600"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 @push('script')
     <script>
         var modalPenilaianAwalKeperawatan = $('#modalPenilaianAwalKeperawatan')
+        var modalCetakPenilaian = $('#modalCetakPenilaian')
 
         function penilaianAwalKeperawatan(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
@@ -347,5 +361,14 @@
             const tb = modalPenilaianAwalKeperawatan.find('#tb').val();
             $('#bmi').val(hitungBmi(bb, tb))
         })
+
+        function printPenilaianAwalKeperawatan() {
+            const no_rawat = modalPenilaianAwalKeperawatan.find('#no_rawat').val();
+            getPenilaianAwalKeperawatan(no_rawat).done((response) => {
+                modalCetakPenilaian.modal('show')
+                modalCetakPenilaian.find('#print').attr('src', `${url}/penilaian/awal/keperawatan/ralan/print?no_rawat=${no_rawat}`);
+
+            })
+        }
     </script>
 @endpush
