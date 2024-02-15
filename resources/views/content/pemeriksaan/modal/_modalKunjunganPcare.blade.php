@@ -502,6 +502,7 @@
                 formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
                 formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
                 getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
+                    console.log('response==', response, 'NO RM', no_rkm_medis);
                     const rujuk = response.map((val) => {
                         return val.detail.tglAkhirRujuk
                     }).slice(-1).join('')
