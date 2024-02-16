@@ -212,7 +212,7 @@
         }
 
         function setStatusLayan(no_rawat, status) {
-            const postStatus = $.post('registrasi/update', {
+            const postStatus = $.post(`${url}/registrasi/update`, {
                 stts: status,
                 no_rawat: no_rawat
             });

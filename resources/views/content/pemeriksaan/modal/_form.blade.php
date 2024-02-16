@@ -4,6 +4,7 @@
             <div class="mb-1">
                 <label class="form-label">No. Rawat</label>
                 <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="no_rawat" readonly>
+                <input value="" type="hidden" name="stts" readonly>
             </div>
         </div>
         <div class="col-md-6 col-xl-6 col-lg-6">
@@ -329,14 +330,16 @@
                         confirmButtonText: "Lanjut",
                         cancelButtonText: "Tidak"
                     }).then((result) => {
-                        setStatusLayan(data['no_rawat'], 'Sudah')
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
+                                const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                                setStatusLayan(data['no_rawat'], stts)
                                 loadTabelRegistrasi(tglAwal, tglAkhir)
                             })
                             return false;
                         }
+                        setStatusLayan(data['no_rawat'], 'Sudah')
                         data['no_peserta'] = no_peserta;
                         data['no_rkm_medis'] = no_rkm_medis;
                         data['nm_pasien'] = nm_pasien;
@@ -347,7 +350,8 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
-                        setStatusLayan(data['no_rawat'], 'Sudah')
+                        const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                        setStatusLayan(data['no_rawat'], stts);
                         loadTabelRegistrasi(tglAwal, tglAkhir)
                     })
                 }

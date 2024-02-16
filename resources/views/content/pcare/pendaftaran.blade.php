@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table table-sm" id="tabelPcarePendaftaran" width="100%">
+                            <table class="table table-sm table-striped nowrap" id="tabelPcarePendaftaran" width="100%">
                             </table>
                         </div>
                     </div>
@@ -41,6 +41,7 @@
         </div>
     </div>
     @include('content.pcare.pendaftaran._modalPendaftaran')
+    @include('content.pemeriksaan.modalCppt')
 @endsection
 @push('script')
     <script>
@@ -104,7 +105,16 @@
                     width: '6%',
                     targets: 8
                 }],
-                columns: [{
+                columns: [
+                    // {
+                    //     title: '',
+                    //     data: 'noUrut',
+                    //     render: (data, type, row, meta) => {
+                    //         console.log(row);
+                    //         return `<button type="button" class="btn btn-primary btn-sm" style="width:60%">Panggil</button>`;
+                    //     },
+                    // }, 
+                    {
                         title: 'No. Urut',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
@@ -164,12 +174,8 @@
                         title: '',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
-                            if (row.kdStatusPulang == 4) {
-                                return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
-
-                            }
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i> Hapus</button>
+                            <button type="button" class="btn btn-sm btn-success d-none" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },
 

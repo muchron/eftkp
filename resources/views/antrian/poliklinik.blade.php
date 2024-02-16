@@ -40,6 +40,7 @@
                         <h1 class="m-0" id="poliklinik">-</h1>
                         <h1 class="m-0" id="dokter">-</h1>
                         <h1 class="m-0" id="penjab">-</h1>
+                        <input type="hidden" class="speech" id="speech">
                     </div>
                 </div>
             </div>
@@ -78,19 +79,24 @@
 
             const hari = setHari(date.getDay());
             $('#tanggal').html(`${hari}, ${formatTanggal(tanggal)}`);
+
             setInterval(() => {
+                const currentSpeech = $('#speech').val()
                 $.get(`${url}/registrasi/get/panggil`).done((response) => {
                     if (Object.keys(response).length) {
+                        console.log(response);
                         $('#nomor').html(response.no_reg)
                         $('#nama').html(response.pasien.nm_pasien)
                         $('#poliklinik').html(response.poliklinik.nm_poli)
                         $('#dokter').html(response.dokter.nm_dokter)
                         $('#penjab').html(response.penjab.png_jawab)
+
                         const speech = response.pasien.nm_pasien.split(', ');
                         responsiveVoice.speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`, 'Indonesian Female', {
                             rate: 0.9,
                             volume: 20,
                         });
+                        setStatusLayan(response.no_rawat, 'Dirawat')
                         setInterval(blinkText($('#nama')), 2000);
                         setInterval(blinkText($('#nomor')), 2000);
                     }

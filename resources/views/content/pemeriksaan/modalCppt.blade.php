@@ -58,6 +58,7 @@
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
+                $('#formCpptRajal input[name=stts]').val(response.stts)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
                 $('#formCpptRajal input[name=tgl_lahir]').val(`${formatTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)

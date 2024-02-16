@@ -91,7 +91,7 @@ class SuratSakitController extends Controller
 
     function print($noSurat)
     {
-        $surat = SuratSakit::with(['regPeriksa' => function ($q) {
+        return $surat = SuratSakit::with(['regPeriksa' => function ($q) {
             return $q->with(['dokter', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'pasien.perusahaanPasien']);
         }, 'pemeriksaanRalan', 'diagnosa.penyakit'])->where('no_surat', $noSurat)->first();
         $setting = Setting::first();
@@ -117,7 +117,7 @@ class SuratSakitController extends Controller
             'tgl_awal' => $surat->tanggalawal,
             'tgl_akhir' => $surat->tanggalakhir,
             'dokter' => $surat->regPeriksa->dokter->nm_dokter,
-            'sip' => $surat->regPeriksa->dokter->no_ijin_praktek,
+            'sip' => $surat->regPeriksa->dokter->no_ijn_praktek,
             'nama_instansi' => $setting->nama_instansi,
             'alamat_instansi' => "{$setting->alamat_instansi}, {$setting->kabupaten}, {$setting->propinsi}",
             'kontak' => $setting->kontak,
