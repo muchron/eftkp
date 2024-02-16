@@ -150,6 +150,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
         var tanggal = "{{ date('Y-m-d') }}"
+        var url = "{{ url('') }}"
         var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
         var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
         (function(factory) {
@@ -203,11 +204,21 @@
             });
         })
 
-        // $(function() {
-        //     $('tr').on('click', function(e) {
-        //         console.log('clicked', e.currentTarget.data);
-        //     })
-        // });
+        function getRegDetail(no_rawat) {
+            const registrasi = $.get(`${url}/registrasi/get/detail`, {
+                no_rawat: no_rawat,
+            })
+            return registrasi;
+        }
+
+        function setStatusLayan(no_rawat, status) {
+            const postStatus = $.post('registrasi/update', {
+                stts: status,
+                no_rawat: no_rawat
+            });
+
+            return postStatus;
+        }
     </script>
     @stack('script')
 </body>

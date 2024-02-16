@@ -46,7 +46,7 @@
         }
 
         function getResep(data) {
-            const resep = $.get('resep/get', data)
+            const resep = $.get(`${url}/resep/get`, data)
             return resep
         }
 

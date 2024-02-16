@@ -296,7 +296,7 @@
 
         function setRiwayat(no_rkm_medis) {
             $('#listRiwayat').empty()
-            $.get('pasien/riwayat', {
+            $.get(`${url}/pasien/riwayat`, {
                 no_rkm_medis: no_rkm_medis
             }).done((response) => {
                 const regPeriksa = response.reg_periksa.map((regPeriksa, index) => {

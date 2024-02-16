@@ -178,7 +178,7 @@
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Terapi</label>
-                                        <input autocomplete="off" type="text" class="form-control" name="instruksi">
+                                        <input autocomplete="off" type="text" class="form-control" name="rtl">
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
@@ -403,6 +403,7 @@
         })
 
         function showModalKunjunganPcare(data) {
+            console.log(data);
 
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')

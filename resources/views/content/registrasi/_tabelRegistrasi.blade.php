@@ -199,21 +199,6 @@
             })
         }
 
-        function getRegDetail(no_rawat) {
-            const registrasi = $.get('registrasi/get/detail', {
-                no_rawat: no_rawat,
-            })
-            return registrasi;
-        }
-
-        function setStatusLayan(no_rawat, status) {
-            const postStatus = $.post('registrasi/update', {
-                stts: status,
-                no_rawat: no_rawat
-            });
-
-            return postStatus;
-        }
 
 
         function symbolGigi(hasil, size = '') {

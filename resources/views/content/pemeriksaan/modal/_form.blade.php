@@ -305,7 +305,6 @@
             const selectKesadaran = $('#formCpptRajal select[name=kesadaran]');
             const pembiayaan = $('#formCpptRajal input[name=pembiayaan]').val();
             const no_peserta = $('#formCpptRajal input[name=no_peserta]').val();
-            const heart_rate = $('#formCpptRajal input[name=heartRate]').val();
             const no_rkm_medis = $('#formCpptRajal input[name=no_rkm_medis]').val();
             const nm_pasien = $('#formCpptRajal input[name=nm_pasien]').val();
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
@@ -339,7 +338,6 @@
                             return false;
                         }
                         data['no_peserta'] = no_peserta;
-                        data['heart_rate'] = heart_rate;
                         data['no_rkm_medis'] = no_rkm_medis;
                         data['nm_pasien'] = nm_pasien;
                         data['kd_sadara'] = selectKesadaran.val();

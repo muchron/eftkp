@@ -301,8 +301,8 @@
                     modalPenilaianAwalKeperawatan.find("#n2").val(response.nilai2);
                     modalPenilaianAwalKeperawatan.find("#total_hasil").val(response.total_hasil);
                 } else {
+                    $("#alertPenilaian").addClass('d-none')
                     getPemeriksaanRalan(no_rawat).done((response) => {
-                        $("#alertPenilaian").addClass('d-none')
                         modalPenilaianAwalKeperawatan.find("#btnCetak").addClass('d-none')
                         $("#tgl_penilaian").html('')
                         if (response.length) {
@@ -340,10 +340,15 @@
             $('#total_hasil').val(totalHasil);
         })
 
+
+
         function simpanPenilaianAwalKeperawatan() {
             const data = getDataForm('formPenilaianAwalKeperawatan', ['input', 'select', 'textarea']);
             $.post(`${url}/penilaian/awal/keperawatan/ralan`, data).done((response) => {
-                console.log('DATA ==', data);
+                const tanggal = new Date()
+                $('#alertPenilaian').removeClass('d-none')
+                $('#alertPenilaian').find('#tgl_penilaian').html("{{ date('Y-m-d H:i:s') }}")
+                modalPenilaianAwalKeperawatan.find('#btnCetak').removeClass('d-none');
                 alertSuccessAjax();
             }).fail((request) => {
                 alertErrorAjax(request)
@@ -370,5 +375,8 @@
 
             })
         }
+        modalPenilaianAwalKeperawatan.on('hidden.bs.modal', () => {
+            $('#formPenilaianAwalKeperawatan').trigger('reset')
+        })
     </script>
 @endpush

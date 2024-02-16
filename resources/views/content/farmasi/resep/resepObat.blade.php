@@ -52,7 +52,7 @@
                 scrollY: '50vh',
                 scrollX: true,
                 ajax: {
-                    url: 'resep/get',
+                    url: `${url}/resep/get`,
                     data: {
                         dataTable: true,
                         tgl_awal: tgl_awal,
