@@ -183,7 +183,7 @@ class PasienController extends Controller
     }
     function isExistPasien(Request $request)
     {
-        $pasien = Pasien::where('no_peserta', $request->no_peserta)
+        $pasien = Pasien::where(['no_peserta' => $request->no_peserta, 'kd_pj' => 'BPJ'])
             ->orWhere('no_ktp', $request->no_ktp)
             ->first();
 
