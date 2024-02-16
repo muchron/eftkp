@@ -230,9 +230,6 @@
         function setPanggil(no_rawat) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
                 loadTabelRegistrasi(tglAwal, tglAkhir);
-                setTimeout(() => {
-                    setStatusLayan(no_rawat, 'Dirawat')
-                }, 2000);
             });
         }
 

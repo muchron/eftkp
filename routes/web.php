@@ -73,7 +73,7 @@ Route::get('/antrian/poliklinik', function () {
     return view('antrian.poliklinik', ['data' => $setting]);
 });
 Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
-
+Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -136,7 +136,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/registrasi/get', [RegPeriksaController::class, 'get']);
     Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
-    Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
+
 
     // PENILIAIAN AWAL/SKRINING
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
