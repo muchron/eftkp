@@ -333,7 +333,9 @@
             const data = getDataForm('formSuratSehat', ['input', 'select']);
             $.post(`${url}/surat/sehat`, data).done((response) => {
                 alertSuccessAjax().then(() => {
-                    loadSuratSehat(tglSuratSehat1, tglSuratSehat2);
+                    const tgl1 = localStorage.getItem('tglSuratSehat1')
+                    const tgl2 = localStorage.getItem('tglSuratSehat2')
+                    loadSuratSehat(tgl1, tgl2);
                 });
             })
         });
@@ -352,7 +354,9 @@
                 if (result.isConfirmed) {
                     $.post(`${url}/surat/sehat/delete/${no_surat}`).done((response) => {
                         alertSuccessAjax().then(() => {
-                            loadSuratSehat(tglSuratSehat1, tglSuratSehat2);
+                            const tgl1 = localStorage.getItem('tglSuratSehat1')
+                            const tgl2 = localStorage.getItem('tglSuratSehat2')
+                            loadSuratSehat(tgl1, tgl2);
                         })
                     })
                 }
