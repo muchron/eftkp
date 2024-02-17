@@ -305,10 +305,10 @@
             const isChecked = $(e.currentTarget).is(':checked')
             if (!isChecked) {
                 clearInterval(setTime)
-                timeDisplay.attr('readonly', 'true')
+                timeDisplay.removeAttr('readonly')
             } else {
                 refreshTime()
-                timeDisplay.removeAttr('readonly')
+                timeDisplay.attr('readonly', 'true')
             }
         })
 

@@ -240,7 +240,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="btnResetPasien"><i class="ti ti-reload me-2"></i>Baru</button>
+                <button type="button" class="btn btn-warning" id="btnResetPasien" onclick="resetFormRegistrasi()"><i class="ti ti-reload me-2"></i>Baru</button>
                 <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
@@ -659,7 +659,7 @@
             })
         }
 
-        $('#btnResetPasien').on('click', (e) => {
+        function resetFormRegistrasi() {
             resetSelect();
             formPasien.find('input[name=checkNoRm]').attr('disabled', false);
             $('#formPasien').trigger('reset');
@@ -668,7 +668,7 @@
                 formPasien.find('input').removeClass('is-valid')
                 formPasien.find('select').removeClass('is-valid')
             })
-        })
+        }
 
         function editPasien(no_rkm_medis) {
             $.get(`${url}/pasien`, {
@@ -734,19 +734,40 @@
             const noKartu = findBy == 'noKartu' ? formPasien.find('#no_peserta').val() : formPasien.find('#no_ktp').val();
             loadingAjax();
             $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((response) => {
+
                 if (response.metaData.code == 200) {
-                    const result = response.response;
-                    const umur = hitungUmur(splitTanggal(result.tglLahir));
-                    const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-                    formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
-                    formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
-                    formPasien.find('#umur').val(textUmur).addClass('is-valid');
-                    formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
-                    formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
-                    formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
-                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                    formPasien.find('#kd_pj').append(bpjs).trigger('change');
                     loadingAjax().close();
+                    const result = response.response;
+                    $.get(`${url}/setting/pcare/user`).done((kode) => {
+                        if (kode !== result.kdProviderPst.kdProvider) {
+                            Swal.fire({
+                                title: "Peringatan ?",
+                                html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Iya, Lanjutkan",
+                                cancelButtonText: "Tidak, Batalkan"
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    const umur = hitungUmur(splitTanggal(result.tglLahir));
+                                    const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+                                    formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
+                                    formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
+                                    formPasien.find('#umur').val(textUmur).addClass('is-valid');
+                                    formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
+                                    formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
+                                    formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
+                                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
+                                    formPasien.find('#kd_pj').append(bpjs).trigger('change');
+                                } else {
+                                    resetFormRegistrasi();
+                                }
+                            });
+                        }
+                    })
+
                 } else {
                     const error = {
                         status: response.metaData.code,

@@ -208,4 +208,18 @@ class PasienController extends Controller
         $kecamatan = $kecamatan->orderBy('count', 'DESC')->limit(10)->get();
         return response()->json($kecamatan);
     }
+    function dataKelurahan(Request $request)
+    {
+        $data = Pasien::select('kd_kel', DB::raw('count(*) as count'))
+            ->groupBy('kd_kel')
+            ->with('kel');
+        if ($request->tgl1 || $request->tgl2) {
+            $data = $data->whereBetween('tgl_daftar', [$request->tgl1, $request->tgl2]);
+        } else {
+            $data = $data->whereMonth('tgl_daftar', date('m'))
+                ->whereYear('tgl_daftar', date('Y'));
+        }
+        $data = $data->orderBy('count', 'DESC')->limit(10)->get();
+        return response()->json($data);
+    }
 }

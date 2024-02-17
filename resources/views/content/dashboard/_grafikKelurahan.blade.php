@@ -23,10 +23,10 @@
         var grafikKelurahan = '';
 
         $(document).ready((e) => {
-            dataGrafikDiagnosa();
+            dataGrafikKelurahan();
         })
 
-        function renderGrafikDiagnosa(data) {
+        function renderGrafikKelurahan(data) {
             grafikKelurahan = new Chart(ctxGrafikKelurahan, {
                 type: 'bar',
                 data: {
@@ -73,16 +73,16 @@
         }
 
         function dataGrafikKelurahan(tgl1 = '', tgl2 = '') {
-            $.get(`${url}/diagnosa/pasien/grafik`, {
-                tglDiagnosa1: tgl1,
-                tglDiagnosa2: tgl2,
+            $.get(`${url}/pasien/data/kelurahan`, {
+                tgl1: tgl1,
+                tgl1: tgl2,
             }).done((response) => {
+                console.log('KELURAHAN ==', response);
                 const data = {
                     'list': response.map((item) => item.count),
-                    'label': response.map((item) => item.kd_penyakit),
-                    'title': response.map((item) => item.penyakit.nm_penyakit),
+                    'label': response.map((item) => item.kel.nm_kel),
                 }
-                renderGrafikDiagnosa(data);
+                renderGrafikKelurahan(data);
             })
         }
 
@@ -90,7 +90,7 @@
             const tgl1 = $('#tglPenyakit1').val()
             const tgl2 = $('#tglPenyakit2').val()
             grafikKelurahan.destroy();
-            dataGrafikDiagnosa(splitTanggal(tgl1), splitTanggal(tgl2));
+            dataGrafikKelurahan(splitTanggal(tgl1), splitTanggal(tgl2));
         })
     </script>
 @endpush

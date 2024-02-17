@@ -45,6 +45,7 @@ use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SuratSehatController;
 use App\Models\DiagnosaPasien;
 use App\Models\PemeriksaanGigi;
@@ -77,6 +78,7 @@ Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil'
 Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
 Route::middleware('auth')->group(function () {
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
@@ -103,6 +105,7 @@ Route::middleware('auth')->group(function () {
     // KELURAHAN
     Route::get('kelurahan', [KelurahanController::class, 'get']);
     Route::post('kelurahan', [KelurahanController::class, 'create']);
+    Route::get('pasien/data/kelurahan', [PasienController::class, 'dataKelurahan']);
     // KECAMATAN
     Route::get('kecamatan', [KecamatanController::class, 'get']);
     Route::post('kecamatan', [KecamatanController::class, 'create']);
@@ -279,6 +282,8 @@ Route::middleware('auth')->group(function () {
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
+    Route::get('/setting/pcare/user', [BridgingPcareSettingController::class, 'getUser']);
+
 
     // EFKTP
     Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);
