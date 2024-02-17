@@ -45,6 +45,7 @@ use App\Http\Controllers\PcareRujukSubspesialisController;
 use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Http\Controllers\SuratSehatController;
 use App\Models\DiagnosaPasien;
 use App\Models\PemeriksaanGigi;
 use App\Models\PenilaianAwalKeperawatanRalan;
@@ -232,6 +233,14 @@ Route::middleware('auth')->group(function () {
     Route::post('surat/sakit', [SuratSakitController::class, 'create']);
     Route::post('surat/sakit/delete/{noSurat}', [SuratSakitController::class, 'delete']);
     Route::get('surat/sakit/setnomor', [SuratSakitController::class, 'setNoSurat']);
+
+    // SUrat Sehat
+    Route::get('surat/sehat', [SuratSehatController::class, 'get']);
+    Route::post('surat/sehat', [SuratSehatController::class, 'create']);
+    Route::get('surat/sehat/setnomor', [SuratSehatController::class, 'setNoSurat']);
+    Route::get('surat/sehat/{noSurat}', [SuratSehatController::class, 'getSurat']);
+    Route::post('surat/sehat/delete/{noSurat}', [SuratSehatController::class, 'delete']);
+    Route::get('surat/sehat/print/{noSurat}', [SuratSehatController::class, 'print']);
 
 
     // RUJUK INTERNAL POLI

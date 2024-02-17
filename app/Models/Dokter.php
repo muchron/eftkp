@@ -12,7 +12,12 @@ class Dokter extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    function maping(){
+    function maping()
+    {
         return $this->hasOne(MapingDokterPcare::class, 'kd_dokter', 'kd_dokter');
+    }
+    function pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'kd_dokter', 'nik');
     }
 }
