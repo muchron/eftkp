@@ -82,7 +82,7 @@
                     }
                 }
             }
-            $.post('diagnosa/pasien/create', {
+            $.post(`${url}/diagnosa/pasien/create`, {
                 data
             }).done((response) => {
                 diagnosaPasien(no_rawat);
@@ -108,7 +108,7 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post('diagnosa/pasien/delete', {
+                    $.post(`${url}/diagnosa/pasien/delete`, {
                         no_rawat: no_rawat,
                         kd_penyakit: kd_penyakit,
                     }).done((response) => {
@@ -139,7 +139,7 @@
                 delay: 0,
                 scrollAfterSelect: true,
                 ajax: {
-                    url: 'penyakit/get',
+                    url: `${url}/penyakit/get`,
                     dataType: 'JSON',
 
                     data: (params) => {
@@ -189,7 +189,7 @@
         })
 
         function getDiagnosaPasien(no_rawat) {
-            const diagnosa = $.get('diagnosa/pasien/get', {
+            const diagnosa = $.get(`${url}/diagnosa/pasien/get`, {
                 no_rawat: no_rawat
             })
             return diagnosa

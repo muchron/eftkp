@@ -179,7 +179,7 @@ class Kunjungan extends Controller
         $rujukan = $bpjs->rujukan($noKunjungan)->index();
 
         $encode = json_encode($rujukan['response']);
-        $response = json_decode($encode);
+        return $response = json_decode($encode);
 
 
         $data = [

@@ -11,6 +11,7 @@
     @include('content.registrasi._modalRujukanInternal')
     @include('content.registrasi._modalSuratSakit')
     @include('content.registrasi._modalSuratSehat')
+    @include('content.registrasi._modalObatPcare')
     @include('content.pemeriksaan.modal.penilaianAwal._modalPenilaianAwal')
     @include('content.pemeriksaan.modal.penilaianAwal._modalSkriningJatuh')
 @endsection

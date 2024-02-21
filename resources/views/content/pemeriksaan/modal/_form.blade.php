@@ -236,7 +236,7 @@
         var inputAlergi = $('#formCpptRajal').find('#alergi')
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
-            const insert = $.post('diagnosa/pasien/create', {
+            const insert = $.post(`${url}/diagnosa/pasien/create`, {
                 no_rawat: no_rawat,
                 kd_penyakit: kd_diagnosa,
                 status: status,
@@ -246,7 +246,7 @@
         }
 
         function getPemeriksaanRalan(no_rawat, nip = '') {
-            const pemeriksaan = $.get('pemeriksaan/ralan/show', {
+            const pemeriksaan = $.get(`${url}/pemeriksaan/ralan/show`, {
                 no_rawat: no_rawat,
                 nip: nip
             })
@@ -256,7 +256,7 @@
         $('#selecInstruksi').select2({
             dropdownParent: $('#modalCppt'),
             ajax: {
-                url: 'penyakit/get',
+                url: `${url}/penyakit/get`,
                 dataType: 'JSON',
                 data: (params) => {
                     const query = {
@@ -293,7 +293,7 @@
         });
 
         function createAlergi(data) {
-            $.post('pasien/alergi', {
+            $.post(`${url}/pasien/alergi`, {
                 no_rkm_medis: data.no_rkm_medis,
                 alergi: data.alergi
             })
@@ -314,7 +314,7 @@
                 return val;
             })
             data['alergi'] = alergi.join(', ');
-            $.post('pemeriksaan/ralan/create', data).done((response) => {
+            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
                 createAlergi({
                     no_rkm_medis: data['no_rkm_medis'],
                     alergi: alergi
@@ -372,7 +372,7 @@
                 tags: true,
                 scrollAfterSelect: true,
                 ajax: {
-                    url: 'pasien/alergi',
+                    url: `${url}/pasien/alergi`,
                     dataType: 'JSON',
 
                     data: (params) => {

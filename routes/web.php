@@ -39,6 +39,7 @@ use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\EfktpTindakanResikoJatuhController;
+use App\Http\Controllers\MappingObatPcareController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
@@ -278,6 +279,7 @@ Route::middleware('auth')->group(function () {
     // MAPPING
     Route::get('mapping/pcare/poliklinik', [MappingPoliklinikPcareController::class, 'get']);
     Route::get('mapping/pcare/dokter', [MapingDokterController::class, 'get']);
+    Route::get('mapping/pcare/obat', [MappingObatPcareController::class, 'get']);
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
@@ -294,6 +296,7 @@ Route::middleware('auth')->group(function () {
 
     // PENDAFTARAN 
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/delete', [Bridging\Pendaftaran::class, 'delete']);
     Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);
 
     // KUNJUNGAN
@@ -326,4 +329,8 @@ Route::middleware('auth')->group(function () {
 
     // PESERTA
     Route::get('/bridging/pcare/peserta/{noKartu}', [Bridging\Peserta::class, 'index']);
+
+    // OBAT
+    Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
+    Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
 });

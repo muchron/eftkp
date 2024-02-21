@@ -35,10 +35,7 @@
 {{-- MODAL --}}
 
 @include('content.pemeriksaan.modalCppt')
-@include('content.pemeriksaan.modal._pemeriksaanGigi')
-@include('content.pemeriksaan.modal._diagnosaPasien')
-@include('content.pemeriksaan.modal._tindakanPasien')
-@include('content.pemeriksaan.modal._modalEditRacikan')
+
 @include('content.pcare.pendaftaran._modalPasien')
 @push('script')
     <script type="" src="{{asset('public/libs/list.js/dist/list.min.js')}}"></script>

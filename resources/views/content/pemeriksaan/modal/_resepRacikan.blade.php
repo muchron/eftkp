@@ -66,7 +66,7 @@
         }
 
         function getResepRacikan(no_resep, no_racik = '') {
-            const racikan = $.get('resep/racikan/get', {
+            const racikan = $.get(`${url}/resep/racikan/get`, {
                 no_resep: no_resep,
                 no_racik: no_racik,
             })
@@ -119,7 +119,7 @@
             }
             createResepRacikan(dataRacikan).done((response) => {
                 dataRacikan.map((val) => {
-                    $.get('resep/racikan/template/get', {
+                    $.get(`${url}/resep/racikan/template/get`, {
                         nm_racik: val.nama_racik
                     }).done((resRacikan) => {
                         if (Object.values(resRacikan).length) {
@@ -184,25 +184,27 @@
                 modalDetailRacikan.find('input[name="aturan_pakai"]').val(racik.aturan_pakai)
                 modalDetailRacikan.modal('show')
                 setRacikanDetail(no_racik, no_resep)
-                $.get('metode/racik/get').done((metodes) => {
+                $.get(`${url}/metode/racik/get`).done((metodes) => {
                     selectMetodeRacik.empty()
                     const metode = metodes.map((items) => {
-                        return `<option value="${items.kd_racik}" ${racik.kd_racik === items.kd_racik ? 'selected' :''}>${items.nm_racik}</option>`
-                    })
+                        return `<option value = "${items.kd_racik}"
+                        ${racik.kd_racik === items.kd_racik ? 'selected' : ''} > ${items.nm_racik}
+                        </option>`
+                    });
                     selectMetodeRacik.append(metode)
                 })
             })
         }
 
         function createResepRacikan(data) {
-            const racikan = $.post('resep/racikan/create', {
+            const racikan = $.post(`${url}/resep/racikan/create`, {
                 data
             })
             return racikan;
         }
 
         function deleteResepRacikan(no_racik, no_resep) {
-            const racikan = $.post('resep/racikan/delete', {
+            const racikan = $.post(`${url}/resep/racikan/delete`, {
                 no_racik: no_racik,
                 no_resep: no_resep
             })
@@ -214,19 +216,21 @@
             const rowCount = tabel.find('tr').find('.racik').length;
             const modalCppt = $('#modalCppt');
             const addRow = `<tr id="rowRacikan${rowCount}">
-                <td id="colNoRacik${rowCount}" class="racik"><input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount+1}"/>${rowCount+1}</td>
-                <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"></select></td>
-                <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}" /></td>
-                <td><select class="form-control" name="metode[]" id="metode${rowCount}" style="width:100%"></select></td>
-                <td><input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}" /></td>
-                <td><i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data-id="row${rowCount}" onclick="hapusBarisRacikan('${rowCount}')"></i></td>
-            </tr>`;
+    <td id="colNoRacik${rowCount}" class="racik">
+        <input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount + 1}" />
+        ${rowCount + 1} </td>
+    <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"> </select></td>
+    <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}"/></td>
+    <td><select class="form-control" name="metode[]"id="metode${rowCount}"style="width:100%"> </select></td>
+        <td> <input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}" /> </td> 
+        <td> <i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data - id = "row${rowCount}" onclick = "hapusBarisRacikan('${rowCount}')"> </i></td >
+        </tr>`;
 
-            tabel.append(addRow)
-            const racikan = $(`#nmRacik${rowCount}`)
-            const metode = $(`#metode${rowCount}`)
-            selectTemplate(racikan, modalCppt)
-            selectMetode(metode, modalCppt)
+            tabel.append(addRow);
+            const racikan = $(`#nmRacik${rowCount}`);
+            const metode = $(`#metode${rowCount}`);
+            selectTemplate(racikan, modalCppt);
+            selectMetode(metode, modalCppt);
         }
 
         function hapusBarisRacikan(id) {
@@ -245,10 +249,10 @@
         function selectMetode(element, parrent) {
             element.select2({
                 dropdownParent: parrent,
-                delay: 2,
+                delay: 1,
                 tags: true,
                 ajax: {
-                    url: 'metode/racik/get',
+                    url: `${url}/metode/racik/get`,
                     dataType: 'JSON',
 
                     data: (params) => {
@@ -282,7 +286,7 @@
                 delay: 2,
                 tags: true,
                 ajax: {
-                    url: 'resep/racikan/template/search',
+                    url: `${url}/resep/racikan/template/search`,
                     dataType: 'JSON',
 
                     data: (params) => {

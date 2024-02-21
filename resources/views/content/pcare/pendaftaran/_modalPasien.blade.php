@@ -344,7 +344,7 @@
                     formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
                     formRegistrasiPoli.find('input[name=tkp]').val(response.tkp.nmTkp == 'RJTP' ? 'RAWAT JALAN' : 'RAWAT INAP')
                     formRegistrasiPoli.find('input[name=kdTkp]').val(response.tkp.kdTkp)
-                    formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
+                    formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan ? response.keluhan : '-')
                     formRegistrasiPoli.find('input[name=sistole]').val(response.sistole)
                     formRegistrasiPoli.find('input[name=diastole]').val(response.diastole)
                     formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggiBadan)

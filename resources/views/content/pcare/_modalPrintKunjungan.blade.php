@@ -11,6 +11,7 @@
                         <label for="sizePrint" class="form-label mt-2">Ukuran Pinter</label>
                         <select name="size" id="size" class="form-select mb-2">
                             <option value="a5">A5</option>
+                            <option value="a4">A4</option>
                             <option value="8">8 cm</option>
                         </select>
                     </div>

@@ -90,9 +90,8 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '50vh',
+                scrollY: '52vh',
                 scrollX: true,
-                fixedColumns: true,
                 ajax: {
                     url: 'pendaftaran/get',
                     data: {
@@ -102,19 +101,19 @@
                     },
                 },
                 columnDefs: [{
-                    width: '6%',
-                    targets: 8
-                }],
-                columns: [
-                    // {
-                    //     title: '',
-                    //     data: 'noUrut',
-                    //     render: (data, type, row, meta) => {
-                    //         console.log(row);
-                    //         return `<button type="button" class="btn btn-primary btn-sm" style="width:60%">Panggil</button>`;
-                    //     },
-                    // }, 
+                        width: '6%',
+                        targets: 10
+                    },
                     {
+                        width: '5%',
+                        targets: 0
+                    },
+                    {
+                        width: '14%',
+                        targets: 6
+                    }
+                ],
+                columns: [{
                         title: 'No. Urut',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
@@ -129,8 +128,22 @@
                         },
                     },
                     {
+                        title: 'Jam',
+                        data: 'reg_periksa.jam_reg',
+                        render: (data, type, row, meta) => {
+                            return data
+                        },
+                    },
+                    {
                         title: 'No. Peserta',
                         data: 'noKartu',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        },
+                    },
+                    {
+                        title: 'No. RM',
+                        data: 'reg_periksa.no_rkm_medis',
                         render: (data, type, row, meta) => {
                             return data;
                         },
@@ -139,7 +152,9 @@
                         title: 'Nama',
                         data: 'nm_pasien',
                         render: (data, type, row, meta) => {
-                            return data;
+
+                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.reg_periksa.no_rawat} <br/></span>
+                            ${data}`;
                         },
                     },
                     {
@@ -174,8 +189,9 @@
                         title: '',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i> Hapus</button>
-                            <button type="button" class="btn btn-sm btn-success d-none" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
+                            const btnCppt = row.kunjungan ? `btn-success` : `btn-outline-primary`;
+                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deletePendaftaran('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i> Hapus</button>
+                            <button type="button" class="btn btn-sm ${btnCppt}" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },
 
@@ -188,7 +204,7 @@
             $.get(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
 
-        function deletePendaftaran(noKunjungan) {
+        function deletePendaftaran(noUrut, no_rawat) {
             Swal.fire({
                 title: "Yakin hapus ?",
                 html: "Anda tidak bisa mengembalikan data ini",
@@ -200,7 +216,10 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`kunjungan/delete/${noKunjungan}`).done((response) => [
+                    $.post(`${url}/pcare/pendaftaran/delete`, {
+                        'noUrut': noUrut,
+                        'no_rawat': no_rawat,
+                    }).done((response) => [
                         alertSuccessAjax('Berhasil').then(() => {
                             loadTbPcarePendaftaran(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
                         })

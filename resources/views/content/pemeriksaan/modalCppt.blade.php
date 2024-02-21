@@ -25,6 +25,10 @@
         </div>
     </div>
 </div>
+@include('content.pemeriksaan.modal._pemeriksaanGigi')
+@include('content.pemeriksaan.modal._diagnosaPasien')
+@include('content.pemeriksaan.modal._tindakanPasien')
+@include('content.pemeriksaan.modal._modalEditRacikan')
 @push('script')
     <script>
         var tabObat = $('#tabObat');

@@ -33,7 +33,7 @@ class PasienController extends Controller
     }
     function get(Request $request)
     {
-        $pasien = Pasien::with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
+        $pasien = Pasien::where('no_rkm_medis', '!=', '-')->with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
         if ($request->no_rkm_medis) {
             $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
         }

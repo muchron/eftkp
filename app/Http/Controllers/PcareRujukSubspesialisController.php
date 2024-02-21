@@ -182,9 +182,12 @@ class PcareRujukSubspesialisController extends Controller
         $setting = Setting::first();
 
 
-        if ($request->size) {
-            $pdf = PDF::loadView('content.print.rujukanVertikal4', ['data' => $pcare, 'setting' => $setting]);
+        if ($request->size == '8') {
+            $pdf = PDF::loadView('content.print.rujukanVertikal8', ['data' => $pcare, 'setting' => $setting]);
             $pdf->setPaper([0, 0, $request->size * 28.3465, 500])->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+        } else if ($request->size == 'a4') {
+            $pdf = PDF::loadView('content.print.rujukanVertikalA4', ['data' => $pcare, 'setting' => $setting]);
+            $pdf->setPaper('a4', 'landscape')->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
         } else {
             $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $pcare, 'setting' => $setting]);
             $pdf->setPaper('a5', 'landscape')->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);

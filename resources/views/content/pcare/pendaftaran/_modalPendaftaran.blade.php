@@ -28,8 +28,6 @@
                     <table id="tbPendaftaranPcare" class="table table-sm table-stripped" width="100%"></table>
                 </div>
             </div>
-            <div class="modal-footer">
-            </div>
         </div>
     </div>
 </div>
@@ -96,7 +94,6 @@
                 },
                 "drawCallback": function(settings) {
                     var maxCustomLength = limitInput ? limitInput : 15;
-                    console.log(settings.json);
                     if (settings.json.metaData.code == 500) {
                         const error = {
                             status: settings.json.metaData.code,

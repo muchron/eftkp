@@ -47,11 +47,13 @@ class ResepObatController extends Controller
     {
 
         if ($request->no_resep) {
-            $resepObat = ResepObat::where(['no_resep' => $request->no_resep])->with(
-                'resepDokter.obat.satuan',
+            $resepObat = ResepObat::where(['no_resep' => $request->no_resep])->with([
+                'resepDokter.obat' => function ($q) {
+                    return $q->with(['satuan', 'mappingObat']);
+                },
                 'resepRacikan.detail.obat.satuan',
-                'resepRacikan.metode'
-            )->first();
+                'resepRacikan.metode',
+            ])->first();
         } else if ($request->no_rawat) {
             $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with('resepDokter.obat.satuan', 'resepRacikan.detail.obat.satuan', 'resepRacikan.metode')->get();
         } else  if ($request->tgl_awal && $request->tgl_akhir) {

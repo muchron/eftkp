@@ -358,47 +358,53 @@
         var formRujukanSpesialis = $('#formRujukanSpesialis')
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
+        var tabelPcarePendaftaran = $('#tabelPcarePendaftaran');
+        var tabelRegistrasi = $('#tabelRegistrasi');
 
         function getKunjunganRujuk(noKunjungan) {
-            const getKunjungan = $.get(`bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
+            const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
             return getKunjungan;
         }
 
         function getKunjunganUmum(data) {
-            const kunjungan = $.get('pcare/kunjungan/get',
+            const kunjungan = $.get(`${url}/pcare/kunjungan/get`,
                 data
             )
             return kunjungan;
         }
 
         function updateKunjunganUmum(data) {
-            const kunjungan = $.post('pcare/kunjungan/update',
+            const kunjungan = $.post(`${url}/pcare/kunjungan/update`,
                 data
             )
             return kunjungan;
         }
 
         function createRujukSubSpesialis(data) {
-            const create = $.post('pcare/kunjungan/rujuk/subspesialis',
+            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis`,
                 data
             )
             return create;
         }
 
         function updateRujukSubSpesialis(data) {
-            const create = $.post('pcare/kunjungan/rujuk/subspesialis/update',
+            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis/update`,
                 data
             )
             return create;
         }
 
         function getRiwayatRujukSpesialis(no_rkm_medis) {
-            const riwayat = $.get(`pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
+            const riwayat = $.get(`${url}/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
             return riwayat;
         }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
-            loadTabelRegistrasi(tglAwal, tglAkhir)
+            if (tabelRegistrasi.length) {
+                loadTabelRegistrasi(tglAwal, tglAkhir)
+            } else if (tabelPcarePendaftaran) {
+                loadTbPcarePendaftaran(tglAwal, tglAkhir)
+            }
             document.getElementById('formKunjunganPcare').reset();
         })
 
@@ -613,8 +619,10 @@
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
-            loadingAjax();
-            $.post('bridging/pcare/kunjungan/post', data).done((response) => {
+            data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
+            // obatPcare('1105U0210224Y000967', data['no_resep']);
+            // return false;
+            $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
@@ -622,7 +630,7 @@
                     data['noKunjungan'] = noKunjungan
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
                         loadingAjax().close();
-                        $.post('pcare/kunjungan', data).done((response) => {
+                        $.post(`${url}/pcare/kunjungan`, data).done((response) => {
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
@@ -669,9 +677,12 @@
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
-            loadingAjax();
+            data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
+            obatPcare('1105U0210224Y000967', data['no_resep']);
+            return false;
+            // loadingAjax();
             // UPDATE KUNJUNGAN BRIDGING
-            $.post('bridging/pcare/kunjungan/update', data).done((response) => {
+            $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
                 if (response.metaData.code == 200) {
                     // UPDATE KUNJUNGAN UMUM LOCAL
                     updateKunjunganUmum(data).done((resKunjungan) => {

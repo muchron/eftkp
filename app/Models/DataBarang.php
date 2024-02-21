@@ -24,4 +24,8 @@ class DataBarang extends Model
     {
         return $this->belongsTo(Jenis::class, 'kdjns', 'kdjns');
     }
+    function mappingObat()
+    {
+        return $this->belongsTo(MappingObatPcare::class, 'kode_brng', 'kode_brng');
+    }
 }

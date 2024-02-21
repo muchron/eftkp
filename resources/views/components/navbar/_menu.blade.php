@@ -29,6 +29,21 @@
              </span>
          </a>
      </li>
+     <li class="nav-item {{ Request::is('ranap') ? 'active' : '' }}">
+         {{-- <a class="nav-link" href="{{ url('/ranap') }}"> --}}
+         <a class="nav-link" href="javascript:void(0)">
+             <span class="nav-link-icon d-md-none d-lg-inline-block">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bed-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                     <path d="M3 6a1 1 0 0 1 .993 .883l.007 .117v6h6v-5a1 1 0 0 1 .883 -.993l.117 -.007h8a3 3 0 0 1 2.995 2.824l.005 .176v8a1 1 0 0 1 -1.993 .117l-.007 -.117v-3h-16v3a1 1 0 0 1 -1.993 .117l-.007 -.117v-11a1 1 0 0 1 1 -1z" stroke-width="0" fill="currentColor" />
+                     <path d="M7 8a2 2 0 1 1 -1.995 2.15l-.005 -.15l.005 -.15a2 2 0 0 1 1.995 -1.85z" stroke-width="0" fill="currentColor" />
+                 </svg>
+             </span>
+             <span class="nav-link-title">
+                 Rawat Inap
+             </span>
+         </a>
+     </li>
      <li class="nav-item  {{ Request::segment(1) == 'farmasi' ? 'active' : '' }} dropdown">
          <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true">
              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pill" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

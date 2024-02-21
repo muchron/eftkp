@@ -939,6 +939,31 @@ $.contextMenu({
 
                     }
                 },
+                // "Pcare": {
+                //     name: 'Pcare',
+                //     items: {
+                //         "resepPcare": {
+                //             name: "Resep Obat Pcare",
+                //             icon: "fas fa-pills",
+                //             disabled: () => {
+                //                 // return true;
+                //             },
+                //             callback: (item, opt) => {
+                //                 obatPcare(`${no_rawat}`);
+                //             }
+                //         },
+                //         "kunjungan": {
+                //             name: "Kunjungan Pcare",
+                //             icon: "fas fa-list",
+                //             disabled: () => {
+                //                 // return true;
+                //             },
+                //             callback: (item, opt) => {
+                //                 penilaianAwalKeperawatan(`${no_rawat}`);
+                //             }
+                //         },
+                //     },
+                // },
                 "PenilaianAwal": {
                     name: "Penilaian Awal",
                     items: {
