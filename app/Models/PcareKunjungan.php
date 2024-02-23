@@ -9,13 +9,19 @@ class PcareKunjungan extends Model
 {
     use HasFactory;
     protected $table = 'pcare_kunjungan_umum';
-    protected $guarded= [];
+    protected $guarded = [];
     public $timestamps = false;
 
-    function pasien(){
+    function regPeriksa()
+    {
+        return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
+    }
+    function pasien()
+    {
         return $this->belongsTo(Pasien::class, 'no_rkm_medis', 'no_rkm_medis');
     }
-    function rujukSubspesialis(){
+    function rujukSubspesialis()
+    {
         return $this->hasOne(PcareRujukSubspesialis::class, 'noKunjungan', 'noKunjungan');
     }
 }
