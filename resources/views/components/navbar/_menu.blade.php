@@ -29,8 +29,7 @@
              </span>
          </a>
      </li>
-     <li class="nav-item {{ Request::is('ranap') ? 'active' : '' }}">
-         {{-- <a class="nav-link" href="{{ url('/ranap') }}"> --}}
+     {{-- <li class="nav-item {{ Request::is('ranap') ? 'active' : '' }}">
          <a class="nav-link" href="javascript:void(0)">
              <span class="nav-link-icon d-md-none d-lg-inline-block">
                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bed-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -43,7 +42,7 @@
                  Rawat Inap
              </span>
          </a>
-     </li>
+     </li> --}}
      <li class="nav-item  {{ Request::segment(1) == 'farmasi' ? 'active' : '' }} dropdown">
          <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true">
              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pill" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

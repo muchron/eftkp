@@ -123,9 +123,9 @@
                     },
                     {
                         title: 'Alamat',
-                        data: 'pasien',
+                        data: 'reg_periksa.pasien',
                         render: (data, type, row, meta) => {
-                            return `${data.alamatpj}, ${data.kelurahanpj}, ${data.kecamatanpj} `;
+                            return `${data.alamat}, ${data.kel.nm_kel}, ${data.kec.nm_kec}`;
                         },
                     },
                     {
