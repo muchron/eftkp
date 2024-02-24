@@ -409,8 +409,6 @@
         })
 
         function showModalKunjunganPcare(data) {
-            console.log(data);
-
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
@@ -509,7 +507,6 @@
                 formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
                 formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
                 getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
-                    console.log('response==', response, 'NO RM', no_rkm_medis);
                     const rujuk = response.map((val) => {
                         return val.detail.tglAkhirRujuk
                     }).slice(-1).join('')
@@ -635,10 +632,8 @@
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
-                                    console.log('NO KUNJUNGAN ===', resRujukan);
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
-                                        console.log('RESPONSE RUJUKAN ===', responseRujukan);
                                         alertSuccessAjax('Berhasil buat rujukan').then(() => {
                                             setStatusLayan(data['no_rawat'], 'Dirujuk');
                                         })
