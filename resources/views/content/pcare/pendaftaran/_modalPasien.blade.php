@@ -77,8 +77,9 @@
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Penanggung Jawab</label>
                                                         <select class="form-select" name="keluarga" id="keluarga">
-                                                            <option value="SAUDARA">SAUDARA</option>
+                                                            <option value="AYAH">AYAH</option>
                                                             <option value="IBU">IBU</option>
+                                                            <option value="SAUDARA">SAUDARA</option>
                                                             <option value="ISTRI">ISTRI</option>
                                                             <option value="SUAMI">SUAMI</option>
                                                             <option value="ANAK">ANAK</option>
@@ -112,7 +113,9 @@
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Agama</label>
                                                         <select class="form-select" name="agama" id="agama" style="width:100%">
-                                                            <option value="ISLAM" selected>ISLAM</option>
+                                                            <option value="-" selected>-</option>
+                                                            <option value="ISLAM">ISLAM</option>
+                                                            <option value="KATOLIK">KATOLIK</option>
                                                             <option value="KRISTEN">KRISTEN</option>
                                                             <option value="PROTESTAN">PROTESTAN</option>
                                                             <option value="HINDU">HINDU</option>
