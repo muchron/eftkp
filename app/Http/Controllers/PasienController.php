@@ -184,9 +184,13 @@ class PasienController extends Controller
     function isExistPasien(Request $request)
     {
         if ($request->kd_pj == 'BPJ' || $request->kd_pj == 'BPJS') {
-            $pasien = Pasien::where(['no_peserta' => $request->no_peserta])
-                ->orWhere('no_ktp', $request->no_ktp)
-                ->first();
+            $pasien = Pasien::where(['no_peserta' => $request->no_peserta]);
+
+            if ($request->no_ktp != '-') {
+                $pasien = $pasien->orWhere('no_ktp', $request->no_ktp);
+            }
+
+            $pasien = $pasien->first();
 
             if ($pasien) {
                 return true;
