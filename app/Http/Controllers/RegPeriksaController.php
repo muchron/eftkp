@@ -17,9 +17,15 @@ class RegPeriksaController extends Controller
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
-        $this->relation = ['dokter', 'pasien' => function ($q) {
-            return $q->with(['kel', 'kec', 'kab', 'prop']);
-        }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik'];
+        $this->relation = [
+            'dokter', 'pasien' => function ($q) {
+                return $q->with(['kel', 'kec', 'kab', 'prop']);
+            }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
+            'kamarInap' => function ($q) {
+                return $q->where('stts_pulang', '!=', 'Pindah Kamar')
+                    ->with('kamar.bangsal');
+            }
+        ];
     }
 
 

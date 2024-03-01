@@ -155,7 +155,6 @@ class Kunjungan extends Controller
                 $data['alasanTacc'] = $request->kalasanTacc;
             }
         }
-
         try {
             $bpjs = $this->bpjs;
             return $bpjs->update($data);
