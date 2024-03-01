@@ -102,10 +102,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 @include('content.dashboard._grafikPenyakit')
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                @include('content.dashboard._grafikKelurahan')
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 @include('content.dashboard._grafikKecamatan')
             </div>
         </div>

@@ -35,10 +35,7 @@
 {{-- MODAL --}}
 
 @include('content.pemeriksaan.modalCppt')
-@include('content.pemeriksaan.modal._pemeriksaanGigi')
-@include('content.pemeriksaan.modal._diagnosaPasien')
-@include('content.pemeriksaan.modal._tindakanPasien')
-@include('content.pemeriksaan.modal._modalEditRacikan')
+
 @include('content.pcare.pendaftaran._modalPasien')
 @push('script')
     <script type="" src="{{asset('public/libs/list.js/dist/list.min.js')}}"></script>
@@ -199,21 +196,6 @@
             })
         }
 
-        function getRegDetail(no_rawat) {
-            const registrasi = $.get('registrasi/get/detail', {
-                no_rawat: no_rawat,
-            })
-            return registrasi;
-        }
-
-        function setStatusLayan(no_rawat, status) {
-            const postStatus = $.post('registrasi/update', {
-                stts: status,
-                no_rawat: no_rawat
-            });
-
-            return postStatus;
-        }
 
 
         function symbolGigi(hasil, size = '') {
@@ -245,9 +227,6 @@
         function setPanggil(no_rawat) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
                 loadTabelRegistrasi(tglAwal, tglAkhir);
-                setTimeout(() => {
-                    setStatusLayan(no_rawat, 'Dirawat')
-                }, 2000);
             });
         }
 

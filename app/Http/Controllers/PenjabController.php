@@ -9,7 +9,8 @@ class PenjabController extends Controller
 {
     function get(Request $request)
     {
-        $penjab = Penjab::where('kd_pj', $request->penjab)->orWhere('png_jawab', 'like', "{$request->penjab}%")->get();
+        $penjab = Penjab::where(['status' => '1'])
+            ->where('png_jawab', 'like', "{$request->penjab}%")->get();
         return response()->json($penjab);
     }
 }

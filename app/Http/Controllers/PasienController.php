@@ -33,7 +33,7 @@ class PasienController extends Controller
     }
     function get(Request $request)
     {
-        $pasien = Pasien::with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
+        $pasien = Pasien::where('no_rkm_medis', '!=', '-')->with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
         if ($request->no_rkm_medis) {
             $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
         }
@@ -183,12 +183,18 @@ class PasienController extends Controller
     }
     function isExistPasien(Request $request)
     {
-        $pasien = Pasien::where('no_peserta', $request->no_peserta)
-            ->orWhere('no_ktp', $request->no_ktp)
-            ->first();
+        if ($request->kd_pj == 'BPJ' || $request->kd_pj == 'BPJS') {
+            $pasien = Pasien::where(['no_peserta' => $request->no_peserta]);
 
-        if ($pasien) {
-            return true;
+            if ($request->no_ktp != '-') {
+                $pasien = $pasien->orWhere('no_ktp', $request->no_ktp);
+            }
+
+            $pasien = $pasien->first();
+
+            if ($pasien) {
+                return true;
+            }
         }
     }
 
@@ -205,5 +211,19 @@ class PasienController extends Controller
         }
         $kecamatan = $kecamatan->orderBy('count', 'DESC')->limit(10)->get();
         return response()->json($kecamatan);
+    }
+    function dataKelurahan(Request $request)
+    {
+        $data = Pasien::select('kd_kel', DB::raw('count(*) as count'))
+            ->groupBy('kd_kel')
+            ->with('kel');
+        if ($request->tgl1 || $request->tgl2) {
+            $data = $data->whereBetween('tgl_daftar', [$request->tgl1, $request->tgl2]);
+        } else {
+            $data = $data->whereMonth('tgl_daftar', date('m'))
+                ->whereYear('tgl_daftar', date('Y'));
+        }
+        $data = $data->orderBy('count', 'DESC')->limit(10)->get();
+        return response()->json($data);
     }
 }

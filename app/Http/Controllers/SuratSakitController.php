@@ -92,7 +92,7 @@ class SuratSakitController extends Controller
     function print($noSurat)
     {
         $surat = SuratSakit::with(['regPeriksa' => function ($q) {
-            return $q->with(['dokter', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'pasien.instansi']);
+            return $q->with(['dokter', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'pasien.perusahaanPasien']);
         }, 'pemeriksaanRalan', 'diagnosa.penyakit'])->where('no_surat', $noSurat)->first();
         $setting = Setting::first();
 
@@ -110,14 +110,14 @@ class SuratSakitController extends Controller
             'umur' => "{$surat->regPeriksa->umurdaftar} {$surat->regPeriksa->sttsumur}",
             'jk' => $surat->regPeriksa->pasien->jk == 'L' ? 'Laki-laki' : 'Perempuan',
             'pekerjaan' => $surat->regPeriksa->pasien->pekerjaan,
-            'instansi' => $surat->regPeriksa->pasien->instansi->nama_perusahaan,
+            'instansi' => $surat->regPeriksa->pasien->perusahaanPasien->nama_perusahaan,
             'alamat' => "{$surat->regPeriksa->pasien->alamat}, {$surat->regPeriksa->pasien->kel->nm_kel}, {$surat->regPeriksa->pasien->kec->nm_kec}, {$surat->regPeriksa->pasien->kab->nm_kab}",
             'lama' => $surat->lamasakit,
             'diagnosa' => $diagnosa,
             'tgl_awal' => $surat->tanggalawal,
             'tgl_akhir' => $surat->tanggalakhir,
             'dokter' => $surat->regPeriksa->dokter->nm_dokter,
-            'sip' => $surat->regPeriksa->dokter->no_ijin_praktek,
+            'sip' => $surat->regPeriksa->dokter->no_ijn_praktek,
             'nama_instansi' => $setting->nama_instansi,
             'alamat_instansi' => "{$setting->alamat_instansi}, {$setting->kabupaten}, {$setting->propinsi}",
             'kontak' => $setting->kontak,

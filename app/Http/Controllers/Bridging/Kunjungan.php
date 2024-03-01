@@ -155,7 +155,6 @@ class Kunjungan extends Controller
                 $data['alasanTacc'] = $request->kalasanTacc;
             }
         }
-
         try {
             $bpjs = $this->bpjs;
             return $bpjs->update($data);
@@ -180,8 +179,6 @@ class Kunjungan extends Controller
 
         $encode = json_encode($rujukan['response']);
         $response = json_decode($encode);
-
-
         $data = [
             'noKunjungan' => $response->noRujukan,
             'kdPpkAsal' => $response->ppk->kdPPK,
@@ -208,10 +205,6 @@ class Kunjungan extends Controller
 
         ];
 
-        return $data;
-
-        $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $data])
-            ->setPaper("a5", 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
-        return $pdf->stream($noKunjungan);
+        return response()->json($data);
     }
 }

@@ -178,7 +178,7 @@
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Terapi</label>
-                                        <input autocomplete="off" type="text" class="form-control" name="instruksi">
+                                        <input autocomplete="off" type="text" class="form-control" name="rtl">
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
@@ -358,52 +358,57 @@
         var formRujukanSpesialis = $('#formRujukanSpesialis')
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
+        var tabelPcarePendaftaran = $('#tabelPcarePendaftaran');
+        var tabelRegistrasi = $('#tabelRegistrasi');
 
         function getKunjunganRujuk(noKunjungan) {
-            const getKunjungan = $.get(`bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
+            const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
             return getKunjungan;
         }
 
         function getKunjunganUmum(data) {
-            const kunjungan = $.get('pcare/kunjungan/get',
+            const kunjungan = $.get(`${url}/pcare/kunjungan/get`,
                 data
             )
             return kunjungan;
         }
 
         function updateKunjunganUmum(data) {
-            const kunjungan = $.post('pcare/kunjungan/update',
+            const kunjungan = $.post(`${url}/pcare/kunjungan/update`,
                 data
             )
             return kunjungan;
         }
 
         function createRujukSubSpesialis(data) {
-            const create = $.post('pcare/kunjungan/rujuk/subspesialis',
+            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis`,
                 data
             )
             return create;
         }
 
         function updateRujukSubSpesialis(data) {
-            const create = $.post('pcare/kunjungan/rujuk/subspesialis/update',
+            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis/update`,
                 data
             )
             return create;
         }
 
         function getRiwayatRujukSpesialis(no_rkm_medis) {
-            const riwayat = $.get(`pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
+            const riwayat = $.get(`${url}/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
             return riwayat;
         }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
-            loadTabelRegistrasi(tglAwal, tglAkhir)
+            if (tabelRegistrasi.length) {
+                loadTabelRegistrasi(tglAwal, tglAkhir)
+            } else if (tabelPcarePendaftaran) {
+                loadTbPcarePendaftaran(tglAwal, tglAkhir)
+            }
             document.getElementById('formKunjunganPcare').reset();
         })
 
         function showModalKunjunganPcare(data) {
-
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
@@ -622,15 +627,13 @@
                     data['noKunjungan'] = noKunjungan
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
                         loadingAjax().close();
-                        $.post('pcare/kunjungan', data).done((response) => {
+                        $.post(`${url}/pcare/kunjungan`, data).done((response) => {
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
-                                    console.log('NO KUNJUNGAN ===', resRujukan);
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
-                                        console.log('RESPONSE RUJUKAN ===', responseRujukan);
                                         alertSuccessAjax('Berhasil buat rujukan').then(() => {
                                             setStatusLayan(data['no_rawat'], 'Dirujuk');
                                         })

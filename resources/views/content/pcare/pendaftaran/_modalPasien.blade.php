@@ -77,8 +77,9 @@
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Penanggung Jawab</label>
                                                         <select class="form-select" name="keluarga" id="keluarga">
-                                                            <option value="SAUDARA">SAUDARA</option>
+                                                            <option value="AYAH">AYAH</option>
                                                             <option value="IBU">IBU</option>
+                                                            <option value="SAUDARA">SAUDARA</option>
                                                             <option value="ISTRI">ISTRI</option>
                                                             <option value="SUAMI">SUAMI</option>
                                                             <option value="ANAK">ANAK</option>
@@ -112,7 +113,9 @@
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Agama</label>
                                                         <select class="form-select" name="agama" id="agama" style="width:100%">
-                                                            <option value="ISLAM" selected>ISLAM</option>
+                                                            <option value="-" selected>-</option>
+                                                            <option value="ISLAM">ISLAM</option>
+                                                            <option value="KATOLIK">KATOLIK</option>
                                                             <option value="KRISTEN">KRISTEN</option>
                                                             <option value="PROTESTAN">PROTESTAN</option>
                                                             <option value="HINDU">HINDU</option>
@@ -240,7 +243,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="btnResetPasien"><i class="ti ti-reload me-2"></i>Baru</button>
+                <button type="button" class="btn btn-warning" id="btnResetPasien" onclick="resetFormRegistrasi()"><i class="ti ti-reload me-2"></i>Baru</button>
                 <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
@@ -344,7 +347,7 @@
                     formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
                     formRegistrasiPoli.find('input[name=tkp]').val(response.tkp.nmTkp == 'RJTP' ? 'RAWAT JALAN' : 'RAWAT INAP')
                     formRegistrasiPoli.find('input[name=kdTkp]').val(response.tkp.kdTkp)
-                    formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
+                    formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan ? response.keluhan : '-')
                     formRegistrasiPoli.find('input[name=sistole]').val(response.sistole)
                     formRegistrasiPoli.find('input[name=diastole]').val(response.diastole)
                     formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggiBadan)
@@ -659,7 +662,7 @@
             })
         }
 
-        $('#btnResetPasien').on('click', (e) => {
+        function resetFormRegistrasi() {
             resetSelect();
             formPasien.find('input[name=checkNoRm]').attr('disabled', false);
             $('#formPasien').trigger('reset');
@@ -668,7 +671,7 @@
                 formPasien.find('input').removeClass('is-valid')
                 formPasien.find('select').removeClass('is-valid')
             })
-        })
+        }
 
         function editPasien(no_rkm_medis) {
             $.get(`${url}/pasien`, {
@@ -734,19 +737,40 @@
             const noKartu = findBy == 'noKartu' ? formPasien.find('#no_peserta').val() : formPasien.find('#no_ktp').val();
             loadingAjax();
             $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((response) => {
+
                 if (response.metaData.code == 200) {
-                    const result = response.response;
-                    const umur = hitungUmur(splitTanggal(result.tglLahir));
-                    const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-                    formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
-                    formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
-                    formPasien.find('#umur').val(textUmur).addClass('is-valid');
-                    formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
-                    formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
-                    formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
-                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                    formPasien.find('#kd_pj').append(bpjs).trigger('change');
                     loadingAjax().close();
+                    const result = response.response;
+                    $.get(`${url}/setting/pcare/user`).done((kode) => {
+                        if (kode !== result.kdProviderPst.kdProvider) {
+                            Swal.fire({
+                                title: "Peringatan ?",
+                                html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Iya, Lanjutkan",
+                                cancelButtonText: "Tidak, Batalkan"
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    const umur = hitungUmur(splitTanggal(result.tglLahir));
+                                    const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+                                    formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
+                                    formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
+                                    formPasien.find('#umur').val(textUmur).addClass('is-valid');
+                                    formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
+                                    formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
+                                    formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
+                                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
+                                    formPasien.find('#kd_pj').append(bpjs).trigger('change');
+                                } else {
+                                    resetFormRegistrasi();
+                                }
+                            });
+                        }
+                    })
+
                 } else {
                     const error = {
                         status: response.metaData.code,

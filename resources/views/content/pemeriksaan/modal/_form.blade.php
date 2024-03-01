@@ -4,6 +4,7 @@
             <div class="mb-1">
                 <label class="form-label">No. Rawat</label>
                 <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="no_rawat" readonly>
+                <input value="" type="hidden" name="stts" readonly>
             </div>
         </div>
         <div class="col-md-6 col-xl-6 col-lg-6">
@@ -235,7 +236,7 @@
         var inputAlergi = $('#formCpptRajal').find('#alergi')
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
-            const insert = $.post('diagnosa/pasien/create', {
+            const insert = $.post(`${url}/diagnosa/pasien/create`, {
                 no_rawat: no_rawat,
                 kd_penyakit: kd_diagnosa,
                 status: status,
@@ -245,7 +246,7 @@
         }
 
         function getPemeriksaanRalan(no_rawat, nip = '') {
-            const pemeriksaan = $.get('pemeriksaan/ralan/show', {
+            const pemeriksaan = $.get(`${url}/pemeriksaan/ralan/show`, {
                 no_rawat: no_rawat,
                 nip: nip
             })
@@ -255,7 +256,7 @@
         $('#selecInstruksi').select2({
             dropdownParent: $('#modalCppt'),
             ajax: {
-                url: 'penyakit/get',
+                url: `${url}/penyakit/get`,
                 dataType: 'JSON',
                 data: (params) => {
                     const query = {
@@ -292,7 +293,7 @@
         });
 
         function createAlergi(data) {
-            $.post('pasien/alergi', {
+            $.post(`${url}/pasien/alergi`, {
                 no_rkm_medis: data.no_rkm_medis,
                 alergi: data.alergi
             })
@@ -305,7 +306,6 @@
             const selectKesadaran = $('#formCpptRajal select[name=kesadaran]');
             const pembiayaan = $('#formCpptRajal input[name=pembiayaan]').val();
             const no_peserta = $('#formCpptRajal input[name=no_peserta]').val();
-            const heart_rate = $('#formCpptRajal input[name=heartRate]').val();
             const no_rkm_medis = $('#formCpptRajal input[name=no_rkm_medis]').val();
             const nm_pasien = $('#formCpptRajal input[name=nm_pasien]').val();
             data['kesadaran'] = selectKesadaran.find('option:selected').text();
@@ -314,7 +314,7 @@
                 return val;
             })
             data['alergi'] = alergi.join(', ');
-            $.post('pemeriksaan/ralan/create', data).done((response) => {
+            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
                 createAlergi({
                     no_rkm_medis: data['no_rkm_medis'],
                     alergi: alergi
@@ -330,16 +330,17 @@
                         confirmButtonText: "Lanjut",
                         cancelButtonText: "Tidak"
                     }).then((result) => {
-                        setStatusLayan(data['no_rawat'], 'Sudah')
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
+                                const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                                setStatusLayan(data['no_rawat'], stts)
                                 loadTabelRegistrasi(tglAwal, tglAkhir)
                             })
                             return false;
                         }
+                        setStatusLayan(data['no_rawat'], 'Sudah')
                         data['no_peserta'] = no_peserta;
-                        data['heart_rate'] = heart_rate;
                         data['no_rkm_medis'] = no_rkm_medis;
                         data['nm_pasien'] = nm_pasien;
                         data['kd_sadara'] = selectKesadaran.val();
@@ -349,7 +350,8 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
-                        setStatusLayan(data['no_rawat'], 'Sudah')
+                        const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                        setStatusLayan(data['no_rawat'], stts);
                         loadTabelRegistrasi(tglAwal, tglAkhir)
                     })
                 }
@@ -370,7 +372,7 @@
                 tags: true,
                 scrollAfterSelect: true,
                 ajax: {
-                    url: 'pasien/alergi',
+                    url: `${url}/pasien/alergi`,
                     dataType: 'JSON',
 
                     data: (params) => {

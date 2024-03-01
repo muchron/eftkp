@@ -24,14 +24,14 @@
         var bodyResepUmum = tabelResepUmum.find('tbody')
 
         function getResepDokter(no_resep) {
-            const resepDokter = $.get('resep/dokter/get', {
+            const resepDokter = $.get(`${url}/resep/dokter/get`, {
                 no_resep: no_resep
             })
             return resepDokter;
         }
 
         function deleteResepDokter(no_resep, kode_brng) {
-            const resepDokter = $.post('resep/dokter/delete', {
+            const resepDokter = $.post(`${url}/resep/dokter/delete`, {
                 no_resep: no_resep,
                 kode_brng: kode_brng,
             })
@@ -157,7 +157,7 @@
                 let textPlan = `RESEP : \n`
                 if (response.resep_dokter.length) {
                     response.resep_dokter.map((rd) => {
-                        textPlan += `${rd.obat.nama_brng} : ${rd.jml} ${rd.obat.satuan.satuan} aturan ${rd.aturan_pakai} \n`
+                        textPlan += `${rd.obat.nama_brng} : ${rd.jml} ${rd.obat.satuan.satuan} aturan ${rd.aturan_pakai};\n`
                     })
                 }
                 if (response.resep_racikan.length) {
@@ -165,7 +165,7 @@
                         textPlan += `${rr.no_racik}. ${rr.nama_racik} : ${rr.jml_dr} ${rr.metode.nm_racik} aturan ${rr.aturan_pakai} \n`
                         if (rr.detail.length) {
                             rr.detail.map((detail) => {
-                                textPlan += `---${detail.obat.nama_brng} : dosis ${detail.kandungan} gr\n`
+                                textPlan += `---${detail.obat.nama_brng} : dosis ${detail.kandungan} mg ;\n`
                             })
                         }
                     })
@@ -209,7 +209,7 @@
                 }
             }
 
-            $.post('resep/dokter/create', {
+            $.post(`${url}/resep/dokter/create`, {
                 dataObat
             }).done((response) => {
                 const no_rawat = $('#formCpptRajal input[name=no_rawat]').val()

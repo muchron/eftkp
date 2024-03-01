@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table table-sm" id="tabelPcarePendaftaran" width="100%">
+                            <table class="table table-sm table-striped nowrap" id="tabelPcarePendaftaran" width="100%">
                             </table>
                         </div>
                     </div>
@@ -41,6 +41,7 @@
         </div>
     </div>
     @include('content.pcare.pendaftaran._modalPendaftaran')
+    @include('content.pemeriksaan.modalCppt')
 @endsection
 @push('script')
     <script>
@@ -89,9 +90,8 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '50vh',
+                scrollY: '52vh',
                 scrollX: true,
-                fixedColumns: true,
                 ajax: {
                     url: 'pendaftaran/get',
                     data: {
@@ -101,9 +101,18 @@
                     },
                 },
                 columnDefs: [{
-                    width: '6%',
-                    targets: 8
-                }],
+                        width: '6%',
+                        targets: 10
+                    },
+                    {
+                        width: '5%',
+                        targets: 0
+                    },
+                    {
+                        width: '14%',
+                        targets: 6
+                    }
+                ],
                 columns: [{
                         title: 'No. Urut',
                         data: 'noUrut',
@@ -119,8 +128,22 @@
                         },
                     },
                     {
+                        title: 'Jam',
+                        data: 'reg_periksa.jam_reg',
+                        render: (data, type, row, meta) => {
+                            return data
+                        },
+                    },
+                    {
                         title: 'No. Peserta',
                         data: 'noKartu',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        },
+                    },
+                    {
+                        title: 'No. RM',
+                        data: 'reg_periksa.no_rkm_medis',
                         render: (data, type, row, meta) => {
                             return data;
                         },
@@ -129,14 +152,16 @@
                         title: 'Nama',
                         data: 'nm_pasien',
                         render: (data, type, row, meta) => {
-                            return data;
+
+                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.reg_periksa.no_rawat} <br/></span>
+                            ${data}`;
                         },
                     },
                     {
                         title: 'Alamat',
-                        data: 'pasien',
+                        data: 'reg_periksa.pasien.',
                         render: (data, type, row, meta) => {
-                            return `${data.alamatpj}, ${data.kelurahanpj}, ${data.kecamatanpj} `;
+                            return `${data.alamat}, ${data.kel.nm_kel}, ${data.kec.nm_kec} `;
                         },
                     },
                     {
@@ -164,12 +189,9 @@
                         title: '',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
-                            if (row.kdStatusPulang == 4) {
-                                return `<a href="kunjungan/rujuk/subspesialis/print/${data}" target="_blank" class="btn btn-sm btn-success"><i class="ti ti-printer"></i></a>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
-
-                            }
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                            const btnCppt = row.kunjungan ? `btn-success` : `btn-outline-primary`;
+                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deletePendaftaran('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i> Hapus</button>
+                            <button type="button" class="btn btn-sm ${btnCppt}" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },
 
@@ -182,7 +204,7 @@
             $.get(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
 
-        function deletePendaftaran(noKunjungan) {
+        function deletePendaftaran(noUrut, no_rawat) {
             Swal.fire({
                 title: "Yakin hapus ?",
                 html: "Anda tidak bisa mengembalikan data ini",
@@ -194,7 +216,10 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`kunjungan/delete/${noKunjungan}`).done((response) => [
+                    $.post(`${url}/pcare/pendaftaran/delete`, {
+                        'noUrut': noUrut,
+                        'no_rawat': no_rawat,
+                    }).done((response) => [
                         alertSuccessAjax('Berhasil').then(() => {
                             loadTbPcarePendaftaran(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
                         })

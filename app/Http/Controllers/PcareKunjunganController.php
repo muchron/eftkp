@@ -118,23 +118,26 @@ class PcareKunjunganController extends Controller
 
     function get(Request $request)
     {
+        $kunjungan = PcareKunjungan::with(['regPeriksa.pasien' => function ($q) {
+            return $q->with(['kel', 'kec', 'kab']);
+        }, 'rujukSubspesialis']);
         if ($request->tgl_awal || $request->tgl_akhir) {
-            $pcare = PcareKunjungan::with('pasien', 'rujukSubspesialis')->whereBetween('tglDaftar', [
+            $pcare = $kunjungan->whereBetween('tglDaftar', [
                 $request->tgl_awal,
                 $request->tgl_akhir
             ])->get();
         } else if ($request->no_rkm_medis) {
-            $pcare = PcareKunjungan::with('pasien', 'rujukSubspesialis')->where(
+            $pcare = $kunjungan->where(
                 'no_rkm_medis',
                 $request->no_rkm_medis
             )->get();
         } else if ($request->no_rawat) {
-            $pcare = PcareKunjungan::with('pasien', 'rujukSubspesialis')->where(
+            $pcare = $kunjungan->where(
                 'no_rawat',
                 $request->no_rawat
             )->first();
         } else {
-            $pcare = PcareKunjungan::with('pasien', 'rujukSubspesialis')->where('tglDaftar', date('Y-m-d'))->get();
+            $pcare = $kunjungan->where('tglDaftar', date('Y-m-d'))->get();
         }
         if ($request->datatable) {
             return DataTables::of($pcare)->make(true);

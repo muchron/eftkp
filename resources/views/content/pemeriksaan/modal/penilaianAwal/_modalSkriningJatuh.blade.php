@@ -145,7 +145,11 @@
         function simpanSkriningJatuh() {
             const data = getDataForm('formSkriningJatuh', ['input', 'select', 'textarea']);
             $.post(`${url}/skrining/jatuh`, data).done((response) => {
-                console.log('RESPONSE ==', response);
+                const tanggal = new Date()
+                $('#alertSkrining').removeClass('d-none')
+                $('#alertSkrining').find('#tgl_penilaian').html("{{ date('Y-m-d H:i:s') }}")
+                modalSkriningJatuh.find('#btnCetak').removeClass('d-none');
+                alertSuccessAjax()
             }).fail((request) => {
                 alertErrorAjax(request);
             })
@@ -160,5 +164,9 @@
                 modalCetakSkrining.find('#print').removeAttr('src').attr('src', `${url}/skrining/jatuh/print?no_rawat=${no_rawat}`);
             });
         }
+
+        modalSkriningJatuh.on('hidden.bs.modal', () => {
+            $('#formSkriningJatuh').trigger('reset')
+        })
     </script>
 @endpush

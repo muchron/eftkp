@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Traits\Track;
-use Barryvdh\DomPDF\Facade\PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use function PHPUnit\Framework\isEmpty;
 use Illuminate\Database\QueryException;
 
 use App\Models\EfktpTindakanResikoJatuh;
@@ -96,7 +95,7 @@ class EfktpTindakanResikoJatuhController extends Controller
         $setting = Setting::first();
 
         $pdf = PDF::loadView('content.print.skriningJatuh', ['data' => $tindakan, 'setting' => $setting])
-            ->setPaper("a5")->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+            ->setPaper("a4")->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         return $pdf->stream('skrining-jatuh.pdf');
     }
 }

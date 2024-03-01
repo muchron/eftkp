@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container" style="margin: 20px">
+        {{-- @dd($data) --}}
         <div width="100%">
             <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px" style="top:20px;left: 25px;position:absolute">
             <div style="text-align: center; margin-left:60px;">

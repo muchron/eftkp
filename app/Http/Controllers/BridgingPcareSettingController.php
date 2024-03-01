@@ -34,4 +34,9 @@ class BridgingPcareSettingController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+    function getUser()
+    {
+        $pcareSetting = BridgingPcareSetting::select('user')->first();
+        return response()->json($pcareSetting->user);
+    }
 }

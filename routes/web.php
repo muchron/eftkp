@@ -49,6 +49,8 @@ use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\PemeriksaanRanapController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SuratSehatController;
 use App\Models\DiagnosaPasien;
 use App\Models\KamarInap;
 use App\Models\PemeriksaanGigi;
@@ -78,9 +80,10 @@ Route::get('/antrian/poliklinik', function () {
     return view('antrian.poliklinik', ['data' => $setting]);
 });
 Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
-
+Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
 
 Route::middleware('auth')->group(function () {
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
@@ -107,6 +110,7 @@ Route::middleware('auth')->group(function () {
     // KELURAHAN
     Route::get('kelurahan', [KelurahanController::class, 'get']);
     Route::post('kelurahan', [KelurahanController::class, 'create']);
+    Route::get('pasien/data/kelurahan', [PasienController::class, 'dataKelurahan']);
     // KECAMATAN
     Route::get('kecamatan', [KecamatanController::class, 'get']);
     Route::post('kecamatan', [KecamatanController::class, 'create']);
@@ -143,7 +147,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/registrasi/get', [RegPeriksaController::class, 'get']);
     Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
-    Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
+
 
     // PENILIAIAN AWAL/SKRINING
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
@@ -281,10 +285,13 @@ Route::middleware('auth')->group(function () {
     // MAPPING
     Route::get('mapping/pcare/poliklinik', [MappingPoliklinikPcareController::class, 'get']);
     Route::get('mapping/pcare/dokter', [MapingDokterController::class, 'get']);
+    Route::get('mapping/pcare/obat', [MappingObatPcareController::class, 'get']);
 
     // SETTING
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
+    Route::get('/setting/pcare/user', [BridgingPcareSettingController::class, 'getUser']);
+
 
     // EFKTP
     Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);
@@ -295,6 +302,7 @@ Route::middleware('auth')->group(function () {
 
     // PENDAFTARAN 
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/delete', [Bridging\Pendaftaran::class, 'delete']);
     Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);
 
     // KUNJUNGAN
@@ -327,4 +335,8 @@ Route::middleware('auth')->group(function () {
 
     // PESERTA
     Route::get('/bridging/pcare/peserta/{noKartu}', [Bridging\Peserta::class, 'index']);
+
+    // OBAT
+    Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
+    Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
 });

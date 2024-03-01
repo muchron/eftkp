@@ -3,7 +3,7 @@
     Carbon\Carbon::setLocale('id');
 @endphp
 @section('content')
-    <div width="100%" style="font-size: 12px; margin:15px">
+    <div class="m-5" width="100%" style="font-size: 13px">
         <table width="100%">
             <tr>
                 <td>{{ $setting->nama_instansi }}</td>
@@ -36,15 +36,30 @@
             <p class="mb-0 border p-2">Yang melakukan pengkajian : {{ $data->pegawai->nama }}</p>
             <p class="mb-0 border p-2">Tanggal Kunjungan : {{ Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y H:i:s') }}</p>
             <p class="mb-0 border p-2">Keluhan : {{ $data->keluhan_utama }}</p>
-            <p class="mb-0 border p-2"><b>Riyawat Psiko Sosial </b> <br> Hubungan pasien dengan anggota keluarga : {{ $data->hubungan }}</p>
+        </div>
+        <div class="border">
+            <p class="mb-0 p-2"><b>Riyawat Psiko Sosial </b> <br> Hubungan pasien dengan anggota keluarga : {{ $data->hub_keluarga }}</p>
+            <p class="mb-0 p-2"><b>Status Psikologis : </b><br> {{ $data->status_psiko }}, Keterangan : {{ $data->ket_psiko }}</p>
+            <p class="mb-0 p-2"><b>Status Fungsional : </b> <br> {{ $data->adl }}, {{ $data->ket_bantu }}</p>
+            <p class="mb-0 p-2"><b>Kepercayaan/Budaya/Nilai-nilai khusus yang perlu diperhatikan: </b> <br> {{ $data->ket_budaya }}</p>
+            <p class="mb-0 p-2"><b>Skrining Gizi : </b></p>
+            <ul>
+                <li> Apakah ada penurunan berat badan dalam kurun waktu 6 bulan terakhir ? [ {{ $data->sg1 }} ] [ {{ $data->nilai1 }} ]</li>
+                <li> Apakah ada penurunan nafsu makan ? [ {{ $data->sg2 }} ] [ {{ $data->nilai2 }} ]</li>
+                <li> Nilai Total [ {{ $data->total_hasil }} ] </li>
+            </ul>
+            <p class="mb-0 p-2">BB : {{ $data->bb }} Kg, TB : {{ $data->tb }} cm, BMI : {{ $data->bmi }} Kg/m²</p>
+            <p class="mb-0 p-2"><b>Tanda Vital : </b> Tensi : {{ $data->bb }} mmHg, Suhu : {{ $data->suhu }} °C, Nadi : {{ $data->nadi }} x/mnt, Respirasi : {{ $data->rr }} x/mnt</p>
+            <p class="mb-0 p-2"><b>Alergi : </b> {{ $data->alergi == '-' ? 'Tidak Ada' : $data->alergi }}</p>
+            <p class="mb-0 p-2"><b>Asesmen Nyeri : </b> {{ $data->nyeri }}</p>
+            <p class="mb-0 p-2"><b>Pengkajian Resiko Jatuh <i>Get Up and Go</i> : </b> {{ $data->skrining ? $data->skrining->ket_hasil : '-' }} </p>
         </div>
 
         <div style="margin-top:10px;text-align: center;left:0px;font-size:12px;">
             <p class="m-0">{{ Carbon\Carbon::parse($data->tanggal)->translatedFormat('d F Y') }}</p>
-            <p class="m-0">Petugas</p>
+            <p class="mb-5">Petugas</p>
             <p class="mt-5"><u>{{ $data->pegawai->nama }}</u></p>
             {{-- <p class="m-0">NIP : {{ $data->dokter->no_ijn_praktek }}</p> --}}
         </div>
-        {{ print_r($data) }}
     </div>
 @endsection

@@ -14,7 +14,7 @@
                                     <div class="col-xl-5 col-md-12 col-sm-12">
                                         <label class="form-label required">No. Reg</label>
                                         <div class="input-group">
-                                            <input type="text" name="no_reg" id="no_reg" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" autocomplete="off" disabled="">
+                                            <input type="text" name="no_reg" id="no_reg" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" disabled="">
                                             <span class="input-group-text">
                                                 <input class="form-check-input m-0" type="checkbox" checked="" id="checkNoReg" name="checkNoReg">
                                             </span>
@@ -113,17 +113,17 @@
                             </div>
                             <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Keluhan</label>
-                                <input autocomplete="off" type="text" class="form-control" name="keluhan">
+                                <input type="text" class="form-control" name="keluhan" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" type="text" class="form-control text-end" name="sistole">
+                                        <input type="text" class="form-control text-end" name="sistole">
                                         <span class="input-group-text" style="width:10px;padding:2px;">
                                             /
                                         </span>
-                                        <input autocomplete="off" type="text" class="form-control text-end" name="diastole">
+                                        <input type="text" class="form-control text-end" name="diastole">
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -134,7 +134,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="-">
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -145,7 +145,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="-">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -156,7 +156,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="-">
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -167,7 +167,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="-">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -178,7 +178,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="-">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -189,7 +189,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="-">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -201,8 +201,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSimpanReg"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
+                <button type="button" class="btn btn-success" id="btnSimpanReg"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -305,10 +305,10 @@
             const isChecked = $(e.currentTarget).is(':checked')
             if (!isChecked) {
                 clearInterval(setTime)
-                timeDisplay.attr('readonly', 'true')
+                timeDisplay.removeAttr('readonly')
             } else {
                 refreshTime()
-                timeDisplay.removeAttr('readonly')
+                timeDisplay.attr('readonly', 'true')
             }
         })
 
@@ -358,7 +358,6 @@
         }
 
         function registrasiPoli(no_rkm_medis = '', noUrut = '') {
-
             $.get(`${url}/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {

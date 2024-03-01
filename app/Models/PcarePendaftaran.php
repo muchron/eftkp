@@ -20,4 +20,12 @@ class PcarePendaftaran extends Model
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat');
     }
+    function pemeriksaan()
+    {
+        return $this->belongsTo(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
+    }
+    function kunjungan()
+    {
+        return $this->belongsTo(PcareKunjungan::class, 'no_rawat', 'no_rawat');
+    }
 }

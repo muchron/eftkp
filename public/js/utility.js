@@ -988,13 +988,6 @@ $.contextMenu({
                         rujukInternal(`${no_rawat}`);
                     }
                 },
-                "SuratSakit": {
-                    name: "Surat Sakit",
-                    icon: "fas fa-envelope-open-text",
-                    callback: (item) => {
-                        suratSakit(`${no_rawat}`);
-                    }
-                },
                 "PeriksaGigi": {
                     name: "Pemeriksaan Gigi",
                     icon: "fas fa-tooth",
@@ -1005,6 +998,51 @@ $.contextMenu({
                         pemeriksaanGigi(`${no_rawat}`);
                     }
                 },
+                "Surat": {
+                    name: 'Surat',
+                    items: {
+                        "SuratSehat": {
+                            name: "Ketetrangan Sehat",
+                            icon: "fas fa-envelope",
+                            callback: (item) => {
+                                suratSehat(`${no_rawat}`);
+                            }
+                        },
+                        "SuratSakit": {
+                            name: "Keterangan Sakit",
+                            icon: "fas fa-envelope-open-text",
+                            callback: (item) => {
+                                suratSakit(`${no_rawat}`);
+                            }
+                        },
+
+                    }
+                },
+                // "Pcare": {
+                //     name: 'Pcare',
+                //     items: {
+                //         "resepPcare": {
+                //             name: "Resep Obat Pcare",
+                //             icon: "fas fa-pills",
+                //             disabled: () => {
+                //                 // return true;
+                //             },
+                //             callback: (item, opt) => {
+                //                 obatPcare(`${no_rawat}`);
+                //             }
+                //         },
+                //         "kunjungan": {
+                //             name: "Kunjungan Pcare",
+                //             icon: "fas fa-list",
+                //             disabled: () => {
+                //                 // return true;
+                //             },
+                //             callback: (item, opt) => {
+                //                 penilaianAwalKeperawatan(`${no_rawat}`);
+                //             }
+                //         },
+                //     },
+                // },
                 "PenilaianAwal": {
                     name: "Penilaian Awal",
                     items: {

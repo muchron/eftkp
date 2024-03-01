@@ -5,9 +5,10 @@ namespace App\Models;
 use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Penjab;
+use App\Models\KamarInap;
 use App\Models\PemeriksaanRalan;
-use App\Models\PcareRujukSubspesialis;
 use Awobaz\Compoships\Compoships;
+use App\Models\PcareRujukSubspesialis;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,5 +72,9 @@ class RegPeriksa extends Model
     function gigi()
     {
         return $this->hasOne(PemeriksaanGigi::class, 'no_rawat', 'no_rawat');
+    }
+    function kamarInap()
+    {
+        return $this->hasOne(KamarInap::class, 'no_rawat', 'no_rawat');
     }
 }

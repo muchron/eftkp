@@ -134,7 +134,7 @@ class PenilaianAwalKeperawatanRalanController extends Controller
 
     function print(Request $request)
     {
-        $data = PenilaianAwalKeperawatanRalan::with('regPeriksa.pasien', 'pegawai')->where('no_rawat', $request->no_rawat)->first();
+        $data = PenilaianAwalKeperawatanRalan::with('regPeriksa.pasien', 'pegawai', 'skrining')->where('no_rawat', $request->no_rawat)->first();
         $setting = Setting::first();
 
         $pdf = PDF::loadView('content.print.penilaianAwal', ['data' => $data, 'setting' => $setting])
