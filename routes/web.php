@@ -252,6 +252,12 @@ Route::middleware('auth')->group(function () {
     Route::post('surat/sehat/delete/{noSurat}', [SuratSehatController::class, 'delete']);
     Route::get('surat/sehat/print/{noSurat}', [SuratSehatController::class, 'print']);
 
+    Route::get('ranap', function () {
+        return view('content.kamarInap');
+    });
+    Route::get('kamar/inap/get', [KamarInapController::class, 'get']);
+
+
 
     // RUJUK INTERNAL POLI
     Route::get('/rujuk/internal/poli', [RujukInternalController::class, 'get']);
