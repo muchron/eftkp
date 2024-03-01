@@ -160,10 +160,11 @@
                 <div class="mb-1">
                     <label class="form-label">Kesadaran</label>
                     <select class="form-select" name="kesadaran">
-                        <option value="01">Compos Mentis</option>
-                        <option value="02">Somnolence</option>
-                        <option value="03">Sopor</option>
-                        <option value="04">Coma</option>
+                        <option value="Compos Mentis" selected>Compos Mentis</option>
+                        <option value="Somnolence">Somnolence</option>
+                        <option value="Sopor">Sopor</option>
+                        <option value="Apatis">Apatis</option>
+                        <option value="Coma">Coma</option>
                     </select>
                 </div>
             </div>
@@ -291,13 +292,6 @@
 
             });
         });
-
-        function createAlergi(data) {
-            $.post(`${url}/pasien/alergi`, {
-                no_rkm_medis: data.no_rkm_medis,
-                alergi: data.alergi
-            })
-        }
 
         function simpanPemeriksaanRalan() {
 

@@ -217,6 +217,7 @@ class PasienController extends Controller
         $data = Pasien::select('kd_kel', DB::raw('count(*) as count'))
             ->groupBy('kd_kel')
             ->with('kel');
+
         if ($request->tgl1 || $request->tgl2) {
             $data = $data->whereBetween('tgl_daftar', [$request->tgl1, $request->tgl2]);
         } else {

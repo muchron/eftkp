@@ -34,6 +34,7 @@
 
     </div>
     @include('content.kamarInap.cppt.modalCppt')
+    @include('content.registrasi._modalSuratSakit')
 @endsection
 @push('script')
     <script>
@@ -51,7 +52,7 @@
 
         })
 
-        function getPemeriksaanRanap(no_rawat, tgl_perawatan = '', jam_rawat = '') {
+        function getCpptRanap(no_rawat, tgl_perawatan = '', jam_rawat = '') {
             const pemeriksaan = $.get(`${url}/pemeriksaan/ranap`, {
                 no_rawat: no_rawat,
                 tgl_perawatan: tgl_perawatan,
@@ -193,7 +194,7 @@
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            return `<button class="btn btn-success btn-sm"><i class="ti ti-pencil"></i></button>
+                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
                                     <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
                         }
                     },

@@ -258,6 +258,9 @@ Route::middleware('auth')->group(function () {
     Route::get('kamar/inap/get', [KamarInapController::class, 'get']);
 
     Route::get('pemeriksaan/ranap', [PemeriksaanRanapController::class, 'get']);
+    Route::post('pemeriksaan/ranap', [PemeriksaanRanapController::class, 'create']);
+    Route::post('pemeriksaan/ranap/update', [PemeriksaanRanapController::class, 'update']);
+    Route::post('pemeriksaan/ranap/delete', [PemeriksaanRanapController::class, 'delete']);
 
 
     // RUJUK INTERNAL POLI

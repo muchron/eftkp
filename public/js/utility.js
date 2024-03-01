@@ -1162,6 +1162,67 @@ $.contextMenu({
                     }
 
                 },
+                "Obat": {
+                    name: "Obat",
+                    icon: 'fa-regular fa-pills',
+                    callback: function (item, option, e, x, y) {
+                        cpptRanap(`${no_rawat}`)
+                    }
+
+                },
+                "penilaianAwal": {
+                    name: "Penilaian Awal",
+                    items: {
+                        "Keperawatan Umum": {
+                            name: "Keperawatan Umum",
+                            icon: 'fa-regular fa-pencil',
+                            callback: function (item, option, e, x, y) {
+                                // cpptRanap(`${no_rawat}`)
+                            }
+
+                        },
+                        "Medis Umum": {
+                            name: "Medis Umum",
+                            icon: 'fa-regular fa-pencil',
+                            callback: function (item, option, e, x, y) {
+                                // cpptRanap(`${no_rawat}`)
+                            }
+
+                        },
+                        "Triase": {
+                            name: "Triase",
+                            icon: 'fa-regular fa-pencil',
+                            callback: function (item, option, e, x, y) {
+                                // cpptRanap(`${no_rawat}`)
+                            }
+
+                        },
+                    },
+
+                },
+                "Resume Medis": {
+                    name: "Resume Medis",
+                    icon: 'fa-regular fa-file',
+                    callback: function (item, option, e, x, y) {
+                        // cpptRanap(`${no_rawat}`)
+                    }
+
+                },
+                "Riwayat Kunjungan": {
+                    name: "Riwayat Kunjungan",
+                    icon: 'fa-regular fa-folder-open',
+                    callback: function (item, option, e, x, y) {
+                        // cpptRanap(`${no_rawat}`)
+                    }
+
+                },
+                "SuratSakit": {
+                    name: "Surat Sakit",
+                    icon: "fas fa-envelope-open-text",
+                    callback: (item) => {
+                        suratSakit(`${no_rawat}`);
+                    }
+                },
             }
         }
     }

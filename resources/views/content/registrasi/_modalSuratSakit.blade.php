@@ -67,7 +67,7 @@
                             </div>
                             <div class="tab-pane p-2" id="tabs-tableSuratSakit">
                                 <div class="table-responsive">
-                                    <table class="table table-sm" id="tbSuratSakit" width="100%"></table>
+                                    <table class="table table-sm table-hover table-striped nowrap" id="tbSuratSakit" width="100%"></table>
                                 </div>
                                 <div class="form" id="formFilterSakit">
                                     <div class="row">

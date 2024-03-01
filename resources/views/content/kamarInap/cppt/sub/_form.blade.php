@@ -56,11 +56,13 @@
                 <div class="mb-1">
                     <label class="form-label">Tanggal</label>
                     <input class="form-control filterTangal" name="tgl_perawatan" id="tgl_perawatan" style="width: 100%" value="{{ date('d-m-Y') }}">
+                    <input type="hidden" name="tgl_perawatan_awal" id="tgl_perawatan_awal">
                 </div>
             </div>
             <div class="col-xl-2">
                 <div class="mb-1">
                     <label class="form-label">Jam</label>
+                    <input type="hidden" name="jam_rawat_awal" id="jam_rawat_awal" value="" />
                     <div class="input-group">
                         <input class="form-control" name="jam_rawat" id="jam_rawat" value="{{ date('H:i:s') }}" />
                         <span class="input-group-text">
@@ -180,28 +182,10 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12">
-                <div class="mb-1">
-                    <label class="form-label">Lingkar Perut</label>
-                    <div class="input-group input-group-flat">
-                        <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut">
-                        <span class="input-group-text">
-                            cm
-                        </span>
-                    </div>
-                </div>
-            </div>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">
                         Asesmen
-                        <a href="javascript:void(0)" id="btnDiagnosaPasien">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                        </a>
                     </label>
                     <textarea class="form-control" rows="6" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="penilaian">-</textarea>
                 </div>
@@ -210,13 +194,6 @@
                 <div class="mb-1">
                     <label class="form-label">
                         Instruksi
-                        <a href="javascript:void(0)" id="btnTindakanPasien">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                        </a>
                     </label>
                     <textarea class="form-control" rows="6" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="instruksi">-</textarea>
                 </div>

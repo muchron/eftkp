@@ -237,6 +237,14 @@
 
             return postStatus;
         }
+
+        function createAlergi(data) {
+            const alergi = $.post(`${url}/pasien/alergi`, {
+                no_rkm_medis: data.no_rkm_medis,
+                alergi: data.alergi
+            });
+            return alergi;
+        }
     </script>
     @stack('script')
 </body>

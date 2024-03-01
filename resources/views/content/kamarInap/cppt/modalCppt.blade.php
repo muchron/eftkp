@@ -20,7 +20,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRanap()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
+                <button type="button" id="btnResetCpptRanap" class="btn btn-warning d-none"><i class="ti ti-reload me-1"></i>Baru</button>
+                <button type="button" id="btnSalinCpptRanap" class="btn btn-primary d-none"><i class="ti ti-copy me-1"></i> Copy</button>
+                <button type="button" id="btnSimpanCpptRanap" class="btn btn-success" onclick="createCpptRanap()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-1"></i>Keluar</button>
             </div>
         </div>
@@ -35,6 +37,7 @@
         var checkJam = formCpptRanap.find('#checkJam');
         var nip = "{{ session()->get('pegawai')->nik }}";
         var nmPegawai = "{{ session()->get('pegawai')->nama }}";
+        var inputAlergi = formCpptRanap.find('#alergi');
 
         modalCpptRanap.on('hidden.bs.modal', () => {
             $('#listRiwayat').empty()
@@ -71,10 +74,8 @@
             checkboxTimer(checkJam)
         })
 
-
-        function cpptRanap(no_rawat) {
+        function setInfoPasien(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log(response);
                 formCpptRanap.find('input[name=no_rawat]').val(response.no_rawat)
                 formCpptRanap.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formCpptRanap.find('input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
@@ -84,15 +85,79 @@
                 selectPegawai(pegawai, formCpptRanap);
                 const setPetugas = new Option(nmPegawai, nip, true, true);
                 pegawai.append(setPetugas).trigger('change');
+                setSelectAlergi(response.pasien.alergi, inputAlergi)
             })
+        }
+
+        function cpptRanap(no_rawat) {
+            setInfoPasien(no_rawat);
             setRiwayatRanap(no_rawat);
             modalCpptRanap.modal('show');
         }
 
-        function simpanPemeriksaanRanap() {
+        function setSelectAlergi(alergi, element) {
+            if (alergi.length) {
+                element.empty()
+                alergi.forEach((resAlergi) => {
+                    const optionAlergi = new Option(resAlergi.alergi, resAlergi.alergi, true, true);
+                    element.append(optionAlergi).trigger('change');
+                });
+            } else {
+                element.empty()
+            }
+        }
+
+        function createCpptRanap() {
             const data = getDataForm('formCpptRanap', ['input', 'select', 'textarea']);
             delete data[""];
             data['alergi'] = data['alergi'].map((item) => item).join(', ')
+            $.post(`pemeriksaan/ranap`, data).done((response) => {
+                alertSuccessAjax().then(() => {
+                    createAlergi({
+                        no_rkm_medis: data['no_rkm_medis'],
+                        alergi: inputAlergi.val(),
+                    });
+                    formCpptRanap.trigger('reset');
+                    setRiwayatRanap(data['no_rawat']);
+                    setInfoPasien(data['no_rawat']);
+                });
+            }).fail((error) => {
+                alertErrorAjax(error);
+            })
         }
+
+        function updateCpptRanap(...params) {
+            const data = getDataForm('formCpptRanap', ['input', 'select', 'textarea']);
+            data['alergi'] = data['alergi'].map((item) => item).join(', ')
+            delete data[""];
+            $.post(`pemeriksaan/ranap/update`, data).done((response) => {
+                alertSuccessAjax().then(() => {
+                    formCpptRanap.trigger('reset');
+                    setRiwayatRanap(data['no_rawat']);
+                    setInfoPasien(data['no_rawat']);
+
+                });
+            }).fail((error) => {
+                alertErrorAjax(error);
+            })
+        }
+        $('#btnResetCpptRanap').on('click', () => {
+            $('#btnSimpanCpptRanap').attr('onclick', 'createCpptRanap()');
+            $('#btnResetCpptRanap').addClass('d-none');
+            $('#btnCopyCpptRanap').addClass('d-none');
+            const no_rawat = formCpptRanap.find('input[name="no_rawat"]').val();
+            formCpptRanap.trigger('reset');
+            checkJam.prop('checked', false).trigger('change');
+            setInfoPasien(no_rawat);
+
+        })
+
+        $('#btnSalinCpptRanap').on('click', () => {
+            createCpptRanap();
+            checkJam.prop('checked', false).trigger('change');
+            $('#btnResetCpptRanap').addClass('d-none');
+            $('#btnSalinCpptRanap').addClass('d-none');
+            $('#btnSimpanCpptRanap').attr('onclick', 'createCpptRanap()');
+        })
     </script>
 @endpush
