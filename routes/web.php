@@ -39,13 +39,18 @@ use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\EfktpTindakanResikoJatuhController;
+use App\Http\Controllers\KamarInapController;
+use App\Http\Controllers\MappingObatPcareController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PemeriksaanGigiController;
+use App\Http\Controllers\PemeriksaanRanapController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Models\DiagnosaPasien;
+use App\Models\KamarInap;
 use App\Models\PemeriksaanGigi;
 use App\Models\PenilaianAwalKeperawatanRalan;
 
@@ -125,6 +130,8 @@ Route::middleware('auth')->group(function () {
     // DOKTER
     Route::get('/dokter', [DokterController::class, 'get']);
     Route::post('/dokter', [DokterController::class, 'delete']);
+
+    Route::get('/pegawai', [PegawaiController::class, 'get']);
 
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
@@ -232,6 +239,14 @@ Route::middleware('auth')->group(function () {
     Route::post('surat/sakit', [SuratSakitController::class, 'create']);
     Route::post('surat/sakit/delete/{noSurat}', [SuratSakitController::class, 'delete']);
     Route::get('surat/sakit/setnomor', [SuratSakitController::class, 'setNoSurat']);
+
+    // SUrat Sehat
+    Route::get('surat/sehat', [SuratSehatController::class, 'get']);
+    Route::post('surat/sehat', [SuratSehatController::class, 'create']);
+    Route::get('surat/sehat/setnomor', [SuratSehatController::class, 'setNoSurat']);
+    Route::get('surat/sehat/{noSurat}', [SuratSehatController::class, 'getSurat']);
+    Route::post('surat/sehat/delete/{noSurat}', [SuratSehatController::class, 'delete']);
+    Route::get('surat/sehat/print/{noSurat}', [SuratSehatController::class, 'print']);
 
 
     // RUJUK INTERNAL POLI

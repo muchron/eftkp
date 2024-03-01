@@ -86,7 +86,7 @@
                                                 resDokter.no_resep = $('#no_resep').val();
                                                 return resDokter
                                             })
-                                            $.post('resep/dokter/create', {
+                                            $.post(`${url}/resep/dokter/create`, {
                                                 dataObat
                                             }).done((response) => {
                                                 setResepDokter(dataObat[0].no_resep)
@@ -155,7 +155,7 @@
                         }
                     })
                     // copy diagnosa
-                    $.post('diagnosa/pasien/create', {
+                    $.post(`${url}/diagnosa/pasien/create`, {
                         data: diagnosa
                     }).fail((request) => {
                         alertErrorAjax(request)
@@ -175,7 +175,7 @@
                         }
                     });
 
-                    $.post('prosedur/pasien/create', {
+                    $.post(`${url}/prosedur/pasien/create`, {
                         data: tindakan
                     }).fail((request) => {
                         alertErrorAjax(request)

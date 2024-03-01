@@ -611,8 +611,10 @@
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
-            loadingAjax();
-            $.post('bridging/pcare/kunjungan/post', data).done((response) => {
+            data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
+            // obatPcare('1105U0210224Y000967', data['no_resep']);
+            // return false;
+            $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
@@ -637,9 +639,9 @@
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
                             }
+                            loadingAjax().close();
                             $('#modalKunjunganPcare').modal('hide')
                             $('#modalCppt').modal('hide');
-                            loadTabelRegistrasi(localStorage.getItem('tglAwal'), localStorage.getItem('tglAkhir'))
                         }).fail((request) => {
                             alertErrorAjax(request)
                         })
@@ -667,9 +669,12 @@
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
-            loadingAjax();
+            data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
+            obatPcare('1105U0210224Y000967', data['no_resep']);
+            return false;
+            // loadingAjax();
             // UPDATE KUNJUNGAN BRIDGING
-            $.post('bridging/pcare/kunjungan/update', data).done((response) => {
+            $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
                 if (response.metaData.code == 200) {
                     // UPDATE KUNJUNGAN UMUM LOCAL
                     updateKunjunganUmum(data).done((resKunjungan) => {
@@ -700,6 +705,7 @@
                 }
             }).fail((request) => {
                 alertErrorAjax(request)
+
             })
         }
     </script>

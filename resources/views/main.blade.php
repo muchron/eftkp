@@ -78,8 +78,26 @@
             line-height: 35px !important;
         }
 
-        .select2-container .select2-selection--single {
+
+
+        .select2-container .select2-selection--single,
+        .select2-container .select2-selection--multiple {
             height: 35px !important;
+        }
+
+        .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+            padding-left: 0px !important;
+            height: 23px !important;
+            vertical-align: top;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display,
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            cursor: default;
+            /* padding-left: 2px; */
+            /* padding-right: 5px; */
+            position: relative;
+            top: -8px;
         }
 
         .select2-selection__arrow {

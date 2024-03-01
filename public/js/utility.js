@@ -354,6 +354,42 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
     return select2;
 }
 
+function selectAlergi(element, parent) {
+    const select2 = element.select2({
+        dropdownParent: parent,
+        delay: 0,
+        tags: true,
+        scrollAfterSelect: true,
+        ajax: {
+            url: `${url}/pasien/alergi`,
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    alergi: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.alergi,
+                            text: item.alergi,
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+
+    return select2;
+}
+
 function getBahasa(bahasa) {
     return bahasa = $.get('/efktp/bahasa', {
         bahasa: bahasa,
@@ -811,6 +847,43 @@ function selectDokter(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
+function selectPegawai(element, parrent) {
+    const select2 = element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        ajax: {
+            url: '/efktp/pegawai',
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    pegawai: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.nik,
+                            text: item.nama,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    });
+    const option = new Option('-', '-', true, true);
+    element.append(option).trigger('change');
+    return select2;
+}
 function selectPenyakit(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -888,10 +961,16 @@ function selectTindakan(element, parrent) {
 // CONTEXT MENU
 $.contextMenu({
     selector: '.table-rows',
+    events: {
+        hide: (element, event) => {
+            $(element.selector).removeClass('text-red')
+        }
+    },
     build: (element, event) => {
         const no_rawat = element.data('id');
         const poli = element.data('poli');
         const isDisable = poli == 'U0010' ? false : true;
+        element.addClass('text-red')
         return {
             items: {
                 "cppt": {
@@ -1024,6 +1103,31 @@ $.contextMenu({
                         getPeserta(`${peserta}`)
                     }
                 }
+            }
+        }
+    }
+});
+
+$.contextMenu({
+    selector: '.tableKamarInap',
+    events: {
+        hide: (element, event) => {
+            $(element.selector).removeClass('text-red')
+        }
+    },
+    build: (element, event) => {
+        const no_rawat = element.data('id');
+        element.addClass('text-red')
+        return {
+            items: {
+                "pemeriksaan": {
+                    name: "CPPT",
+                    icon: 'fa-regular fa-stethoscope',
+                    callback: function (item, option, e, x, y) {
+                        cpptRanap(`${no_rawat}`)
+                    }
+
+                },
             }
         }
     }
