@@ -7,12 +7,17 @@
             <canvas id="grafikKelurahan" style="max-height:40vh"></canvas>
         </div>
         <div class="card-footer">
-            <div class="input-group w-50">
-                <input type="text" class="form-control filterTangal" id="tglKelurahan1" value="{{ date('d-m-Y') }}">
-                <span class="input-group-text">s.d.</span>
-                <input type="text" class="form-control filterTangal" id="tglKelurahan2" value="{{ date('d-m-Y') }}">
-                <button class="btn btn-indigo" id="btnFilterkelurahan"><i class="ti ti-search"></i></button>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control filterTangal" id="tglKelurahan1" value="{{ date('d-m-Y') }}">
+                        <span class="input-group-text">s.d.</span>
+                        <input type="text" class="form-control filterTangal" id="tglKelurahan2" value="{{ date('d-m-Y') }}">
+                        <button class="btn btn-indigo" id="btnFilterKelurahan"><i class="ti ti-search"></i></button>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -75,9 +80,8 @@
         function dataGrafikKelurahan(tgl1 = '', tgl2 = '') {
             $.get(`${url}/pasien/data/kelurahan`, {
                 tgl1: tgl1,
-                tgl1: tgl2,
+                tgl2: tgl2,
             }).done((response) => {
-                console.log('KELURAHAN ==', response);
                 const data = {
                     'list': response.map((item) => item.count),
                     'label': response.map((item) => item.kel.nm_kel),
@@ -87,8 +91,8 @@
         }
 
         $('#btnFilterKelurahan').on('click', () => {
-            const tgl1 = $('#tglPenyakit1').val()
-            const tgl2 = $('#tglPenyakit2').val()
+            const tgl1 = $('#tglKelurahan1').val()
+            const tgl2 = $('#tglKelurahan2').val()
             grafikKelurahan.destroy();
             dataGrafikKelurahan(splitTanggal(tgl1), splitTanggal(tgl2));
         })

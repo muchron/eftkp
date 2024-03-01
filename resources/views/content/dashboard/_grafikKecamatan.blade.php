@@ -11,7 +11,7 @@
                 <input type="text" class="form-control filterTangal" id="tglKecamatan1" value="{{ date('d-m-Y') }}">
                 <span class="input-group-text">s.d.</span>
                 <input type="text" class="form-control filterTangal" id="tglKecamatan2" value="{{ date('d-m-Y') }}">
-                <button class="btn btn-indigo" id="btnFilterkelurahan"><i class="ti ti-search"></i></button>
+                <button class="btn btn-indigo" id="btnFilterKecamatan"><i class="ti ti-search"></i></button>
             </div>
         </div>
     </div>
@@ -68,17 +68,16 @@
                 tgl1: tgl1,
                 tgl2: tgl2,
             }).done((response) => {
-                console.log(response);
                 const data = {
                     'list': response.map((item) => item.count),
                     'label': response.map((item) => item.kec.nm_kec),
                 }
-                console.log(data);
                 renderGrafikKecamatan(data);
             })
         }
 
         $('#btnFilterKecamatan').on('click', () => {
+            console.log('sss');
             const tgl1 = $('#tglKecamatan1').val()
             const tgl2 = $('#tglKecamatan2').val()
             grafikKecamatan.destroy();
