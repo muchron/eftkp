@@ -969,7 +969,6 @@ $.contextMenu({
     build: (element, event) => {
         const no_rawat = element.data('id');
         const poli = element.data('poli');
-        const isDisable = poli == 'U0010' ? false : true;
         element.addClass('text-red')
         return {
             items: {
@@ -991,9 +990,6 @@ $.contextMenu({
                 "PeriksaGigi": {
                     name: "Pemeriksaan Gigi",
                     icon: "fas fa-tooth",
-                    disabled: () => {
-                        return isDisable;
-                    },
                     callback: (item, opt) => {
                         pemeriksaanGigi(`${no_rawat}`);
                     }

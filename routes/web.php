@@ -257,6 +257,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('kamar/inap/get', [KamarInapController::class, 'get']);
 
+    Route::get('pemeriksaan/ranap', [PemeriksaanRanapController::class, 'get']);
 
 
     // RUJUK INTERNAL POLI
