@@ -1,8 +1,21 @@
 <div class="card">
     <div class="card-status-top bg-success"></div>
+    {{-- <div class="card-header">
+    </div> --}}
+
     <div class="card-body">
-        <h5 class="card-title">Riwayat Pemeriksaan</h5>
-        <div class="accordion" id="listRiwayat" style="height:70vh;overflow:scroll">
+        <p class="card-title m-1">Riwayat Pemeriksaan</p>
+        <div class="row mb-2">
+            <div class="col-lg-5 col-md-12 col-sm-12">
+                <div class="input-group">
+                    <input type="text" class="form-control filterTangal" id="tglCppt1" name="tglCppt1" value="{{ date('d-m-Y') }}">
+                    <span class="input-group-text">s.d</span>
+                    <input type="text" class="form-control filterTangal" id="tglCppt2" name="tglCppt2" value="{{ date('d-m-Y') }}">
+                    <button type="button" class="btn btn-secondary" id="btnFilterCppt" name="btnFilterCppt" onclick="filterCpptRanap()"><i class="ti ti-search me-1"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="accordion" id="listRiwayat" style="height:56vh;overflow:auto">
 
         </div>
     </div>
@@ -10,6 +23,36 @@
 
 @push('script')
     <script>
+        var tglCppt1 = $('#tglCppt1');
+        var tglCppt2 = $('#tglCppt2');
+
+
+        function filterCpptRanap() {
+            $.get(`${url}/pemeriksaan/ranap`, {
+                no_rawat: formCpptRanap.find('input[name="no_rawat"]').val(),
+                tglCppt1: tglCppt1.val(),
+                tglCppt2: tglCppt2.val(),
+            }).done((response) => {
+                $('#listRiwayat').empty();
+                const pemeriksaan = response.map((values, index) => {
+                    return `<div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-${index}">
+                                    <button class="accordion-button ${values.pegawai.dokter ? 'bg-green-lt' : 'bg-orange-lt'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="true" aria-controls="collapse-${index}">
+                                        ${formatTanggal(values.tgl_perawatan)} ${values.jam_rawat} : ${values.pegawai.nama}
+                                    </button>
+                                </h2>
+                                <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#listRiwayat" data-id="${no_rawat}" data-tanggal="${values.tgl_perawatan}" data-pegawai="${values.nip}" data-jam="${values.jam_rawat}">
+                                    <div class="accordion-body pt-0">
+
+                                    </div>
+                                </div>
+                            </div>`
+                })
+                $('#listRiwayat').append(pemeriksaan)
+
+                console.log('RESPONSE ===', response);
+            })
+        }
         $('#listRiwayat').on('show.bs.collapse', function(e) {
             const id = e.target.id;
             const no_rawat = $(`#${id}`).data('id');
@@ -98,7 +141,7 @@
                                 </div>
                                 <button class="btn btn-sm btn-primary mt-3" type="button" onclick="setCpptRanap('${response.no_rawat}', '${response.tgl_perawatan}', '${response.jam_rawat}', '${response.nip}')">
                                     <i class="ti ti-pencil me-1"></i> Edit
-                                </button> 
+                                </button>
                                 <button class="btn btn-sm btn-danger mt-3 ms-1" type="button" onclick="deleteCpptRanap('${response.no_rawat}', '${response.tgl_perawatan}', '${response.jam_rawat}', '${response.nip}')">
                                     <i class="ti ti-trash me-1"></i> Hapus
                                 </button>
@@ -117,13 +160,13 @@
                 const pemeriksaan = response.map((values, index) => {
                     return `<div class="accordion-item">
                                 <h2 class="accordion-header" id="heading-${index}">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="true" aria-controls="collapse-${index}">
+                                    <button class="accordion-button ${values.pegawai.dokter ? 'bg-green-lt' : 'bg-orange-lt'}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${index}" aria-expanded="true" aria-controls="collapse-${index}">
                                         ${formatTanggal(values.tgl_perawatan)} ${values.jam_rawat} : ${values.pegawai.nama}
                                     </button>
                                 </h2>
                                 <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#listRiwayat" data-id="${no_rawat}" data-tanggal="${values.tgl_perawatan}" data-pegawai="${values.nip}" data-jam="${values.jam_rawat}">
-                                    <div class="accordion-body pt-0">
-                                        
+                                    <div class="accordion-body">
+
                                     </div>
                                 </div>
                             </div>`
@@ -151,7 +194,7 @@
                                 </h2>
                                 <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#listRiwayat" data-id="${regPeriksa.no_rawat}">
                                     <div class="accordion-body pt-0">
-                                        
+
                                     </div>
                                 </div>
                             </div>`
@@ -210,7 +253,7 @@
                 formCpptRanap.find('input[name="spo2"]').val(response.spo2)
                 formCpptRanap.find('input[name="gcs"]').val(response.gcs)
                 formCpptRanap.find(`select[name="kesadaran"] option:contains("${response.kesadaran}")`).prop('selected', true)
-                formCpptRanap.find('input[name="stts"]').val('edit')
+                setSelectAlergi(response.reg_periksa.pasien.alergi, inputAlergi)
                 $('#btnResetCpptRanap').removeClass('d-none');
                 $('#btnSalinCpptRanap').removeClass('d-none');
                 $('#btnSimpanCpptRanap').attr('onclick', `updateCpptRanap('${response.no_rawat}', '${response.tgl_perawatan}', '${response.jam_rawat}', '${response.nip}')`);

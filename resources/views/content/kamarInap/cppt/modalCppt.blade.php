@@ -116,10 +116,11 @@
                     createAlergi({
                         no_rkm_medis: data['no_rkm_medis'],
                         alergi: inputAlergi.val(),
+                    }).done(() => {
+                        formCpptRanap.trigger('reset');
+                        setRiwayatRanap(data['no_rawat']);
+                        setInfoPasien(data['no_rawat']);
                     });
-                    formCpptRanap.trigger('reset');
-                    setRiwayatRanap(data['no_rawat']);
-                    setInfoPasien(data['no_rawat']);
                 });
             }).fail((error) => {
                 alertErrorAjax(error);
@@ -128,13 +129,20 @@
 
         function updateCpptRanap(...params) {
             const data = getDataForm('formCpptRanap', ['input', 'select', 'textarea']);
-            data['alergi'] = data['alergi'].map((item) => item).join(', ')
-            delete data[""];
+            data['alergi'] = inputAlergi.val().map((item) => item).join(', ')
             $.post(`pemeriksaan/ranap/update`, data).done((response) => {
                 alertSuccessAjax().then(() => {
-                    formCpptRanap.trigger('reset');
-                    setRiwayatRanap(data['no_rawat']);
-                    setInfoPasien(data['no_rawat']);
+                    createAlergi({
+                        no_rkm_medis: data['no_rkm_medis'],
+                        alergi: inputAlergi.val(),
+                    }).done(() => {
+                        formCpptRanap.trigger('reset');
+                        setRiwayatRanap(data['no_rawat']);
+                        setInfoPasien(data['no_rawat']);
+                    })
+                    $('#btnSimpanCpptRanap').attr('onclick', 'createCpptRanap()');
+                    $('#btnResetCpptRanap').addClass('d-none');
+                    $('#btnSalinCpptRanap').addClass('d-none');
 
                 });
             }).fail((error) => {
@@ -144,7 +152,7 @@
         $('#btnResetCpptRanap').on('click', () => {
             $('#btnSimpanCpptRanap').attr('onclick', 'createCpptRanap()');
             $('#btnResetCpptRanap').addClass('d-none');
-            $('#btnCopyCpptRanap').addClass('d-none');
+            $('#btnSalinCpptRanap').addClass('d-none');
             const no_rawat = formCpptRanap.find('input[name="no_rawat"]').val();
             formCpptRanap.trigger('reset');
             checkJam.prop('checked', false).trigger('change');

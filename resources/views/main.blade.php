@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>EFKTP</title>
+    <title>{{ env('APP_NAME') }} ::
+        @if (count(Request::segments()))
+            @for ($i = 1; $i <= count(Request::segments()); $i++)
+                {{ ucfirst(Request::segment($i)) }}
+                @if (($i < count(Request::segments())) & ($i >= 1))
+                    -
+                @endif
+            @endfor
+        @endif
+    </title>
     <!-- CSS files -->
     <link href="{{ asset('/public/css/tabler.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('public/img/icon-app.svg') }}">
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
@@ -145,6 +155,15 @@
 
         .separator:not(:empty)::after {
             margin-left: .25em;
+        }
+
+        .text-brand {
+            font-family: "Roboto";
+            transition: .2s linear;
+        }
+
+        .text-brand:hover {
+            color: #c7c7c7;
         }
     </style>
 </head>

@@ -12,4 +12,9 @@ class Pegawai extends Model
     protected $table = 'pegawai';
     public $timestamps = false;
     protected $guarded = [];
+
+    function dokter()
+    {
+        return $this->hasOne(Dokter::class, 'kd_dokter', 'nik');
+    }
 }

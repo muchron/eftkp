@@ -19,8 +19,8 @@ class PemeriksaanRanapController extends Controller
     function get(Request $request)
     {
         $pemeriksaanRanap = PemeriksaanRanap::with(['regPeriksa' => function ($q) {
-            return $q->with('pasien');
-        }, 'pegawai'])->where('no_rawat', $request->no_rawat)
+            return $q->with('pasien.alergi');
+        }, 'pegawai.dokter'])->where('no_rawat', $request->no_rawat)
             ->orderBy('tgl_perawatan', 'DESC')->orderBy('jam_rawat', 'DESC');
 
         if ($request->tgl_perawatan || $request->jam_rawat) {
@@ -28,6 +28,13 @@ class PemeriksaanRanapController extends Controller
                 ->where('tgl_perawatan',  $request->tgl_perawatan)
                 ->where('jam_rawat', $request->jam_rawat)
                 ->first();
+        } else if ($request->tglCppt1 || $request->tglCppt2) {
+            $pemeriksaanRanap = $pemeriksaanRanap
+                ->whereBetween('tgl_perawatan', [
+                    date('Y-m-d', strtotime($request->tglCppt1)),
+                    date('Y-m-d', strtotime($request->tglCppt2))])
+                ->get();
+            return response()->json($pemeriksaanRanap);
         } else {
             $pemeriksaanRanap = $pemeriksaanRanap->get();
             if ($request->datatable) {
@@ -36,6 +43,7 @@ class PemeriksaanRanapController extends Controller
         }
         return response()->json($pemeriksaanRanap);
     }
+
 
     function create(Request $request)
     {
@@ -49,7 +57,6 @@ class PemeriksaanRanapController extends Controller
             'pemeriksaan' => $request->pemeriksaan,
             'rtl' => $request->rtl,
             'instruksi' => $request->instruksi,
-            'evaluasi' => $request->evaluasi,
             'suhu_tubuh' => $request->suhu_tubuh,
             'tinggi' => $request->tinggi,
             'berat' => $request->berat,
@@ -68,10 +75,10 @@ class PemeriksaanRanapController extends Controller
             if ($pemeriksaan) {
                 $this->insertSql(new PemeriksaanRanap(), $data);
             }
-            return response()->json('SUKSES', 201);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+        return response()->json('SUKSES', 201);
     }
 
     function update(Request $request)

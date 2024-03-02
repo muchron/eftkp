@@ -4,9 +4,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <h1 class="navbar-brand d-none-navbar-horizontal pe-0 pe-md-3">
-            <a href="{{ url('/') }}">
+            <a href="{{ url('/') }}" style="text-decoration: none" class="text-brand">
                 <img src="{{ asset('public/static/logo-idi.png') }}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
-                ERM FKTP
+                {{ env('APP_NAME') }}
             </a>
         </h1>
 

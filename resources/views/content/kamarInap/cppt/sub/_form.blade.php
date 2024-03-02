@@ -46,20 +46,20 @@
     </div>
     <fieldset class="form-fieldset">
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-xl-4 col-md-4 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Dokter/Petugas</label>
                     <select class="form-select" name="nip" id="nip" style="width: 100%"></select>
                 </div>
             </div>
-            <div class="col-xl-2">
+            <div class="col-xl-2 col-md-4 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Tanggal</label>
                     <input class="form-control filterTangal" name="tgl_perawatan" id="tgl_perawatan" style="width: 100%" value="{{ date('d-m-Y') }}">
                     <input type="hidden" name="tgl_perawatan_awal" id="tgl_perawatan_awal">
                 </div>
             </div>
-            <div class="col-xl-2">
+            <div class="col-xl-3 col-md-4 col-sm-12">
                 <div class="mb-1">
                     <label class="form-label">Jam</label>
                     <input type="hidden" name="jam_rawat_awal" id="jam_rawat_awal" value="" />
