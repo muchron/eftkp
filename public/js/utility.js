@@ -888,6 +888,7 @@ function selectPenyakit(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
+        tags:true,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penyakit/get',
@@ -913,7 +914,7 @@ function selectPenyakit(element, parrent) {
             }
 
         },
-        cache: false
+        cache: true,
 
     });
     const option = new Option('-', '-', true, true);
