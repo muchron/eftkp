@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ env('APP_NAME') }} ::
+    <title>{{ env('APP_NAME') }}
         @if (count(Request::segments()))
+            ::
             @for ($i = 1; $i <= count(Request::segments()); $i++)
-                {{ ucfirst(Request::segment($i)) }}
+                 {{ ucfirst(Request::segment($i)) }}
                 @if (($i < count(Request::segments())) & ($i >= 1))
                     -
                 @endif
             @endfor
+        @else
+            :: {{ $data->nama_instansi }}
         @endif
     </title>
     <!-- CSS files -->
@@ -183,6 +186,7 @@
     <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('public/js/utility.js') }}" defer></script>
+    <script src="{{ asset('public/libs/tinymce/tinymce.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
@@ -245,6 +249,11 @@
             const registrasi = $.get(`${url}/registrasi/get/detail`, {
                 no_rawat: no_rawat,
             })
+            return registrasi;
+        }
+
+        function getRegPeriksa(...params) {
+            const registrasi = $.get(`${url}/registrasi/get`, params)
             return registrasi;
         }
 

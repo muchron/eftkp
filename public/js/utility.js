@@ -1,11 +1,4 @@
 // AJAX
-function getRegPeriksa(startDate = '', endDate = '') {
-    const registrasi = $.get('registrasi/get', {
-        startDate: startDate,
-        endDate: endDate
-    })
-    return registrasi;
-}
 
 // AJAX
 function formatTanggal(tanggal) {
@@ -1142,6 +1135,7 @@ $.contextMenu({
     }
 });
 
+// menu kamar inap
 $.contextMenu({
     selector: '.tableKamarInap',
     events: {
@@ -1204,7 +1198,7 @@ $.contextMenu({
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',
                     callback: function (item, option, e, x, y) {
-                        // cpptRanap(`${no_rawat}`)
+                        resumeMedis(no_rawat);
                     }
 
                 },

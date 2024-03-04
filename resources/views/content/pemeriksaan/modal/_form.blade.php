@@ -235,6 +235,7 @@
         var tabelResepUmum = $('#tabelResepUmum')
         var tabelResepRacikan = $('#tabelResepRacikan')
         var inputAlergi = $('#formCpptRajal').find('#alergi')
+        let username = "{{session()->get('pegawai')->nik}}"
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
             const insert = $.post(`${url}/diagnosa/pasien/create`, {
@@ -327,8 +328,11 @@
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
-                                const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
-                                setStatusLayan(data['no_rawat'], stts)
+                                if(username === data['kd_dokter']){
+                                    console.log(username)
+                                    const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                                    setStatusLayan(data['no_rawat'], stts);
+                                }
                                 loadTabelRegistrasi(tglAwal, tglAkhir)
                             })
                             return false;
@@ -344,8 +348,11 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
-                        const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
-                        setStatusLayan(data['no_rawat'], stts);
+                        if(username === data['kd_dokter']){
+                            console.log(username)
+                            const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                             setStatusLayan(data['no_rawat'], stts);
+                        }
                         loadTabelRegistrasi(tglAwal, tglAkhir)
                     })
                 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\PemeriksaanRanap;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
-use PhpParser\Node\Stmt\TryCatch;
 use Yajra\DataTables\DataTables;
 
 class PemeriksaanRanapController extends Controller

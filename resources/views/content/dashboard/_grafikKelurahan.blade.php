@@ -8,7 +8,7 @@
         </div>
         <div class="card-footer">
             <div class="row">
-                <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                     <div class="input-group">
                         <input type="text" class="form-control filterTangal" id="tglKelurahan1" value="{{ date('d-m-Y') }}">
                         <span class="input-group-text">s.d.</span>
@@ -26,10 +26,6 @@
     <script>
         var ctxGrafikKelurahan = $('#grafikKelurahan');
         var grafikKelurahan = '';
-
-        $(document).ready((e) => {
-            dataGrafikKelurahan();
-        })
 
         function renderGrafikKelurahan(data) {
             grafikKelurahan = new Chart(ctxGrafikKelurahan, {
@@ -63,28 +59,19 @@
                         legend: {
                             display: false,
                         },
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    const labelHover = data.title[context.dataIndex]
-                                    const countHover = data.list[context.dataIndex]
-                                    return ` ${countHover} - ${labelHover}`;
-                                },
-                            },
-                        },
                     },
                 }
             });
         }
 
         function dataGrafikKelurahan(tgl1 = '', tgl2 = '') {
-            $.get(`${url}/pasien/data/kelurahan`, {
+            $.get(`${url}/registrasi/kelurahan`, {
                 tgl1: tgl1,
                 tgl2: tgl2,
             }).done((response) => {
                 const data = {
-                    'list': response.map((item) => item.count),
-                    'label': response.map((item) => item.kel.nm_kel),
+                    'list': Object.values(response),
+                    'label': Object.keys(response),
                 }
                 renderGrafikKelurahan(data);
             })

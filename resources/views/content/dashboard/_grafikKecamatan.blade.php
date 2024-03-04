@@ -7,11 +7,15 @@
             <canvas id="grafikKecamatan" style="max-height:40vh"></canvas>
         </div>
         <div class="card-footer">
-            <div class="input-group w-50">
-                <input type="text" class="form-control filterTangal" id="tglKecamatan1" value="{{ date('d-m-Y') }}">
-                <span class="input-group-text">s.d.</span>
-                <input type="text" class="form-control filterTangal" id="tglKecamatan2" value="{{ date('d-m-Y') }}">
-                <button class="btn btn-indigo" id="btnFilterKecamatan"><i class="ti ti-search"></i></button>
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control filterTangal" id="tglKecamatan1" value="{{ date('d-m-Y') }}">
+                        <span class="input-group-text">s.d.</span>
+                        <input type="text" class="form-control filterTangal" id="tglKecamatan2" value="{{ date('d-m-Y') }}">
+                        <button class="btn btn-indigo" id="btnFilterKecamatan"><i class="ti ti-search"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -64,20 +68,21 @@
         }
 
         function dataGrafikKecamatan(tgl1 = '', tgl2 = '') {
-            $.get(`${url}/pasien/data/kecamatan`, {
-                tgl1: tgl1,
-                tgl2: tgl2,
+
+            $.get(`${url}/registrasi/kecamatan`, {
+                tglAwal: tgl1,
+                tglAkhir: tgl2,
             }).done((response) => {
                 const data = {
-                    'list': response.map((item) => item.count),
-                    'label': response.map((item) => item.kec.nm_kec),
+                    'list': Object.values(response),
+                    'label': Object.keys(response),
                 }
                 renderGrafikKecamatan(data);
             })
+
         }
 
         $('#btnFilterKecamatan').on('click', () => {
-            console.log('sss');
             const tgl1 = $('#tglKecamatan1').val()
             const tgl2 = $('#tglKecamatan2').val()
             grafikKecamatan.destroy();
