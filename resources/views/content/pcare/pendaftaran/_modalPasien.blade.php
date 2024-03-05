@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalPasien" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
                 <h5 class="modal-title m-0">Data Pasien</h5>
@@ -234,9 +234,9 @@
                                 </form>
                             </div>
                             <div class="tab-pane" id="pane2">
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-hover nowrap" id="tbPasien" width="100%"></table>
-                                </div>
+{{--                                <div class="table-responsive">--}}
+                                <table class="table table-sm table-responsive table-striped table-hover nowrap" id="tbPasien" width="100%"></table>
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -561,6 +561,8 @@
                 processing: true,
                 searching: true,
                 responsive: true,
+                scrollY: '40vh',
+                scrollX: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
                         targets: 0
@@ -580,7 +582,8 @@
                 createdRow: (row, data, index) => {
                     $(row).addClass('rows-pasien');
                     $(row).attr('data-id', data.no_rkm_medis);
-                    $(row).attr('data-poli', data.penjab.png_jawab);
+                    asuransi = data.penjab.png_jawab.includes('BPJS') ? 'BPJS' : data.penjab.png_jawab;
+                    $(row).attr('data-poli', asuransi);
                     $(row).attr('data-peserta', data.no_peserta);
                 },
                 columns: [{
@@ -637,7 +640,7 @@
                         title: 'Alamat',
                         data: 'alamat',
                         render: (data, type, row, meta) => {
-                            return `${data}, ${row.kel.nm_kel}, ${row.kec.nm_kec}`;
+                            return `${data}, ${row.kel.nm_kel}`;
                         }
 
                     },
@@ -645,7 +648,8 @@
                         title: 'Asuransi',
                         data: 'penjab',
                         render: (data, type, row, meta) => {
-                            return `${data.png_jawab}`;
+                            return asuransi = data.png_jawab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>`
+                                :`<span class='badge badge-pill text-bg-orange'>${data.png_jawab}</span>` ;
                         }
 
                     },

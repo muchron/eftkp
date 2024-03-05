@@ -66,7 +66,7 @@
                             <div class="mb-2 col-sm-12 col-md-4 col-lg-3">
                                 <label for="diagnosa_awal">Diagnosa Awal</label>
                                 <input type="text" class="form-control"
-                                       id="diagnosa_awal" name="diagnosa_awal" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-"/>
+                                       id="diagnosa_awal" name="diagnosa_awal" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-" readonly/>
                             </div>
                             <div class="mb-2 col-sm-12 col-md-4 col-lg-3">
                                 <label for="alasan">Indikasi Rawat</label>
@@ -180,33 +180,6 @@
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                                 <input type="text" class="form-control" name="kd_diagnosa_sekunder4" id="kd_diagnosa_sekunder4" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="diagnosa_sekunder5" class="mt-2">Diagnosa sekunder 5</label>
-                            </div>
-                            <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder5" name="diagnosa_sekunder5" data-target="kd_diagnosa_sekunder5" style="width: 100%"></select>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <input type="text" class="form-control" name="kd_diagnosa_sekunder5" id="kd_diagnosa_sekunder5" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                            </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="diagnosa_sekunder6" class="mt-2">Diagnosa sekunder 6</label>
-                            </div>
-                            <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder6" name="diagnosa_sekunder6" data-target="kd_diagnosa_sekunder6" style="width: 100%"></select>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <input type="text" class="form-control" name="kd_diagnosa_sekunder6" id="kd_diagnosa_sekunder6" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                            </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="diagnosa_sekunder7" class="mt-2">Diagnosa sekunder 7</label>
-                            </div>
-                            <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder7" name="diagnosa_sekunder7" data-target="kd_diagnosa_sekunder7" style="width: 100%"></select>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <input type="text" class="form-control" name="kd_diagnosa_sekunder7" id="kd_diagnosa_sekunder7" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                            </div>
                         </div>
                         <div class="separator m-2">3. Prosedur</div>
                         <div class="row gy-2">
@@ -280,7 +253,7 @@
                                 <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
                                     <label for="cara_keluar">Cara Keluar</label>
                                     <div class="input-group">
-                                        <select class="form-select" name="cara_keluar" id="cara_keluar">
+                                        <select class="form-select w-25" name="cara_keluar" id="cara_keluar">
                                             <option value="Atas Izin Dokter">Atas Izin Dokter</option>
                                             <option value="Pindah RS">Pindah RS</option>
                                             <option value="Pulang Atas Permintaan Sendiri">Pulang Atas Permintaan Sendiri
@@ -288,7 +261,7 @@
                                             <option value="Lainnya">Lainnya</option>
                                         </select>
                                         <label for="ket_keluar"></label>
-                                        <input class="form-control " name="ket_keluar" id="ket_keluar" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                        <input class="form-control" name="ket_keluar" id="ket_keluar" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                                     </div>
                                 </div>
                             </div>
@@ -312,9 +285,7 @@
                             <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
                                 <label for="tgl_kontrol">Tanggal Kontrol</label>
                                 <div class="input-group">
-                                <input class="form-control filterTangal" name="tgl_kontrol" id="tgl_kontrol"
-                                       onfocus="removeZero(this)" onblur="isEmpty(this)">
-                                <input name="jam_kontrol" id="jam_kontrol" type="hidden" value="{{date('H:i:s')}}">
+                                <input class="form-control filterTangal" name="kontrol" id="kontrol" onfocus="removeZero(this)" onblur="isEmpty(this)">
                                 </div>
                             </div>
 
@@ -332,7 +303,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
-                <button type="button" class="btn btn-success" onclick="createResumeMedis()"><i class="ti ti-flopy-drive me-2"></i>Simpan</button>
+                <button type="button" class="btn btn-success" onclick="createResumeMedis()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -345,10 +316,9 @@
     let selectProsedurResume = $('.selectProsedurResume');
 
     function resumeMedis(no_rawat) {
-        modalResumeMedis.modal('show');
+
         getRegDetail(no_rawat).done((response)=>{
             console.log(response)
-
             formResumeMedis.find('input[name="no_rawat"]').val(response.no_rawat)
             formResumeMedis.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
             formResumeMedis.find('input[name="pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`);
@@ -360,17 +330,35 @@
             formResumeMedis.find('input[name="tgl_masuk"]').val(`${formatTanggal(response.kamar_inap.tgl_masuk)} ${response.kamar_inap.jam_masuk} `);
             formResumeMedis.find('input[name="tgl_keluar"]').val(`${response.kamar_inap.tgl_keluar != '0000-00-00' ? `${formatTanggal(response.kamar_inap.tgl_keluar)} ${response.kamar_inap.jam_keluar}` : '-'}`);
             formResumeMedis.find('input[name="diagnosa_awal"]').val(response.kamar_inap.diagnosa_awal);
+            modalResumeMedis.modal('show');
 
+        })
+
+        $.get(`${url}/resume/medis`, {
+            no_rawat : no_rawat,
+        }).done((response)=>{
+            if(Object.keys(response).length){
+                setResponseToForm(response, formResumeMedis, 'input', 'textarea', 'select');
+                $('.selectPenyakitDiagnosa').each((index, element)=>{
+                    const diagnosa = new Option(`${response[element.name]}`, `${response[element.name]}`, true, true);
+                    formResumeMedis.find(`select[name="${element.name}"]`).append(diagnosa).trigger('change');
+                })
+                $('.selectProsedurResume').each((index, element)=>{
+                    const prosedur = new Option(`${response[element.name]}`, `${response[element.name]}`, true, true);
+                    formResumeMedis.find(`select[name="${element.name}"]`).append(prosedur).trigger('change');
+                })
+                formResumeMedis.find('input[name="kontrol"]').val(splitTanggal(response.kontrol.split(' ')[0]))
+            }
         })
     }
 
     function setResponseToForm(response, formId, ...element) {
-            element.forEach((el, index)=>{
-                Object.keys(response).map((key, index) => {
-                    const findElement = formId.find(`${el}[name="${key}"]`)
-                    findElement.val(response[`${key}`]);
-                });
-            })
+        element.forEach((el, index)=>{
+            Object.keys(response).map((key, index) => {
+                const findElement = formId.find(`${el}[name="${key}"]`)
+                findElement.val(response[`${key}`]);
+            });
+        })
     }
 
     function getDiagnosaRanap(params){
@@ -381,14 +369,25 @@
 
     function createResumeMedis(){
         const data = getDataForm('formResumeMedis', ['input', 'textarea', 'select']);
-        console.log(data)
+        $.post(`${url}/resume/medis`, data).done((response)=>{
+           alertSuccessAjax();
+           modalResumeMedis.modal('hide');
+        })
     }
 
     modalResumeMedis.on('shown.bs.modal', ()=>{
-        const option = new Option('-', '-', true, true);
-        selectPenyakitDiagnosa.append(option).trigger('change');
-        const penyakit = new Option('-', '-', true, true);
-        selectProsedurResume.append(penyakit).trigger('change');
+        // const option = new Option('-', '-', true, true);
+        // selectPenyakitDiagnosa.append(option).trigger('change');
+        // const penyakit = new Option('-', '-', true, true);
+        // selectProsedurResume.append(penyakit).trigger('change');
+
+    })
+
+    modalResumeMedis.on('hidden.bs.modal', ()=>{
+
+      formResumeMedis.trigger('reset');
+
+
     })
 
     selectPenyakitDiagnosa.select2({
@@ -423,7 +422,7 @@
                 }
 
             },
-            cache: true,
+            cache: false,
 
     }).on('select2:select', (e)=>{
             const kdDiagnosa = e.params.data.id === e.params.data.text ? '-' : e.params.data.value;

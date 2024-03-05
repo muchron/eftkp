@@ -182,14 +182,14 @@ class RegPeriksaController extends Controller
     {
         $grafikKelurahan = $this->getGrafik($request);
         $grafikKelurahan = json_decode($this->getGrafik($request));
-        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kec.nm_kec'])->map->count()->take(10);
+        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kec.nm_kec'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
 
     }
     function getKelurahan(Request $request) : object
     {
         $grafikKelurahan = $this->getGrafik($request);
-        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kel.nm_kel'])->map->count()->take(10);
+        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kel.nm_kel'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
     }
 

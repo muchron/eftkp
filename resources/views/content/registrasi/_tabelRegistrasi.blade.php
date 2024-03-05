@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <div id="table-default" class="table-responsive">
-            <table class="table table-sm table-striped table-hover" id="tabelRegistrasi" width="100%">
+            <table class="table table-sm table-striped table-hover nowrap" id="tabelRegistrasi" width="100%">
             </table>
         </div>
     </div>
@@ -149,7 +149,7 @@
                     {
                         title: 'Alamat',
                         render: (data, type, row, meta) => {
-                            return `${row.pasien.alamat}, ${row.pasien.kel.nm_kel}, ${row.pasien.kec.nm_kec}`;
+                            return `${row.pasien.alamat}, ${row.pasien.kel.nm_kel}`;
                         },
                     },
                     {
@@ -171,11 +171,11 @@
                     {
                         title: 'Penjab',
                         render: (data, type, row, meta) => {
-                            if (row.penjab.png_jawab.toUpperCase() === 'BPJS') {
+                            if (row.penjab.png_jawab.includes('BPJS')) {
                                 flag = row.pcare_pendaftaran ? '<i class="ti ti-check"></i>' : '';
-                                penjabBadge = `<span class="badge bg-green" style="font-size:12px">${row.penjab.png_jawab} ${flag}</span>`
+                                penjabBadge = `<span class="badge badge-pill bg-green"> BPJS ${flag}</span>`
                             } else {
-                                penjabBadge = `<span class="badge bg-orange" style="font-size:12px">${row.penjab.png_jawab}</span>`
+                                penjabBadge = `<span class="badge badge-pill bg-orange">${row.penjab.png_jawab}</span>`
                             }
                             return penjabBadge;
                         },
