@@ -177,4 +177,36 @@ class RegPeriksaController extends Controller
             ->first();
         return response()->json($panggil);
     }
+
+    function getKecamatan(Request $request) : object
+    {
+        $grafikKelurahan = $this->getGrafik($request);
+        $grafikKelurahan = json_decode($this->getGrafik($request));
+        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kec.nm_kec'])->map->count()->take(10);
+        return response()->json($regPeriksa);
+
+    }
+    function getKelurahan(Request $request) : object
+    {
+        $grafikKelurahan = $this->getGrafik($request);
+        $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kel.nm_kel'])->map->count()->take(10);
+        return response()->json($regPeriksa);
+    }
+
+    function getGrafik(Request $request):object
+    {
+        $regPeriksa = $this->regPeriksa->with($this->relation);
+
+        if($request->tgl1 && $request->tgl2){
+            $tgl1 = date("Y-m-d", strtotime($request->tgl1));
+            $tgl2 = date("Y-m-d", strtotime($request->tgl2));
+
+            $regPeriksa = $regPeriksa->whereBetween('tgl_registrasi', [$tgl1, $tgl2]);
+        }else{
+            $regPeriksa->whereYear('tgl_registrasi', date('Y'))
+                ->whereMonth('tgl_registrasi', date('m'));
+        }
+        return $regPeriksa->get();
+
+    }
 }

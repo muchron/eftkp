@@ -136,6 +136,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/dokter', [DokterController::class, 'delete']);
 
     Route::get('/pegawai', [PegawaiController::class, 'get']);
+    Route::get('/pegawai/profil', function(){
+        return view('content.pegawai');
+    });
 
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
@@ -147,6 +150,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/registrasi/get', [RegPeriksaController::class, 'get']);
     Route::get('/registrasi/get/detail', [RegPeriksaController::class, 'show']);
+    Route::get('/registrasi/kecamatan', [RegPeriksaController::class, 'getKecamatan']);
+    Route::get('/registrasi/kelurahan', [RegPeriksaController::class, 'getKelurahan']);
+    Route::get('/registrasi/grafik', [RegPeriksaController::class, 'getGrafik']);
 
 
     // PENILIAIAN AWAL/SKRINING
@@ -310,7 +316,7 @@ Route::middleware('auth')->group(function () {
     // BRIDGING
     Route::get('/bridging/pcare/dokter', [Bridging\Dokter::class, 'dokter']);
 
-    // PENDAFTARAN 
+    // PENDAFTARAN
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
     Route::get('/bridging/pcare/delete', [Bridging\Pendaftaran::class, 'delete']);
     Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);

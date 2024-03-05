@@ -7,11 +7,15 @@
             <canvas id="grafikDiagnosa" style="max-height:40vh"></canvas>
         </div>
         <div class="card-footer">
-            <div class="input-group w-50">
-                <input type="text" class="form-control filterTangal" id="tglPenyakit1" value="{{ date('d-m-Y') }}">
-                <span class="input-group-text">s.d.</span>
-                <input type="text" class="form-control filterTangal" id="tglPenyakit2" value="{{ date('d-m-Y') }}">
-                <button class="btn btn-indigo" id="btnFilterDiagnosa"><i class="ti ti-search"></i></button>
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control filterTangal" id="tglPenyakit1" value="{{ date('d-m-Y') }}">
+                        <span class="input-group-text">s.d.</span>
+                        <input type="text" class="form-control filterTangal" id="tglPenyakit2" value="{{ date('d-m-Y') }}">
+                        <button class="btn btn-indigo" id="btnFilterDiagnosa"><i class="ti ti-search"></i></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

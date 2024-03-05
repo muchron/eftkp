@@ -119,7 +119,9 @@
 
     <script>
         $(document).ready(() => {
-            setCardKunjungan()
+            setCardKunjungan();
+            dataGrafikKecamatan();
+            dataGrafikKelurahan();;
         })
         var url = "{{ url('') }}"
 
@@ -141,7 +143,6 @@
                 $('#totalKunjungan').html(totalKunjungan)
                 $('#totalBpjs').html(totalBpjs)
                 $('#totalUmum').html(totalUmum)
-                // $('#totalDiperiksa').html(totalDiperiksa)
                 $('#totalDiperiksa').html(`${totalDiperiksa} / ${totalDirujuk}`)
             })
         }

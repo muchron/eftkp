@@ -26,31 +26,19 @@ class AuthController extends Controller
     function auth(Request $request)
     {
 
-        $auth = User::select('id_user', DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
+        $auth = User::select('*',DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
             ->where('id_user', DB::raw("AES_ENCRYPT('" . $request->get('username') . "', 'nur')"))
             ->where('password', DB::raw("AES_ENCRYPT('" . $request->get('password') . "', 'windi')"))
             ->first();
 
-        $admin = Admin::select(DB::raw("AES_DECRYPT(usere, 'nur') as id_user"), DB::raw("AES_DECRYPT(usere, 'nur') as username, AES_DECRYPT(passworde, 'windi') as passwd"))
-            ->where('usere', DB::raw("AES_ENCRYPT('" . $request->get('username') . "', 'nur')"))
-            ->where('passworde', DB::raw("AES_ENCRYPT('" . $request->get('password') . "', 'windi')"))
-            ->first();
-
-
-
-        if ($admin) {
-            $isAuth = Auth::login($admin);
-            $pegawai = (object)[
-                'nik' => $admin->id_user, 'nama' => 'Admin', 'jbtn' => 'Admin Utama'
-            ];
-            $request->session()->put('pegawai', $pegawai);
-            // return Auth::check();
-            return redirect('/');
-        }
         if ($auth) {
             $isAuth = Auth::login($auth);
             $pegawai = \App\Models\Pegawai::where('nik', $auth->username)->first();
-            $request->session()->put('pegawai', $pegawai);
+            unset($auth['id_user']);
+            unset($auth['password']);
+            unset($auth['passwd']);
+            $userSesion= $auth;
+            $request->session()->put(['pegawai'=> $pegawai, 'user'=> $userSesion]);
             return redirect('/');
         } else {
             return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
