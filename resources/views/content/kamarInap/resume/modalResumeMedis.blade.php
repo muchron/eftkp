@@ -10,21 +10,20 @@
                 <form action="" id="formResumeMedis">
                     <div class="row gy-2">
                     <div class="col-sm-12 col-md-12 col-lg-6">
-                        <label for="pasien">
-                            Pasien
-                        </label>
                         <div class="row gy-2">
                             <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
-                                <input type="text" class="form-control  no_rawat"
-                                       id="no_rawat" name="no_rawat" readonly/>
+                                <label for="pasien">No. Rawat</label>
+                                <input type="text" class="form-control" id="no_rawat" name="no_rawat" readonly/>
                             </div>
                             <div class="mb-2 col-sm-12 col-md-6 col-lg-5">
+                                <label for="pasien">Pasien</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="no_rkm_medis" name="no_rkm_medis" readonly/>
                                     <input type="text" class="form-control w-50" id="pasien" name="pasien" readonly/>
                                 </div>
                             </div>
                             <div class="mb-2 col-sm-12 col-md-6 col-lg-4">
+                                <label for="pasien">Tgl. Lahir</label>
                                 <input type="text" class="form-control" id="tgl_lahir" name="tgl_lahir" readonly/>
                             </div>
                         </div>
@@ -136,103 +135,77 @@
                                 <label for="diagnosa_utama" class="mt-2">Diagnosa Utama</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_utama" id="diagnosa_utama" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_utama" name="diagnosa_utama" data-target="kd_diagnosa_utama" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="kd_diagnosa_utama" id="kd_diagnosa_utama" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_utama', 'diagnosa_utama')"><i class="ti ti-search"></i></button>
                                 </div>
                             </div>
-
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder" class="mt-2">Diagnosa sekunder 1</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-{{--                                <input type="text" class="form-control" name="diagnosa_sekunder" id="diagnosa_sekunder" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">--}}
-                                    <select class="form-select" id="diagnosa_sekunder" name="diagnosa_sekunder"></select>
+                                    <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder" name="diagnosa_sekunder" data-target="kd_diagnosa_sekunder" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-{{--                                    <select class="form-select" id="kd_diagnosa_sekunder" name="kd_diagnosa_sekunder" onchange="console.log(this)"></select>--}}
-{{--                                <div class="input-group">--}}
                                     <input type="text" class="form-control" name="kd_diagnosa_sekunder" id="kd_diagnosa_sekunder" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-{{--                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap(this)" data-kode="kd_diagnosa_skunder" data-target="diagnosa_sekunder"><i class="ti ti-search"></i></button>--}}
-{{--                                </div>--}}
                             </div>
 
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder2" class="mt-2">Diagnosa sekunder 2</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder2" id="diagnosa_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder2" name="diagnosa_sekunder2" data-target="kd_diagnosa_sekunder2" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_diagnosa_sekunder2" id="kd_diagnosa_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder2', 'diagnosa_sekunder2')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control" name="kd_diagnosa_sekunder2" id="kd_diagnosa_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
-
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder3" class="mt-2">Diagnosa sekunder 3</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder3" id="diagnosa_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder3" name="diagnosa_sekunder3" data-target="kd_diagnosa_sekunder3" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div type="text" class="input-group">
-                                    <input class="form-control" name="kd_diagnosa_sekunder3" id="kd_diagnosa_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder3', 'diagnosa_sekunder3')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input class="form-control" name="kd_diagnosa_sekunder3" id="kd_diagnosa_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
 
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder4" class="mt-2">Diagnosa sekunder 4</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder4" id="diagnosa_sekunder4" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder4" name="diagnosa_sekunder4" data-target="kd_diagnosa_sekunder4" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_diagnosa_sekunder4" id="kd_diagnosa_sekunder4" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder4', 'diagnosa_sekunder4')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control" name="kd_diagnosa_sekunder4" id="kd_diagnosa_sekunder4" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder5" class="mt-2">Diagnosa sekunder 5</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder5" id="diagnosa_sekunder5" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder5" name="diagnosa_sekunder5" data-target="kd_diagnosa_sekunder5" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_diagnosa_sekunder5" id="kd_diagnosa_sekunder5" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder5', 'diagnosa_sekunder5')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control" name="kd_diagnosa_sekunder5" id="kd_diagnosa_sekunder5" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder6" class="mt-2">Diagnosa sekunder 6</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder6" id="diagnosa_sekunder6" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder6" name="diagnosa_sekunder6" data-target="kd_diagnosa_sekunder6" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_diagnosa_sekunder6" id="kd_diagnosa_sekunder6" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder6', 'diagnosa_sekunder6')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control" name="kd_diagnosa_sekunder6" id="kd_diagnosa_sekunder6" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
                             <div class="col-sm-12 col-md-3 col-lg-3">
                                 <label for="diagnosa_sekunder7" class="mt-2">Diagnosa sekunder 7</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control" name="diagnosa_sekunder7" id="diagnosa_sekunder7" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectPenyakitDiagnosa" id="diagnosa_sekunder7" name="diagnosa_sekunder7" data-target="kd_diagnosa_sekunder7" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_diagnosa_sekunder7" id="kd_diagnosa_sekunder7" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id="" onclick="getDiagnosaRanap('diagnosa','kd_diagnosa_sekunder7', 'diagnosa_sekunder7')"><i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control" name="kd_diagnosa_sekunder7" id="kd_diagnosa_sekunder7" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
                         </div>
                         <div class="separator m-2">3. Prosedur</div>
@@ -241,77 +214,41 @@
                                 <label for="prosedur_utama" class="mt-2">Prosedur Utama</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control " name="prosedur_utama" id="prosedur_utama"
-                                       onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <select class="form-select selectProsedurResume" id="prosedur_utama" name="prosedur_utama" data-target="kd_prosedur_utama" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control " name="kd_prosedur_utama"
-                                           id="kd_prosedur_utama" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                           value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id=""
-                                            onclick="getDiagnosaRanap('prosedur','kd_prosedur_utama', 'prosedur_utama')">
-                                        <i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control " name="kd_prosedur_utama" id="kd_prosedur_utama" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
 
                             <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="prosedur_sekunder1" class="mt-2">Prosedur sekunder 1</label>
+                                <label for="prosedur_sekunder" class="mt-2">Prosedur Sekunder</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control " name="prosedur_sekunder"
-                                       id="prosedur_sekunder" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                       value="-">
+                                <select class="form-select selectProsedurResume" id="prosedur_sekunder" name="prosedur_sekunder" data-target="kd_prosedur_sekunder" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control " name="kd_prosedur_sekunder"
-                                           id="kd_prosedur_sekunder" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                           value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id=""
-                                            onclick="getDiagnosaRanap('prosedur','kd_prosedur_sekunder', 'prosedur_sekunder')">
-                                        <i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control " name="kd_prosedur_sekunder" id="kd_prosedur_sekunder" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
 
                             <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="prosedur_sekunder2" class="mt-2">Prosedur sekunder 2</label>
+                                <label for="prosedur_sekunder2" class="mt-2">Prosedur Sekunder 2</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control " name="prosedur_sekunder2"
-                                       id="prosedur_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                       value="-">
+                                <select class="form-select selectProsedurResume" id="prosedur_sekunder2" name="prosedur_sekunder2" data-target="kd_prosedur_sekunder2" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control " name="kd_prosedur_sekunder2"
-                                           id="kd_prosedur_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                           value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id=""
-                                            onclick="getDiagnosaRanap('prosedur','kd_prosedur_sekunder2', 'prosedur_sekunder2')">
-                                        <i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control " name="kd_prosedur_sekunder2" id="kd_prosedur_sekunder2" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
 
                             <div class="col-sm-12 col-md-3 col-lg-3">
-                                <label for="prosedur_sekunder3" class="mt-2">Prosedur sekunder 3</label>
+                                <label for="prosedur_sekunder3" class="mt-2">Prosedur Sekunder 3</label>
                             </div>
                             <div class="col-sm-12 col-md-7 col-lg-6 mb-2">
-                                <input type="text" class="form-control " name="prosedur_sekunder3"
-                                       id="prosedur_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                       value="-">
+                                <select class="form-select selectProsedurResume" id="prosedur_sekunder3" name="prosedur_sekunder3" data-target="kd_prosedur_sekunder3" style="width: 100%"></select>
                             </div>
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
-                                <div class="input-group">
-                                    <input type="text" class="form-control " name="kd_prosedur_sekunder3"
-                                           id="kd_prosedur_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)"
-                                           value="-">
-                                    <button class="btn btn-primary btn-diagnosa" type="button" id=""
-                                            onclick="getDiagnosaRanap('prosedur','kd_prosedur_sekunder3', 'prosedur_sekunder3')">
-                                        <i class="ti ti-search"></i></button>
-                                </div>
+                                <input type="text" class="form-control " name="kd_prosedur_sekunder3" id="kd_prosedur_sekunder3" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
                             </div>
-
                         </div>
 
                         <div class="row gy-2">
@@ -322,58 +259,57 @@
                                           onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
                             </div>
                             <div class="row gy-2">
-                                <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
+                                <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
                                     <label for="keadaan">Kondisi Pulang</label>
-                                    <select class="form-select" name="keadaan" id="keadaan">
-                                        <option value="Membaik">Membaik</option>
-                                        <option value="Sembuh">Sembuh</option>
-                                        <option value="Keadaan Khusus">Keadaan Khusus</option>
-                                        <option value="Meninggal">Meninggal</option>
-                                    </select>
+                                    <div class="input-group">
+                                        <select class="form-select" name="keadaan" id="keadaan">
+                                            <option value="Membaik">Membaik</option>
+                                            <option value="Sembuh">Sembuh</option>
+                                            <option value="Keadaan Khusus">Keadaan Khusus</option>
+                                            <option value="Meninggal">Meninggal</option>
+                                        </select>
+                                        <label for="ket_keadaan"></label>
+                                        <select class="form-select" name="ket_keadaan" id="ket_keadaan">
+                                            <option value="SANAM">SANAM</option>
+                                            <option value="BONAM">BONAM</option>
+                                            <option value="MALAM">MALAM</option>
+                                            <option value="BUBIA">BUBIA</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
-                                    <label for="ket_keadaan"></label>
-                                    <select class="form-select" name="ket_keadaan" id="ket_keadaan">
-                                        <option value="SANAM">SANAM</option>
-                                        <option value="BONAM">BONAM</option>
-                                        <option value="MALAM">MALAM</option>
-                                        <option value="BUBIA">BUBIA</option>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-sm-12 col-md-6 col-lg-4">
+                                <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
                                     <label for="cara_keluar">Cara Keluar</label>
-                                    <select class="form-select" name="cara_keluar" id="cara_keluar">
-                                        <option value="Atas Izin Dokter">Atas Izin Dokter</option>
-                                        <option value="Pindah RS">Pindah RS</option>
-                                        <option value="Pulang Atas Permintaan Sendiri">Pulang Atas Permintaan Sendiri
-                                        </option>
-                                        <option value="Lainnya">Lainnya</option>
-                                    </select>
-                                </div>
-                                <div class="mb-2 col-sm-12 col-md-6 col-lg-2">
-                                    <label for="ket_keluar"></label>
-                                    <input class="form-control " name="ket_keluar" id="ket_keluar"
-                                           onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                    <div class="input-group">
+                                        <select class="form-select" name="cara_keluar" id="cara_keluar">
+                                            <option value="Atas Izin Dokter">Atas Izin Dokter</option>
+                                            <option value="Pindah RS">Pindah RS</option>
+                                            <option value="Pulang Atas Permintaan Sendiri">Pulang Atas Permintaan Sendiri
+                                            </option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select>
+                                        <label for="ket_keluar"></label>
+                                        <input class="form-control " name="ket_keluar" id="ket_keluar" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row gy-2">
-                            <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
+                            <div class="mb-2 col-sm-12 col-md-12 col-lg-7">
                                 <label for="dilanjutkan">Dilanjutkan</label>
-                                <select class="form-select" name="dilanjutkan" id="dilanjutkan">
-                                    <option value="Kembali Ke RS">Kembali Ke RS</option>
-                                    <option value="RS Lain">RS Lain</option>
-                                    <option value="Dokter Luar">Dokter Luar</option>
-                                    <option value="Puskesmes">Puskesmas</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                </select>
+                                <div class="input-group">
+                                    <select class="form-select" name="dilanjutkan" id="dilanjutkan">
+                                        <option value="Kembali Ke RS">Kembali Ke RS</option>
+                                        <option value="RS Lain">RS Lain</option>
+                                        <option value="Dokter Luar">Dokter Luar</option>
+                                        <option value="Puskesmes">Puskesmas</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                    <label for="ket_dilanjutkan"></label>
+                                    <input class="form-control w-25" name="ket_dilanjutkan" id="ket_dilanjutkan" onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
+                                </div>
                             </div>
-                            <div class="mb-2 col-sm-12 col-md-4 col-lg-4">
-                                <label for="ket_dilanjutkan"></label>
-                                <input class="form-control " name="ket_dilanjutkan" id="ket_dilanjutkan"
-                                       onfocus="removeZero(this)" onblur="isEmpty(this)" value="-">
-                            </div>
-                            <div class="mb-2 col-sm-12 col-md-4 col-lg-5">
+
+                            <div class="mb-2 col-sm-12 col-md-6 col-lg-3">
                                 <label for="tgl_kontrol">Tanggal Kontrol</label>
                                 <div class="input-group">
                                 <input class="form-control filterTangal" name="tgl_kontrol" id="tgl_kontrol"
@@ -385,10 +321,7 @@
                         </div>
                         <div class="row gy-2">
                             <div class="mb-2 col-sm-12 col-md-12 col-lg-12">
-                                <label for="obat_pulang">Obat Pulang <a href="javascript:void(0)" id="srcObatPulang"
-                                                                        class="badge text-bg-primary"
-                                                                        onclick="listRiwayatPemeriksaan('2024/01/07/000515', 'obatpulang')"><i
-                                            class="ti ti-search"></i></a></label>
+                                <label for="obat_pulang">Obat Pulang <a href="javascript:void(0)" id="srcObatPulang" onclick="listRiwayatPemeriksaan('2024/01/07/000515', 'obatpulang')"><i class="ti ti-search"></i></a></label>
                                 <textarea class="form-control" name="obat_pulang" id="obat_pulang" cols="30" rows="5"
                                           onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
                             </div>
@@ -399,6 +332,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
+                <button type="button" class="btn btn-success" onclick="createResumeMedis()"><i class="ti ti-flopy-drive me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -407,6 +341,8 @@
 <script>
     let modalResumeMedis = $('#modalResumeMedis');
     let formResumeMedis = $('#formResumeMedis');
+    let selectPenyakitDiagnosa = $('.selectPenyakitDiagnosa');
+    let selectProsedurResume = $('.selectProsedurResume');
 
     function resumeMedis(no_rawat) {
         modalResumeMedis.modal('show');
@@ -443,12 +379,101 @@
         })
     }
 
+    function createResumeMedis(){
+        const data = getDataForm('formResumeMedis', ['input', 'textarea', 'select']);
+        console.log(data)
+    }
+
     modalResumeMedis.on('shown.bs.modal', ()=>{
-        selectPenyakit($('#diagnosa_sekunder'), formResumeMedis).on('select2:select', (e)=>{
-            const data = e.params.data.id === e.params.data.text ? '-' : e.params.data.text.split('-')[0];
-            $('#kd_diagnosa_sekunder').val(data)
-            console.log(data)
-        });
+        const option = new Option('-', '-', true, true);
+        selectPenyakitDiagnosa.append(option).trigger('change');
+        const penyakit = new Option('-', '-', true, true);
+        selectProsedurResume.append(penyakit).trigger('change');
     })
+
+    selectPenyakitDiagnosa.select2({
+            dropdownParent: modalResumeMedis,
+            delay: 0,
+            tags:true,
+            allowClear:true,
+            placeholder : 'Pilih / Isikan Diagnosa',
+            scrollAfterSelect: true,
+            ajax: {
+                url: `${url}/penyakit/get`,
+                dataType: 'JSON',
+
+                data: (params) => {
+                    const query = {
+                        penyakit: params.term
+                    }
+                    return query
+                },
+                processResults: (data) => {
+                    return {
+                        results: data.map((item) => {
+                            const items = {
+                                id: item.nm_penyakit,
+                                value: item.kd_penyakit,
+                                text: `${item.kd_penyakit} - ${item.nm_penyakit}`,
+                                detail: item
+                            }
+                            return items;
+                        })
+                    }
+                }
+
+            },
+            cache: true,
+
+    }).on('select2:select', (e)=>{
+            const kdDiagnosa = e.params.data.id === e.params.data.text ? '-' : e.params.data.value;
+            $(`#${e.currentTarget.dataset.target}`).val(kdDiagnosa)
+    }).on('select2:unselecting', (e)=>{
+        const option = new Option('-', '-', true, true);
+        selectPenyakitDiagnosa.append(option).trigger('change');
+        $(`#${e.currentTarget.dataset.target}`).val('-')
+    });
+
+    selectProsedurResume.select2({
+        dropdownParent: modalResumeMedis,
+        delay: 0,
+        tags:true,
+        allowClear:true,
+        placeholder : 'Pilih / Isikan Diagnosa',
+        scrollAfterSelect: true,
+        ajax: {
+            url: `${url}/tindakan/get`,
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    kode: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.deskripsi_pendek,
+                            value: item.kode,
+                            text:`${item.kode} - ${item.deskripsi_pendek}`,
+                            detail: item
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true,
+    }).on('select2:select', (e)=>{
+        const penyakit = e.params.data.id === e.params.data.text ? '-' : e.params.data.value;
+        $(`#${e.currentTarget.dataset.target}`).val(penyakit)
+    }).on('select2:unselecting', (e)=>{
+        // const option = new Option('-', '-', true, true);
+        // selectPenyakitDiagnosa.append(option).trigger('change');
+        // $(`#${e.currentTarget.dataset.target}`).val('-')
+    });
 </script>
 @endpush

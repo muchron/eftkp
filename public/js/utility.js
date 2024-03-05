@@ -888,7 +888,6 @@ function selectPenyakit(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
-        tags:true,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penyakit/get',
@@ -914,7 +913,7 @@ function selectPenyakit(element, parrent) {
             }
 
         },
-        cache: true,
+        cache: false,
 
     });
     const option = new Option('-', '-', true, true);
@@ -1205,7 +1204,7 @@ $.contextMenu({
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',
                     callback: function (item, option, e, x, y) {
-                        // cpptRanap(`${no_rawat}`)
+                         resumeMedis(`${no_rawat}`)
                     }
 
                 },

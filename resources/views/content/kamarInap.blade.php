@@ -34,6 +34,7 @@
 
     </div>
     @include('content.kamarInap.cppt.modalCppt')
+    @include('content.kamarInap.resume.modalResumeMedis')
     @include('content.registrasi._modalSuratSakit')
 @endsection
 @push('script')
