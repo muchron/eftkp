@@ -20,13 +20,14 @@ class KamarInapController extends Controller
         if ($request->tglAwal && $request->tglAkhir) {
             $kamarInap = $kamarInap->whereBetween('tgl_masuk', [date('Y-m-d', strtotime($request->tglAwal)), date('Y-m-d', strtotime($request->tglAkhir))]);
         } else {
-            $kamarInap = $kamarInap->where('tgl_masuk', date('Y-m-d'));
+            $kamarInap = $kamarInap->where('tgl_masuk', date('Y-m-d'))
+            ->whereNot('stts_pulang', 'Atas Persetujuan Dokter' );
         }
 
         if ($request->pulang == 'Belum Pulang') {
             $kamarInap = $kamarInap->where('stts_pulang', '-');
         } else if ($request->pulang == 'Pulang') {
-            $kamarInap = $kamarInap->where('stts_pulang', '!=', '-');
+            $kamarInap = $kamarInap->where('stts_pulang', '!=', '-')->orWhere('stts_pulang', '==', 'Atas Persetujuan Dokter');
         }
 
         if ($request->dataTable) {

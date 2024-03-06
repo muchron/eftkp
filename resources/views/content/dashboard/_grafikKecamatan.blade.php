@@ -26,10 +26,6 @@
         var ctxGrafikKecamatan = $('#grafikKecamatan');
         var grafikKecamatan = '';
 
-        $(document).ready((e) => {
-            dataGrafikKecamatan();
-        })
-
         function renderGrafikKecamatan(data) {
             grafikKecamatan = new Chart(ctxGrafikKecamatan, {
                 type: 'bar',

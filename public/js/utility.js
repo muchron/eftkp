@@ -1,4 +1,11 @@
 // AJAX
+function getRegPeriksa(startDate = '', endDate = '') {
+    const registrasi = $.get('registrasi/get', {
+        startDate: startDate,
+        endDate: endDate
+    })
+    return registrasi;
+}
 
 // AJAX
 function formatTanggal(tanggal) {
@@ -922,7 +929,7 @@ function selectPenyakit(element, parrent) {
             }
 
         },
-        cache: false
+        cache: false,
 
     });
     const option = new Option('-', '-', true, true);
@@ -1151,7 +1158,6 @@ $.contextMenu({
     }
 });
 
-// menu kamar inap
 $.contextMenu({
     selector: '.tableKamarInap',
     events: {
@@ -1214,7 +1220,7 @@ $.contextMenu({
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',
                     callback: function (item, option, e, x, y) {
-                        resumeMedis(no_rawat);
+                         resumeMedis(`${no_rawat}`)
                     }
 
                 },

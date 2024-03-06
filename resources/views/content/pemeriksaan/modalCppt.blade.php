@@ -67,7 +67,6 @@
                 $('#formCpptRajal input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
                 $('#formCpptRajal input[name=tgl_lahir]').val(`${formatTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
                 $('#formCpptRajal input[name=keluarga]').val(`${response.pasien.keluarga} : ${response.pasien.namakeluarga}`)
-                $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
                 $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
                 $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
                 $('#formCpptRajal input[name=pembiayaan]').val(setTextPenjab(response.penjab.png_jawab, false))

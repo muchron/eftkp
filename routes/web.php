@@ -268,6 +268,9 @@ Route::middleware('auth')->group(function () {
     Route::post('pemeriksaan/ranap/update', [PemeriksaanRanapController::class, 'update']);
     Route::post('pemeriksaan/ranap/delete', [PemeriksaanRanapController::class, 'delete']);
 
+    //RESUME MEDIS
+    Route::get('resume/medis', [\App\Http\Controllers\ResumeMedisController::class, 'get']);
+    Route::post('resume/medis', [\App\Http\Controllers\ResumeMedisController::class, 'create']);
 
     // RUJUK INTERNAL POLI
     Route::get('/rujuk/internal/poli', [RujukInternalController::class, 'get']);
