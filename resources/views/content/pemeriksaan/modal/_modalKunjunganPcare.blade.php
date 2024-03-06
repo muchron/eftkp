@@ -471,7 +471,6 @@
                             $('#btnSarana').removeAttr('onclick').attr('onclick', `renderReferensiSubspesialis('${response.rujuk_subspesialis.kdPoli}')`);
                         }
                     }
-                    $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()');
                 } else {
                     formKunjunganPcare.find('input[name=noKunjungan]').val()
                     formKunjunganPcare.find('input[name=noKunjungan]').removeClass('is-valid')
@@ -673,9 +672,7 @@
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
-            obatPcare('1105U0210224Y000967', data['no_resep']);
-            return false;
-            // loadingAjax();
+            loadingAjax();
             // UPDATE KUNJUNGAN BRIDGING
             $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
                 if (response.metaData.code == 200) {
