@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <select class="form-select" id="dokter" name="dokter"></select>
+                    <select class="form-select filterDokter" id="dokter" name="dokter"></select>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                     <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
@@ -40,12 +40,43 @@
         let formFilterRegistrasi = $('#formFilterRegistrasi')
         let inputTglAwal = $('#tglAwal')
         let inputTglAkhir = $('#tglAkhir')
-        $(document).ready(() => {
-            selectDokter(formFilterRegistrasi.find('select[name="dokter"]'), formFilterRegistrasi)
-                .on('select2:select', (e) => {
-                    loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
-                });
-        })
+        let filterDokter = $('.filterDokter')
+
+        filterDokter.select2({
+            dropdownParent: formFilterRegistrasi,
+            delay: 0,
+            scrollAfterSelect: true,
+            allowClear: true,
+            placeholder: 'Pilih dokter poliklinik',
+            ajax: {
+                url: `${url}/dokter/get`,
+                dataType: 'JSON',
+
+                data: (params) => {
+                    return {
+                        dokter: params.term
+                    }
+                },
+                processResults: (data) => {
+                    return {
+                        results: data.map((item) => {
+                            return {
+                                id: item.kd_dokter,
+                                text: item.nm_dokter,
+                                detail: item
+                            }
+
+                        })
+                    }
+                }
+
+            },
+        }).on('select2:select', (e) => {
+            loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
+        }).on('select2:unselect', (e) => {
+            loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), )
+        });
+
 
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {

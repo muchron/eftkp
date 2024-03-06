@@ -13,7 +13,7 @@ class ResumeMedisController extends Controller
 {
         function get(Request $request)
         {
-                $resume = ResumeMedis::where('no_rawat', $request->no_rawat)->get();
+                $resume = ResumeMedis::where('no_rawat', $request->no_rawat)->first();
                 return response()->json($resume);
         }
 }
