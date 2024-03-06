@@ -215,8 +215,8 @@ function hitungBmi(bb, tb) {
     return '0';
 }
 
-function setTextPenjab(penjab, badge = true){
-    if(badge){
+function setTextPenjab(penjab, badge = true) {
+    if (badge) {
         return penjab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>` :
             `<span class='badge badge-pill text-bg-orange'>${penjab}</span>`;
     }
@@ -561,13 +561,13 @@ function selectDataBarang(element, parrent) {
 }
 
 function selectDokter(element, parrent) {
-  return element.select2({
+    return element.select2({
         dropdownParent: parrent,
         delay: 0,
         scrollAfterSelect: true,
         allowClear: true,
-        tags:true,
-        placeholder : 'Pilin dokter',
+        tags: true,
+        placeholder: 'Pilin dokter',
         ajax: {
             url: '/efktp/dokter/get',
             dataType: 'JSON',
@@ -580,11 +580,11 @@ function selectDokter(element, parrent) {
             processResults: (data) => {
                 return {
                     results: data.map((item) => {
-                          return {
-                                        id: item.kd_dokter,
-                                        text: item.nm_dokter,
-                                        detail: item
-                                    }
+                        return {
+                            id: item.kd_dokter,
+                            text: item.nm_dokter,
+                            detail: item
+                        }
 
                     })
                 }
@@ -593,7 +593,7 @@ function selectDokter(element, parrent) {
         },
         cache: true
 
-    }).on('select2:unselecting', (e)=>{
+    }).on('select2:unselecting', (e) => {
         const option = new Option('-', '-', true, true);
         e.currentTarget.append(option).trigger('change');
     });

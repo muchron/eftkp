@@ -10,7 +10,7 @@
         @if (count(Request::segments()))
             ::
             @for ($i = 1; $i <= count(Request::segments()); $i++)
-                 {{ ucfirst(Request::segment($i)) }}
+                {{ ucfirst(Request::segment($i)) }}
                 @if (($i < count(Request::segments())) & ($i >= 1))
                     -
                 @endif
@@ -48,6 +48,10 @@
 
         .table {
             vertical-align: middle;
+            font-size: 10px;
+        }
+
+        .table .btn-sm {
             font-size: 10px;
         }
 

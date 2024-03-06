@@ -73,7 +73,6 @@
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            console.log(row)
                             let attr = 'javascript:void(0)';
                             let target = '';
                             let action = '';
@@ -109,7 +108,7 @@
                             if (row.pemeriksaan_ralan) {
                                 classBtnPemerisksaan = 'btn-success'
                             }
-                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
+                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil me-1"></i> CPPT</button>`;
                         },
                     },
 
