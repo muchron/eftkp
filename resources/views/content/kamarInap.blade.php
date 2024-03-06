@@ -34,7 +34,9 @@
 
     </div>
     @include('content.kamarInap.cppt.modalCppt')
+    @include('content.kamarInap.modalListRm')
     @include('content.kamarInap.resume.modalResumeMedis')
+    @include('content.kamarInap.resume.sub.listPemeriksaanRanap')
     @include('content.registrasi._modalSuratSakit')
 @endsection
 @push('script')
@@ -102,8 +104,14 @@
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
-                                    <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
+                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')" style="width: 100%"> <i class="ti ti-pencil me-1"></i> CPPT</button>`;
+                        }
+                    },
+                    {
+                        title: '',
+                        data: 'no_rawat',
+                        render: (data, type, row, meta) => {
+                            return `<button class="btn btn-primary btn-sm" onclick="listRm('${data}')"> <i class="ti ti-list me-1"></i> RM</button>`
                         }
                     },
                     {

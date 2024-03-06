@@ -22,12 +22,12 @@ class PemeriksaanRanapController extends Controller
         }, 'pegawai.dokter'])->where('no_rawat', $request->no_rawat)
             ->orderBy('tgl_perawatan', 'DESC')->orderBy('jam_rawat', 'DESC');
 
-        if ($request->tgl_perawatan || $request->jam_rawat) {
+        if ($request->tgl_perawatan && $request->jam_rawat) {
             $pemeriksaanRanap = $pemeriksaanRanap
                 ->where('tgl_perawatan',  $request->tgl_perawatan)
                 ->where('jam_rawat', $request->jam_rawat)
                 ->first();
-        } else if ($request->tglCppt1 || $request->tglCppt2) {
+        } else if ($request->tglCppt1 && $request->tglCppt2) {
             $pemeriksaanRanap = $pemeriksaanRanap
                 ->whereBetween('tgl_perawatan', [
                     date('Y-m-d', strtotime($request->tglCppt1)),
@@ -137,4 +137,5 @@ class PemeriksaanRanapController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+
 }
