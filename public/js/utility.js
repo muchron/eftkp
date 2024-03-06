@@ -190,6 +190,7 @@ function isEmptyNumber(input) {
     if (input.value == '' || input.value == '-' || input.value == '0') {
         $(input).val('0');
     }
+    return false;
 }
 
 function hanyaAngka(evt) {
@@ -212,6 +213,15 @@ function hitungBmi(bb, tb) {
         return bmi.toFixed(2);
     }
     return '0';
+}
+
+function setTextPenjab(penjab, badge = true){
+    if(badge){
+        return penjab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>` :
+            `<span class='badge badge-pill text-bg-orange'>${penjab}</span>`;
+    }
+    return penjab.includes('BPJS') ? 'BPJS' : penjab;
+
 }
 
 // ALERT
@@ -389,6 +399,8 @@ function getBahasa(bahasa) {
     });
 }
 
+
+
 function selectBahasaPasien(element, parrent, initVal = '-') {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -549,29 +561,31 @@ function selectDataBarang(element, parrent) {
 }
 
 function selectDokter(element, parrent) {
-    const select2 = element.select2({
+  return element.select2({
         dropdownParent: parrent,
         delay: 0,
         scrollAfterSelect: true,
+        allowClear: true,
+        tags:true,
+        placeholder : 'Pilin dokter',
         ajax: {
             url: '/efktp/dokter/get',
             dataType: 'JSON',
 
             data: (params) => {
-                const query = {
+                return {
                     dokter: params.term
                 }
-                return query
             },
             processResults: (data) => {
                 return {
                     results: data.map((item) => {
-                        const items = {
-                            id: item.kd_dokter,
-                            text: item.nm_dokter,
-                            detail: item
-                        }
-                        return items;
+                          return {
+                                        id: item.kd_dokter,
+                                        text: item.nm_dokter,
+                                        detail: item
+                                    }
+
                     })
                 }
             }
@@ -579,9 +593,11 @@ function selectDokter(element, parrent) {
         },
         cache: true
 
+    }).on('select2:unselecting', (e)=>{
+        const option = new Option('-', '-', true, true);
+        e.currentTarget.append(option).trigger('change');
     });
 
-    return select2;
 }
 function selectKelurahan(element, parrent) {
     const select2 = element.select2({

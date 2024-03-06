@@ -80,7 +80,7 @@
                 formCpptRanap.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formCpptRanap.find('input[name=nm_pasien]').val(`${response.pasien.nm_pasien} / ${response.pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
                 formCpptRanap.find('input[name=tgl_lahir]').val(`${formatTanggal(response.pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
-                formCpptRanap.find('input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
+                formCpptRanap.find('input[name=pembiayaan]').val(`${setTextPenjab(response.penjab.png_jawab, false)}`)
                 formCpptRanap.find('input[name=kamar]').val(`${response.kamar_inap.kd_kamar} / ${response.kamar_inap.kamar.bangsal.nm_bangsal}`)
                 selectPegawai(pegawai, formCpptRanap);
                 const setPetugas = new Option(nmPegawai, nip, true, true);

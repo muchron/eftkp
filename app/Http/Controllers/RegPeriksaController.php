@@ -93,6 +93,11 @@ class RegPeriksaController extends Controller
         } else {
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
+
+        if($req->dokter){
+            $regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
+        }
+
         if ($req->dataTable) {
             return DataTables::of($regPeriksa)->make(true);
         }

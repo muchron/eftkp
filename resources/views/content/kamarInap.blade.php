@@ -97,8 +97,14 @@
                         .attr('data-id', data.no_rawat).
                     attr('data-no_rawat', data.kd_poli);
                 },
-                columns: [
-
+                columns: [{
+                        title: '',
+                        data: 'no_rawat',
+                        render: (data, type, row, meta) => {
+                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
+                                    <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
+                        }
+                    },
                     {
                         title: 'No. Rawat',
                         data: 'no_rawat',
@@ -171,6 +177,13 @@
                         }
                     },
                     {
+                        title: 'Asuransi',
+                        data: 'reg_periksa.penjab.png_jawab',
+                        render: (data, type, row, meta) => {
+                            return setTextPenjab(data);
+                        }
+                    },
+                    {
                         title: 'Status',
                         data: 'stts_pulang',
                         render: (data, type, row, meta) => {
@@ -191,14 +204,7 @@
                             return `${splitTanggal(data)} ${row.jam_keluar}`;
                         }
                     },
-                    {
-                        title: '',
-                        data: 'no_rawat',
-                        render: (data, type, row, meta) => {
-                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
-                                    <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
-                        }
-                    },
+
                 ]
             })
         }

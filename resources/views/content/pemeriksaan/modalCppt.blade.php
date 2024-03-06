@@ -70,7 +70,7 @@
                 $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
                 $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
                 $('#formCpptRajal input[name=nm_dokter]').val(`${response.dokter.nm_dokter}`)
-                $('#formCpptRajal input[name=pembiayaan]').val(`${response.penjab.png_jawab}`)
+                $('#formCpptRajal input[name=pembiayaan]').val(setTextPenjab(response.penjab.png_jawab, false))
                 $('#formCpptRajal input[name=no_peserta]').val(`${response.pasien.no_peserta}`)
                 $('#formCpptRajal input[name=kd_poli]').val(`${response.kd_poli}`)
                 $('#formCpptRajal input[name=nm_poli]').val(`${response.poliklinik.nm_poli}`)

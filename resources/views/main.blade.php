@@ -48,6 +48,7 @@
 
         .table {
             vertical-align: middle;
+            font-size: 10px;
         }
 
         .form-label {

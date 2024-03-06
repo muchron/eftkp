@@ -45,10 +45,10 @@
 
 
 
-        $('#formFilterTanggal').on('submit', (e) => {
+        $('#btnFilterRegistrasi').on('click', (e) => {
             e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
+            const tglAwal = splitTanggal($('#formFilterRegistrasi input[name=tglAwal]').val())
+            const tglAkhir = splitTanggal($('#formFilterRegistrasi input[name=tglAkhir]').val())
             localStorage.setItem('tglAwal', tglAwal)
             localStorage.setItem('tglAkhir', tglAkhir)
             loadTabelRegistrasi(tglAwal, tglAkhir);

@@ -235,7 +235,7 @@
         var tabelResepUmum = $('#tabelResepUmum')
         var tabelResepRacikan = $('#tabelResepRacikan')
         var inputAlergi = $('#formCpptRajal').find('#alergi')
-        let username = "{{session()->get('pegawai')->nik}}"
+        let username = "{{ session()->get('pegawai')->nik }}"
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
             const insert = $.post(`${url}/diagnosa/pasien/create`, {
@@ -328,9 +328,9 @@
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
-                                if(username === data['kd_dokter']){
-                                    console.log(username)
-                                    const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
+                                console.log('STATUS', username, data['nip']);
+                                if (username === data['nip']) {
+                                    const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                                     setStatusLayan(data['no_rawat'], stts);
                                 }
                                 loadTabelRegistrasi(tglAwal, tglAkhir)
@@ -348,10 +348,9 @@
                 } else {
                     alertSuccessAjax().then(() => {
                         $('#modalCppt').modal('hide');
-                        if(username === data['kd_dokter']){
-                            console.log(username)
-                            const stts = data['stts'] == 'Belum' ? 'Sudah' : data['stts'];
-                             setStatusLayan(data['no_rawat'], stts);
+                        if (username === data['nip']) {
+                            const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
+                            setStatusLayan(data['no_rawat'], stts);
                         }
                         loadTabelRegistrasi(tglAwal, tglAkhir)
                     })

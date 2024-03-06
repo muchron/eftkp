@@ -6,29 +6,26 @@
         </div>
     </div>
     <div class="card-footer">
-        <div class="row d-none-sm d-none-md">
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                <form action="registrasi/get" method="post" id="formFilterTanggal">
+        <form action="registrasi/get" method="get" id="formFilterRegistrasi">
+            <div class="row d-none-sm d-none-md">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                     <div class="input-group">
                         <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
                         <span class="input-group-text">
                             s.d
                         </span>
                         <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
-                        <button class="btn w-5 btn-secondary" type="submit" onclick="">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10" viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                <path d="M21 21l-6 -6"></path>
-                            </svg>
-                        </button>
+                        <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
                     </div>
-                </form>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select" id="dokter" name="dokter"></select>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
+                    <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
+                </div>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
-                <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -40,7 +37,17 @@
 @push('script')
     <script type="" src="{{asset('public/libs/list.js/dist/list.min.js')}}"></script>
     <script>
-        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '') {
+        let formFilterRegistrasi = $('#formFilterRegistrasi')
+        let inputTglAwal = $('#tglAwal')
+        let inputTglAkhir = $('#tglAkhir')
+        $(document).ready(() => {
+            selectDokter(formFilterRegistrasi.find('select[name="dokter"]'), formFilterRegistrasi)
+                .on('select2:select', (e) => {
+                    loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
+                });
+        })
+
+        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
                 stateSave: true,
@@ -56,6 +63,7 @@
                         tglAwal: tglAwal,
                         tglAkhir: tglAkhir,
                         stts: stts,
+                        dokter: dokter,
                     },
                 },
                 createdRow: (row, data, index) => {
@@ -65,6 +73,7 @@
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
+                            console.log(row)
                             let attr = 'javascript:void(0)';
                             let target = '';
                             let action = '';
@@ -94,6 +103,17 @@
                         }
                     },
                     {
+                        title: '',
+                        render: (data, type, row, meta) => {
+                            let classBtnPemerisksaan = 'btn-outline-primary'
+                            if (row.pemeriksaan_ralan) {
+                                classBtnPemerisksaan = 'btn-success'
+                            }
+                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
+                        },
+                    },
+
+                    {
                         title: 'No',
                         render: (data, type, row, meta) => {
                             return row.no_reg;
@@ -122,6 +142,7 @@
                     },
                     {
                         title: 'Jam',
+                        data: 'jam_reg',
                         render: (data, type, row, meta) => {
                             return row.jam_reg;
                         },
@@ -135,8 +156,9 @@
                         }
                     }, {
                         title: 'Pasien',
+                        data: 'pasien',
                         render: (data, type, row, meta) => {
-                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.no_rawat}</span> <br/> ${row.pasien.nm_pasien} (${row.pasien.jk})`;
+                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
                         }
                     },
                     {
@@ -158,36 +180,22 @@
                         render: (data, type, row, meta) => {
                             const alergi = data.alergi.map((val) => {
                                 return val.alergi
-                            }).join(', <br/> ')
+                            }).join(', ')
                             return `<span class="text-red">${alergi}</span>`;
                         },
                     },
                     {
                         title: 'status',
+                        data: 'stts_daftar',
                         render: (data, type, row, meta) => {
-                            return `<span class="badge ${row.stts_daftar.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${row.stts_daftar}`;
+                            return `<span class="badge ${data.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${data}`;
                         },
                     },
                     {
                         title: 'Penjab',
+                        data: 'penjab.png_jawab',
                         render: (data, type, row, meta) => {
-                            if (row.penjab.png_jawab.toUpperCase() === 'BPJS') {
-                                flag = row.pcare_pendaftaran ? '<i class="ti ti-check"></i>' : '';
-                                penjabBadge = `<span class="badge bg-green" style="font-size:12px">${row.penjab.png_jawab} ${flag}</span>`
-                            } else {
-                                penjabBadge = `<span class="badge bg-orange" style="font-size:12px">${row.penjab.png_jawab}</span>`
-                            }
-                            return penjabBadge;
-                        },
-                    },
-                    {
-                        title: '',
-                        render: (data, type, row, meta) => {
-                            let classBtnPemerisksaan = 'btn-outline-primary'
-                            if (row.pemeriksaan_ralan) {
-                                classBtnPemerisksaan = 'btn-success'
-                            }
-                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
+                            return setTextPenjab(data);
                         },
                     },
 

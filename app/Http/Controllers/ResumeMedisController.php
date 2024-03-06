@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class ResumeMedisController extends Controller
 {
-    function get(Request $request)
-    {
-        $resume = ResumeMedis::where('no_rawat', $request->no_rawat)->get();
-        return response()->json($resume);
-    }
+        function get(Request $request)
+        {
+                $resume = ResumeMedis::where('no_rawat', $request->no_rawat)->get();
+                return response()->json($resume);
+        }
 }
