@@ -18,7 +18,7 @@
                         <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
                     <select class="form-select filterDokter" id="dokter" name="dokter"></select>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
@@ -41,6 +41,17 @@
         let inputTglAwal = $('#tglAwal')
         let inputTglAkhir = $('#tglAkhir')
         let filterDokter = $('.filterDokter')
+        let isDokter = {!! session()->get('pegawai')->dokter !!}
+
+        $(document).ready(() => {
+            let optDokter;
+            if (!isDokter) {
+                optDokter = new Option('-', '-', true, true);
+            } else {
+                optDokter = new Option(isDokter.nm_dokter, isDokter.kd_dokter, true, true);
+            }
+            filterDokter.append(optDokter).trigger('change');
+        });
 
         filterDokter.select2({
             dropdownParent: formFilterRegistrasi,

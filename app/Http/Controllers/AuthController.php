@@ -26,19 +26,23 @@ class AuthController extends Controller
     function auth(Request $request)
     {
 
-        $auth = User::select('*',DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
+        $auth = User::select('*', DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
             ->where('id_user', DB::raw("AES_ENCRYPT('" . $request->get('username') . "', 'nur')"))
             ->where('password', DB::raw("AES_ENCRYPT('" . $request->get('password') . "', 'windi')"))
             ->first();
 
         if ($auth) {
             $isAuth = Auth::login($auth);
-            $pegawai = \App\Models\Pegawai::where('nik', $auth->username)->first();
+            $pegawai = \App\Models\Pegawai::where('nik', $auth->username)
+                ->with('dokter', function ($q) {
+                    return $q->select('kd_dokter', 'nm_dokter');
+                })
+                ->first();
             unset($auth['id_user']);
             unset($auth['password']);
             unset($auth['passwd']);
-            $userSesion= $auth;
-            $request->session()->put(['pegawai'=> $pegawai, 'user'=> $userSesion]);
+            $userSesion = $auth;
+            $request->session()->put(['pegawai' => $pegawai, 'user' => $userSesion]);
             return redirect('/');
         } else {
             return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
