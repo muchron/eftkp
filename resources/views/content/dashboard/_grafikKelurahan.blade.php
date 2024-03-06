@@ -59,6 +59,15 @@
                         legend: {
                             display: false,
                         },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const labelHover = data.display[context.dataIndex]
+                                    const countHover = data.list[context.dataIndex]
+                                    return ` ${countHover} - ${labelHover}`;
+                                },
+                            },
+                        },
                     },
                 }
             });
@@ -71,7 +80,8 @@
             }).done((response) => {
                 const data = {
                     'list': Object.values(response),
-                    'label': Object.keys(response),
+                    'label': Object.keys(response).map((label)=> label.substring(0,3)),
+                    'display': Object.keys(response),
                 }
                 renderGrafikKelurahan(data);
             })
@@ -81,7 +91,7 @@
             const tgl1 = $('#tglKelurahan1').val()
             const tgl2 = $('#tglKelurahan2').val()
             grafikKelurahan.destroy();
-            dataGrafikKelurahan(splitTanggal(tgl1), splitTanggal(tgl2));
+            dataGrafikKelurahan(tgl1, tgl2);
         })
     </script>
 @endpush

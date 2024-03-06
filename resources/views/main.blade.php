@@ -55,6 +55,15 @@
             font-size: 10px;
         }
 
+        @media (min-width: 1920px) {
+            .table{
+                font-size: 12px;
+            }
+            .table .btn-sm{
+                font-size: 11px;
+            }
+        }
+
         .form-label {
             font-size: 11px;
             margin-bottom: 0px;
@@ -278,6 +287,13 @@
             });
             return alergi;
         }
+        function getPemeriksaanRalan(no_rawat, nip = '') {
+            return $.get(`${url}/pemeriksaan/ralan/show`, {
+                no_rawat: no_rawat,
+                nip: nip
+            })
+        }
+
     </script>
     @stack('script')
 </body>

@@ -83,15 +83,15 @@
                                     <label for="keluhan">Keluhan Utama <a href="javascript:void(0)" id="srcKeluhan"
                                             onclick="listPemeriksaanRanap('keluhan')"><i
                                                 class="ti ti-search"></i></a></label>
-                                    <textarea class="form-control" name="keluhan_utama" id="keluhan_utama" cols="30"
+                                    <textarea class="form-control" name="keluhan_utama" id="keluhan" cols="30"
                                         rows="10" onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
                                 </div>
                                 <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
                                     <label for="pemeriksaan_fisik">Pemeriksaan Fisik <a href="javascript:void(0)"
                                             id="srcPemeriksaan"
-                                            onclick="listRiwayatPemeriksaan('2024/01/07/000515', 'pemeriksaan')"><i
+                                            onclick="listObjektifRanap()"><i
                                                 class="ti ti-search"></i></a></label>
-                                    <textarea class="form-control" name="pemeriksaan_fisik" id="pemeriksaan_fisik" cols="30"
+                                    <textarea class="form-control" name="pemeriksaan_fisik" id="pemeriksaan" cols="30"
                                         rows="10" onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
                                 </div>
                                 <div class="mb-2 col-sm-12 col-md-6 col-lg-6">

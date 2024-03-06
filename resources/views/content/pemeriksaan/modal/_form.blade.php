@@ -247,13 +247,6 @@
             return insert;
         }
 
-        function getPemeriksaanRalan(no_rawat, nip = '') {
-            const pemeriksaan = $.get(`${url}/pemeriksaan/ralan/show`, {
-                no_rawat: no_rawat,
-                nip: nip
-            })
-            return pemeriksaan;
-        }
 
         $('#selecInstruksi').select2({
             dropdownParent: $('#modalCppt'),

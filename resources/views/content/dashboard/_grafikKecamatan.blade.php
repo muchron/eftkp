@@ -44,7 +44,7 @@
                             'rgba(201, 203, 207)',
                             'rgba(45, 132, 44)',
                             'rgba(44, 123, 207)',
-                            'rgba(100, 44, 11)',
+                            'rgb(179,70,8)',
                         ],
                     }]
                 },
@@ -58,20 +58,29 @@
                         legend: {
                             display: false,
                         },
+                        tooltip: {
+                            callbacks: {
+                                label: (context) => {
+                                    const labelHover = data.display[context.dataIndex]
+                                    const countHover = data.list[context.dataIndex]
+                                    return ` ${countHover} - ${labelHover}`;
+                                },
+                            },
+                        },
                     },
                 }
             });
         }
 
         function dataGrafikKecamatan(tgl1 = '', tgl2 = '') {
-
             $.get(`${url}/registrasi/kecamatan`, {
-                tglAwal: tgl1,
-                tglAkhir: tgl2,
+                tgl1: tgl1,
+                tgl2: tgl2,
             }).done((response) => {
                 const data = {
                     'list': Object.values(response),
-                    'label': Object.keys(response),
+                    'display': Object.keys(response),
+                    'label': Object.keys(response).map((label)=> label.substring(0,3)),
                 }
                 renderGrafikKecamatan(data);
             })
@@ -82,7 +91,7 @@
             const tgl1 = $('#tglKecamatan1').val()
             const tgl2 = $('#tglKecamatan2').val()
             grafikKecamatan.destroy();
-            dataGrafikKecamatan(splitTanggal(tgl1), splitTanggal(tgl2));
+            dataGrafikKecamatan(tgl1, tgl2)
         })
     </script>
 @endpush

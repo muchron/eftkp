@@ -1,12 +1,13 @@
-<div class="modal modal-blur fade" id="modalListPemeriksaanRanap" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-scrolled" role="document">
+<div class="modal modal-blur fade" id="modallistKeluhanRanap" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-scrolled" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Kelengkapan Berkas Rekam Medis</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <table class="table table-sm table-striped table-hover nowrap" id="tabelPemeriksaanRapan" width="100%">
+                <div class="table-responsive"></div>
+                <table class="table table-sm table-striped table-hover" id="tabelPemeriksaanRanap" width="100%">
 
                 </table>
             </div>
@@ -21,40 +22,65 @@
 </div>
 @push('script')
     <script>
-        let modalListPemeriksaanRanap = $('#modalListPemeriksaanRanap')
+        let modallistKeluhanRanap = $('#modallistKeluhanRanap')
 
-        function listPemeriksaanRanap(kategori){
-            const no_rawat = formResumeMedis.find('input[name="no_rawat"]').val();
-            const dpjp = formResumeMedis.find('input[name="kd_dokter"]').val();
+
+        function listKeluhanRanap(kategori) {
+            var no_rawat = formResumeMedis.find('input[name="no_rawat"]').val();
+            var dpjp = formResumeMedis.find('input[name="kd_dokter"]').val();
             getCpptRanap(no_rawat).done((response) => {
-                const data = response.map((item) =>{
-                        return {
-                            hasil : item[`${kategori}`],
-                            pegawai: item.pegawai.nama,
-                            tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
-                        }
+                const data = response.map((item) => {
+                    return {
+                        no_rawat: no_rawat,
+                        kategori: kategori,
+                        hasil: item[`${kategori}`],
+                        pegawai: item.pegawai.nama,
+                        tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
+                    }
                 })
                 tabelPemeriksaan(data)
-                modalListPemeriksaanRanap.modal('show')
+                modallistKeluhanRanap.modal('show')
+            })
+
+        }
+        function listObjektifRanap() {
+            var no_rawat = formResumeMedis.find('input[name="no_rawat"]').val();
+            var dpjp = formResumeMedis.find('input[name="kd_dokter"]').val();
+            getCpptRanap(no_rawat).done((response) => {
+                const data = response.map((item) => {
+                    return {
+                        no_rawat: no_rawat,
+                        kategori: 'pemeriksaan_fisik',
+                        hasil: `${item.pemeriksaan}
+                        Suhu : ${item.suhu_tubuh} °C
+                        TD : ${item.tensi} mmHg
+                        Nadi : ${item.nadi} x/m
+                        RR : ${item.respirasi} x/m`,
+                        pegawai: item.pegawai.nama,
+                        tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
+                    }
+                })
+
+                console.log(data)
+                tabelPemeriksaan(data)
+                modallistKeluhanRanap.modal('show')
             })
         }
+
+
         function tabelPemeriksaan(data) {
-            const tabelRegistrasi = new DataTable('#tabelPemeriksaanRapan', {
+            $('#tabelPemeriksaanRanap').DataTable({
                 responsive: true,
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                data : data,
-                scrollY : '50vh',
-                // createdRow: (row, data, index) => {
-                //     $(row).addClass('table-rows').attr('data-id', data.no_rawat).attr('data-poli', data.kd_poli);
-                // },
+                data:data,
                 columns: [
 
                     {
                         title: 'tanggal',
                         data: 'tanggal',
-                    render: (data, type, row, meta) => {
+                        render: (data, type, row, meta) => {
                             return data;
                         },
                     },
@@ -76,13 +102,22 @@
                         title: '',
                         data: '',
                         render: (data, type, row, meta) => {
-                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%"> <i class="ti ti-copy"></i></button>`;
+                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%" data-target="${row.kategori}" onclick="setTextPeriksa(this, '${row.hasil}')"> <i class="ti ti-copy"></i></button>`;
                         },
                     },
+                ],
+                initComplete: ()=>{
+                    // listPemeriksaanRalan(data.no_rawat, data.kategori)
+                }
 
-
-                ]
             })
+        }
+
+        function setTextPeriksa(e, text){
+            const element =  formResumeMedis.find(`#${e.dataset.target}`)
+            let value = element.val() != '-' ? element.val().replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
+            value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+            element.val(value)
         }
     </script>
 @endpush

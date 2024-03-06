@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                    <table class="table table-sm table-striped table-hover nowrap" id="tabelKamarInap" width="100%">
+                    <table class="table table-sm table-striped table-hover" id="tabelKamarInap" width="100%">
                     </table>
                 </div>
             </div>
@@ -133,14 +133,6 @@
                         data: 'reg_periksa.no_rkm_medis',
                         render: (data, type, row, meta) => {
                             return data;
-                        }
-                    },
-                    {
-                        title: 'Asuransi',
-                        data: 'reg_periksa.penjab.png_jawab',
-                        render: (data, type, row, meta) => {
-                            return asuransi = data.includes('BPJS') ? "<span class='badge badge-pill text-bg-green'>BPJS</span>" :
-                                `<span class='badge badge-pill text-bg-orange'>${data}</span>`;
                         }
                     },
                     {

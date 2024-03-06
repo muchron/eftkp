@@ -263,6 +263,15 @@
 
         }
 
+        tglReg.on('change', (e)=>{
+            e.preventDefault()
+            const tgl = e.currentTarget.value;
+            setNoRawat(tgl).done((response) => {
+                console.log(response)
+                formRegistrasiPoli.find('input[name=no_rawat]').val(response)
+            })
+        })
+
 
         btnSimpanReg.on('click', () => {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
