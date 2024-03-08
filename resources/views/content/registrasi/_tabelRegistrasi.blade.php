@@ -88,7 +88,15 @@
             loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), )
         });
 
-
+        $('#btnFilterRegistrasi').on('click', (e) => {
+            e.preventDefault();
+            const tglAwal = splitTanggal($('#formFilterRegistrasi input[name=tglAwal]').val())
+            const tglAkhir = splitTanggal($('#formFilterRegistrasi input[name=tglAkhir]').val())
+            const dokter =  filterDokter.val()
+            localStorage.setItem('tglAwal', tglAwal)
+            localStorage.setItem('tglAkhir', tglAkhir)
+            loadTabelRegistrasi(tglAwal, tglAkhir, '',dokter);
+        })
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
