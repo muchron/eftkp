@@ -393,8 +393,9 @@
 
 
                 selectPenjab(formRegistrasiPoli.find('select[name=kd_pj]'), modalRegistrasi);
-                const bpjs = new Option(`${response.kd_pj} - ${response.penjab.png_jawab}`, 'BPJS', true, true);
-                formRegistrasiPoli.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                const pj = new Option(`${response.kd_pj} - ${response.penjab.png_jawab}`, response.kd_pj, true, true);
+
+                formRegistrasiPoli.find('select[name=kd_pj]').append(pj).trigger('change');
                 formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(response.tgl_lahir))
 
                 if (noUrut) {
