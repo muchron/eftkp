@@ -28,7 +28,7 @@
             $('#tglAwal').val(splitTanggal(tglAwal))
             $('#tglAkhir').val(splitTanggal(tglAkhir))
 
-            loadTabelRegistrasi(tglAwal, tglAkhir)
+            loadTabelRegistrasi(tglAwal, tglAkhir, '', filterDokter.val())
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

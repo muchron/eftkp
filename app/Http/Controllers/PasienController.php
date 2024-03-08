@@ -41,12 +41,16 @@ class PasienController extends Controller
             // $pasien = $pasien->orderBy('no_rkm_medis', 'ASC');
             return DataTables::of($pasien)
                 ->filter(function ($query) use ($request) {
+
                     if ($request->has('search') && $request->get('search')['value']) {
                         return $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
-                            ->orWhere('no_rkm_medis', $request->get('search')['value']);
+                            ->orWhere('no_rkm_medis', $request->get('search')['value'])
+                            ->orWhere('no_peserta', $request->get('search')['value'])
+                            ->orWhereHas('penjab', function ($query) use ($request) {
+                                return $query->where('png_jawab', 'like', '%'. $request->get('search')['value']. '%');
+                            });
                     }
-                })
-                ->make(true);
+                })->make(true);
         }
         return response()->json($pasien);
     }

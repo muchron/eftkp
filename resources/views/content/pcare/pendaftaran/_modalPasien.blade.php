@@ -234,9 +234,13 @@
                                 </form>
                             </div>
                             <div class="tab-pane" id="pane2">
-{{--                                <div class="table-responsive">--}}
-                                <table class="table table-sm table-responsive table-striped table-hover nowrap" id="tbPasien" width="100%"></table>
-{{--                                </div>--}}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" width="100%"></table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -555,13 +559,13 @@
 
         function renderTbPasien(tglRegistrasi = '') {
             const tbReferensi = new DataTable('#tbPasien', {
-                destroy: true,
+                responsive: true,
+                autoWidth: true,
                 stateSave: true,
                 serverSide: true,
+                destroy: true,
                 processing: true,
-                searching: true,
-                responsive: true,
-                scrollY: '40vh',
+                scrollY: '50vh',
                 scrollX: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
@@ -570,6 +574,10 @@
                     {
                         name: "nm_pasien",
                         targets: 1
+                    },
+                    {
+                        orderable: false,
+                        targets: 8
                     },
                 ],
                 ajax: {
@@ -591,7 +599,7 @@
                         data: 'no_rkm_medis',
                         render: (data, type, row, meta) => {
                             return `<button class="btn btn-primary btn-sm" onclick="registrasiPoli('${data}')"><i class="ti ti-plus"></i></button>
-                            <button class="btn btn-warning btn-sm" onclick="editPasien('${data}')"><i class="ti ti-pencil"></i></button>`;
+                            <button class="btn btn-yellow btn-sm" onclick="editPasien('${data}')"><i class="ti ti-pencil"></i></button>`;
                         }
 
                     }, {
@@ -614,6 +622,23 @@
                         render: (data, type, row, meta) => {
                             return data;
                         }
+                    },
+                    {
+                        title: 'Asuransi',
+                        data: 'penjab',
+                        render: (data, type, row, meta) => {
+                            return asuransi = data.png_jawab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>`
+                                :`<span class='badge badge-pill text-bg-orange'>${data.png_jawab}</span>` ;
+                        }
+
+                    },
+                    {
+                        title: 'No. Peserta',
+                        data: 'no_peserta',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+
                     },
                     {
                         title: 'Tmp. Lahir',
@@ -644,23 +669,7 @@
                         }
 
                     },
-                    {
-                        title: 'Asuransi',
-                        data: 'penjab',
-                        render: (data, type, row, meta) => {
-                            return asuransi = data.png_jawab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>`
-                                :`<span class='badge badge-pill text-bg-orange'>${data.png_jawab}</span>` ;
-                        }
 
-                    },
-                    {
-                        title: 'No. Peserta',
-                        data: 'no_peserta',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        }
-
-                    },
 
                 ],
             })
