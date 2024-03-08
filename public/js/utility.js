@@ -500,7 +500,7 @@ function selectPenjab(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
-        tags: true,
+        tags: false,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penjab',
@@ -525,7 +525,7 @@ function selectPenjab(element, parrent) {
                 }
             },
         },
-        cache: true,
+        cache: false,
     });
     const option = new Option('-', '-', true, true);
     element.append(option).trigger('change');

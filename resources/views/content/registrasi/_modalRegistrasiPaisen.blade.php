@@ -234,6 +234,13 @@
             setNoReg().done((response) => {
                 formRegistrasiPoli.find('input[name=no_reg]').val(response)
             });
+
+            if (!isDokter) {
+                optDokter = new Option('-', '-', true, true);
+            } else {
+                optDokter = new Option(`${isDokter.kd_dokter} - ${isDokter.nm_dokter}`, isDokter.kd_dokter, true, true);
+            }
+            kd_dokter.append(optDokter).trigger('change');
         })
 
         function refreshTime() {
