@@ -387,7 +387,7 @@
                 formRegistrasiPoli.find('input[name=keluarga]').val(response.keluarga)
                 formRegistrasiPoli.find('input[name=namakeluarga]').val(response.namakeluarga)
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.alamatpj)
-                formRegistrasiPoli.find('input[name=no_peserta]').val(response.kd_pj == 'BPJ' ? response.no_peserta : '-')
+                formRegistrasiPoli.find('input[name=no_peserta]').val(response.penjab.kd_pj.includes('BPJS') ? response.no_peserta : '-')
                 formRegistrasiPoli.find('input[name=tgl_lahir]').val(response.tgl_lahir);
                 formRegistrasiPoli.find('input[name=umur]').val(setUmur(response.tgl_lahir));
 

@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive"></div>
-                <table class="table table-sm table-striped table-hover" id="tabelPemeriksaanRanap" width="100%">
+                <table class="table table-sm table-striped table-hover nowrap" id="tabelPemeriksaanRanap" width="100%">
 
                 </table>
             </div>
@@ -25,15 +25,15 @@
         let modallistKeluhanRanap = $('#modallistKeluhanRanap')
 
 
-        function listKeluhanRanap(kategori) {
+        function listKeluhanRanap() {
             var no_rawat = formResumeMedis.find('input[name="no_rawat"]').val();
             var dpjp = formResumeMedis.find('input[name="kd_dokter"]').val();
             getCpptRanap(no_rawat).done((response) => {
                 const data = response.map((item) => {
                     return {
                         no_rawat: no_rawat,
-                        kategori: kategori,
-                        hasil: item[`${kategori}`],
+                        kategori: 'keluhan',
+                        hasil: item[`keluhan`],
                         pegawai: item.pegawai.nama,
                         tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
                     }
@@ -51,11 +51,7 @@
                     return {
                         no_rawat: no_rawat,
                         kategori: 'pemeriksaan_fisik',
-                        hasil: `${item.pemeriksaan}
-                        Suhu : ${item.suhu_tubuh} °C
-                        TD : ${item.tensi} mmHg
-                        Nadi : ${item.nadi} x/m
-                        RR : ${item.respirasi} x/m`,
+                        hasil: `${item.pemeriksaan}; Suhu : ${item.suhu_tubuh} °C; TD : ${item.tensi} mmHg; Nadi : ${item.nadi} x/m; RR : ${item.respirasi} x/m`,
                         pegawai: item.pegawai.nama,
                         tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
                     }
@@ -75,6 +71,11 @@
                 destroy: true,
                 processing: true,
                 data:data,
+                scrollY : '40vh',
+                scrollX : true,
+                createdRow : (row, data, index)=>{
+                    $(row).attr('data-id', index).attr('onclick', `setTextPeriksa(this, ${index})`);
+                },
                 columns: [
 
                     {
@@ -102,7 +103,7 @@
                         title: '',
                         data: '',
                         render: (data, type, row, meta) => {
-                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%" data-target="${row.kategori}" onclick="setTextPeriksa(this, '${row.hasil}')"> <i class="ti ti-copy"></i></button>`;
+                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%" data-target="${row.kategori}" > <i class="ti ti-copy"></i></button>`;
                         },
                     },
                 ],
@@ -113,11 +114,11 @@
             })
         }
 
-        function setTextPeriksa(e, text){
-            const element =  formResumeMedis.find(`#${e.dataset.target}`)
-            let value = element.val() != '-' ? element.val().replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
-            value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
-            element.val(value)
+        function setTextPeriksa(e){
+            var text = $(e).find('td')[1].innerHTML;
+            // let value = element.val() != '-' ? element.val().replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
+            // value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+            // element.val(value)
         }
     </script>
 @endpush

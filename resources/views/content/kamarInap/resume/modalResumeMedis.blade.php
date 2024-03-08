@@ -81,7 +81,7 @@
                             <div class="row gy-2">
                                 <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
                                     <label for="keluhan">Keluhan Utama <a href="javascript:void(0)" id="srcKeluhan"
-                                            onclick="listPemeriksaanRanap('keluhan')"><i
+                                            onclick=" listKeluhanRanap('keluhan')"><i
                                                 class="ti ti-search"></i></a></label>
                                     <textarea class="form-control" name="keluhan_utama" id="keluhan" cols="30"
                                         rows="10" onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
