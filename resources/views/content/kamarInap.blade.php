@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                    <table class="table table-sm table-striped table-hover" id="tabelKamarInap" width="100%">
+                    <table class="table table-sm table-striped table-hover nowrap" id="tabelKamarInap" width="100%">
                     </table>
                 </div>
             </div>
@@ -34,9 +34,7 @@
 
     </div>
     @include('content.kamarInap.cppt.modalCppt')
-    @include('content.kamarInap.modalListRm')
     @include('content.kamarInap.resume.modalResumeMedis')
-    @include('content.kamarInap.resume.sub.listPemeriksaanRanap')
     @include('content.registrasi._modalSuratSakit')
 @endsection
 @push('script')
@@ -100,18 +98,13 @@
                         .attr('data-id', data.no_rawat).
                     attr('data-no_rawat', data.kd_poli);
                 },
-                columns: [{
-                        title: '',
-                        data: 'no_rawat',
-                        render: (data, type, row, meta) => {
-                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')" style="width: 100%"> <i class="ti ti-pencil me-1"></i> CPPT</button>`;
-                        }
-                    },
+                columns: [
                     {
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            return `<button class="btn btn-primary btn-sm" onclick="listRm('${data}')"> <i class="ti ti-list me-1"></i> RM</button>`
+                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
+                                    <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
                         }
                     },
                     {

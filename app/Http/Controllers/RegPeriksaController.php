@@ -59,7 +59,7 @@ class RegPeriksaController extends Controller
 
     function setNoRawat(Request $request)
     {
-        $tgl_registrasi = $request->tgl_registrasi ? date('Y-m-d', strtotime($request->tgl_registrasi)) : date('Y-m-d');
+        $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
             ->where('tgl_registrasi', $tgl_registrasi)
             ->orderBy('no_rawat', 'DESC')->first();
@@ -94,7 +94,7 @@ class RegPeriksaController extends Controller
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
 
-        if($req->dokter && $req->dokter != '-'){
+        if($req->dokter){
             $regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
         }
 

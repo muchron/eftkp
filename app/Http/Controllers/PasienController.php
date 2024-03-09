@@ -44,7 +44,7 @@ class PasienController extends Controller
 
                     if ($request->has('search') && $request->get('search')['value']) {
                         return $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
-                            ->orWhere('no_rkm_medis', $request->get('search')['value'])
+                            ->orWhere('no_rkm_medis', 'like' , "{$request->get('search')['value']}%")
                             ->orWhere('no_peserta', $request->get('search')['value'])
                             ->orWhereHas('penjab', function ($query) use ($request) {
                                 return $query->where('png_jawab', 'like', '%'. $request->get('search')['value']. '%');
@@ -56,7 +56,7 @@ class PasienController extends Controller
     }
     function create(Request $request)
     {
-        $pasien = Pasien::where('no_rkm_medis', $request->no_rkm_medis)->first();
+
 
         $data = [
             'no_rkm_medis' => $request->no_rkm_medis,
@@ -96,10 +96,12 @@ class PasienController extends Controller
             'nip' => $request->nip,
             'kd_prop' => $request->kd_prop,
         ];
+
+        $pasien = Pasien::where('no_rkm_medis', $request->no_rkm_medis)->first();
         if ($pasien) {
             return $this->update($request);
         }
-        if ($this->isExistPasien($request)) {
+        if ($this->isNoPesertaExist($request)) {
             return response()->json('Pasien sudah terdaftar sebelumnya', 409);
         }
 
@@ -107,12 +109,6 @@ class PasienController extends Controller
             $pasien = Pasien::create($data);
             if ($pasien) {
                 $this->insertSql(new Pasien(), $data);
-                $setRm = setNoRkmMedis::truncate();
-                if ($setRm)
-                    $this->deleteSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
-                $createNoRm = setNoRkmMedis::create(['no_rkm_medis' => $request->no_rkm_medis]);
-                if ($createNoRm)
-                    $this->insertSql(new setNoRkmMedis(), ['no_rkm_medis' => $request->no_rkm_medis]);
             }
             return response()->json('SUKSES', 200);
         } catch (QueryException $e) {
@@ -185,7 +181,7 @@ class PasienController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
-    function isExistPasien(Request $request)
+    function isNoPesertaExist(Request $request)
     {
         if ($request->kd_pj == 'BPJ' || $request->kd_pj == 'BPJS') {
             $pasien = Pasien::where(['no_peserta' => $request->no_peserta]);

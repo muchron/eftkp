@@ -308,9 +308,10 @@
         }
 
 
-        function isExistPasien(data) {
+       function isExistPasien(data) {
             $.get(`${url}/pasien/exist`, data)
-        }
+       }
+
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
             const data = getDataForm('formPasien', ['input', 'select']);

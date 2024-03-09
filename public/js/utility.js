@@ -222,8 +222,8 @@ function hitungBmi(bb, tb) {
     return '0';
 }
 
-function setTextPenjab(penjab, badge = true) {
-    if (badge) {
+function setTextPenjab(penjab, badge = true){
+    if(badge){
         return penjab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>` :
             `<span class='badge badge-pill text-bg-orange'>${penjab}</span>`;
     }
@@ -500,7 +500,7 @@ function selectPenjab(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
         delay: 0,
-        tags: false,
+        tags: true,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penjab',
@@ -525,7 +525,7 @@ function selectPenjab(element, parrent) {
                 }
             },
         },
-        cache: false,
+        cache: true,
     });
     const option = new Option('-', '-', true, true);
     element.append(option).trigger('change');
@@ -567,43 +567,45 @@ function selectDataBarang(element, parrent) {
     return select2;
 }
 
-// function selectDokter(element, parrent) {
-//     return element.select2({
-//         dropdownParent: parrent,
-//         delay: 0,
-//         scrollAfterSelect: true,
-//         tags: true,
-//         ajax: {
-//             url: '/efktp/dokter/get',
-//             dataType: 'JSON',
+function selectDokter(element, parrent) {
+  return element.select2({
+        dropdownParent: parrent,
+        delay: 0,
+        scrollAfterSelect: true,
+        allowClear: true,
+        tags:true,
+        placeholder : 'Pilin dokter',
+        ajax: {
+            url: '/efktp/dokter/get',
+            dataType: 'JSON',
 
-//             data: (params) => {
-//                 return {
-//                     dokter: params.term
-//                 }
-//             },
-//             processResults: (data) => {
-//                 return {
-//                     results: data.map((item) => {
-//                         return {
-//                             id: item.kd_dokter,
-//                             text: item.nm_dokter,
-//                             detail: item
-//                         }
+            data: (params) => {
+                return {
+                    dokter: params.term
+                }
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                          return {
+                                        id: item.kd_dokter,
+                                        text: item.nm_dokter,
+                                        detail: item
+                                    }
 
-//                     })
-//                 }
-//             }
+                    })
+                }
+            }
 
-//         },
-//         cache: true
+        },
+        cache: true
 
-//     }).on('select2:unselecting', (e) => {
-//         const option = new Option('-', '-', true, true);
-//         e.currentTarget.append(option).trigger('change');
-//     });
+    }).on('select2:unselecting', (e)=>{
+        const option = new Option('-', '-', true, true);
+        e.currentTarget.append(option).trigger('change');
+    });
 
-// }
+}
 function selectKelurahan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -972,6 +974,11 @@ function selectTindakan(element, parrent) {
     return select2;
 
 }
+
+function selectJabatan(element, parent){
+
+}
+
 // CONTEXT MENU
 $.contextMenu({
     selector: '.table-rows',
@@ -1218,7 +1225,7 @@ $.contextMenu({
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',
                     callback: function (item, option, e, x, y) {
-                        resumeMedis(`${no_rawat}`)
+                         resumeMedis(`${no_rawat}`)
                     }
 
                 },

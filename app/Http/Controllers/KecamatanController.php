@@ -15,7 +15,7 @@ class KecamatanController extends Controller
     use Track;
     function get(Request $request)
     {
-        $kecamatan = Kecamatan::where('nm_kec', 'like', "%{$request->kecamatan}%")->get();
+        $kecamatan = Kecamatan::where('nm_kec', 'like', "%{$request->kecamatan}%")->limit(10)->get();
         return response()->json($kecamatan);
     }
     function create(Request $request)

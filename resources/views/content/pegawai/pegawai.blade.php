@@ -22,7 +22,7 @@
             </label>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <select name="jk" id="jk">
+            <select name="jk" id="jk" class="form-select">
                 <option value="L">Laki-laki</option>
                 <option value="P">Perempuan</option>
             </select>
@@ -33,10 +33,21 @@
             </label>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <select name="jk" id="jk">
+            <select name="jnj_jabatan" id="jnj_jabatan" class="form-select">
                 <option value="L">Laki-laki</option>
                 <option value="P">Perempuan</option>
             </select>
         </div>
     </div>
 </form>
+@push('script')
+    <script>
+        let formPegawai = $('#formPegawai')
+
+        $(document).ready(()=>{
+            formPegawai.find('select[name="jk"]').select2({});
+        })
+
+
+    </script>
+@endpush

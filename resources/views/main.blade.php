@@ -55,14 +55,7 @@
             font-size: 10px;
         }
 
-        @media (min-width: 1920px) {
-            .table{
-                font-size: 12px;
-            }
-            .table .btn-sm{
-                font-size: 11px;
-            }
-        }
+
 
         .form-label {
             font-size: 11px;
@@ -181,6 +174,30 @@
 
         .text-brand:hover {
             color: #c7c7c7;
+        }
+
+        @media (min-width: 1920px) {
+            .table{
+                font-size: 12px;
+            }
+            .table .btn-sm{
+                font-size: 11px;
+            }
+            .form-label {
+                font-size: 13px;
+            }
+
+            .form-control,
+            .form-select {
+                font-size: 13px;
+                padding: .5rem;
+            }
+
+            .input-group-text {
+                font-size: 11px;
+            }
+
+
         }
     </style>
 </head>

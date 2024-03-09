@@ -28,7 +28,7 @@
             $('#tglAwal').val(splitTanggal(tglAwal))
             $('#tglAkhir').val(splitTanggal(tglAkhir))
 
-            loadTabelRegistrasi(tglAwal, tglAkhir, '', filterDokter.val())
+            loadTabelRegistrasi(tglAwal, tglAkhir)
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -41,7 +41,18 @@
                 todayHighlight: true,
                 language: "id",
             });
-        });
+        })
+
+
+
+        $('#btnFilterRegistrasi').on('click', (e) => {
+            e.preventDefault();
+            const tglAwal = splitTanggal($('#formFilterRegistrasi input[name=tglAwal]').val())
+            const tglAkhir = splitTanggal($('#formFilterRegistrasi input[name=tglAkhir]').val())
+            localStorage.setItem('tglAwal', tglAwal)
+            localStorage.setItem('tglAkhir', tglAkhir)
+            loadTabelRegistrasi(tglAwal, tglAkhir);
+        })
 
         function rujukInternal(no_rawat) {
             getRegDetail(no_rawat).done((response) => {

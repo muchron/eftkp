@@ -7,19 +7,19 @@
     </div>
     <div class="card-footer">
         <form action="registrasi/get" method="get" id="formFilterRegistrasi">
-            <div class="row d-none-sm d-none-md">
+            <div class="row d-none-sm d-none-md gy-2">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <div class="input-group">
-                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
-                        <span class="input-group-text">
-                            s.d
-                        </span>
-                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
-                        <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
-                    </div>
+                        <div class="input-group">
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                            <span class="input-group-text">
+                                s.d
+                            </span>
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
+                            <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
+                        </div>
                 </div>
-                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
-                    <select class="form-select filterDokter" id="dokter" name="dokter"></select>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <select class="form-select" id="dokter" name="dokter"></select>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                     <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
@@ -40,64 +40,13 @@
         let formFilterRegistrasi = $('#formFilterRegistrasi')
         let inputTglAwal = $('#tglAwal')
         let inputTglAkhir = $('#tglAkhir')
-        let filterDokter = $('.filterDokter')
-        let isDokter = {!! session()->get('pegawai')->dokter !!}
-
-        $(document).ready(() => {
-            let optDokter;
-            if (!isDokter) {
-                optDokter = new Option('-', '-', true, true);
-            } else {
-                optDokter = new Option(isDokter.nm_dokter, isDokter.kd_dokter, true, true);
-            }
-            filterDokter.append(optDokter).trigger('change');
-        });
-
-        filterDokter.select2({
-            dropdownParent: formFilterRegistrasi,
-            delay: 0,
-            scrollAfterSelect: true,
-            allowClear: true,
-            placeholder: 'Pilih dokter poliklinik',
-            ajax: {
-                url: `${url}/dokter/get`,
-                dataType: 'JSON',
-
-                data: (params) => {
-                    return {
-                        dokter: params.term
-                    }
-                },
-                processResults: (data) => {
-                    return {
-                        results: data.map((item) => {
-                            return {
-                                id: item.kd_dokter,
-                                text: item.nm_dokter,
-                                detail: item
-                            }
-
-                        })
-                    }
-                }
-
-            },
-        }).on('select2:select', (e) => {
-            loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
-        }).on('select2:unselect', (e) => {
-            loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), )
-        });
-
-        $('#btnFilterRegistrasi').on('click', (e) => {
-            e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterRegistrasi input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterRegistrasi input[name=tglAkhir]').val())
-            const dokter =  filterDokter.val()
-            localStorage.setItem('tglAwal', tglAwal)
-            localStorage.setItem('tglAkhir', tglAkhir)
-            loadTabelRegistrasi(tglAwal, tglAkhir, '',dokter);
+        $(document).ready(()=>{
+            selectDokter(formFilterRegistrasi.find('select[name="dokter"]'), formFilterRegistrasi)
+                .on('select2:select', (e)=>{
+                    loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
+                });
         })
-        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
+        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter='') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
                 stateSave: true,
@@ -113,7 +62,7 @@
                         tglAwal: tglAwal,
                         tglAkhir: tglAkhir,
                         stts: stts,
-                        dokter: dokter,
+                        dokter : dokter,
                     },
                 },
                 createdRow: (row, data, index) => {
@@ -123,6 +72,7 @@
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
+                            console.log(row)
                             let attr = 'javascript:void(0)';
                             let target = '';
                             let action = '';
@@ -158,7 +108,7 @@
                             if (row.pemeriksaan_ralan) {
                                 classBtnPemerisksaan = 'btn-success'
                             }
-                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil me-1"></i> CPPT</button>`;
+                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
                         },
                     },
 
@@ -191,7 +141,7 @@
                     },
                     {
                         title: 'Jam',
-                        data: 'jam_reg',
+                        data : 'jam_reg',
                         render: (data, type, row, meta) => {
                             return row.jam_reg;
                         },
@@ -205,7 +155,7 @@
                         }
                     }, {
                         title: 'Pasien',
-                        data: 'pasien',
+                        data : 'pasien',
                         render: (data, type, row, meta) => {
                             return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
                         }
@@ -235,14 +185,14 @@
                     },
                     {
                         title: 'status',
-                        data: 'stts_daftar',
+                        data : 'stts_daftar',
                         render: (data, type, row, meta) => {
                             return `<span class="badge ${data.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${data}`;
                         },
                     },
                     {
                         title: 'Penjab',
-                        data: 'penjab.png_jawab',
+                        data : 'penjab.png_jawab',
                         render: (data, type, row, meta) => {
                             return setTextPenjab(data);
                         },
@@ -292,5 +242,7 @@
                 loadTabelRegistrasi(tglAwal, tglAkhir);
             });
         }
+
+
     </script>
 @endpush()
