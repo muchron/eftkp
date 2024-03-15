@@ -120,7 +120,7 @@
                                     deleteResep(no_rawat).done((response) => {
                                         $('#no_resep').val('');
                                         btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                                        btnTambahResep.text('Buat Resep')
+                                        btnTambahResep.text('Tambah Resep')
                                         btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
 
                                         btnSimpanObat.addClass('d-none')
@@ -280,7 +280,7 @@
                                         <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
                                              : ${stringPemeriksaan(result.instruksi)}
                                         </div>
-    
+
                                     </div>
                                     <button class="btn btn-sm btn-primary mt-3" type="button" onclick="salinCppt('${result.no_rawat}', '${result.nip}')">
                                         <i class="ti ti-copy"></i> Copy CPPT
@@ -313,7 +313,7 @@
                                 </h2>
                                 <div id="collapse-${index}" class="accordion-collapse collapse" data-bs-parent="#listRiwayat" data-id="${regPeriksa.no_rawat}">
                                     <div class="accordion-body pt-0">
-                                        
+
                                     </div>
                                 </div>
                             </div>`
