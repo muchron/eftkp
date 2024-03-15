@@ -34,39 +34,33 @@ class ResepObatController extends Controller
             'no_resep' => $resepObat ? $resepObat->no_resep : $this->getNomorResep(),
         ];
 
-        // return $data;
         try {
             $resep = ResepObat::create($data);
-            return response()->json($resep);
+            if($resep){
+                $this->insertSql(new ResepObat(), $data);
+            }
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+     return response()->json($resep, 200);
     }
 
     function get(Request $request)
     {
-
+        $resepObat = new ResepObat();
         if ($request->no_resep) {
-            $resepObat = ResepObat::where(['no_resep' => $request->no_resep])->with([
-                'resepDokter.obat' => function ($q) {
-                    return $q->with(['satuan', 'mappingObat']);
-                },
-                'resepRacikan.detail.obat.satuan',
-                'resepRacikan.metode',
-            ])->first();
+           $resepObat =$resepObat->byNoResep($request->no_resep)->first();
         } else if ($request->no_rawat) {
-            $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with('resepDokter.obat.satuan', 'resepRacikan.detail.obat.satuan', 'resepRacikan.metode')->get();
+           $resepObat =$resepObat->byNoRawat($request->no_rawat)->get();
         } else  if ($request->tgl_awal && $request->tgl_akhir) {
-            $resepObat = ResepObat::whereBetween('tgl_peresepan', [$request->tgl_awal, $request->tgl_akhir])
-                ->with(['regPeriksa' => function ($q) {
-                    return $q->with(['pasien', 'poliklinik', 'dokter']);
-                }, 'dokter'])
-                ->get();
+            $resepObat = ResepObat::whereBetween('tgl_peresepan',[
+                date('Y-m-d', strtotime($request->tgl_awal)),
+                date('Y-m-d', strtotime($request->tgl_akhir))
+            ])->get();
         } else {
-            $resepObat = ResepObat::where('tgl_peresepan', date('Y-m-d'))->with(['regPeriksa' => function ($q) {
-                return $q->with(['pasien', 'poliklinik', 'dokter']);
-            }, 'dokter'])->get();
+            $resepObat = ResepObat::where('tgl_peresepan', now())->get();
         }
+
         if ($request->dataTable) {
             return DataTables::of($resepObat)->make(true);
         }
@@ -83,6 +77,11 @@ class ResepObatController extends Controller
             $no_resep = $resep->no_resep + 1;
         } else {
             $no_resep = date('Ymd') . '0001';
+        }
+
+        $resepObat = ResepObat::where('no_resep', $no_resep)->first();
+        if($resepObat){
+            $no_resep = $resepObat->no_resep + 1;
         }
         return $no_resep;
     }

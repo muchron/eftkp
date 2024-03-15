@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table nowrap table-sm table-hover" id="tbResepObat" width="100%"></table>
+                            <table class="table nowrap table-sm table-striped table-hover" id="tbResepObat" width="100%"></table>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -32,14 +32,13 @@
 @endsection
 @push('script')
     <script>
-        var url = "{{ url('') }}";
-        var tgl_awal = localStorage.getItem('tglAwal');
-        var tgl_akhir = localStorage.getItem('tglAkhir');
-        $(document).ready(() => {
-            $('#tgl_awal').val(splitTanggal(tgl_awal))
-            $('#tgl_akhir').val(splitTanggal(tgl_akhir))
+        const tglAwalResep = localStorage.getItem('tglAwalResep');
+        const tglAkhirResep = localStorage.getItem('tglAkhirResep');
 
-            tbResepObat(tgl_awal, tgl_akhir);
+        $(document).ready(() => {
+            tbResepObat(tglAwalResep,tglAkhirResep);
+            tglAwalResep ? $('#tgl_awal').val(tglAwalResep) : '';
+            tglAkhirResep ? $('#tgl_akhir').val(tglAkhirResep) : '';
         })
 
         function tbResepObat(tgl_awal = '', tgl_akhir = '') {
@@ -59,7 +58,24 @@
                         tgl_akhir: tgl_akhir,
                     },
                 },
-                columns: [{
+                columns: [
+                    {
+                        title: '',
+                        data: 'no_resep',
+                        render: (data, type, row, meta) => {
+                            if (isAvailableTime(row.jam_penyerahan)) {
+                                colorBtn = `btn-success`
+                                display = `d-none`
+
+                            } else {
+                                colorBtn = `btn-danger`
+                                display = ``
+                            }
+                            return `<button class="btn btn-sm ${colorBtn} me-2" onclick="showDetailResep('${data}')"><i class="ti ti-search me-2"></i>Lihat</button>
+                            <button class="btn btn-sm btn-primary ${display}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send me-2"></i>Selesai</button>`;
+                        },
+                    },
+                    {
                         title: 'NO RESEP',
                         data: 'no_resep',
                         render: (data, type, row, meta) => {
@@ -95,10 +111,24 @@
                         },
                     },
                     {
+                        title: 'Asuransi',
+                        data: 'reg_periksa.penjab.png_jawab',
+                        render: (data, type, row, meta) => {
+                            return setTextPenjab(data);
+                        },
+                    },
+                    {
                         title: 'DIBUAT',
                         data: 'tgl_peresepan',
                         render: (data, type, row, meta) => {
                             return `${isAvaliableDate(data)} ${isAvailableTime(row.jam_peresepan)}`;
+                        },
+                    },
+                    {
+                        title: 'VALIDASI',
+                        data: 'tgl_perawatan',
+                        render: (data, type, row, meta) => {
+                            return `${isAvaliableDate(data)} ${isAvailableTime(row.jam)}`;
                         },
                     },
                     {
@@ -108,33 +138,15 @@
                             return `${isAvaliableDate(data)} ${isAvailableTime(row.jam_penyerahan)}`;
                         },
                     },
-                    {
-                        title: '',
-                        data: 'no_resep',
-                        render: (data, type, row, meta) => {
-                            if (isAvailableTime(row.jam_penyerahan)) {
-                                colorBtn = `btn-success`
-                                display = `d-none`
-
-                            } else {
-                                colorBtn = `btn-danger`
-                                display = ``
-                            }
-                            return `<button class="btn btn-sm ${colorBtn} me-2" onclick="showDetailResep('${data}')"><i class="ti ti-search me-2"></i>Lihat</button>
-                            <button class="btn btn-sm btn-primary ${display}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send me-2"></i>Selesai</button>`;
-                        },
-                    },
-
-
                 ]
             })
         }
         $('#btnFilterTanggal').on('click', (e) => {
-            tgl_awal = splitTanggal($('#tgl_awal').val());
-            tgl_akhir = splitTanggal($('#tgl_akhir').val());
+            tgl_awal = $('#tgl_awal').val();
+            tgl_akhir =$('#tgl_akhir').val();
 
-            localStorage.setItem('tglAwal', tgl_awal);
-            localStorage.setItem('tglAkhir', tgl_akhir);
+            localStorage.setItem('tglAwalResep', tgl_awal);
+            localStorage.setItem('tglAkhirResep', tgl_akhir);
 
             tbResepObat(tgl_awal, tgl_akhir);
         })
@@ -161,7 +173,6 @@
                     }).join('')
 
                     const resepRacikan = response.resep_racikan.map((item, index) => {
-                        console.log(item);
                         const detail = item.detail.map((subItem) => {
                             return `<li>${subItem.obat.nama_brng} @${subItem.jml} ${subItem.obat.satuan.satuan}</li>`;
                         }).join('');
@@ -174,7 +185,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Data tidak ditemukan',
+                        text: 'Tidak ada obat didalam nomor resep ini',
                     })
                 }
             })

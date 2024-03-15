@@ -196,8 +196,6 @@
             .input-group-text {
                 font-size: 11px;
             }
-
-
         }
     </style>
 </head>
