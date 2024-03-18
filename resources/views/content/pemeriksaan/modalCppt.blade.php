@@ -37,6 +37,8 @@
         })
         $('#modalCppt').on('shown.bs.modal', (e) => {
             switcTab(tabObat)
+            tabelResepUmum.find('tbody').empty()
+            tabelResepRacikan.find('tbody').empty()
         })
 
         function switcTab(tabElement, target = '') {
@@ -94,42 +96,8 @@
                     selectAlergi(inputAlergi, $('#formCpptRajal'))
                 }
 
-                getResep({
-                    no_rawat: no_rawat,
-                }).done((resep) => {
-                    tabelResepUmum.find('tbody').empty()
-                    if (resep.length) {
-                        resep.map((res) => {
-                            btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
-                            $(`#no_resep`).val(res.no_resep);
-                            if (res.resep_dokter.length)
-                                setResepDokter(res.no_resep);
-                            if (res.resep_racikan.length)
-                                setResepRacikan(res.no_resep)
-                        })
-                        btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
-                        btnTambahResep.text('Hapus Resep')
-                        btnCetakResep.attr('onclick', `cetakResep('${no_rawat}')`)
-                        tabelResepUmum.removeClass('d-none')
-                        tabelResepRacikan.removeClass('d-none')
-                        btnSimpanObat.removeClass('d-none')
-                        btnSimpanRacikan.removeClass('d-none')
-                        btnTambahObat.removeClass('d-none')
-                        btnTambahRacikan.removeClass('d-none')
-                        btnCetakResep.removeClass('d-none')
-                    } else {
-                        btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                        btnTambahResep.text('Tambah Resep')
-                        btnCetakResep.removeAttr('onclick')
-                        tabelResepUmum.addClass('d-none')
-                        tabelResepRacikan.addClass('d-none')
-                        btnSimpanObat.addClass('d-none')
-                        btnSimpanRacikan.addClass('d-none')
-                        btnTambahObat.addClass('d-none')
-                        btnTambahRacikan.addClass('d-none')
-                        btnCetakResep.addClass('d-none')
-                    }
-                });
+                renderResepObat(no_rawat)
+
                 if (response.pemeriksaan_ralan) {
                     const pemeriksaan = response.pemeriksaan_ralan;
                     Object.keys(pemeriksaan).map((key, index) => {
@@ -157,6 +125,46 @@
 
             })
             $('#modalCppt').modal('show')
+        }
+
+        function renderResepObat(no_rawat) {
+            getResep({
+                no_rawat: no_rawat,
+            }).done((resep) => {
+                tabelResepUmum.find('tbody').empty()
+                tabelResepRacikan.find('tbody').empty()
+                if (resep.length) {
+                    resep.map((res) => {
+                        btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
+                        $(`#no_resep`).val(res.no_resep);
+                        if (res.resep_dokter.length)
+                            setResepDokter(res.no_resep);
+                        if (res.resep_racikan.length)
+                            setResepRacikan(res.no_resep)
+                    })
+                    btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
+                    btnTambahResep.text('Hapus Resep')
+                    btnCetakResep.attr('onclick', `cetakResep('${no_rawat}')`)
+                    tabelResepUmum.removeClass('d-none')
+                    tabelResepRacikan.removeClass('d-none')
+                    btnSimpanObat.removeClass('d-none')
+                    btnSimpanRacikan.removeClass('d-none')
+                    btnTambahObat.removeClass('d-none')
+                    btnTambahRacikan.removeClass('d-none')
+                    btnCetakResep.removeClass('d-none')
+                } else {
+                    btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                    btnTambahResep.text('Tambah Resep')
+                    btnCetakResep.removeAttr('onclick')
+                    tabelResepUmum.addClass('d-none')
+                    tabelResepRacikan.addClass('d-none')
+                    btnSimpanObat.addClass('d-none')
+                    btnSimpanRacikan.addClass('d-none')
+                    btnTambahObat.addClass('d-none')
+                    btnTambahRacikan.addClass('d-none')
+                    btnCetakResep.addClass('d-none')
+                }
+            });
         }
     </script>
 @endpush
