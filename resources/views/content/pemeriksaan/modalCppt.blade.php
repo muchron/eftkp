@@ -131,6 +131,7 @@
             getResep({
                 no_rawat: no_rawat,
             }).done((resep) => {
+                console.log('RESEP ===', resep)
                 if (resep.length) {
                     resep.map((res) => {
                         const {resep_racikan, resep_dokter} = res;
