@@ -71,6 +71,7 @@ class ResepObatController extends Controller
         $resep = ResepObat::select('no_resep')
             ->orderBy('no_resep', 'DESC')
             ->where('tgl_peresepan', date('Y-m-d'))
+            ->orWhere('tgl_perawatan', date('Y-m-d'))
             ->first();
 
         if ($resep) {
