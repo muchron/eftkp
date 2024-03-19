@@ -15,7 +15,7 @@ class DataBarangController extends Controller
 	            ->orWhere('letak_barang', 'like', '%' . $request->barang . '%')
                 ->whereHas('jenis', function ($query) {
                     return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
-                })->limit(10)->orderBy('nama_brng', 'DESC')
+                })->orderBy('nama_brng', 'DESC')
                 ->get();
         } else {
             $barang = DataBarang::whereHas('jenis', function ($query) {
