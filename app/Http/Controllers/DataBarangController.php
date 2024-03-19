@@ -11,11 +11,11 @@ class DataBarangController extends Controller
     {
         if ($request) {
             $barang = DataBarang::where('status', 1)
-	            ->orWhere('nama_brng', 'like', '%' . $request->barang . '%')
-	            ->orWhere('letak_barang', 'like', '%' . $request->barang . '%')
+	            ->orWhere('nama_brng', 'like', $request->barang . '%')
+	            ->orWhere('letak_barang', $request->barang . '%')
                 ->whereHas('jenis', function ($query) {
                     return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
-                })->orderBy('nama_brng', 'DESC')
+                })->orderBy('nama_brng', 'ASC')->limit(10)
                 ->get();
         } else {
             $barang = DataBarang::whereHas('jenis', function ($query) {
