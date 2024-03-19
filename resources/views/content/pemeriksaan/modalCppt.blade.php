@@ -34,11 +34,11 @@
         var tabObat = $('#tabObat');
         $('#modalCppt').on('hidden.bs.modal', (e) => {
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
+            tabelResepUmum.find('tbody').empty()
+            tabelResepRacikan.find('tbody').empty()
         })
         $('#modalCppt').on('shown.bs.modal', (e) => {
             switcTab(tabObat)
-            tabelResepUmum.find('tbody').empty()
-            tabelResepRacikan.find('tbody').empty()
         })
 
         function switcTab(tabElement, target = '') {
@@ -131,7 +131,6 @@
             getResep({
                 no_rawat: no_rawat,
             }).done((resep) => {
-                console.log('RESEP ===', resep)
                 if (resep.length) {
                     resep.map((res) => {
                         const {resep_racikan, resep_dokter} = res;
