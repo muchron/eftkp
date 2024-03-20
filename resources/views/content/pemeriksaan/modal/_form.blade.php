@@ -215,6 +215,7 @@
                     <textarea class="form-control" rows="6" value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" name="rtl">-</textarea>
                 </div>
             </div>
+        </div>
     </fieldset>
 </form>
 @include('content.pemeriksaan.modal._modalKunjunganPcare')
@@ -326,7 +327,7 @@
                                     const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                                     setStatusLayan(data['no_rawat'], stts);
                                 }
-                                loadTabelRegistrasi(tglAwal, tglAkhir)
+                                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter )
                             })
                             return false;
                         }
@@ -345,7 +346,7 @@
                             const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                             setStatusLayan(data['no_rawat'], stts);
                         }
-                        loadTabelRegistrasi(tglAwal, tglAkhir)
+                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter )
                     })
                 }
 
@@ -361,7 +362,7 @@
         function selectAlergi(element, parent) {
             const select2 = element.select2({
                 dropdownParent: parent,
-                delay: 0,
+                delay: 2,
                 tags: true,
                 scrollAfterSelect: true,
                 ajax: {

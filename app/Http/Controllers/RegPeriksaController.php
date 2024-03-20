@@ -89,13 +89,21 @@ class RegPeriksaController extends Controller
 
         if ($req->tglAwal || $req->tglAkhir) {
             // jika ada filter tanggal, ambil tgl registrasi yang ditentukan
-            $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->orderBy('no_reg', 'ASC')->get();
+            $regPeriksa = $this->regPeriksa->with($this->relation)
+	            ->whereBetween('tgl_registrasi', [
+					date('Y-m-d', strtotime($req->tglAwal)),
+		            date('Y-m-d', strtotime($req->tglAkhir))
+	            ])
+	            ->orderBy('no_reg', 'ASC')->get();
         } else {
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
 
         if($req->dokter){
             $regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
+        }
+		if($req->stts){
+            $regPeriksa = $regPeriksa->where('stts', $req->stts);
         }
 
         if ($req->dataTable) {

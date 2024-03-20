@@ -219,7 +219,6 @@
         var btnSimpanReg = $('#btnSimpanReg')
         var periksaPendaftaran = $('#periksaPendaftaran')
         var url = "{{ url('') }}";
-        var tanggal = "{{ date('Y-m-d') }}";
         var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
         var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
         var timeDisplay = $('.jam');
@@ -285,7 +284,7 @@
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
-                        loadTabelRegistrasi(tglAwal, tglAkhir)
+                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
                     }
                     if (data.bridging) {
                         data['tensi'] = `${data.sistole}/${data.diastole}`

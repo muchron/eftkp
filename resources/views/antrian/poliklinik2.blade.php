@@ -72,7 +72,6 @@
 @push('script')
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
     <script>
-        var tanggal = "{{ date('Y-m-d') }}";
         var url = "{{ url('') }}";
         $(document).ready(() => {
             jam();

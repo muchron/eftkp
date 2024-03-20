@@ -59,7 +59,7 @@
 
         .form-label {
             font-size: 11px;
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         .form-control,
@@ -81,7 +81,7 @@
         }
 
         .modal {
-            border-radius: 6 6 6 6;
+            border-radius: 6px;
         }
 
         .accordion-button {
@@ -178,10 +178,10 @@
 
         @media (min-width: 1920px) {
             .table{
-                font-size: 12px;
+                font-size: 13px;
             }
             .table .btn-sm{
-                font-size: 11px;
+                font-size: 12px;
             }
             .form-label {
                 font-size: 13px;
@@ -229,10 +229,10 @@
         })((function() {
             'use strict';
 
-            var themeStorageKey = "tablerTheme";
-            var defaultTheme = "light";
-            var selectedTheme;
-            var params = new Proxy(new URLSearchParams(window.location.search), {
+            const themeStorageKey = "tablerTheme";
+            const defaultTheme = "light";
+            let selectedTheme;
+            const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: function get(searchParams, prop) {
                     return searchParams.get(prop);
                 }
@@ -252,13 +252,13 @@
 
         }));
         $(document).ready(() => {
-            var tanggal = "{{ date('Y-m-d') }}";
+            var tanggal = "{{ date('d-m-Y') }}";
 
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
+            $('#tglAwal').val(tglAwal)
+            $('#tglAkhir').val(tglAkhir)
 
             $.ajaxSetup({
                 headers: {
@@ -284,15 +284,6 @@
         function getRegPeriksa(...params) {
             const registrasi = $.get(`${url}/registrasi/get`, params)
             return registrasi;
-        }
-
-        function setStatusLayan(no_rawat, status) {
-            const postStatus = $.post(`${url}/registrasi/update`, {
-                stts: status,
-                no_rawat: no_rawat
-            });
-
-            return postStatus;
         }
 
         function createAlergi(data) {

@@ -41,7 +41,6 @@
     <script>
         $(document).ready(() => {
             loadTbKamarInap();
-            var tanggal = "{{ date('Y-m-d') }}";
             var tglAwal = localStorage.getItem('tglAwalRanap') ? localStorage.getItem('tglAwalRanap') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhirRanap') ? localStorage.getItem('tglAkhirRanap') : tanggal;
 
