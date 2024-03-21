@@ -91,7 +91,7 @@
                                             id="srcPemeriksaan"
                                             onclick="listObjektifRanap()"><i
                                                 class="ti ti-search"></i></a></label>
-                                    <textarea class="form-control" name="pemeriksaan_fisik" id="pemeriksaan" cols="30"
+                                    <textarea class="form-control" name="pemeriksaan_fisik" id="pemeriksaan_fisik" cols="30"
                                         rows="10" onfocus="removeZero(this)" onblur="isEmpty(this)">-</textarea>
                                 </div>
                                 <div class="mb-2 col-sm-12 col-md-6 col-lg-6">
@@ -308,6 +308,8 @@
         </div>
     </div>
 </div>
+
+@include('content.kamarInap.resume.sub.listPemeriksaanRanap')
 @push('script')
     <script>
         let modalResumeMedis = $('#modalResumeMedis');
@@ -318,7 +320,6 @@
         function resumeMedis(no_rawat) {
 
             getRegDetail(no_rawat).done((response) => {
-                console.log(response)
                 formResumeMedis.find('input[name="no_rawat"]').val(response.no_rawat)
                 formResumeMedis.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
                 formResumeMedis.find('input[name="pasien"]').val(`${response.pasien.nm_pasien} (${response.pasien.jk})`);
@@ -367,7 +368,6 @@
 
         function getDiagnosaRanap(params) {
             $.get(`${url}/penyakit/get`).done((response) => {
-                // console.log(response);
             })
         }
 

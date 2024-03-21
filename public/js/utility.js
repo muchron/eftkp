@@ -172,7 +172,7 @@ function stringPemeriksaan(value) {
         const arrValue = value.split('\n');
         let string = '';
         for (let index = 0; index < arrValue.length; index++) {
-            string += `${arrValue[index]} <br/>`;
+            string += `${arrValue[index]}`;
         }
         return string
 

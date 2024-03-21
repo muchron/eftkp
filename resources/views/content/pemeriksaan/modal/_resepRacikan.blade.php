@@ -41,7 +41,7 @@
                             detailObat = `<tr>
                                     <td></td>
                                     <td colspan="5">
-                                        ${obat}    
+                                        ${obat}
                                     </td>
                                 </tr>`;
                         }
@@ -103,7 +103,7 @@
                     const isEmpty = Object.values(racikan).filter((item) => {
                         return item == null
                     }).length
-                    // cek apakah ada objek yang kosong 
+                    // cek apakah ada objek yang kosong
                     if (isEmpty) {
                         const errorMsg = {
                             status: 422,
@@ -112,7 +112,7 @@
                         alertErrorAjax(errorMsg)
                         return false;
                     }
-                    // push data 
+                    // push data
                     dataRacikan.push(racikan)
 
                 }
@@ -134,10 +134,10 @@
                                     jml: 0,
                                 }
                             })
-                            createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
-                                setResepRacikan(val.no_resep);
-                                tulisPlan(noResep)
-                            })
+                                createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
+                                    setResepRacikan(val.no_resep);
+                                    tulisPlan(noResep)
+                                })
 
                         } else {
                             setResepRacikan(noResep)
@@ -222,7 +222,7 @@
     <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"> </select></td>
     <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}"/></td>
     <td><select class="form-control" name="metode[]"id="metode${rowCount}"style="width:100%"> </select></td>
-        <td> <input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}" /> </td> 
+        <td> <input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}" /> </td>
         <td> <i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data - id = "row${rowCount}" onclick = "hapusBarisRacikan('${rowCount}')"> </i></td >
         </tr>`;
 

@@ -184,17 +184,17 @@
                 font-size: 12px;
             }
             .form-label {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .form-control,
             .form-select {
-                font-size: 13px;
+                font-size: 12px;
                 padding: .5rem;
             }
 
             .input-group-text {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
     </style>

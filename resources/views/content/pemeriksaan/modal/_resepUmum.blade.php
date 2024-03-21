@@ -48,13 +48,13 @@
                     reseps.map((resepDokter, index) => {
                         const numb = parseInt(index) + 1
                         const row = `<tr id="row${numb}">
-                            <td id="obatUmum${numb}">${resepDokter.obat.nama_brng}</td>    
-                            <td id="jmlUmum${numb}">${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>    
-                            <td id="aturanUmum${numb}">${resepDokter.aturan_pakai}</td>    
+                            <td id="obatUmum${numb}">${resepDokter.obat.nama_brng}</td>
+                            <td id="jmlUmum${numb}">${resepDokter.jml} ${resepDokter.obat.satuan?.satuan}</td>
+                            <td id="aturanUmum${numb}">${resepDokter.aturan_pakai}</td>
                             <td id="aksi${numb}">
                                 <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editObatDokter(${numb}, '${resepDokter.kode_brng}')"><i class="ti ti-pencil"></i> Ubah</button>
                                 <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusObatDokter(${no_resep}, '${resepDokter.kode_brng}')"><i class="ti ti-trash-x"></i>Hapus</button>
-                            </td>    
+                            </td>
                         </tr>`;
                         bodyResepUmum.append(row).fadeIn();
                     })
