@@ -72,6 +72,7 @@
         $(document).ready(() => {
             localStorage.removeItem('tglAwal');
             localStorage.removeItem('tglAkhir');
+            localStorage.removeItem('dokter');
         })
         $('#btnShowPassword').click((e) => {
             const inputPassword = $('#password')

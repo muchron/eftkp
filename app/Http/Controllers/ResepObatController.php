@@ -36,24 +36,24 @@ class ResepObatController extends Controller
 
         try {
             $resep = ResepObat::create($data);
-            if($resep){
+            if ($resep) {
                 $this->insertSql(new ResepObat(), $data);
             }
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
-     return response()->json($resep, 200);
+        return response()->json($resep, 200);
     }
 
     function get(Request $request)
     {
         $resepObat = new ResepObat();
         if ($request->no_resep) {
-           $resepObat =$resepObat->byNoResep($request->no_resep)->first();
+            $resepObat = $resepObat->byNoResep($request->no_resep)->first();
         } else if ($request->no_rawat) {
-           $resepObat =$resepObat->byNoRawat($request->no_rawat)->get();
+            $resepObat = $resepObat->byNoRawat($request->no_rawat)->get();
         } else  if ($request->tgl_awal && $request->tgl_akhir) {
-            $resepObat = ResepObat::whereBetween('tgl_peresepan',[
+            $resepObat = ResepObat::whereBetween('tgl_peresepan', [
                 date('Y-m-d', strtotime($request->tgl_awal)),
                 date('Y-m-d', strtotime($request->tgl_akhir))
             ])->get();
@@ -80,7 +80,7 @@ class ResepObatController extends Controller
         }
 
         $resepObat = ResepObat::where('no_resep', $no_resep)->first();
-        if($resepObat){
+        if ($resepObat) {
             $no_resep = $resepObat->no_resep + 1;
         }
         return $no_resep;

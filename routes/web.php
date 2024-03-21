@@ -358,4 +358,7 @@ Route::middleware('auth')->group(function () {
     // OBAT
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
     Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
+
 });
+
+require 'Extras/web.php';

@@ -45,8 +45,6 @@
 
 
         $(document).ready(() => {
-            var tanggal = "{{ date('Y-m-d') }}";
-
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
@@ -59,14 +57,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('.filterTangal').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayBtn: true,
-                todayHighlight: true,
-                language: "id",
-            });
-        })
 
 
         $('#formFilterTanggal').on('submit', (e) => {

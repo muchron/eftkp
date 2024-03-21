@@ -18,11 +18,20 @@
                             <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
                         </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
                     <select class="form-select" id="dokter" name="dokter"></select>
                 </div>
-                <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
-                    <button type="button" class="btn btn-primary" data-bs-target='#modalPasien' data-bs-toggle="modal">Pasien</button>
+                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
+                    <select class="form-select form-select-2" id="stts" name="stts" >
+                        <option value="" selected>-</option>
+                        <option value="Belum">Belum</option>
+                        <option value="Sudah">Sudah</option>
+                        <option value="Batal">Batal</option>
+                        <option value="Dirujuk">Dirujuk</option>
+                    </select>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
+                    <button type="button" class="btn btn-primary w-100" data-bs-target='#modalPasien' data-bs-toggle="modal"><i class="ti ti-users me-2"></i>Pasien</button>
                 </div>
             </div>
         </form>
@@ -37,15 +46,56 @@
 @push('script')
     <script type="" src="{{asset('public/libs/list.js/dist/list.min.js')}}"></script>
     <script>
-        let formFilterRegistrasi = $('#formFilterRegistrasi')
-        let inputTglAwal = $('#tglAwal')
-        let inputTglAkhir = $('#tglAkhir')
+        const formFilterRegistrasi = $('#formFilterRegistrasi')
+        const inputTglAwal = $('#tglAwal')
+        const inputTglAkhir = $('#tglAkhir')
+        const selectFilterDokter = formFilterRegistrasi.find('select[name="dokter"]');
+        const selectFilterStts = formFilterRegistrasi.find('select[name="stts"]');
+        const isDokter = JSON.parse(`{!!session()->get('pegawai')->dokter!!}`)
+        const dokterLocal = localStorage.getItem('dokter') ? JSON.parse(localStorage.getItem('dokter')) : isDokter ;
+        const statusLocal = localStorage.getItem('stts') ? localStorage.getItem('stts')  : '' ;
+
         $(document).ready(()=>{
-            selectDokter(formFilterRegistrasi.find('select[name="dokter"]'), formFilterRegistrasi)
-                .on('select2:select', (e)=>{
-                    loadTabelRegistrasi(splitTanggal(inputTglAwal.val()), splitTanggal(inputTglAkhir.val()), '', e.params.data.id)
-                });
+            $('.form-select-2').select2();
+            isObjectEmpty(isDokter) ? localStorage.setItem('dokter', !isObjectEmpty(dokterLocal) ? JSON.stringify(dokterLocal) : isDokter) : '';
+            let optDokter = !isObjectEmpty(dokterLocal) ? new Option(dokterLocal.nm_dokter, dokterLocal.kd_dokter, true, true) : "";
+            let optStts = statusLocal ? new Option(statusLocal, statusLocal, true, true) : "";
+            selectDokter(selectFilterDokter, formFilterRegistrasi)
+            selectFilterStts.append(optStts)
+            selectFilterDokter.append(optDokter)
+            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(),  selectFilterStts.val(), selectFilterDokter.val());
         })
+
+        selectFilterDokter.on('change', (e)=>{
+            e.preventDefault();
+            const nmDokter = e.currentTarget.options[e.currentTarget.selectedIndex].text
+            let dokter = JSON.stringify({kd_dokter : e.currentTarget.value, nm_dokter : nmDokter});
+            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(), selectFilterStts.val(), e.currentTarget.value);
+            if(!e.currentTarget.value){
+                dokter ='';
+            }
+            localStorage.setItem('dokter', dokter );
+        })
+
+        selectFilterStts.on('change', (e)=>{
+            e.preventDefault();
+            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(), e.currentTarget.value, selectFilterDokter.val());
+            let stts = e.currentTarget.value;
+            if(!e.currentTarget.value){
+                stts ='';
+            }
+            localStorage.setItem('stts',  stts );
+        })
+
+        $('#btnFilterRegistrasi').on('click', (e) => {
+            e.preventDefault();
+            const tglAwal = $('#formFilterRegistrasi input[name=tglAwal]').val()
+            const tglAkhir =$('#formFilterRegistrasi input[name=tglAkhir]').val()
+            localStorage.setItem('tglAwal', tglAwal)
+            localStorage.setItem('tglAkhir', tglAkhir)
+            loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(),selectFilterDokter.val());
+        })
+
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter='') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
@@ -75,18 +125,18 @@
                             let attr = 'javascript:void(0)';
                             let target = '';
                             let action = '';
-                            if (row.stts == 'Belum') {
+                            if (row.stts === 'Belum') {
                                 btnStatusLayanan = 'btn-primary'
                                 action = `setPanggil('${data}')`
-                            } else if (row.stts == 'Berkas Diterima' || row.stts == 'Dirawat') {
+                            } else if (row.stts === 'Berkas Diterima' || row.stts === 'Dirawat') {
                                 btnStatusLayanan = 'btn-purple'
                                 action = `setBelum('${data}')`
                                 row.stts = 'Diperiksa';
-                            } else if (row.stts == 'Batal') {
+                            } else if (row.stts === 'Batal') {
                                 btnStatusLayanan = 'btn-danger'
-                            } else if (row.stts == 'Sudah') {
+                            } else if (row.stts === 'Sudah') {
                                 btnStatusLayanan = 'btn-success'
-                            } else if (row.stts == 'Dirujuk') {
+                            } else if (row.stts === 'Dirujuk') {
                                 btnStatusLayanan = 'btn-warning'
                                 if (row.pcare_rujuk_subspesialis) {
                                     attr = `pcare/kunjungan/rujuk/subspesialis/print/${row.pcare_rujuk_subspesialis.noKunjungan}`
@@ -156,7 +206,7 @@
                         title: 'Pasien',
                         data : 'pasien',
                         render: (data, type, row, meta) => {
-                            return `<span class="text-muted" style="font-size:9px;font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
+                            return `<span class="text-muted" style="font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
                         }
                     },
                     {
@@ -232,13 +282,13 @@
 
         function setPanggil(no_rawat) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir);
+                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
             });
         }
 
         function setBelum(no_rawat) {
             setStatusLayan(no_rawat, 'Belum').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir);
+                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
             });
         }
 

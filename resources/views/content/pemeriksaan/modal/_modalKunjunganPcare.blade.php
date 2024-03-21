@@ -401,7 +401,7 @@
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
             $('#modalCppt').modal('hide');
             if (tabelRegistrasi.length) {
-                loadTabelRegistrasi(tglAwal, tglAkhir)
+                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
             } else if (tabelPcarePendaftaran) {
                 loadTbPcarePendaftaran(tglAwal, tglAkhir)
             }

@@ -7,9 +7,9 @@
             <li class="nav-item" role="presentation">
                 <a href="#tabsResepRacikan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Racikan</a>
             </li>
-            <li class="nav-item" role="presentation">
+            {{-- <li class="nav-item" role="presentation">
                 <a href="#tabsRiwayatResep" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Riwayat</a>
-            </li>
+            </li> --}}
         </ul>
     </div>
     <div class="card-body p-3">
@@ -20,10 +20,10 @@
             <div class="tab-pane fade" id="tabsResepRacikan" role="tabpanel">
                 @includeIf('content.pemeriksaan.modal._resepRacikan')
             </div>
-            <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
+            {{-- <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
                 <h4>Activity tab</h4>
                 <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris accumsan nibh habitant senectus</div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="card-footer p-2">
