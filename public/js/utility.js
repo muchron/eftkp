@@ -5,6 +5,8 @@ function getRegPeriksa(startDate = '', endDate = '') {
         endDate: endDate
     })
 }
+// initialize form select2
+$('.form-select-2').select2();
 
 // AJAX
 function formatTanggal(tanggal) {
@@ -1014,6 +1016,13 @@ $.contextMenu({
                     icon: "fas fa-clinic-medical",
                     callback: (item) => {
                         rujukInternal(`${no_rawat}`);
+                    }
+                },
+                "rujukKeluar": {
+                    name: "Rujuk Keluar",
+                    icon: "fas fa-truck-medical",
+                    callback: (item) => {
+                        rujukEksternal(`${no_rawat}`);
                     }
                 },
                 "PeriksaGigi": {

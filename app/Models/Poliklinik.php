@@ -10,6 +10,7 @@ class Poliklinik extends Model
     use HasFactory;
     protected $table = 'poliklinik';
     protected $guarded = [];
+    protected $hidden = ['laravel_through_key', 'registrasi', 'registrasilama'];
     public $timestamps = false;
 
     function maping(){

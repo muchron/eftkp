@@ -19,10 +19,10 @@
                         </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
-                    <select class="form-select" id="dokter" name="dokter"></select>
+                    <select class="form-select" id="dokter" name="dokter" style="width: 100%"></select>
                 </div>
                 <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
-                    <select class="form-select form-select-2" id="stts" name="stts" >
+                    <select class="form-select form-select-2" id="stts" name="stts" style="width: 100%" >
                         <option value="" selected>-</option>
                         <option value="Belum">Belum</option>
                         <option value="Sudah">Sudah</option>
@@ -56,7 +56,6 @@
         const statusLocal = localStorage.getItem('stts') ? localStorage.getItem('stts')  : '' ;
 
         $(document).ready(()=>{
-            $('.form-select-2').select2();
             isObjectEmpty(isDokter) ? localStorage.setItem('dokter', !isObjectEmpty(dokterLocal) ? JSON.stringify(dokterLocal) : isDokter) : '';
             let optDokter = !isObjectEmpty(dokterLocal) ? new Option(dokterLocal.nm_dokter, dokterLocal.kd_dokter, true, true) : "";
             let optStts = statusLocal ? new Option(statusLocal, statusLocal, true, true) : "";

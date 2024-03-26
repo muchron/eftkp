@@ -19,6 +19,7 @@ class RegPeriksa extends Model
     protected $table = 'reg_periksa';
     protected $guarded = [];
     public $timestamps = false;
+    protected $hidden  = ['laravel_through_key'];
 
     function pasien()
     {

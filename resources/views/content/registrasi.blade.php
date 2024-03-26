@@ -9,6 +9,7 @@
         {{-- </div> --}}
     </div>
     @include('content.registrasi._modalRujukanInternal')
+    @include('content.registrasi._modalRujukanEksternal')
     @include('content.registrasi._modalSuratSakit')
     @include('content.registrasi._modalSuratSehat')
     @include('content.registrasi._modalObatPcare')
@@ -17,12 +18,9 @@
 @endsection
 @push('script')
     <script>
-        var modalRujukanInternal = $('#modalRujukanInternal');
-        var formRujukInternalPoli = $('#formRujukanInternalPoli');
+        //Script Reistrasi
+        let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
         $(document).ready(() => {
-            var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-            var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
-
             $('#tglAwal').val(tglAwal)
             $('#tglAkhir').val(tglAkhir)
             $.ajaxSetup({
@@ -31,15 +29,7 @@
                 }
             });
         })
-        function rujukInternal(no_rawat) {
-            getRegDetail(no_rawat).done((response) => {
-                modalRujukanInternal.modal('show')
-                formRujukInternalPoli.find('input[name=no_rawat]').val(no_rawat)
-                formRujukInternalPoli.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
-                formRujukInternalPoli.find('input[name=nm_pasien]').val(response.pasien.nm_pasien)
-                formRujukInternalPoli.find('input[name=poliklinik]').val(response.poliklinik.nm_poli)
-            })
-        }
+
         function setStatusLayan(no_rawat, status) {
             return $.post(`${url}/registrasi/update`, {
                 stts: status,

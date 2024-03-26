@@ -202,28 +202,24 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
-                <button type="button" class="btn btn-success" id="btnSimpanReg"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+                <button type="button" class="btn btn-success" id="btnSimpanReg" onclick="createRegPeriksa()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
 </div>
 @push('script')
     <script>
-        var modalRegistrasi = $('#modalRegistrasi')
-        var formRegistrasiPoli = $('#formRegistrasiPoli')
-        var kd_dokter = formRegistrasiPoli.find('select[name=kd_dokter]')
-        var kd_poli = formRegistrasiPoli.find('select[name=kd_poli]')
-        var tglReg = formRegistrasiPoli.find('input[name=tgl_registrasi]')
-        var noReg = formRegistrasiPoli.find('input[name=no_reg]')
-        var tabelRegistrasi = $('#tabelRegistrasi')
-        var btnSimpanReg = $('#btnSimpanReg')
-        var periksaPendaftaran = $('#periksaPendaftaran')
-        var url = "{{ url('') }}";
-        var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-        var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
-        var timeDisplay = $('.jam');
-        var checkJam = $('.checkJam');
-        var setTime = '';
+        let modalRegistrasi = $('#modalRegistrasi')
+        let formRegistrasiPoli = $('#formRegistrasiPoli')
+        let kd_dokter = formRegistrasiPoli.find('select[name=kd_dokter]')
+        let kd_poli = formRegistrasiPoli.find('select[name=kd_poli]')
+        let tglReg = formRegistrasiPoli.find('input[name=tgl_registrasi]')
+        let noReg = formRegistrasiPoli.find('input[name=no_reg]')
+        let btnSimpanReg = $('#btnSimpanReg')
+        let periksaPendaftaran = $('#periksaPendaftaran')
+        let timeDisplay = $('.jam');
+        let checkJam = $('.checkJam');
+        let setTime = '';
 
         modalRegistrasi.on('shown.bs.modal', () => {
             refreshTime();
@@ -244,14 +240,12 @@
 
         function refreshTime() {
             setTime = setInterval(() => {
-                var dateString = new Date().toLocaleString("id-ID", {
+                const dateString = new Date().toLocaleString("id-ID", {
                     timeZone: "Asia/Jakarta"
                 });
-                var formattedString = dateString.replace(",", "-");
-                var splitarray = new Array();
-                splitarray = formattedString.split(" ");
-                var splitarraytime = new Array();
-                splitarraytime = splitarray[1].split(".");
+                const formattedString = dateString.replace(",", "-");
+                let splitarray = formattedString.split(" ");
+                let splitarraytime = splitarray[1].split(".");
                 const jam = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2]; // time
                 timeDisplay.val(jam)
             }, 1000);
@@ -273,18 +267,17 @@
             e.preventDefault()
             const tgl = e.currentTarget.value;
             setNoRawat(tgl).done((response) => {
-                console.log(response)
                 formRegistrasiPoli.find('input[name=no_rawat]').val(response)
             })
         })
 
 
-        btnSimpanReg.on('click', () => {
+        function createRegPeriksa(){
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
-                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                        loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), dokterLocal.kd_dokter)
                     }
                     if (data.bridging) {
                         data['tensi'] = `${data.sistole}/${data.diastole}`
@@ -313,8 +306,7 @@
             }).fail((error) => {
                 alertErrorAjax(error)
             });
-        })
-
+        }
 
         checkJam.on('change', (e) => {
             const isChecked = $(e.currentTarget).is(':checked')

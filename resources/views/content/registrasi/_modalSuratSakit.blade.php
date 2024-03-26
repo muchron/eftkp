@@ -26,12 +26,11 @@
 </div>
 @push('script')
     <script>
-        var modalSuratSakit = $('#modalSuratSakit');
-        var formSuratSakit = $('#formSuratSakit');
-        var formFilterSakit = $('#formFilterSakit');
-        var tanggalAwal = formSuratSakit.find('input[name=tanggalawal]');
-        var tanggalAkhir = formSuratSakit.find('input[name=tanggalakhir]');
-        var url = "{{ url('') }}"
+        let modalSuratSakit = $('#modalSuratSakit');
+        let formSuratSakit = $('#formSuratSakit');
+        let formFilterSakit = $('#formFilterSakit');
+        let tanggalAwal = formSuratSakit.find('input[name=tanggalawal]');
+        let tanggalAkhir = formSuratSakit.find('input[name=tanggalakhir]');
 
         $('#modalSuratSakit').on('shown.bs.modal', (e) => {
             const lamaSakit = setLamaSakit(tanggalAwal.val(), tanggalAkhir.val());

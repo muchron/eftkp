@@ -257,24 +257,22 @@
 @include('content.registrasi._modalPesertaBpjs')
 @push('script')
     <script>
-        var formPasien = $('#formPasien');
-        var modalPasien = $('#modalPasien');
-        var sukuBangsa = formPasien.find('select[name=suku_bangsa]');
-        var bahasaPasien = formPasien.find('select[name=bahasa_pasien]');
-        var cacatFisik = formPasien.find('select[name=cacat_fisik]');
-        var penjab = formPasien.find('select[name=kd_pj]');
-        var kelurahan = formPasien.find('select[name=kd_kel]');
-        var kecamatan = formPasien.find('select[name=kd_kec]');
-        var kabupaten = formPasien.find('select[name=kd_kab]');
-        var propinsi = formPasien.find('select[name=kd_prop]');
-        var perusahaan = formPasien.find('select[name=perusahaan_pasien]');
-        var checkPj = formPasien.find('input[id=checkPj]');
-        var checkNoRm = formPasien.find('input[id=checkNoRm]');
-        var tglLahir = formPasien.find('input[name=tgl_lahir]');
-        var url = "{{ url('') }}"
-        var periksaPendaftaran = $('#periksaPendaftaran');
-        var tabFormPasien = $('#pane1');
-        var tabTablePasien = $('#pane2');
+        let formPasien = $('#formPasien');
+        let modalPasien = $('#modalPasien');
+        let sukuBangsa = formPasien.find('select[name=suku_bangsa]');
+        let bahasaPasien = formPasien.find('select[name=bahasa_pasien]');
+        let cacatFisik = formPasien.find('select[name=cacat_fisik]');
+        let penjab = formPasien.find('select[name=kd_pj]');
+        let kelurahan = formPasien.find('select[name=kd_kel]');
+        let kecamatan = formPasien.find('select[name=kd_kec]');
+        let kabupaten = formPasien.find('select[name=kd_kab]');
+        let propinsi = formPasien.find('select[name=kd_prop]');
+        let perusahaan = formPasien.find('select[name=perusahaan_pasien]');
+        let checkPj = formPasien.find('input[id=checkPj]');
+        let checkNoRm = formPasien.find('input[id=checkNoRm]');
+        let tglLahir = formPasien.find('input[name=tgl_lahir]');
+        let tabFormPasien = $('#pane1');
+        let tabTablePasien = $('#pane2');
 
 
         modalPasien.on('show.bs.modal', () => {

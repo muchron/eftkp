@@ -121,9 +121,8 @@
         $(document).ready(() => {
             setCardKunjungan();
             dataGrafikKecamatan();
-            dataGrafikKelurahan();;
+            dataGrafikKelurahan();
         })
-        var url = "{{ url('') }}"
 
         function setCardKunjungan() {
             getRegPeriksa().done((response) => {

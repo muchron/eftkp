@@ -24,8 +24,8 @@
 
 @push('script')
     <script>
-        var ctxGrafikKelurahan = $('#grafikKelurahan');
-        var grafikKelurahan = '';
+        let ctxGrafikKelurahan = $('#grafikKelurahan');
+        let grafikKelurahan = '';
 
         function renderGrafikKelurahan(data) {
             grafikKelurahan = new Chart(ctxGrafikKelurahan, {

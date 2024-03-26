@@ -61,12 +61,11 @@
 </div>
 @push('script')
     <script>
-        var modalSuratSehat = $('#modalSuratSehat');
-        var modalCetakSuratSehat = $('#modalCetakSuratSehat');
-        var formSuratSehat = $('#formSuratSehat ');
-        var tanggal = "{{ date('Y-m-d') }}"
-        var tglSuratSehat1 = localStorage.getItem('tglSuratSehat1') ? localStorage.getItem('tglSuratSehat1') : tanggal;
-        var tglSuratSehat2 = localStorage.getItem('tglSuratSehat2') ? localStorage.getItem('tglSuratSehat2') : tanggal;
+        let modalSuratSehat = $('#modalSuratSehat');
+        let modalCetakSuratSehat = $('#modalCetakSuratSehat');
+        let formSuratSehat = $('#formSuratSehat ');
+        let tglSuratSehat1 = localStorage.getItem('tglSuratSehat1') ? localStorage.getItem('tglSuratSehat1') : tanggal;
+        let tglSuratSehat2 = localStorage.getItem('tglSuratSehat2') ? localStorage.getItem('tglSuratSehat2') : tanggal;
 
         modalSuratSehat.on('hidden.bs.modal', () => {
             formSuratSehat.trigger('reset');
