@@ -1138,8 +1138,8 @@ $.contextMenu({
                     }
                 },
                 "riwayat": {
-                    name: "Riwayat",
-                    icon: 'fas fa-book',
+                    name: "Riwayat Kunjungan",
+                    icon: 'fa-regular fa-folder-open',
                     callback: function (item, option, e, x, y) {
                         riwayat(`${no_rkm_medis}`)
                     }
