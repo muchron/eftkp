@@ -24,12 +24,12 @@
     <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{ asset('public/img/icon-app.svg') }}">
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -59,7 +59,7 @@
 
         .form-label {
             font-size: 11px;
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         .form-control,
@@ -81,7 +81,7 @@
         }
 
         .modal {
-            border-radius: 6 6 6 6;
+            border-radius: 6px;
         }
 
         .accordion-button {
@@ -178,23 +178,23 @@
 
         @media (min-width: 1920px) {
             .table{
-                font-size: 12px;
+                font-size: 13px;
             }
             .table .btn-sm{
-                font-size: 11px;
+                font-size: 12px;
             }
             .form-label {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .form-control,
             .form-select {
-                font-size: 13px;
+                font-size: 12px;
                 padding: .5rem;
             }
 
             .input-group-text {
-                font-size: 11px;
+                font-size: 12px;
             }
         }
     </style>
@@ -219,20 +219,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
-        var tanggal = "{{ date('Y-m-d') }}"
-        var url = "{{ url('') }}"
-        var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-        var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+        //Script main
+        let tanggal = "{{ date('d-m-Y') }}"
+        let url = "{{ url('') }}"
+        let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
+        let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
         (function(factory) {
             typeof define === 'function' && define.amd ? define(factory) :
                 factory();
         })((function() {
             'use strict';
 
-            var themeStorageKey = "tablerTheme";
-            var defaultTheme = "light";
-            var selectedTheme;
-            var params = new Proxy(new URLSearchParams(window.location.search), {
+            const themeStorageKey = "tablerTheme";
+            const defaultTheme = "light";
+            let selectedTheme;
+            const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: function get(searchParams, prop) {
                     return searchParams.get(prop);
                 }
@@ -252,13 +253,13 @@
 
         }));
         $(document).ready(() => {
-            var tanggal = "{{ date('Y-m-d') }}";
+            var tanggal = "{{ date('d-m-Y') }}";
 
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
+            $('#tglAwal').val(tglAwal)
+            $('#tglAkhir').val(tglAkhir)
 
             $.ajaxSetup({
                 headers: {
@@ -274,6 +275,26 @@
             });
         })
 
+        function switcTab(tabElement, target = '') {
+            $('.nav-link').removeClass('active');
+            $('.tab-pane').removeClass('show active');
+
+            if (target) {
+                const element = tabElement.find(`a[href="#${target}"]`)
+                $(element).addClass('active')
+                $(target).addClass('show active');
+            } else {
+                tabElement.find('a').each((index, element) => {
+                    if (index === 0) {
+                        const target = $(element).attr('href')
+                        $(element).addClass('active')
+                        $(target).addClass('show active');
+                    }
+                })
+            }
+
+        }
+
         function getRegDetail(no_rawat) {
             const registrasi = $.get(`${url}/registrasi/get/detail`, {
                 no_rawat: no_rawat,
@@ -284,15 +305,6 @@
         function getRegPeriksa(...params) {
             const registrasi = $.get(`${url}/registrasi/get`, params)
             return registrasi;
-        }
-
-        function setStatusLayan(no_rawat, status) {
-            const postStatus = $.post(`${url}/registrasi/update`, {
-                stts: status,
-                no_rawat: no_rawat
-            });
-
-            return postStatus;
         }
 
         function createAlergi(data) {

@@ -1,11 +1,12 @@
 // AJAX
 function getRegPeriksa(startDate = '', endDate = '') {
-    const registrasi = $.get('registrasi/get', {
+    return $.get('registrasi/get', {
         startDate: startDate,
         endDate: endDate
     })
-    return registrasi;
 }
+// initialize form select2
+$('.form-select-2').select2();
 
 // AJAX
 function formatTanggal(tanggal) {
@@ -173,7 +174,7 @@ function stringPemeriksaan(value) {
         const arrValue = value.split('\n');
         let string = '';
         for (let index = 0; index < arrValue.length; index++) {
-            string += `${arrValue[index]} <br/>`;
+            string += `${arrValue[index]}<br/>`;
         }
         return string
 
@@ -230,6 +231,7 @@ function setTextPenjab(penjab, badge = true){
     return penjab.includes('BPJS') ? 'BPJS' : penjab;
 
 }
+
 
 // ALERT
 function alertSuccessAjax(message) {
@@ -325,7 +327,7 @@ function getSukuBangsa(suku) {
 function selectSukuBangsa(element, parrent, initVal = '-') {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         tags: true,
         scrollAfterSelect: true,
         ajax: {
@@ -367,7 +369,7 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
 function selectAlergi(element, parent) {
     const select2 = element.select2({
         dropdownParent: parent,
-        delay: 0,
+        delay: 2,
         tags: true,
         scrollAfterSelect: true,
         ajax: {
@@ -406,12 +408,21 @@ function getBahasa(bahasa) {
     });
 }
 
+const isObjectEmpty = (objectName) =>{
+    return (
+        objectName.length===0 &&
+        objectName &&
+        Object.keys(objectName).length === 0 &&
+        objectName.constructor === Object
+    );
+}
+
 
 
 function selectBahasaPasien(element, parrent, initVal = '-') {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         tags: true,
         scrollAfterSelect: true,
         ajax: {
@@ -459,7 +470,7 @@ function getCacatFisik(cacat) {
 function selectCacatFisik(element, parrent, initVal = '-') {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         tags: true,
         scrollAfterSelect: true,
         ajax: {
@@ -499,8 +510,8 @@ function selectCacatFisik(element, parrent, initVal = '-') {
 function selectPenjab(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
-        tags: true,
+        delay: 2,
+        tags: false,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penjab',
@@ -534,7 +545,7 @@ function selectPenjab(element, parrent) {
 function selectDataBarang(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/barang/get',
@@ -570,7 +581,7 @@ function selectDataBarang(element, parrent) {
 function selectDokter(element, parrent) {
   return element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         allowClear: true,
         tags:true,
@@ -601,15 +612,15 @@ function selectDokter(element, parrent) {
         cache: true
 
     }).on('select2:unselecting', (e)=>{
-        const option = new Option('-', '-', true, true);
-        e.currentTarget.append(option).trigger('change');
+        const option = new Option('', '', true, true);
+        $(e.currentTarget).append(option).trigger('change');
     });
 
 }
 function selectKelurahan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         tags: true,
         ajax: {
@@ -646,7 +657,7 @@ function selectKelurahan(element, parrent) {
 function selectKecamatan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         tags: true,
         ajax: {
@@ -683,7 +694,7 @@ function selectKecamatan(element, parrent) {
 function selectKabupaten(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         tags: true,
         ajax: {
@@ -720,7 +731,7 @@ function selectKabupaten(element, parrent) {
 function selectPropinsi(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         tags: true,
         ajax: {
@@ -757,7 +768,7 @@ function selectPropinsi(element, parrent) {
 function selectPerusahaan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         tags: true,
         ajax: {
@@ -794,7 +805,7 @@ function selectPerusahaan(element, parrent) {
 function selectPoliklinik(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/poliklinik',
@@ -827,47 +838,47 @@ function selectPoliklinik(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
-function selectDokter(element, parrent) {
-    const select2 = element.select2({
-        dropdownParent: parrent,
-        delay: 0,
-        scrollAfterSelect: true,
-        ajax: {
-            url: '/efktp/dokter',
-            dataType: 'JSON',
-
-            data: (params) => {
-                const query = {
-                    dokter: params.term
-                }
-                return query
-            },
-            processResults: (data) => {
-                return {
-                    results: data.map((item) => {
-                        const items = {
-                            id: item.kd_dokter,
-                            text: `${item.kd_dokter} - ${item.nm_dokter}`,
-                            detail: item
-                        }
-                        return items;
-                    })
-                }
-            }
-
-        },
-        cache: true
-
-    });
-    const option = new Option('-', '-', true, true);
-    element.append(option).trigger('change');
-    return select2;
-}
+// function selectDokter(element, parrent) {
+//     const select2 = element.select2({
+//         dropdownParent: parrent,
+//         delay: 2,
+//         scrollAfterSelect: true,
+//         ajax: {
+//             url: '/efktp/dokter',
+//             dataType: 'JSON',
+//
+//             data: (params) => {
+//                 const query = {
+//                     dokter: params.term
+//                 }
+//                 return query
+//             },
+//             processResults: (data) => {
+//                 return {
+//                     results: data.map((item) => {
+//                         const items = {
+//                             id: item.kd_dokter,
+//                             text: `${item.kd_dokter} - ${item.nm_dokter}`,
+//                             detail: item
+//                         }
+//                         return items;
+//                     })
+//                 }
+//             }
+//
+//         },
+//         cache: true
+//
+//     });
+//     const option = new Option('-', '-', true, true);
+//     element.append(option).trigger('change');
+//     return select2;
+// }
 
 function selectPegawai(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/pegawai',
@@ -903,7 +914,7 @@ function selectPegawai(element, parrent) {
 function selectPenyakit(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/penyakit/get',
@@ -939,7 +950,7 @@ function selectPenyakit(element, parrent) {
 function selectTindakan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
-        delay: 0,
+        delay: 2,
         scrollAfterSelect: true,
         ajax: {
             url: '/efktp/tindakan/get',
@@ -990,6 +1001,7 @@ $.contextMenu({
     build: (element, event) => {
         const no_rawat = element.data('id');
         const poli = element.data('poli');
+        const no_rkm_medis = element.data('no_rkm_medis');
         element.addClass('text-red')
         return {
             items: {
@@ -1006,6 +1018,13 @@ $.contextMenu({
                     icon: "fas fa-clinic-medical",
                     callback: (item) => {
                         rujukInternal(`${no_rawat}`);
+                    }
+                },
+                "rujukKeluar": {
+                    name: "Rujuk Keluar",
+                    icon: "fas fa-truck-medical",
+                    callback: (item) => {
+                        rujukEksternal(`${no_rawat}`);
                     }
                 },
                 "PeriksaGigi": {
@@ -1085,6 +1104,47 @@ $.contextMenu({
                         },
                     }
                 },
+                "setStatus" : {
+                    name : "Set Status",
+                    items : {
+                        "Sudah" : {
+                            name : 'Sudah',
+                            icon: "fas fa-check",
+                            callback : () =>{
+                                setStatusLayan(no_rawat,'Sudah')
+                            }
+                        },
+                        "Belum" : {
+                            name : 'Belum',
+                            icon: "fas fa-hourglass-start",
+                            callback : ()=>{
+                                setStatusLayan(no_rawat,'Belum')
+                            }
+                        },
+                        "Batal" : {
+                            name : 'Batal',
+                            icon : "fas fa-x",
+                            callback : ()=>{
+                                setStatusLayan(no_rawat,'Batal')
+                            }
+                        },
+                        "Dirujuk" : {
+                            name : 'Dirujuk',
+                            icon : "fas fa-person-walking-arrow-right",
+                            callback : ()=>{
+                                setStatusLayan(no_rawat,'Dirujuk')
+                            }
+                        },
+                    }
+                },
+                "riwayat": {
+                    name: "Riwayat Kunjungan",
+                    icon: 'fa-regular fa-folder-open',
+                    callback: function (item, option, e, x, y) {
+                        riwayat(`${no_rkm_medis}`)
+                    }
+
+                },
 
                 // "hapusRegistrasi": {
                 //     name: "Hapus Registrasi",
@@ -1141,10 +1201,10 @@ $.contextMenu({
 
                 },
                 "riwayat": {
-                    name: "Riwayat",
-                    icon: 'fas fa-book',
+                    name: "Riwayat Kunjungan",
+                    icon: 'fa-regular fa-folder-open',
                     callback: function (item, option, e, x, y) {
-                        editPasien(`${no_rkm_medis}`)
+                        riwayat(`${no_rkm_medis}`)
                     }
 
                 },
@@ -1172,6 +1232,7 @@ $.contextMenu({
     },
     build: (element, event) => {
         const no_rawat = element.data('id');
+        const no_rkm_medis = element.data('no_rkm_medis');
         element.addClass('text-red')
         return {
             items: {
@@ -1233,16 +1294,9 @@ $.contextMenu({
                     name: "Riwayat Kunjungan",
                     icon: 'fa-regular fa-folder-open',
                     callback: function (item, option, e, x, y) {
-                        // cpptRanap(`${no_rawat}`)
+                        riwayat(`${no_rkm_medis}`)
                     }
 
-                },
-                "SuratSakit": {
-                    name: "Surat Sakit",
-                    icon: "fas fa-envelope-open-text",
-                    callback: (item) => {
-                        suratSakit(`${no_rawat}`);
-                    }
                 },
             }
         }

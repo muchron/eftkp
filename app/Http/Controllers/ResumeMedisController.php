@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 //use App\Models\ResumeMedis;
 use App\Models\ResumeMedis;
-use App\Models\ResumePasienRanap;
 use App\Traits\Track;
+
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class ResumeMedisController extends Controller
     function get(Request $request) : object
     {
         $resume = new ResumeMedis();
-        $resume = $resume->where('no_rawat', $request->no_rawat)->first();
+        $resume = $resume->where('no_rawat', $request->no_rawat)
+            ->with('pasien')
+            ->first();
         return response()->json($resume);
     }
 

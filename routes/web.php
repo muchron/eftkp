@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RujukController;
 use App\Models\Setting;
 use App\Models\SukuBangsa;
 use App\Models\EfktpTemplateRacikan;
@@ -140,6 +141,7 @@ Route::middleware('auth')->group(function () {
         return view('content.pegawai');
     });
 
+    Route::get('/registrasi/pasien/{no_rkm_medis}', [RegPeriksaController::class, 'getAllRegPasien']);
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
     Route::post('/registrasi', [RegPeriksaController::class, 'create']);
@@ -277,6 +279,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/rujuk/internal/poli', [RujukInternalController::class, 'create']);
     Route::get('/rujuk/internal/poli/show', [RujukInternalController::class, 'show']);
     Route::post('/rujuk/internal/poli/delete', [RujukInternalController::class, 'delete']);
+    Route::post('/rujuk/internal/poli/update', [RujukInternalController::class, 'update']);
+    // RUJUK KELUAR
+    Route::get('/rujuk/keluar', [RujukController::class, 'get']);
+    Route::post('/rujuk/keluar', [RujukController::class, 'create']);
+    Route::post('/rujuk/keluar/delete', [RujukController::class, 'delete']);
+    Route::get('/rujuk/keluar/detail', [RujukController::class, 'detail']);
+    Route::get('/rujuk/keluar/nomor', [RujukController::class, 'setNoRujuk']);
+    Route::get('/rujuk/keluar/keterangan', [RujukController::class, 'getKeterangan']);
+    Route::get('/rujuk/keluar/faskes', [RujukController::class, 'getFaskesRujuk']);
+    Route::get('/rujuk/keluar/print/{noRujukan}', [RujukController::class, 'print']);
+
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
     Route::post('/pcare/pendaftaran', [PcarePendaftaranController::class, 'create']);
@@ -358,4 +371,7 @@ Route::middleware('auth')->group(function () {
     // OBAT
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
     Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
+
 });
+
+require 'Extras/web.php';

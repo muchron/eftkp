@@ -18,6 +18,7 @@ class Pasien extends Model
     protected $table = 'pasien';
     protected $guarded = [];
     public $timestamps = false;
+    protected $hidden  = ['laravel_through_key'];
 
     function regPeriksa()
     {

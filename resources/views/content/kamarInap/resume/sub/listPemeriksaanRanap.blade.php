@@ -56,8 +56,6 @@
                         tanggal: `${splitTanggal(item.tgl_perawatan)} ${item.jam_rawat}`,
                     }
                 })
-
-                console.log(data)
                 tabelPemeriksaan(data)
                 modallistKeluhanRanap.modal('show')
             })
@@ -74,7 +72,8 @@
                 scrollY : '40vh',
                 scrollX : true,
                 createdRow : (row, data, index)=>{
-                    $(row).attr('data-id', index).attr('onclick', `setTextPeriksa(this, ${index})`);
+                    $(row).attr('data-id', index).attr('onclick', `setTextPeriksa(this)`)
+                        .attr('data-target', `${data.kategori}`).attr('data-bs-dismiss', 'modal');
                 },
                 columns: [
 
@@ -103,7 +102,7 @@
                         title: '',
                         data: '',
                         render: (data, type, row, meta) => {
-                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%" data-target="${row.kategori}" > <i class="ti ti-copy"></i></button>`;
+                            return `<button type="button" class="btn btn-sm btn-primary" style="width: 100%" data-target="${row.kategori}"> <i class="ti ti-copy"></i></button>`;
                         },
                     },
                 ],
@@ -115,10 +114,11 @@
         }
 
         function setTextPeriksa(e){
-            var text = $(e).find('td')[1].innerHTML;
-            // let value = element.val() != '-' ? element.val().replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
-            // value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
-            // element.val(value)
+            const text = $(e).find('td')[1].innerHTML;
+            const element = $(`textarea[id='${e.dataset.target}']`);
+            let value =  element.val() !== '-' ? element.val().replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
+            value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>');
+            element.val(value)
         }
     </script>
 @endpush

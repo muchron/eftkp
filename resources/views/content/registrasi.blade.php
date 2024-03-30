@@ -9,59 +9,36 @@
         {{-- </div> --}}
     </div>
     @include('content.registrasi._modalRujukanInternal')
+    @include('content.registrasi._modalRujukanEksternal')
     @include('content.registrasi._modalSuratSakit')
     @include('content.registrasi._modalSuratSehat')
     @include('content.registrasi._modalObatPcare')
     @include('content.pemeriksaan.modal.penilaianAwal._modalPenilaianAwal')
     @include('content.pemeriksaan.modal.penilaianAwal._modalSkriningJatuh')
+    @include('content.registrasi._modalRiwayat')
 @endsection
 @push('script')
     <script>
-        var modalRujukanInternal = $('#modalRujukanInternal');
-        var formRujukInternalPoli = $('#formRujukanInternalPoli');
+        //Script Reistrasi
+        let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
         $(document).ready(() => {
-
-            var tanggal = "{{ date('Y-m-d') }}";
-            var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-            var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
-
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
-
-            loadTabelRegistrasi(tglAwal, tglAkhir)
+            $('#tglAwal').val(tglAwal)
+            $('#tglAkhir').val(tglAkhir)
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('.filterTangal').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayBtn: true,
-                todayHighlight: true,
-                language: "id",
+        })
+
+        function setStatusLayan(no_rawat, status) {
+            return $.post(`${url}/registrasi/update`, {
+                stts: status,
+                no_rawat: no_rawat
+            }).done(() => {
+                loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
             });
-        })
-
-
-
-        $('#btnFilterRegistrasi').on('click', (e) => {
-            e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterRegistrasi input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterRegistrasi input[name=tglAkhir]').val())
-            localStorage.setItem('tglAwal', tglAwal)
-            localStorage.setItem('tglAkhir', tglAkhir)
-            loadTabelRegistrasi(tglAwal, tglAkhir);
-        })
-
-        function rujukInternal(no_rawat) {
-            getRegDetail(no_rawat).done((response) => {
-                modalRujukanInternal.modal('show')
-                formRujukInternalPoli.find('input[name=no_rawat]').val(no_rawat)
-                formRujukInternalPoli.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
-                formRujukInternalPoli.find('input[name=nm_pasien]').val(response.pasien.nm_pasien)
-                formRujukInternalPoli.find('input[name=poliklinik]').val(response.poliklinik.nm_poli)
-            })
         }
+
     </script>
 @endpush

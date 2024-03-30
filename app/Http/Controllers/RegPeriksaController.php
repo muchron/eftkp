@@ -89,13 +89,21 @@ class RegPeriksaController extends Controller
 
         if ($req->tglAwal || $req->tglAkhir) {
             // jika ada filter tanggal, ambil tgl registrasi yang ditentukan
-            $regPeriksa = $this->regPeriksa->with($this->relation)->whereBetween('tgl_registrasi', [$req->tglAwal, $req->tglAkhir])->orderBy('no_reg', 'ASC')->get();
+            $regPeriksa = $this->regPeriksa->with($this->relation)
+	            ->whereBetween('tgl_registrasi', [
+					date('Y-m-d', strtotime($req->tglAwal)),
+		            date('Y-m-d', strtotime($req->tglAkhir))
+	            ])
+	            ->orderBy('no_reg', 'ASC')->get();
         } else {
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
 
         if($req->dokter){
             $regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
+        }
+		if($req->stts){
+            $regPeriksa = $regPeriksa->where('stts', $req->stts);
         }
 
         if ($req->dataTable) {
@@ -106,7 +114,9 @@ class RegPeriksaController extends Controller
     function show(Request $req)
     {
         $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)
-            ->with($this->relation)->first();
+            ->with($this->relation)
+	        ->with('riwayatPemeriksaan.pegawai.dokter', 'pemeriksaanRanap.pegawai.dokter')
+	        ->first();
         return response()->json($regPeriksa, 200);
     }
     function update(Request $req)
@@ -214,4 +224,17 @@ class RegPeriksaController extends Controller
         return $regPeriksa->get();
 
     }
+
+	function getAllRegPasien($no_rkm_medis)
+	{
+		$regPeriksa = $this->regPeriksa->where('no_rkm_medis', $no_rkm_medis)
+			->whereNotIn('stts',['Belum', 'Batal'])
+			->orderBy('tgl_registrasi', 'DESC')
+			->get();
+
+		if($regPeriksa->count()){
+			return response()->json($regPeriksa, 200);
+		}
+			return response()->json([''], 204);
+	}
 }

@@ -19,6 +19,7 @@ class RegPeriksa extends Model
     protected $table = 'reg_periksa';
     protected $guarded = [];
     public $timestamps = false;
+    protected $hidden  = ['laravel_through_key'];
 
     function pasien()
     {
@@ -36,6 +37,10 @@ class RegPeriksa extends Model
     function pemeriksaanRalan()
     {
         return $this->hasOne(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
+    }
+	function pemeriksaanRanap()
+    {
+        return $this->hasMany(PemeriksaanRanap::class, 'no_rawat', 'no_rawat');
     }
     function pemeriksaanDokter()
     {

@@ -7,9 +7,9 @@
             <li class="nav-item" role="presentation">
                 <a href="#tabsResepRacikan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Racikan</a>
             </li>
-            <li class="nav-item" role="presentation">
+            {{-- <li class="nav-item" role="presentation">
                 <a href="#tabsRiwayatResep" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Riwayat</a>
-            </li>
+            </li> --}}
         </ul>
     </div>
     <div class="card-body p-3">
@@ -20,14 +20,14 @@
             <div class="tab-pane fade" id="tabsResepRacikan" role="tabpanel">
                 @includeIf('content.pemeriksaan.modal._resepRacikan')
             </div>
-            <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
+            {{-- <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
                 <h4>Activity tab</h4>
                 <div>Donec ac vitae diam amet vel leo egestas consequat rhoncus in luctus amet, facilisi sit mauris accumsan nibh habitant senectus</div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="card-footer p-2">
-        <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Tambah Resep</button>
+        <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
         <button type="button" class="btn btn-sm btn-info d-none" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak Resep</button>
 
     </div>
@@ -99,7 +99,7 @@
                         alertSuccessAjax().then(() => {
                             $('#no_resep').val('');
                             btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                            btnTambahResep.text('Tambah Resep')
+                            btnTambahResep.text('Buat Resep')
                             btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
 
                             btnSimpanObat.addClass('d-none')

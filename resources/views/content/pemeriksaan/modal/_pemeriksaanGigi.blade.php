@@ -52,7 +52,7 @@
                 alertSuccessAjax('Berhasil').then(() => {
                     loadRiwayatGigi(data['no_rkm_medis']);
                     setStatusLayan(data['no_rawat'], 'Sudah');
-                    loadTabelRegistrasi();
+                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
                     $('#modalPemeriksaanGigi').modal('hide');
                 });
             })
