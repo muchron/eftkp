@@ -275,6 +275,26 @@
             });
         })
 
+        function switcTab(tabElement, target = '') {
+            $('.nav-link').removeClass('active');
+            $('.tab-pane').removeClass('show active');
+
+            if (target) {
+                const element = tabElement.find(`a[href="#${target}"]`)
+                $(element).addClass('active')
+                $(target).addClass('show active');
+            } else {
+                tabElement.find('a').each((index, element) => {
+                    if (index === 0) {
+                        const target = $(element).attr('href')
+                        $(element).addClass('active')
+                        $(target).addClass('show active');
+                    }
+                })
+            }
+
+        }
+
         function getRegDetail(no_rawat) {
             const registrasi = $.get(`${url}/registrasi/get/detail`, {
                 no_rawat: no_rawat,

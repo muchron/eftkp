@@ -141,6 +141,7 @@ Route::middleware('auth')->group(function () {
         return view('content.pegawai');
     });
 
+    Route::get('/registrasi/pasien/{no_rkm_medis}', [RegPeriksaController::class, 'getAllRegPasien']);
     Route::get('/registrasi/set/noreg', [RegPeriksaController::class, 'setNoReg']);
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
     Route::post('/registrasi', [RegPeriksaController::class, 'create']);

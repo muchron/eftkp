@@ -174,7 +174,7 @@ function stringPemeriksaan(value) {
         const arrValue = value.split('\n');
         let string = '';
         for (let index = 0; index < arrValue.length; index++) {
-            string += `${arrValue[index]}`;
+            string += `${arrValue[index]}<br/>`;
         }
         return string
 
@@ -231,6 +231,7 @@ function setTextPenjab(penjab, badge = true){
     return penjab.includes('BPJS') ? 'BPJS' : penjab;
 
 }
+
 
 // ALERT
 function alertSuccessAjax(message) {
@@ -1000,6 +1001,7 @@ $.contextMenu({
     build: (element, event) => {
         const no_rawat = element.data('id');
         const poli = element.data('poli');
+        const no_rkm_medis = element.data('no_rkm_medis');
         element.addClass('text-red')
         return {
             items: {
@@ -1134,7 +1136,15 @@ $.contextMenu({
                             }
                         },
                     }
-                }
+                },
+                "riwayat": {
+                    name: "Riwayat",
+                    icon: 'fas fa-book',
+                    callback: function (item, option, e, x, y) {
+                        riwayat(`${no_rkm_medis}`)
+                    }
+
+                },
 
                 // "hapusRegistrasi": {
                 //     name: "Hapus Registrasi",
@@ -1191,10 +1201,10 @@ $.contextMenu({
 
                 },
                 "riwayat": {
-                    name: "Riwayat",
-                    icon: 'fas fa-book',
+                    name: "Riwayat Kunjungan",
+                    icon: 'fa-regular fa-folder-open',
                     callback: function (item, option, e, x, y) {
-                        editPasien(`${no_rkm_medis}`)
+                        riwayat(`${no_rkm_medis}`)
                     }
 
                 },
@@ -1222,6 +1232,7 @@ $.contextMenu({
     },
     build: (element, event) => {
         const no_rawat = element.data('id');
+        const no_rkm_medis = element.data('no_rkm_medis');
         element.addClass('text-red')
         return {
             items: {
@@ -1283,16 +1294,9 @@ $.contextMenu({
                     name: "Riwayat Kunjungan",
                     icon: 'fa-regular fa-folder-open',
                     callback: function (item, option, e, x, y) {
-                        // cpptRanap(`${no_rawat}`)
+                        riwayat(`${no_rkm_medis}`)
                     }
 
-                },
-                "SuratSakit": {
-                    name: "Surat Sakit",
-                    icon: "fas fa-envelope-open-text",
-                    callback: (item) => {
-                        suratSakit(`${no_rawat}`);
-                    }
                 },
             }
         }

@@ -15,6 +15,7 @@
     @include('content.registrasi._modalObatPcare')
     @include('content.pemeriksaan.modal.penilaianAwal._modalPenilaianAwal')
     @include('content.pemeriksaan.modal.penilaianAwal._modalSkriningJatuh')
+    @include('content.registrasi._modalRiwayat')
 @endsection
 @push('script')
     <script>
@@ -34,7 +35,7 @@
             return $.post(`${url}/registrasi/update`, {
                 stts: status,
                 no_rawat: no_rawat
-            }).done(()=>{
+            }).done(() => {
                 loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
             });
         }

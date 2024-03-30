@@ -23,7 +23,8 @@ class PasienController extends Controller
 
     function getRiwayat(Request $request)
     {
-        $riwayat = Pasien::where(['no_rkm_medis' => $request->no_rkm_medis])->with(['regPeriksa' => function ($query) {
+        $riwayat = Pasien::where(['no_rkm_medis' => $request->no_rkm_medis])
+	        ->with(['regPeriksa' => function ($query) {
             return $query->whereIn('stts', ['Sudah', 'Dirujuk'])
                 ->with(['diagnosa.penyakit', 'prosedur.icd9'])
                 ->with(['gigi.hasil'])

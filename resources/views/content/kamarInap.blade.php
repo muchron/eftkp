@@ -36,6 +36,7 @@
     @include('content.kamarInap.cppt.modalCppt')
     @include('content.kamarInap.resume.modalResumeMedis')
     @include('content.registrasi._modalSuratSakit')
+    @include('content.registrasi._modalRiwayat')
 @endsection
 @push('script')
     <script>
@@ -94,8 +95,9 @@
                 },
                 createdRow: (row, data, index) => {
                     $(row).addClass('tableKamarInap')
-                        .attr('data-id', data.no_rawat).
-                    attr('data-no_rawat', data.kd_poli);
+                        .attr('data-id', data.no_rawat)
+                        .attr('data-no_rawat', data.kd_poli)
+                        .attr('data-no_rkm_medis', data.reg_periksa.no_rkm_medis);
                 },
                 columns: [
                     {

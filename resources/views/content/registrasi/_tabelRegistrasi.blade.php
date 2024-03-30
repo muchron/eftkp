@@ -115,7 +115,10 @@
                     },
                 },
                 createdRow: (row, data, index) => {
-                    $(row).addClass('table-rows').attr('data-id', data.no_rawat).attr('data-poli', data.kd_poli);
+                    $(row).addClass('table-rows')
+                        .attr('data-id', data.no_rawat)
+                        .attr('data-poli', data.kd_poli)
+                        .attr('data-no_rkm_medis', data.no_rkm_medis);
                 },
                 columns: [{
                         title: '',

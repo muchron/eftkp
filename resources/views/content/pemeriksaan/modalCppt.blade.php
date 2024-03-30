@@ -37,29 +37,10 @@
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
         })
+
         $('#modalCppt').on('shown.bs.modal', (e) => {
             switcTab(tabObat)
         })
-
-        function switcTab(tabElement, target = '') {
-            $('.nav-link').removeClass('active');
-            $('.tab-pane').removeClass('show active');
-
-            if (target) {
-                const element = tabElement.find(`a[href="#${target}"]`)
-                $(element).addClass('active')
-                $(target).addClass('show active');
-            } else {
-                tabElement.find('a').each((index, element) => {
-                    if (index == 0) {
-                        const target = $(element).attr('href')
-                        $(element).addClass('active')
-                        $(target).addClass('show active');
-                    }
-                })
-            }
-
-        }
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
