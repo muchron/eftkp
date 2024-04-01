@@ -213,8 +213,10 @@
         let formRegistrasiPoli = $('#formRegistrasiPoli')
         let kd_dokter = formRegistrasiPoli.find('select[name=kd_dokter]')
         let kd_poli = formRegistrasiPoli.find('select[name=kd_poli]')
+        let kd_pj = formRegistrasiPoli.find('select[name=kd_pj]')
         let tglReg = formRegistrasiPoli.find('input[name=tgl_registrasi]')
         let noReg = formRegistrasiPoli.find('input[name=no_reg]')
+        let checkNoReg = formRegistrasiPoli.find('input[name=checkNoReg]')
         let btnSimpanReg = $('#btnSimpanReg')
         let periksaPendaftaran = $('#periksaPendaftaran')
         let timeDisplay = $('.jam');
@@ -222,20 +224,13 @@
         let setTime = '';
 
         modalRegistrasi.on('shown.bs.modal', () => {
-            refreshTime();
-            setNoRawat().done((response) => {
-                formRegistrasiPoli.find('input[name=no_rawat]').val(response)
-            });
-            setNoReg().done((response) => {
-                formRegistrasiPoli.find('input[name=no_reg]').val(response)
-            });
 
-            if (!isDokter) {
-                optDokter = new Option('-', '-', true, true);
-            } else {
-                optDokter = new Option(`${isDokter.kd_dokter} - ${isDokter.nm_dokter}`, isDokter.kd_dokter, true, true);
-            }
-            kd_dokter.append(optDokter).trigger('change');
+            selectDokter(kd_dokter, modalRegistrasi)
+            selectPoliklinik(kd_poli, modalRegistrasi)
+            selectPenjab(kd_pj, modalRegistrasi);
+        });
+        modalRegistrasi.on('hidden.bs.modal', () => {
+            btnSimpanReg.removeAttr('onclick').attr('onclick', 'createRegPeriksa()')
         })
 
         function refreshTime() {
@@ -322,6 +317,7 @@
         kd_poli.on('change', (e) => {
             const kdPoli = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
+            console.log('POLI')
             setNoReg({
                 tgl_registrasi: tgl,
                 kd_poli: kdPoli,
@@ -334,6 +330,7 @@
         kd_dokter.on('change', (e) => {
             const kdDokter = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
+            console.log('DOKTER')
             setNoReg({
                 tgl_registrasi: tgl,
                 kd_poli: kd_poli.val(),
@@ -382,12 +379,28 @@
                 formRegistrasiPoli.find('input[name=tgl_lahir]').val(response.tgl_lahir);
                 formRegistrasiPoli.find('input[name=umur]').val(setUmur(response.tgl_lahir));
 
+                refreshTime();
+                setNoRawat().done((response) => {
+                    formRegistrasiPoli.find('input[name=no_rawat]').val(response)
+                });
+                setNoReg().done((response) => {
+                    formRegistrasiPoli.find('input[name=no_reg]').val(response)
+                });
 
-                selectPenjab(formRegistrasiPoli.find('select[name=kd_pj]'), modalRegistrasi);
+
+                if (!isDokter) {
+                    const optionDokter = new Option('-', '-', true, true);
+                    kd_dokter.append(optionDokter).trigger('change');
+                } else {
+                    const optionDokter = new Option(`${isDokter.kd_dokter} - ${isDokter.nm_dokter}`, isDokter.kd_dokter, true, true);
+                    kd_dokter.append(optionDokter).trigger('change');
+                }
+
+
                 const pj = new Option(`${response.kd_pj} - ${response.penjab.png_jawab}`, response.kd_pj, true, true);
+                formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(response.tgl_lahir))
 
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj).trigger('change');
-                formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(response.tgl_lahir))
 
                 if (noUrut) {
                     periksaPendaftaran.removeClass('d-none');
@@ -398,8 +411,7 @@
                 }
             })
             modalRegistrasi.modal('show')
-            selectDokter(kd_dokter, modalRegistrasi)
-            selectPoliklinik(kd_poli, modalRegistrasi)
+
         }
 
         function setUmur(tgl_lahir) {

@@ -374,6 +374,16 @@
                     const bpjs = new Option(`BPJ - BPJS`, 'BPJ', true, true);
                     formRegistrasiPoli.find('select[name=kd_pj]').append(bpjs).trigger('change');
 
+                    refreshTime();
+
+                    setNoRawat().done((response) => {
+                        formRegistrasiPoli.find('input[name=no_rawat]').val(response)
+                    });
+                    setNoReg().done((response) => {
+                        formRegistrasiPoli.find('input[name=no_reg]').val(response)
+                    });
+
+
 
                     // SET POLIKLINIK
                     $.get(`${url}/mapping/pcare/poliklinik`, {

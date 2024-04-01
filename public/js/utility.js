@@ -538,8 +538,6 @@ function selectPenjab(element, parrent) {
         },
         cache: true,
     });
-    const option = new Option('-', '-', true, true);
-    element.append(option).trigger('change');
     return select2;
 }
 function selectDataBarang(element, parrent) {
@@ -834,8 +832,8 @@ function selectPoliklinik(element, parrent) {
         cache: true
 
     });
-    const option = new Option('U0009 - Poliklinik Umum', 'U0009', true, true);
-    element.append(option).trigger('change');
+    // const option = new Option('U0009 - Poliklinik Umum', 'U0009', true, true);
+    // element.append(option).trigger('change');
     return select2;
 }
 // function selectDokter(element, parrent) {
@@ -1145,12 +1143,31 @@ $.contextMenu({
                     }
 
                 },
+                "ubah" : {
+                    name : 'Ubah Data',
+                    icon : "fas fa-pencil",
+                    callback : ()=>{
+                        ubahRegistrasi(no_rawat)
+                    }
+                },
 
                 // "hapusRegistrasi": {
-                //     name: "Hapus Registrasi",
-                //     icon: "fa-paper-plane",
-                //     callback: (item) => {
-                //         hapusRegistrasi(`${no_rawat}`);
+                //     name: "Hapus & Ubah Data",
+                //     items : {
+                //         "ubah" : {
+                //             name : 'Ubah',
+                //             icon : "fas fa-pencil",
+                //             callback : ()=>{
+                //                 ubahRegistrasi(no_rawat)
+                //             }
+                //         },
+                //         "hapus" : {
+                //             name : 'Hapus',
+                //             icon : "fas fa-trash",
+                //             callback : ()=>{
+                //                 hapusRegistrasi(no_rawat)
+                //             }
+                //         },
                 //     }
                 // },
             }

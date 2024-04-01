@@ -119,17 +119,25 @@ class RegPeriksaController extends Controller
 	        ->first();
         return response()->json($regPeriksa, 200);
     }
-    function update(Request $req)
+    function update(Request $request)
     {
-        $data = $req->except('_token');
+        $data = [
+	        'kd_dokter' => $request->kd_dokter,
+	        'no_reg' => $request->no_reg,
+	        'kd_poli' => $request->kd_poli,
+	        'kd_pj' => $request->kd_pj,
+        ];
         try {
-            $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)->update($data);
+            $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->update($data);
             if ($regPeriksa) {
-                return response()->json(['Berhasil mengubah data registrasi', $regPeriksa]);
+				$this->updateSql(new RegPeriksa(), $data, [
+                    'no_rawat' => $request->no_rawat,
+                ]);
             }
         } catch (QueryException $e) {
             return $e->errorInfo;
         }
+        return response()->json(['Berhasil mengubah data registrasi', $request->no_rawat]);
     }
     function create(Request $request)
     {
