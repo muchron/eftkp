@@ -168,6 +168,12 @@ class RegPeriksaController extends Controller
         ];
 
 
+        $isValidate = $request->validate([
+            'kd_poli' => 'required',
+            'kd_dokter' => 'required',
+            'no_rawat' => 'required',
+        ]);
+
         $regPeriksa = RegPeriksa::where([
             'no_rkm_medis' => $data['no_rkm_medis'],
             'kd_dokter' => $data['kd_dokter'],

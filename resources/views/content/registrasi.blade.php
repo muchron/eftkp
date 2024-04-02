@@ -66,9 +66,9 @@
                 formRegistrasiPoli.find('input[name=no_peserta]').prop('disabled', false)
                 modalRegistrasi.find('.modal-title').html('Ubah Data Registrasi')
 
-                const pj = new Option(`${response.kd_pj} - ${penjab.png_jawab}`, response.kd_pj, true, true);
-                const dpjp = new Option(`${response.kd_dokter} - ${dokter.nm_dokter}`, response.kd_dokter, true, true);
-                const poli = new Option(`${response.kd_poli} - ${poliklinik.nm_poli}`, response.kd_poli, true, true);
+                const pj = new Option(`${response.kd_pj} - ${penjab?.png_jawab}`, response.kd_pj, true, true);
+                const dpjp = new Option(`${response.kd_dokter} - ${dokter?.nm_dokter}`, response.kd_dokter, true, true);
+                const poli = new Option(`${response.kd_poli} - ${poliklinik?.nm_poli}`, response.kd_poli, true, true);
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj)
                 formRegistrasiPoli.find('select[name=kd_dokter]').append(dpjp)
                 formRegistrasiPoli.find('select[name=kd_poli]').append(poli)
@@ -99,7 +99,7 @@
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
                             modalRegistrasi.modal('hide')
                         })
-                    }).error((request) => {
+                    }).fail((request) => {
                         alertErrorAjax(request)
                     })
                 }
