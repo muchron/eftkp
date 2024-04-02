@@ -168,7 +168,6 @@
         }
 
         .text-brand {
-            font-family: "Roboto";
             transition: .2s linear;
         }
 
