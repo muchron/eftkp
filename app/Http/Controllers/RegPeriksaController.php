@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RegPeriksa;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -87,6 +88,29 @@ class RegPeriksaController extends Controller
         return 'Lama';
     }
 
+    function setStatusLayanan(Request $request) : JsonResponse
+    {
+        $data = [
+            'stts' => $request->stts,
+            'no_rawat' => $request->no_rawat,
+        ];
+
+        $isValidated = $request->validate([
+            'stts' => 'required',
+            'no_rawat' => 'required',
+        ]);
+
+        try {
+            $poli = RegPeriksa::where('no_rawat', $request->no_rawat)->update($data);
+            if($poli){
+                $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
+            }
+        }catch (QueryException $e){
+            return response()->json($e->errorInfo, 500);
+        }
+        return response()->json('SUKSES', 201);
+    }
+
 
     function get(Request $req)
     {
@@ -126,6 +150,14 @@ class RegPeriksaController extends Controller
     function update(Request $request)
     {
         $data = $request->except('token');
+
+        $isValidate = $request->validate([
+            'kd_poli' => 'required',
+            'kd_dokter' => 'required',
+            'no_rawat' => 'required',
+            'kd_pj' => 'required',
+        ]);
+
         try {
             $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->update($data);
             if ($regPeriksa) {
@@ -140,7 +172,7 @@ class RegPeriksaController extends Controller
     }
 
 
-    function create(Request $request)
+    function create(Request $request) : JsonResponse
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -172,6 +204,7 @@ class RegPeriksaController extends Controller
             'kd_poli' => 'required',
             'kd_dokter' => 'required',
             'no_rawat' => 'required',
+            'kd_pj' => 'required',
         ]);
 
         $regPeriksa = RegPeriksa::where([

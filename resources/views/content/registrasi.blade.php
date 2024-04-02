@@ -32,13 +32,24 @@
         })
 
         function setStatusLayan(no_rawat, status) {
-            return $.post(`${url}/registrasi/update`, {
+            return $.post(`${url}/registrasi/update/status`, {
                 stts: status,
                 no_rawat: no_rawat
             }).done(() => {
                 loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-            }).fail((request) => {
-                alertErrorAjax(request)
+            }).fail((error, status, code) => {
+                if(error.status !== 500){
+                    const errorMessage= {
+                        status: error.status,
+                        statusText: code,
+                        responseJSON: error.responseJSON.message,
+                    }
+                    console.log(errorMessage)
+                    alertErrorAjax(errorMessage)
+
+                }else{
+                    alertErrorAjax(error)
+                }
             });
         }
 
@@ -99,8 +110,19 @@
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
                             modalRegistrasi.modal('hide')
                         })
-                    }).fail((request) => {
-                        alertErrorAjax(request)
+                    }).fail((error, status, code) => {
+                        if(error.status !== 500){
+                            const errorMessage= {
+                                status: error.status,
+                                statusText: code,
+                                responseJSON: error.responseJSON.message,
+                            }
+                            console.log(errorMessage)
+                            alertErrorAjax(errorMessage)
+
+                        }else{
+                            alertErrorAjax(error)
+                        }
                     })
                 }
             })
