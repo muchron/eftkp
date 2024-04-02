@@ -121,12 +121,7 @@ class RegPeriksaController extends Controller
     }
     function update(Request $request)
     {
-        $data = [
-	        'kd_dokter' => $request->kd_dokter,
-	        'no_reg' => $request->no_reg,
-	        'kd_poli' => $request->kd_poli,
-	        'kd_pj' => $request->kd_pj,
-        ];
+        $data = $request->except('token');
         try {
             $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->update($data);
             if ($regPeriksa) {
@@ -135,10 +130,12 @@ class RegPeriksaController extends Controller
                 ]);
             }
         } catch (QueryException $e) {
-            return $e->errorInfo;
+            return response()->json($e->errorInfo, 500);
         }
         return response()->json(['Berhasil mengubah data registrasi', $request->no_rawat]);
     }
+
+
     function create(Request $request)
     {
         $data = [

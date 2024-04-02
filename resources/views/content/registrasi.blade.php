@@ -37,6 +37,8 @@
                 no_rawat: no_rawat
             }).done(() => {
                 loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
+            }).error((request)=>{
+                alertErrorAjax(request)
             });
         }
 
@@ -81,11 +83,19 @@
                 confirmButtonText: 'Ya, Ubah Data!'
             }).then((result)=>{
                 if (result.isConfirmed) {
-                    $.post(`${url}/registrasi/update`, data).done((response) => {
+                    $.post(`${url}/registrasi/update`, {
+                        no_rawat : data['no_rawat'],
+                        kd_pj : data['kd_pj'],
+                        kd_dokter : data['kd_dokter'],
+                        no_reg : data['no_reg'],
+                        kd_poli : data['kd_poli'],
+                    }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
                             modalRegistrasi.modal('hide')
                         })
+                    }).error((request)=>{
+                        alertErrorAjax(request)
                     })
                 }
             })
