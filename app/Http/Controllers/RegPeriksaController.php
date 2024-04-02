@@ -20,7 +20,11 @@ class RegPeriksaController extends Controller
         $this->relation = [
             'dokter', 'pasien' => function ($q) {
                 return $q->with(['kel', 'kec', 'kab', 'prop']);
-            }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
+            }, 'penjab', 'pemeriksaanRalan', 'diagnosa' => function ($query) {
+                $query->orderBy('prioritas', 'ASC')->with('penyakit');
+            }, 'prosedur' => function($query){
+                $query->orderBy('prioritas', 'ASC')->with('icd9');
+            },'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
             'kamarInap' => function ($q) {
                 return $q->where('stts_pulang', '!=', 'Pindah Kamar')
                     ->with('kamar.bangsal');

@@ -61,6 +61,30 @@
                                                </div>
                                            </div>
                                        </div>
+                                        <div class="card border-0 mb-2" id="">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="cardDiagnosaPasien">
+                                                    <div class="card">
+                                                        <div class="card-body border-1">
+                                                            <div class="card-title">Diagnosa</div>
+                                                            <ol id="riwayatDiagnosaPasien">
+
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="cardTindakanPasien">
+                                                    <div class="card">
+                                                        <div class="card-body border-1">
+                                                            <div class="card-title">Tindakan</div>
+                                                            <ol id="riwayatTindakanPasien">
+
+                                                            </ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="card mb-2" id="cardRiwayatCppt">
                                             <div class="card-body">
                                                 <div class="card-title">Pemeriksaan/CPPT Ralan</div>
@@ -98,6 +122,8 @@
         const listRiwayatRegistrasi = $('#listRiwayatRegistrasi');
         const riwayatPemeriksaanRalan = $('#riwayatPemeriksaanRalan');
         const riwayatPemeriksaanRanap = $('#riwayatPemeriksaanRanap');
+        const riwayatDiagnosaPasien= $('#riwayatDiagnosaPasien');
+        const riwayatTindakanPasien= $('#riwayatTindakanPasien');
         const dataInfoPasien = $('#dataInfoPasien');
 
         function riwayat(no_rkm_medis){
@@ -123,7 +149,8 @@
 
         function setContentRiwayat(no_rawat){
             getRegDetail(no_rawat).done((response)=>{
-                const {pasien, poliklinik, penjab, dokter, riwayat_pemeriksaan, pemeriksaan_ranap} = response;
+                console.log(response)
+                const {pasien, poliklinik, penjab, dokter, riwayat_pemeriksaan, pemeriksaan_ranap, diagnosa, prosedur} = response;
                 dataInfoPasien.find('#no_rawat').html(response.no_rawat)
                 dataInfoPasien.find('#tanggal').html(`${formatTanggal(response.tgl_registrasi)} ${response.jam_reg}`)
                 dataInfoPasien.find('#no_rkm_medis').html(response.no_rkm_medis)
@@ -134,7 +161,8 @@
                 dataInfoPasien.find('#penjab').html(penjab.png_jawab);
                 setContentCpptRalan(riwayat_pemeriksaan)
                 setContentCpptRanap(pemeriksaan_ranap)
-
+                setRiwayatDiagnosa(diagnosa);
+                setRiwayatTindakan(prosedur);
             })
         }
 
@@ -233,9 +261,33 @@
             }else{
                 riwayatPemeriksaanRanap.parent().addClass('d-none')
             }
+        }
+        function setRiwayatDiagnosa(data){
+            riwayatDiagnosaPasien.empty();
+            if(data.length){
+                const diagnosa = data.map((item, index)=>{
+                    return `<li class="${item.prioritas === 1 ? 'text-red' : ''}">${item.kd_penyakit} - ${item.penyakit.nm_penyakit} ${item.prioritas === 1 ? '(*)' : ''}</li>`
+                })
+                $('#cardDiagnosaPasien').removeClass('d-none')
+                riwayatDiagnosaPasien.append(diagnosa)
+            }else{
+                $('#cardDiagnosaPasien').addClass('d-none')
 
+            }
+        }
+        function setRiwayatTindakan(data){
+            riwayatTindakanPasien.empty();
+            if(data.length){
+                const tindakan = data.map((item, index)=>{
+                    return `<li class="${item.prioritas === 1 ? 'text-red' : ''}">${item.kode} - ${item.icd9.deskripsi_pendek} ${item.prioritas === 1 ? '(*)' : ''}</li>`
+                })
+                $('#cardTindakanPasien').removeClass('d-none')
+                riwayatTindakanPasien.append(tindakan)
+            }else{
+                $('#cardTindakanPasien').addClass('d-none')
 
+            }
         }
     </script>
-    
+
 @endpush
