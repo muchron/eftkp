@@ -38,13 +38,13 @@
         var limit = $('#filterIndex').find('input[name="limit"]').val();
 
         function getNokaPasien(noKartu) {
-            const pasien = $.get(`../pasien/get/nokartu/${noKartu}`)
+            const pasien = $.get(`${url}/pasien/get/nokartu/${noKartu}`)
             return pasien;
         }
 
         function createPasienBpjs(noKartu, noUrut = '') {
             loadingAjax();
-            $.get(`../bridging/pcare/peserta/${noKartu}`).done((result) => {
+            $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((result) => {
                 $('#modalPasien').modal('show')
                 loadingAjax().close();
                 const umur = hitungUmur(splitTanggal(result.response.tglLahir));

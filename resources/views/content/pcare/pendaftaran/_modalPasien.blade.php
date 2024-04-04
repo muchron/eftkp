@@ -43,14 +43,14 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                                         <label class="form-label required">Jenis Kelamin</label>
-                                                        <select name="jk" id="jk" class="form-select">
+                                                        <select name="jk" id="jk" class="form-select form-select-2" data-dropdown-parent="#modalPasien" style="width: 100%">
                                                             <option value="L">Laki-laki</option>
                                                             <option value="P">Perempuan</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12">
                                                         <label class="form-label required">Golongan Darah</label>
-                                                        <select name="gol_darah" id="gol_darah" class="form-select">
+                                                        <select name="gol_darah" id="gol_darah" class="form-select form-select-2" data-dropdown-parent="#modalPasien" style="width: 100%">
                                                             <option value="-" selected>-</option>
                                                             <option value="A">A</option>
                                                             <option value="B">B</option>
@@ -76,7 +76,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Penanggung Jawab</label>
-                                                        <select class="form-select" name="keluarga" id="keluarga">
+                                                        <select class="form-select form-select-2" name="keluarga" id="keluarga" data-dropdown-parent="#modalPasien" style="width: 100%">
                                                             <option value="AYAH">AYAH</option>
                                                             <option value="IBU">IBU</option>
                                                             <option value="SAUDARA">SAUDARA</option>
@@ -112,7 +112,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Agama</label>
-                                                        <select class="form-select" name="agama" id="agama" style="width:100%">
+                                                        <select class="form-select form-select-2" name="agama" id="agama" data-dropdown-parent="#modalPasien" style="width:100%">
                                                             <option value="-" selected>-</option>
                                                             <option value="ISLAM">ISLAM</option>
                                                             <option value="KATOLIK">KATOLIK</option>
@@ -125,7 +125,7 @@
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-sm-12">
                                                         <label class="form-label">Status Menikah</label>
-                                                        <select class="form-select" name="stts_nikah" id="stts_nikah" style="width:100%">
+                                                        <select class="form-select form-select-2" name="stts_nikah" id="stts_nikah" data-dropdown-parent="#modalPasien" style="width:100%">
                                                             <option value="BELUM MENIKAH" selected>BELUM MENIKAH</option>
                                                             <option value="MENIKAH">MENIKAH</option>
                                                             <option value="JANDA">JANDA</option>
@@ -446,14 +446,14 @@
             switchTab('tabs1');
             renderTbPasien();
             resetSelect();
-
-
             $.get(`${url}/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response)
             })
+            const optPj = new Option('-', '-', true, true)
             const umur = hitungUmur(splitTanggal(tglLahir.val()))
             const textTglLahir = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
             formPasien.find('input[name=umur]').val(textTglLahir)
+            formPasien.find('select[name=kd_pj]').append(optPj).trigger('change')
         })
 
         modalPasien.on('hidden.bs.modal', (e) => {

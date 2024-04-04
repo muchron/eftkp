@@ -216,6 +216,7 @@ class RegPeriksaController extends Controller
             'tgl_registrasi' => $data['tgl_registrasi'],
         ])->first();
 
+
         if ($regPeriksa) {
             return response()->json("Pasien sudah terdaftar di Poli yang sama dengan dokter yang sama", 409);
         }

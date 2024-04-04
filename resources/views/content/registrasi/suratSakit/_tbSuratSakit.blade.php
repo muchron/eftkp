@@ -20,7 +20,7 @@
         $('#btnFilterSuratSakit').on('click', (e) => {
             const pertama = formFilterSakit.find('input[name=tgl_pertama]').val()
             const kedua = formFilterSakit.find('input[name=tgl_kedua]').val()
-            loadSuratSakit(splitTanggal(pertama), splitTanggal(kedua))
+            loadSuratSakit(pertama, kedua)
 
         })
 

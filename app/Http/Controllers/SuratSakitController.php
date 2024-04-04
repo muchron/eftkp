@@ -22,7 +22,10 @@ class SuratSakitController extends Controller
             }])
             ->get();
         if ($request->tgl_pertama && $request->tgl_kedua) {
-            $suratSakit = SuratSakit::whereBetween('tanggalawal', [$request->tgl_pertama, $request->tgl_kedua])
+            $suratSakit = SuratSakit::whereBetween('tanggalawal', [
+				date('Y-m-d', strtotime($request->tgl_pertama)),
+	            date('Y-m-d', strtotime($request->tgl_kedua))
+            ])
                 ->with(['regPeriksa' => function ($q) {
                     return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa');
                 }])

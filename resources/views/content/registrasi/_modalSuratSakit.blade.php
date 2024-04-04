@@ -31,7 +31,6 @@
         let formFilterSakit = $('#formFilterSakit');
         let tanggalAwal = formSuratSakit.find('input[name=tanggalawal]');
         let tanggalAkhir = formSuratSakit.find('input[name=tanggalakhir]');
-
         $('#modalSuratSakit').on('shown.bs.modal', (e) => {
             const lamaSakit = setLamaSakit(tanggalAwal.val(), tanggalAkhir.val());
             formSuratSakit.find('input[name=lama]').val(lamaSakit)

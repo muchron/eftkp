@@ -179,7 +179,6 @@
         table.table {
             width:100% !important;
         }
-
         @media (min-width: 1920px) {
             .table {
                 font-size: 12px;
