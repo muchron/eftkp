@@ -13,11 +13,13 @@ class RegPeriksaController extends Controller
 {
     use Track;
     protected $regPeriksa;
+    protected $poliklinik;
     protected $relation = [];
 
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
+        $this->poliklinik = new PoliklinikController();
         $this->relation = [
             'dokter', 'pasien' => function ($q) {
                 return $q->with(['kel', 'kec', 'kab', 'prop']);
@@ -34,7 +36,7 @@ class RegPeriksaController extends Controller
     }
 
 
-    function setNoReg(Request $request)
+    function setNoReg(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $kd_dokter = $request->kd_dokter;
@@ -59,10 +61,10 @@ class RegPeriksaController extends Controller
             $no = (int)$urut->no_reg + 1;
         }
         $no_reg = sprintf('%03d', $no);
-        return response()->json($no_reg);
+        return $no_reg;
     }
 
-    function setNoRawat(Request $request)
+    function setNoRawat(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
@@ -76,10 +78,10 @@ class RegPeriksaController extends Controller
         }
         $no_reg = sprintf('%06d', $no);
         $tglRawat = date('Y/m/d', strtotime($tgl_registrasi));
-        return response()->json("{$tglRawat}/{$no_reg}");
+        return "{$tglRawat}/{$no_reg}";
     }
 
-    function setStatusPoli(Request $request)
+    function setStatusPoli(Request $request): string
     {
         $poli = RegPeriksa::where(['no_rkm_medis' => $request->no_rkm_medis, 'kd_poli' => $request->kd_poli])->first();
         if (!$poli) {
@@ -88,7 +90,7 @@ class RegPeriksaController extends Controller
         return 'Lama';
     }
 
-    function setStatusLayanan(Request $request) : JsonResponse
+    function setStatusLayanan(Request $request): JsonResponse
     {
         $data = [
             'stts' => $request->stts,
@@ -102,17 +104,17 @@ class RegPeriksaController extends Controller
 
         try {
             $poli = RegPeriksa::where('no_rawat', $request->no_rawat)->update($data);
-            if($poli){
+            if ($poli) {
                 $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
             }
-        }catch (QueryException $e){
+        } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
         return response()->json('SUKSES', 201);
     }
 
 
-    function get(Request $req)
+    function get(Request $req): JsonResponse
     {
 
         if ($req->tglAwal || $req->tglAkhir) {
@@ -139,7 +141,7 @@ class RegPeriksaController extends Controller
         }
         return response()->json($regPeriksa, 200);
     }
-    function show(Request $req)
+    function show(Request $req): JsonResponse
     {
         $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)
             ->with($this->relation)
@@ -147,7 +149,7 @@ class RegPeriksaController extends Controller
             ->first();
         return response()->json($regPeriksa, 200);
     }
-    function update(Request $request)
+    function update(Request $request): JsonResponse
     {
         $data = $request->except('token');
 
@@ -172,7 +174,7 @@ class RegPeriksaController extends Controller
     }
 
 
-    function create(Request $request) : JsonResponse
+    function create(Request $request): JsonResponse
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -190,7 +192,7 @@ class RegPeriksaController extends Controller
             'almt_pj' => $request->alamatpj,
             'stts' => 'Belum',
             'stts_daftar' => $request->status,
-            'biaya_reg' => '0',
+            'biaya_reg' => $this->poliklinik->getTarifPoliklinik($request->kd_poli),
             'status_lanjut' => 'Ralan',
             'status_bayar' => 'Belum Bayar',
             'status_poli' => $this->setStatusPoli(new \Illuminate\Http\Request([
@@ -232,7 +234,7 @@ class RegPeriksaController extends Controller
         }
     }
 
-    function getPanggil(Request $request)
+    function getPanggil(Request $request): JsonResponse
     {
         $panggil = RegPeriksa::where('tgl_registrasi', date('Y-m-d'))
             ->where('stts', 'Berkas Diterima')
@@ -241,21 +243,20 @@ class RegPeriksaController extends Controller
         return response()->json($panggil);
     }
 
-    function getKecamatan(Request $request): object
+    function getKecamatan(Request $request): JsonResponse
     {
         $grafikKelurahan = $this->getGrafik($request);
-        $grafikKelurahan = json_decode($this->getGrafik($request));
         $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kec.nm_kec'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
     }
-    function getKelurahan(Request $request): object
+    function getKelurahan(Request $request): JsonResponse
     {
         $grafikKelurahan = $this->getGrafik($request);
         $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kel.nm_kel'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
     }
 
-    function getGrafik(Request $request): object
+    function getGrafik(Request $request): Object
     {
         $regPeriksa = $this->regPeriksa->with($this->relation);
 
@@ -271,7 +272,7 @@ class RegPeriksaController extends Controller
         return $regPeriksa->get();
     }
 
-    function getAllRegPasien($no_rkm_medis)
+    function getAllRegPasien($no_rkm_medis): JsonResponse
     {
         $regPeriksa = $this->regPeriksa->where('no_rkm_medis', $no_rkm_medis)
             ->whereNotIn('stts', ['Belum', 'Batal'])

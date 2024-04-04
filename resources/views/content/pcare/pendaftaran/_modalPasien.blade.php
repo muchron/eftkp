@@ -236,9 +236,9 @@
                             <div class="tab-pane" id="pane2">
                                 <div class="row">
                                     <div class="col">
-                                        <div class="table-responsive">
-                                            <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" width="100%"></table>
-                                        </div>
+{{--                                        <div class="table-responsive">--}}
+                                            <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
+{{--                                        </div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -273,11 +273,6 @@
         let tglLahir = formPasien.find('input[name=tgl_lahir]');
         let tabFormPasien = $('#pane1');
         let tabTablePasien = $('#pane2');
-
-
-        modalPasien.on('show.bs.modal', () => {
-            switchTab('tabs1')
-        })
 
         function switchTab(tabId) {
             $('.nav-link').removeClass('active');
@@ -447,9 +442,12 @@
             selectPerusahaan(perusahaan, modalPasien);
         }
 
-        $('#modalPasien').on('shown.bs.modal', (e) => {
+        modalPasien.on('shown.bs.modal', (e) => {
+            switchTab('tabs1');
             renderTbPasien();
             resetSelect();
+
+
             $.get(`${url}/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response)
             })
@@ -458,7 +456,7 @@
             formPasien.find('input[name=umur]').val(textTglLahir)
         })
 
-        $('#modalPasien').on('hidden.bs.modal', (e) => {
+        modalPasien.on('hidden.bs.modal', (e) => {
             resetSelect();
         })
 
@@ -569,13 +567,13 @@
         function renderTbPasien(tglRegistrasi = '') {
             const tbReferensi = new DataTable('#tbPasien', {
                 responsive: true,
-                autoWidth: true,
+                // autoWidth: true,
                 stateSave: true,
                 serverSide: true,
                 destroy: true,
                 processing: true,
                 scrollY: '50vh',
-                scrollX: true,
+                // scrollX: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
                         targets: 0
@@ -650,8 +648,8 @@
 
                     },
                     {
-                        title: 'Tmp. Lahir',
-                        data: 'tmp_lahir',
+                        title: 'PJ',
+                        data: 'namakeluarga',
                         render: (data, type, row, meta) => {
                             return data;
                         }
@@ -678,8 +676,6 @@
                         }
 
                     },
-
-
                 ],
             })
         }

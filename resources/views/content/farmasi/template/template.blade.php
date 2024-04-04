@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table" id="tbTemplateRacikan" width="100%">
+                            <table class="table table-sm nowrap table-striped" id="tbTemplateRacikan" width="100%">
                             </table>
                         </div>
                     </div>
@@ -48,20 +48,19 @@
 @endsection
 @push('script')
     <script>
-        var url = "{{ url('') }}";
         $(document).ready(() => {
             tbTemplateRacikan()
 
         })
 
-        var cardTemplate = $('#cardTemplate');
-        var cardListTemplate = $('#cardListTemplate');
-        var selectObat = $('.obat')
-        var dokter = $('#kd_dokter')
-        var formTemplateResep = $('#formTemplateResep')
-        var listObat = $('#listObat')
-        var btnTambahObat = $('#btnTambahObat')
-        var btnSimpanTemplate = $('#btnSimpanTemplate')
+        const cardTemplate = $('#cardTemplate');
+        const cardListTemplate = $('#cardListTemplate');
+        const selectObat = $('.obat')
+        const dokter = $('#kd_dokter')
+        const formTemplateResep = $('#formTemplateResep')
+        const listObat = $('#listObat')
+        const btnTambahObat = $('#btnTambahObat')
+        const btnSimpanTemplate = $('#btnSimpanTemplate')
 
         function tbTemplateRacikan() {
             const tbTemplate = new DataTable('#tbTemplateRacikan', {

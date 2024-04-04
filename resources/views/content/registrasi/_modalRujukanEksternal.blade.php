@@ -360,6 +360,7 @@
                 }]
 
             })
+                .on('draw', ()=>{tbRujukEksternal.columns.adjust().draw()});
         }
         $('#btnFilterRujukanEksternal').on('click', (e)=>{
             e.preventDefault()

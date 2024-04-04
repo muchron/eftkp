@@ -38,8 +38,8 @@
             }).done(() => {
                 loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
             }).fail((error, status, code) => {
-                if(error.status !== 500){
-                    const errorMessage= {
+                if (error.status !== 500) {
+                    const errorMessage = {
                         status: error.status,
                         statusText: code,
                         responseJSON: error.responseJSON.message,
@@ -47,7 +47,7 @@
                     console.log(errorMessage)
                     alertErrorAjax(errorMessage)
 
-                }else{
+                } else {
                     alertErrorAjax(error)
                 }
             });
@@ -111,8 +111,8 @@
                             modalRegistrasi.modal('hide')
                         })
                     }).fail((error, status, code) => {
-                        if(error.status !== 500){
-                            const errorMessage= {
+                        if (error.status !== 500) {
+                            const errorMessage = {
                                 status: error.status,
                                 statusText: code,
                                 responseJSON: error.responseJSON.message,
@@ -120,7 +120,7 @@
                             console.log(errorMessage)
                             alertErrorAjax(errorMessage)
 
-                        }else{
+                        } else {
                             alertErrorAjax(error)
                         }
                     })

@@ -25,12 +25,14 @@
         })
 
         function loadSuratSakit(tglAwal = '', tglAkhir = '') {
-            const tabelRegistrasi = new DataTable('#tbSuratSakit', {
+            const tabelSuratSakit = new DataTable('#tbSuratSakit', {
                 responsive: true,
                 stateSave: true,
                 serverSide: false,
                 destroy: true,
                 processing: true,
+                scrollY: '25vh',
+                scrollX: true,
                 ajax: {
                     url: `${url}/surat/sakit`,
                     data: {
@@ -38,12 +40,6 @@
                         tgl_pertama: tglAwal,
                         tgl_kedua: tglAkhir,
                     },
-                },
-                createdRow: (row, data, index) => {
-                    // $(row).addClass('rows-rujuk').attr('data-id', data.no_rawat);
-                    // if (data.pemeriksaan) {
-                    //     $(row).addClass('bg-green-lt')
-                    // }
                 },
                 columns: [{
                         title: 'No. Surat',

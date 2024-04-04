@@ -258,7 +258,7 @@
 
         }
 
-        tglReg.on('change', (e)=>{
+        tglReg.on('change', (e) => {
             e.preventDefault()
             const tgl = e.currentTarget.value;
             setNoRawat(tgl).done((response) => {
@@ -267,7 +267,7 @@
         })
 
 
-        function createRegPeriksa(){
+        function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
@@ -299,8 +299,8 @@
                     modalPasien.modal('hide');
                 })
             }).fail((error, status, code) => {
-                if(error.status !== 500){
-                    const errorMessage= {
+                if (error.status !== 500) {
+                    const errorMessage = {
                         status: error.status,
                         statusText: code,
                         responseJSON: error.responseJSON.message,
@@ -308,7 +308,7 @@
                     console.log(errorMessage)
                     alertErrorAjax(errorMessage)
 
-                }else{
+                } else {
                     alertErrorAjax(error)
                 }
             });
@@ -421,6 +421,7 @@
                     periksaPendaftaran.addClass('d-none');
                 }
             })
+            modalRegistrasi.find('.modal-title').html('Registrasi Poliklinik')
             modalRegistrasi.modal('show')
 
         }

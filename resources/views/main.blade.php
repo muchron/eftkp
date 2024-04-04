@@ -55,21 +55,19 @@
             font-size: 10px;
         }
 
-
-
         .form-label {
-            font-size: 11px;
+            font-size: 10px;
             margin-bottom: 0;
         }
 
         .form-control,
         .form-select {
-            font-size: 11px;
+            font-size: 10px;
             padding: .5rem;
         }
 
         .input-group-text {
-            font-size: 11px;
+            font-size: 10px;
         }
 
         textarea {
@@ -174,10 +172,17 @@
         .text-brand:hover {
             color: #c7c7c7;
         }
+        .dataTables_scrollHeadInner {
+            width:100% !important;
+        }
+
+        table.table {
+            width:100% !important;
+        }
 
         @media (min-width: 1920px) {
             .table {
-                font-size: 13px;
+                font-size: 12px;
             }
 
             .table .btn-sm {
@@ -185,16 +190,19 @@
             }
 
             .form-label {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .form-control,
             .form-select {
-                font-size: 12px;
+                font-size: 11px;
                 padding: .5rem;
             }
 
             .input-group-text {
+                font-size: 11px;
+            }
+            .datepicker {
                 font-size: 12px;
             }
         }
