@@ -14,7 +14,7 @@
                     <div class="card-footer">
                         <div class="row d-none-sm d-none-md">
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                                <form action="registrasi/get" method="post" id="formFilterTanggal">
+                                <form action="pcare/kunjungan/get" method="post" id="formFilterTanggal">
                                     <div class="input-group">
                                         <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
                                         <span class="input-group-text">
@@ -41,7 +41,7 @@
 @endsection
 @push('script')
     <script>
-        var url = "{{ url('') }}";
+        // var url = "{{ url('') }}";
 
 
         $(document).ready(() => {
@@ -57,6 +57,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+        });
 
 
         $('#formFilterTanggal').on('submit', (e) => {
