@@ -48,8 +48,8 @@
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
+            $('#tglAwal').val(tglAwal);
+            $('#tglAkhir').val(tglAkhir);
 
             loadTbPcareKunjungan(tglAwal, tglAkhir)
             $.ajaxSetup({
@@ -62,8 +62,8 @@
 
         $('#formFilterTanggal').on('submit', (e) => {
             e.preventDefault();
-            const t1 = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
-            const t2 = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
+            const t1 = $('#formFilterTanggal input[name=tglAwal]').val();
+            const t2 = $('#formFilterTanggal input[name=tglAkhir]').val();
             localStorage.setItem('tglAwal', t1)
             localStorage.setItem('tglAkhir', t2)
             loadTbPcareKunjungan(tglAwal, tglAkhir);
@@ -194,7 +194,7 @@
                         $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
                             if (resDelete.metaData.code == 200) {
                                 alertSuccessAjax(`${resDelete.response}`).then(() => {
-                                    loadTbPcareKunjungan(splitTanggal(tglAwal), splitTanggal(tglAkhir));
+                                    loadTbPcareKunjungan(tglAwal, tglAkhir);
                                     $.post(`pendaftaran/delete`, {
                                         no_rawat: no_rawat
                                     }).done(() => {

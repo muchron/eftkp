@@ -123,8 +123,8 @@ class PcareKunjunganController extends Controller
         }, 'rujukSubspesialis']);
         if ($request->tgl_awal || $request->tgl_akhir) {
             $pcare = $kunjungan->whereBetween('tglDaftar', [
-                $request->tgl_awal,
-                $request->tgl_akhir
+                date('Y-m-d', strtotime($request->tgl_awal)),
+                date('Y-m-d', strtotime($request->tgl_akhir))
             ])->get();
         } else if ($request->no_rkm_medis) {
             $pcare = $kunjungan->where(
