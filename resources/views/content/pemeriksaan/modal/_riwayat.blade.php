@@ -91,6 +91,8 @@
                                             }).done((response) => {
                                                 setResepDokter(dataObat[0].no_resep)
                                                 alertSuccessAjax('Resep umum berhasil ditambah');
+                                            }).fail((error) => {
+                                                alertErrorAjax(error)
                                             })
 
                                         }
@@ -112,7 +114,11 @@
                                                 createDetailRacikan(resepRacik.no_resep, resepRacik.no_racik, resepRacikDetail).done((responseDetail) => {
                                                     setResepRacikan(resepRacik[0].no_resep)
                                                     alertSuccessAjax('Resep racikan berhasil ditambah');
+                                                }).error((error) => {
+                                                    alertErrorAjax(error)
                                                 })
+                                            }).fail((error) => {
+                                                alertErrorAjax(error)
                                             })
                                         }
                                     })

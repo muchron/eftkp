@@ -258,7 +258,7 @@
 
         }
 
-        tglReg.on('change', (e)=>{
+        tglReg.on('change', (e) => {
             e.preventDefault()
             const tgl = e.currentTarget.value;
             setNoRawat(tgl).done((response) => {
@@ -267,7 +267,7 @@
         })
 
 
-        function createRegPeriksa(){
+        function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
@@ -298,8 +298,19 @@
                     modalRegistrasi.modal('hide');
                     modalPasien.modal('hide');
                 })
-            }).fail((error) => {
-                alertErrorAjax(error)
+            }).fail((error, status, code) => {
+                if (error.status !== 500) {
+                    const errorMessage = {
+                        status: error.status,
+                        statusText: code,
+                        responseJSON: error.responseJSON.message,
+                    }
+                    console.log(errorMessage)
+                    alertErrorAjax(errorMessage)
+
+                } else {
+                    alertErrorAjax(error)
+                }
             });
         }
 
@@ -317,7 +328,6 @@
         kd_poli.on('change', (e) => {
             const kdPoli = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
-            console.log('POLI')
             setNoReg({
                 tgl_registrasi: tgl,
                 kd_poli: kdPoli,
@@ -330,7 +340,6 @@
         kd_dokter.on('change', (e) => {
             const kdDokter = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
-            console.log('DOKTER')
             setNoReg({
                 tgl_registrasi: tgl,
                 kd_poli: kd_poli.val(),
@@ -397,10 +406,12 @@
                 }
 
 
+                const optPoli = new Option(`U0009 - Poliklinik Umum`, `U0009`, true, true);
                 const pj = new Option(`${response.kd_pj} - ${response.penjab.png_jawab}`, response.kd_pj, true, true);
                 formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(response.tgl_lahir))
 
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj).trigger('change');
+                formRegistrasiPoli.find('select[name=kd_poli]').append(optPoli).trigger('change');
 
                 if (noUrut) {
                     periksaPendaftaran.removeClass('d-none');
@@ -410,6 +421,7 @@
                     periksaPendaftaran.addClass('d-none');
                 }
             })
+            modalRegistrasi.find('.modal-title').html('Registrasi Poliklinik')
             modalRegistrasi.modal('show')
 
         }

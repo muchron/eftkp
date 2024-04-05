@@ -322,7 +322,6 @@
                         if (!result.isConfirmed) {
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
-                                console.log('STATUS', username, data['nip']);
                                 if (username === data['nip']) {
                                     const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                                     setStatusLayan(data['no_rawat'], stts);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RegPeriksa;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -12,15 +13,21 @@ class RegPeriksaController extends Controller
 {
     use Track;
     protected $regPeriksa;
+    protected $poliklinik;
     protected $relation = [];
 
     function __construct()
     {
         $this->regPeriksa = new RegPeriksa();
+        $this->poliklinik = new PoliklinikController();
         $this->relation = [
             'dokter', 'pasien' => function ($q) {
                 return $q->with(['kel', 'kec', 'kab', 'prop']);
-            }, 'penjab', 'pemeriksaanRalan', 'diagnosa.penyakit', 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
+            }, 'penjab', 'pemeriksaanRalan', 'diagnosa' => function ($query) {
+                $query->orderBy('prioritas', 'ASC')->with('penyakit');
+            }, 'prosedur' => function ($query) {
+                $query->orderBy('prioritas', 'ASC')->with('icd9');
+            }, 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
             'kamarInap' => function ($q) {
                 return $q->where('stts_pulang', '!=', 'Pindah Kamar')
                     ->with('kamar.bangsal');
@@ -29,7 +36,7 @@ class RegPeriksaController extends Controller
     }
 
 
-    function setNoReg(Request $request)
+    function setNoReg(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $kd_dokter = $request->kd_dokter;
@@ -54,10 +61,10 @@ class RegPeriksaController extends Controller
             $no = (int)$urut->no_reg + 1;
         }
         $no_reg = sprintf('%03d', $no);
-        return response()->json($no_reg);
+        return $no_reg;
     }
 
-    function setNoRawat(Request $request)
+    function setNoRawat(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
@@ -71,10 +78,10 @@ class RegPeriksaController extends Controller
         }
         $no_reg = sprintf('%06d', $no);
         $tglRawat = date('Y/m/d', strtotime($tgl_registrasi));
-        return response()->json("{$tglRawat}/{$no_reg}");
+        return "{$tglRawat}/{$no_reg}";
     }
 
-    function setStatusPoli(Request $request)
+    function setStatusPoli(Request $request): string
     {
         $poli = RegPeriksa::where(['no_rkm_medis' => $request->no_rkm_medis, 'kd_poli' => $request->kd_poli])->first();
         if (!$poli) {
@@ -83,26 +90,49 @@ class RegPeriksaController extends Controller
         return 'Lama';
     }
 
+    function setStatusLayanan(Request $request): JsonResponse
+    {
+        $data = [
+            'stts' => $request->stts,
+            'no_rawat' => $request->no_rawat,
+        ];
 
-    function get(Request $req)
+        $isValidated = $request->validate([
+            'stts' => 'required',
+            'no_rawat' => 'required',
+        ]);
+
+        try {
+            $poli = RegPeriksa::where('no_rawat', $request->no_rawat)->update($data);
+            if ($poli) {
+                $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
+            }
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+        return response()->json('SUKSES', 201);
+    }
+
+
+    function get(Request $req): JsonResponse
     {
 
         if ($req->tglAwal || $req->tglAkhir) {
             // jika ada filter tanggal, ambil tgl registrasi yang ditentukan
             $regPeriksa = $this->regPeriksa->with($this->relation)
-	            ->whereBetween('tgl_registrasi', [
-					date('Y-m-d', strtotime($req->tglAwal)),
-		            date('Y-m-d', strtotime($req->tglAkhir))
-	            ])
-	            ->orderBy('no_reg', 'ASC')->get();
+                ->whereBetween('tgl_registrasi', [
+                    date('Y-m-d', strtotime($req->tglAwal)),
+                    date('Y-m-d', strtotime($req->tglAkhir))
+                ])
+                ->orderBy('no_reg', 'ASC')->get();
         } else {
             $regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
         }
 
-        if($req->dokter){
+        if ($req->dokter) {
             $regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
         }
-		if($req->stts){
+        if ($req->stts) {
             $regPeriksa = $regPeriksa->where('stts', $req->stts);
         }
 
@@ -111,21 +141,29 @@ class RegPeriksaController extends Controller
         }
         return response()->json($regPeriksa, 200);
     }
-    function show(Request $req)
+    function show(Request $req): JsonResponse
     {
         $regPeriksa = $this->regPeriksa->where('no_rawat', $req->no_rawat)
             ->with($this->relation)
-	        ->with('riwayatPemeriksaan.pegawai.dokter', 'pemeriksaanRanap.pegawai.dokter')
-	        ->first();
+            ->with('riwayatPemeriksaan.pegawai.dokter', 'pemeriksaanRanap.pegawai.dokter')
+            ->first();
         return response()->json($regPeriksa, 200);
     }
-    function update(Request $request)
+    function update(Request $request): JsonResponse
     {
         $data = $request->except('token');
+
+        $isValidate = $request->validate([
+            'kd_poli' => 'required',
+            'kd_dokter' => 'required',
+            'no_rawat' => 'required',
+            'kd_pj' => 'required',
+        ]);
+
         try {
             $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->update($data);
             if ($regPeriksa) {
-				$this->updateSql(new RegPeriksa(), $data, [
+                $this->updateSql(new RegPeriksa(), $data, [
                     'no_rawat' => $request->no_rawat,
                 ]);
             }
@@ -136,7 +174,7 @@ class RegPeriksaController extends Controller
     }
 
 
-    function create(Request $request)
+    function create(Request $request): JsonResponse
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -154,7 +192,7 @@ class RegPeriksaController extends Controller
             'almt_pj' => $request->alamatpj,
             'stts' => 'Belum',
             'stts_daftar' => $request->status,
-            'biaya_reg' => '0',
+            'biaya_reg' => $this->poliklinik->getTarifPoliklinik($request->kd_poli),
             'status_lanjut' => 'Ralan',
             'status_bayar' => 'Belum Bayar',
             'status_poli' => $this->setStatusPoli(new \Illuminate\Http\Request([
@@ -164,12 +202,20 @@ class RegPeriksaController extends Controller
         ];
 
 
+        $isValidate = $request->validate([
+            'kd_poli' => 'required',
+            'kd_dokter' => 'required',
+            'no_rawat' => 'required',
+            'kd_pj' => 'required',
+        ]);
+
         $regPeriksa = RegPeriksa::where([
             'no_rkm_medis' => $data['no_rkm_medis'],
             'kd_dokter' => $data['kd_dokter'],
             'kd_poli' => $data['kd_poli'],
             'tgl_registrasi' => $data['tgl_registrasi'],
         ])->first();
+
 
         if ($regPeriksa) {
             return response()->json("Pasien sudah terdaftar di Poli yang sama dengan dokter yang sama", 409);
@@ -189,7 +235,7 @@ class RegPeriksaController extends Controller
         }
     }
 
-    function getPanggil(Request $request)
+    function getPanggil(Request $request): JsonResponse
     {
         $panggil = RegPeriksa::where('tgl_registrasi', date('Y-m-d'))
             ->where('stts', 'Berkas Diterima')
@@ -198,48 +244,45 @@ class RegPeriksaController extends Controller
         return response()->json($panggil);
     }
 
-    function getKecamatan(Request $request) : object
+    function getKecamatan(Request $request): JsonResponse
     {
         $grafikKelurahan = $this->getGrafik($request);
-        $grafikKelurahan = json_decode($this->getGrafik($request));
         $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kec.nm_kec'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
-
     }
-    function getKelurahan(Request $request) : object
+    function getKelurahan(Request $request): JsonResponse
     {
         $grafikKelurahan = $this->getGrafik($request);
         $regPeriksa = collect($grafikKelurahan)->groupBy(['pasien.kel.nm_kel'])->map->count()->sortDesc()->take(10);
         return response()->json($regPeriksa);
     }
 
-    function getGrafik(Request $request):object
+    function getGrafik(Request $request): Object
     {
         $regPeriksa = $this->regPeriksa->with($this->relation);
 
-        if($request->tgl1 && $request->tgl2){
+        if ($request->tgl1 && $request->tgl2) {
             $tgl1 = date("Y-m-d", strtotime($request->tgl1));
             $tgl2 = date("Y-m-d", strtotime($request->tgl2));
 
             $regPeriksa = $regPeriksa->whereBetween('tgl_registrasi', [$tgl1, $tgl2]);
-        }else{
+        } else {
             $regPeriksa->whereYear('tgl_registrasi', date('Y'))
                 ->whereMonth('tgl_registrasi', date('m'));
         }
         return $regPeriksa->get();
-
     }
 
-	function getAllRegPasien($no_rkm_medis)
-	{
-		$regPeriksa = $this->regPeriksa->where('no_rkm_medis', $no_rkm_medis)
-			->whereNotIn('stts',['Belum', 'Batal'])
-			->orderBy('tgl_registrasi', 'DESC')
-			->get();
+    function getAllRegPasien($no_rkm_medis): JsonResponse
+    {
+        $regPeriksa = $this->regPeriksa->where('no_rkm_medis', $no_rkm_medis)
+            ->whereNotIn('stts', ['Belum', 'Batal'])
+            ->orderBy('tgl_registrasi', 'DESC')
+            ->get();
 
-		if($regPeriksa->count()){
-			return response()->json($regPeriksa, 200);
-		}
-			return response()->json([''], 204);
-	}
+        if ($regPeriksa->count()) {
+            return response()->json($regPeriksa, 200);
+        }
+        return response()->json([''], 204);
+    }
 }

@@ -18,4 +18,9 @@ class PoliklinikController extends Controller
         $poli = $poli->get();
         return response()->json($poli);
     }
+    function getTarifPoliklinik($kd_poli): int
+    {
+        $poli = Poliklinik::select('registrasi')->where('kd_poli', $kd_poli)->first();
+        return $poli->registrasi;
+    }
 }

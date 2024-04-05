@@ -55,21 +55,19 @@
             font-size: 10px;
         }
 
-
-
         .form-label {
-            font-size: 11px;
+            font-size: 10px;
             margin-bottom: 0;
         }
 
         .form-control,
         .form-select {
-            font-size: 11px;
+            font-size: 10px;
             padding: .5rem;
         }
 
         .input-group-text {
-            font-size: 11px;
+            font-size: 10px;
         }
 
         textarea {
@@ -168,32 +166,42 @@
         }
 
         .text-brand {
-            font-family: "Roboto";
             transition: .2s linear;
         }
 
         .text-brand:hover {
             color: #c7c7c7;
         }
+        .dataTables_scrollHeadInner {
+            width:100% !important;
+        }
 
+        table.table {
+            width:100% !important;
+        }
         @media (min-width: 1920px) {
-            .table{
-                font-size: 13px;
-            }
-            .table .btn-sm{
+            .table {
                 font-size: 12px;
             }
+
+            .table .btn-sm {
+                font-size: 12px;
+            }
+
             .form-label {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .form-control,
             .form-select {
-                font-size: 12px;
+                font-size: 11px;
                 padding: .5rem;
             }
 
             .input-group-text {
+                font-size: 11px;
+            }
+            .datepicker {
                 font-size: 12px;
             }
         }
@@ -314,13 +322,13 @@
             });
             return alergi;
         }
+
         function getPemeriksaanRalan(no_rawat, nip = '') {
             return $.get(`${url}/pemeriksaan/ralan/show`, {
                 no_rawat: no_rawat,
                 nip: nip
             })
         }
-
     </script>
     @stack('script')
 </body>

@@ -13,6 +13,12 @@ use Illuminate\Database\QueryException;
 class PasienController extends Controller
 {
     use Track;
+	protected $setNoRkmMedis;
+
+	public function __construct(){
+		$this->setNoRkmMedis = new setNoRkmMedisController();
+	}
+
     function getByNoka($noKartu)
     {
         $pasien = Pasien::where('no_peserta', $noKartu)->with('regPeriksa', function ($q) use ($noKartu) {
@@ -110,11 +116,12 @@ class PasienController extends Controller
             $pasien = Pasien::create($data);
             if ($pasien) {
                 $this->insertSql(new Pasien(), $data);
+				$this->setNoRkmMedis->create($request);
             }
-            return response()->json('SUKSES', 200);
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+            return response()->json('SUKSES', 200);
     }
     function update(Request $request)
     {

@@ -17,56 +17,54 @@ class Rujuk extends Model
     protected $table = 'rujuk';
     protected $guarded = [];
     public $timestamps = false;
-    protected $with = ['regPeriksa', 'pasien.kel','pasien.kec','pasien.kab', 'dokter', 'poliklinik', 'pemeriksaan'];
+    protected $with = ['regPeriksa', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'dokter', 'poliklinik', 'pemeriksaan'];
 
 
-    function regPeriksa() : BelongsTo
+    function regPeriksa(): BelongsTo
     {
         return $this->belongsTo(RegPeriksa::class, 'no_rawat', 'no_rawat')
             ->select(['no_reg', 'no_rawat', 'kd_poli', 'kd_dokter', 'no_rawat', 'tgl_registrasi', 'jam_reg', 'umurdaftar', 'sttsumur']);
     }
 
-	function pemeriksaan() : HasOne
+    function pemeriksaan(): HasOne
     {
         return $this->hasOne(PemeriksaanRalan::class, 'no_rawat', 'no_rawat');
     }
-    function pasien() : HasOneThrough
+    function pasien(): HasOneThrough
     {
         return $this->hasOneThrough(Pasien::class, RegPeriksa::class, 'no_rawat', 'no_rkm_medis', 'no_rawat', 'no_rkm_medis')
-            ->select(['pasien.no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'jk', 'alamat','kd_kel', 'kd_kec', 'kd_kab']);
+            ->select(['pasien.no_rkm_medis', 'nm_pasien', 'tgl_lahir', 'jk', 'alamat', 'kd_kel', 'kd_kec', 'kd_kab']);
     }
-    function poliklinik() : HasOneThrough
+    function poliklinik(): HasOneThrough
     {
-       return $this->hasOneThrough(Poliklinik::class, RegPeriksa::class, 'no_rawat', 'kd_poli','no_rawat', 'kd_poli');
-
+        return $this->hasOneThrough(Poliklinik::class, RegPeriksa::class, 'no_rawat', 'kd_poli', 'no_rawat', 'kd_poli');
     }
-    function dokter() : BelongsTo
+    function dokter(): BelongsTo
     {
         return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter')
             ->select(['kd_dokter', 'nm_dokter', 'no_ijn_praktek']);
     }
     function scopeTglBetween($query, $request)
     {
-        $query->whereBetween('tgl_rujuk',
+        $query->whereBetween(
+            'tgl_rujuk',
             [
                 date('Y-m-d', strtotime($request[0])),
                 date('Y-m-d', strtotime($request[1]))
-            ]);
+            ]
+        );
     }
-    function scopeNoRawat($query, $key) : void
+    function scopeNoRawat($query, $key): void
     {
         $query->where('no_rawat', $key);
     }
 
-    function scopeByDokter($query, $key) : void
+    function scopeByDokter($query, $key): void
     {
         $query->where('kd_dokter', $key);
     }
-    function scopeNoRujuk($query, $key) : void
+    function scopeNoRujuk($query, $key): void
     {
         $query->where('no_rujuk', $key);
     }
-
-
-
 }

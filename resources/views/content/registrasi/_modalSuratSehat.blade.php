@@ -81,8 +81,8 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                // scrollY: '30vh',
-                // scrollX: true,
+                scrollY: '25vh',
+                scrollX: true,
                 ajax: {
                     url: `${url}/surat/sehat`,
                     data: {

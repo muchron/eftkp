@@ -13,7 +13,8 @@
             let list = ``;
             const element = data.map((item, index)=>{
                 index===0 ? setContentRiwayat(item.no_rawat) : '';
-                list += `<a href="javascript:void(0)" class="list-group-item list-group-item-action ${index===0 ? 'active' : ''}" onclick="setContentRiwayat('${item.no_rawat}');setActive(this)" aria-current="true">${item.status_lanjut.toUpperCase()} : ${splitTanggal(item.tgl_registrasi)}</a>`
+                const color = item.status_lanjut.toUpperCase() === 'RALAN' ? 'text-indigo' : 'text-yellow';
+                list += `<a href="javascript:void(0)" class="list-group-item list-group-item-action ${index===0 ? 'active' : ''}" onclick="setContentRiwayat('${item.no_rawat}');setActive(this)" aria-current="true"><i class="ti ti-circle-check-filled ${color}"></i> ${item.status_lanjut.toUpperCase()} : ${splitTanggal(item.tgl_registrasi)}</a>`
             });
             listRiwayatRegistrasi.append(list)
         }

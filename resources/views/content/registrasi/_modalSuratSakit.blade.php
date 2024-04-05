@@ -31,12 +31,13 @@
         let formFilterSakit = $('#formFilterSakit');
         let tanggalAwal = formSuratSakit.find('input[name=tanggalawal]');
         let tanggalAkhir = formSuratSakit.find('input[name=tanggalakhir]');
-
         $('#modalSuratSakit').on('shown.bs.modal', (e) => {
             const lamaSakit = setLamaSakit(tanggalAwal.val(), tanggalAkhir.val());
             formSuratSakit.find('input[name=lama]').val(lamaSakit)
             setNoSuratSakit().done((response) => {
                 formSuratSakit.find('input[name=no_surat]').val(response)
+            }).fail((error) =>{
+                alertErrorAjax(error)
             })
             loadSuratSakit();
         });
@@ -53,8 +54,10 @@
                 formSuratSakit.find('input[name=diagnosa]').val(diagnosa)
                 formSuratSakit.find('input[name=pekerjaan]').val(response.pasien.pekerjaan)
                 formSuratSakit.find('input[name=pasien]').val(`${response.no_rkm_medis} - ${response.pasien.nm_pasien} (${response.umurdaftar} ${response.sttsumur}) `)
+                modalSuratSakit.modal('show')
+            }).fail((error) =>{
+                alertErrorAjax(error)
             })
-            modalSuratSakit.modal('show')
 
         }
         tanggalAwal.on('change', (e) => {

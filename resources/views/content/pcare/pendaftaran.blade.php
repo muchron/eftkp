@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div id="table-default" class="table-responsive">
-                            <table class="table table-sm table-striped nowrap" id="tabelPcarePendaftaran" width="100%">
+                            <table class="table table-sm table-striped table-hover nowrap" id="tabelPcarePendaftaran" width="100%">
                             </table>
                         </div>
                     </div>
@@ -47,13 +47,14 @@
     <script>
         $(document).ready(() => {
 
-            var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-            var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+            let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
+            let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
             const isDokter = JSON.parse(`{!!session()->get('pegawai')->dokter!!}`)
-            $('#tglAwal').val(splitTanggal(tglAwal))
-            $('#tglAkhir').val(splitTanggal(tglAkhir))
+            $('#tglAwal').val(tglAwal)
+            $('#tglAkhir').val(tglAkhir)
 
             loadTbPcarePendaftaran(tglAwal, tglAkhir)
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -69,8 +70,8 @@
 
         $('#formFilterTanggal').on('submit', (e) => {
             e.preventDefault();
-            const tglAwal = splitTanggal($('#formFilterTanggal input[name=tglAwal]').val())
-            const tglAkhir = splitTanggal($('#formFilterTanggal input[name=tglAkhir]').val())
+            const tglAwal = $('#formFilterTanggal input[name=tglAwal]').val();
+            const tglAkhir = $('#formFilterTanggal input[name=tglAkhir]').val();
             localStorage.setItem('tglAwal', tglAwal)
             localStorage.setItem('tglAkhir', tglAkhir)
             loadTbPcarePendaftaran(tglAwal, tglAkhir);
@@ -92,6 +93,9 @@
                         tgl_awal: tglAwal,
                         tgl_akhir: tglAkhir,
                     },
+                },
+                createdRow: (row, data, index)=>{
+                    $('td', row).eq(0).css('text-align', 'center')
                 },
                 columnDefs: [{
                         width: '6%',

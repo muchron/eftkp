@@ -137,7 +137,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/dokter', [DokterController::class, 'delete']);
 
     Route::get('/pegawai', [PegawaiController::class, 'get']);
-    Route::get('/pegawai/profil', function(){
+    Route::get('/pegawai/profil', function () {
         return view('content.pegawai');
     });
 
@@ -146,6 +146,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
     Route::post('/registrasi', [RegPeriksaController::class, 'create']);
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
+    Route::post('/registrasi/update/status', [RegPeriksaController::class, 'setStatusLayanan']);
 
 
     Route::get('/registrasi', function () {
@@ -372,7 +373,6 @@ Route::middleware('auth')->group(function () {
     // OBAT
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
     Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
-
 });
 
 require 'Extras/web.php';

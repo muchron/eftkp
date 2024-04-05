@@ -61,7 +61,9 @@
               const data = getDataForm('formSuratSakit', 'input');
               $.post(`${url}/surat/sakit`, data).done((response) => {
                   alertSuccessAjax().then(() => {
-                      loadSuratSakit(tglAwal, tglAkhir)
+                      const pertama = formFilterSakit.find('input[name=tgl_pertama]').val()
+                      const kedua = formFilterSakit.find('input[name=tgl_kedua]').val()
+                      loadSuratSakit(pertama, kedua)
                   })
               })
           })
