@@ -49,7 +49,8 @@
 
             let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
-            const isDokter = JSON.parse(`{!!session()->get('pegawai')->dokter!!}`)
+            var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+
             $('#tglAwal').val(tglAwal)
             $('#tglAkhir').val(tglAkhir)
 
@@ -94,7 +95,7 @@
                         tgl_akhir: tglAkhir,
                     },
                 },
-                createdRow: (row, data, index)=>{
+                createdRow: (row, data, index) => {
                     $('td', row).eq(0).css('text-align', 'center')
                 },
                 columnDefs: [{

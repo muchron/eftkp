@@ -9,20 +9,20 @@
         <form action="registrasi/get" method="get" id="formFilterRegistrasi">
             <div class="row d-none-sm d-none-md gy-2">
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                        <div class="input-group">
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
-                            <span class="input-group-text">
-                                s.d
-                            </span>
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
-                            <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
-                        </div>
+                    <div class="input-group">
+                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                        <span class="input-group-text">
+                            s.d
+                        </span>
+                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
+                        <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
+                    </div>
                 </div>
                 <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
                     <select class="form-select" id="dokter" name="dokter" style="width: 100%"></select>
                 </div>
                 <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
-                    <select class="form-select form-select-2" id="stts" name="stts" style="width: 100%" >
+                    <select class="form-select form-select-2" id="stts" name="stts" style="width: 100%">
                         <option value="" selected>-</option>
                         <option value="Belum">Belum</option>
                         <option value="Sudah">Sudah</option>
@@ -51,51 +51,54 @@
         const inputTglAkhir = $('#tglAkhir')
         const selectFilterDokter = formFilterRegistrasi.find('select[name="dokter"]');
         const selectFilterStts = formFilterRegistrasi.find('select[name="stts"]');
-        const isDokter = JSON.parse(`{!!session()->get('pegawai')->dokter!!}`)
-        const dokterLocal = localStorage.getItem('dokter') ? JSON.parse(localStorage.getItem('dokter')) : isDokter ;
-        const statusLocal = localStorage.getItem('stts') ? localStorage.getItem('stts')  : '' ;
+        var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+        const dokterLocal = localStorage.getItem('dokter') ? JSON.parse(localStorage.getItem('dokter')) : isDokter;
+        const statusLocal = localStorage.getItem('stts') ? localStorage.getItem('stts') : '';
 
-        $(document).ready(()=>{
+        $(document).ready(() => {
             isObjectEmpty(isDokter) ? localStorage.setItem('dokter', !isObjectEmpty(dokterLocal) ? JSON.stringify(dokterLocal) : isDokter) : '';
             let optDokter = !isObjectEmpty(dokterLocal) ? new Option(dokterLocal.nm_dokter, dokterLocal.kd_dokter, true, true) : "";
             let optStts = statusLocal ? new Option(statusLocal, statusLocal, true, true) : "";
             selectDokter(selectFilterDokter, formFilterRegistrasi)
             selectFilterStts.append(optStts)
             selectFilterDokter.append(optDokter)
-            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(),  selectFilterStts.val(), selectFilterDokter.val());
+            loadTabelRegistrasi(inputTglAwal.val(), inputTglAkhir.val(), selectFilterStts.val(), selectFilterDokter.val());
         })
 
-        selectFilterDokter.on('change', (e)=>{
+        selectFilterDokter.on('change', (e) => {
             e.preventDefault();
             const nmDokter = e.currentTarget.options[e.currentTarget.selectedIndex].text
-            let dokter = JSON.stringify({kd_dokter : e.currentTarget.value, nm_dokter : nmDokter});
-            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(), selectFilterStts.val(), e.currentTarget.value);
-            if(!e.currentTarget.value){
-                dokter ='';
+            let dokter = JSON.stringify({
+                kd_dokter: e.currentTarget.value,
+                nm_dokter: nmDokter
+            });
+            loadTabelRegistrasi(inputTglAwal.val(), inputTglAkhir.val(), selectFilterStts.val(), e.currentTarget.value);
+            if (!e.currentTarget.value) {
+                dokter = '';
             }
-            localStorage.setItem('dokter', dokter );
+            localStorage.setItem('dokter', dokter);
         })
 
-        selectFilterStts.on('change', (e)=>{
+        selectFilterStts.on('change', (e) => {
             e.preventDefault();
-            loadTabelRegistrasi(inputTglAwal.val(),inputTglAkhir.val(), e.currentTarget.value, selectFilterDokter.val());
+            loadTabelRegistrasi(inputTglAwal.val(), inputTglAkhir.val(), e.currentTarget.value, selectFilterDokter.val());
             let stts = e.currentTarget.value;
-            if(!e.currentTarget.value){
-                stts ='';
+            if (!e.currentTarget.value) {
+                stts = '';
             }
-            localStorage.setItem('stts',  stts );
+            localStorage.setItem('stts', stts);
         })
 
         $('#btnFilterRegistrasi').on('click', (e) => {
             e.preventDefault();
             const tglAwal = $('#formFilterRegistrasi input[name=tglAwal]').val()
-            const tglAkhir =$('#formFilterRegistrasi input[name=tglAkhir]').val()
+            const tglAkhir = $('#formFilterRegistrasi input[name=tglAkhir]').val()
             localStorage.setItem('tglAwal', tglAwal)
             localStorage.setItem('tglAkhir', tglAkhir)
-            loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(),selectFilterDokter.val());
+            loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val());
         })
 
-        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter='') {
+        function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
                 stateSave: true,
@@ -111,7 +114,7 @@
                         tglAwal: tglAwal,
                         tglAkhir: tglAkhir,
                         stts: stts,
-                        dokter : dokter,
+                        dokter: dokter,
                     },
                 },
                 createdRow: (row, data, index) => {
@@ -192,7 +195,7 @@
                     },
                     {
                         title: 'Jam',
-                        data : 'jam_reg',
+                        data: 'jam_reg',
                         render: (data, type, row, meta) => {
                             return row.jam_reg;
                         },
@@ -206,7 +209,7 @@
                         }
                     }, {
                         title: 'Pasien',
-                        data : 'pasien',
+                        data: 'pasien',
                         render: (data, type, row, meta) => {
                             return `<span class="text-muted" style="font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
                         }
@@ -236,14 +239,14 @@
                     },
                     {
                         title: 'status',
-                        data : 'stts_daftar',
+                        data: 'stts_daftar',
                         render: (data, type, row, meta) => {
                             return `<span class="badge ${data.toUpperCase() === 'LAMA' ? 'badge-outline text-primary' : 'badge-outline text-orange'}">${data}`;
                         },
                     },
                     {
                         title: 'Penjab',
-                        data : 'penjab.png_jawab',
+                        data: 'penjab.png_jawab',
                         render: (data, type, row, meta) => {
                             return setTextPenjab(data);
                         },
@@ -293,7 +296,5 @@
                 loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
             });
         }
-
-
     </script>
 @endpush()
