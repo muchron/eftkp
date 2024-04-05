@@ -222,9 +222,9 @@
         let timeDisplay = $('.jam');
         let checkJam = $('.checkJam');
         let setTime = '';
+        var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
 
         modalRegistrasi.on('shown.bs.modal', () => {
-
             selectDokter(kd_dokter, modalRegistrasi)
             selectPoliklinik(kd_poli, modalRegistrasi)
             selectPenjab(kd_pj, modalRegistrasi);
