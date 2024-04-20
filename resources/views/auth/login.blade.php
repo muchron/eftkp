@@ -39,6 +39,7 @@
                         <label class="form-label">Uername</label>
                         <input type="text" name="username" class="form-control" placeholder="" autocomplete="off" value="{{ old('username') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="href" value="{{ request()->input('href') }}">
                     </div>
                     <div class="mb-2">
                         <label class="form-label">

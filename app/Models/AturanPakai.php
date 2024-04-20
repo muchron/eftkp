@@ -10,7 +10,5 @@ class AturanPakai extends Model
     use HasFactory;
     protected $table = 'aturan_pakai';
     protected $guarded = [];
-    protected $timestamps = false;
-
-    
+    public $timestamps = false;
 }

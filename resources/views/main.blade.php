@@ -172,13 +172,15 @@
         .text-brand:hover {
             color: #c7c7c7;
         }
+
         .dataTables_scrollHeadInner {
-            width:100% !important;
+            width: 100% !important;
         }
 
         table.table {
-            width:100% !important;
+            width: 100% !important;
         }
+
         @media (min-width: 1920px) {
             .table {
                 font-size: 12px;
@@ -201,9 +203,14 @@
             .input-group-text {
                 font-size: 11px;
             }
+
             .datepicker {
                 font-size: 12px;
             }
+        }
+
+        .dropzone {
+            border:
         }
     </style>
 </head>
@@ -280,6 +287,19 @@
                 todayBtn: true,
                 todayHighlight: true,
                 language: "id",
+            });
+
+            $('.filterTahun').datepicker({
+                dateFormat: "yyyy",
+                viewMode: "years",
+                minViewMode: "years",
+
+            }).on('changeDate', function(e) {
+                var selectedYear = e.date.getFullYear();
+                $(this).val(selectedYear)
+            }).on('hide', function(e) {
+                var selectedYear = $(this).datepicker('getDate').getFullYear();
+                $(this).val(selectedYear); // Set input value to the selected year
             });
         })
 

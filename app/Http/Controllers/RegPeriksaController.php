@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RegPeriksa;
 use App\Traits\Track;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\JsonResponse;
+use App\Models\RegPeriksa;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class RegPeriksaController extends Controller
 {
@@ -284,5 +285,20 @@ class RegPeriksaController extends Controller
             return response()->json($regPeriksa, 200);
         }
         return response()->json([''], 204);
+    }
+    function getGrafikTahunan(Request $request): JsonResponse
+    {
+        if ($request->tahun) {
+            $tahun = $request->tahun;
+        } else {
+            $tahun = date('Y');
+        }
+        $regPeriksa = $this->regPeriksa
+            ->select([DB::raw('YEAR(tgl_registrasi) as tahun, MONTH(tgl_registrasi) as bulan, count(*) as jumlah')])
+            ->whereYear('tgl_registrasi', $tahun)
+            ->with($this->relation)
+            ->groupBy('bulan')
+            ->get();
+        return response()->json($regPeriksa, 200);
     }
 }

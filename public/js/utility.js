@@ -55,6 +55,50 @@ function formatTanggal(tanggal) {
     }
     return `${t.getDate()} ${bulan} ${t.getFullYear()}${tanggal.split(' ')[1] ? tanggal.split(' ')[1] : ''}`;
 }
+
+function formatBulan(intBulan) {
+    switch (intBulan) {
+        case 1:
+            bulan = "Januari";
+            break;
+        case 2:
+            bulan = "Februari";
+            break;
+        case 3:
+            bulan = "Maret";
+            break;
+        case 4:
+            bulan = "April";
+            break;
+        case 5:
+            bulan = "Mei";
+            break;
+        case 6:
+            bulan = "Juni";
+            break;
+        case 7:
+            bulan = "Juli";
+            break;
+        case 8:
+            bulan = "Agustus";
+            break;
+        case 9:
+            bulan = "September";
+            break;
+        case 10:
+            bulan = "Oktober";
+            break;
+        case 11:
+            bulan = "November";
+            break;
+        case 12:
+            bulan = "Desember";
+            break;
+        default:
+            break;
+    }
+    return bulan;
+}
 // HITUNG UMUR
 function hitungUmur(tgl_lahir) {
     sekarang = new Date();
@@ -223,8 +267,8 @@ function hitungBmi(bb, tb) {
     return '0';
 }
 
-function setTextPenjab(penjab, badge = true){
-    if(badge){
+function setTextPenjab(penjab, badge = true) {
+    if (badge) {
         return penjab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>` :
             `<span class='badge badge-pill text-bg-orange'>${penjab}</span>`;
     }
@@ -408,9 +452,9 @@ function getBahasa(bahasa) {
     });
 }
 
-const isObjectEmpty = (objectName) =>{
+const isObjectEmpty = (objectName) => {
     return (
-        objectName.length===0 &&
+        objectName.length === 0 &&
         objectName &&
         Object.keys(objectName).length === 0 &&
         objectName.constructor === Object
@@ -577,13 +621,13 @@ function selectDataBarang(element, parrent) {
 }
 
 function selectDokter(element, parrent) {
-  return element.select2({
+    return element.select2({
         dropdownParent: parrent,
         delay: 2,
         scrollAfterSelect: true,
         allowClear: true,
-        tags:true,
-        placeholder : 'Pilin dokter',
+        tags: true,
+        placeholder: 'Pilin dokter',
         ajax: {
             url: '/efktp/dokter/get',
             dataType: 'JSON',
@@ -596,11 +640,11 @@ function selectDokter(element, parrent) {
             processResults: (data) => {
                 return {
                     results: data.map((item) => {
-                          return {
-                                        id: item.kd_dokter,
-                                        text: item.nm_dokter,
-                                        detail: item
-                                    }
+                        return {
+                            id: item.kd_dokter,
+                            text: item.nm_dokter,
+                            detail: item
+                        }
 
                     })
                 }
@@ -609,7 +653,7 @@ function selectDokter(element, parrent) {
         },
         cache: true
 
-    }).on('select2:unselecting', (e)=>{
+    }).on('select2:unselecting', (e) => {
         const option = new Option('', '', true, true);
         $(e.currentTarget).append(option).trigger('change');
     });
@@ -984,7 +1028,7 @@ function selectTindakan(element, parrent) {
 
 }
 
-function selectJabatan(element, parent){
+function selectJabatan(element, parent) {
 
 }
 
@@ -1008,6 +1052,14 @@ $.contextMenu({
                     icon: "fas fa-stethoscope",
                     callback: function (item, option, e, x, y) {
                         modalCppt(`${no_rawat}`)
+                    }
+
+                },
+                "upload": {
+                    name: "Upload Penunjang",
+                    icon: "fas fa-arrow-up-from-bracket",
+                    callback: function (item, option, e, x, y) {
+                        modalUploadPenunjang(`${no_rawat}`)
                     }
 
                 },
@@ -1102,35 +1154,35 @@ $.contextMenu({
                         },
                     }
                 },
-                "setStatus" : {
-                    name : "Set Status",
-                    items : {
-                        "Sudah" : {
-                            name : 'Sudah',
+                "setStatus": {
+                    name: "Set Status",
+                    items: {
+                        "Sudah": {
+                            name: 'Sudah',
                             icon: "fas fa-check",
-                            callback : () =>{
-                                setStatusLayan(no_rawat,'Sudah')
+                            callback: () => {
+                                setStatusLayan(no_rawat, 'Sudah')
                             }
                         },
-                        "Belum" : {
-                            name : 'Belum',
+                        "Belum": {
+                            name: 'Belum',
                             icon: "fas fa-hourglass-start",
-                            callback : ()=>{
-                                setStatusLayan(no_rawat,'Belum')
+                            callback: () => {
+                                setStatusLayan(no_rawat, 'Belum')
                             }
                         },
-                        "Batal" : {
-                            name : 'Batal',
-                            icon : "fas fa-x",
-                            callback : ()=>{
-                                setStatusLayan(no_rawat,'Batal')
+                        "Batal": {
+                            name: 'Batal',
+                            icon: "fas fa-x",
+                            callback: () => {
+                                setStatusLayan(no_rawat, 'Batal')
                             }
                         },
-                        "Dirujuk" : {
-                            name : 'Dirujuk',
-                            icon : "fas fa-person-walking-arrow-right",
-                            callback : ()=>{
-                                setStatusLayan(no_rawat,'Dirujuk')
+                        "Dirujuk": {
+                            name: 'Dirujuk',
+                            icon: "fas fa-person-walking-arrow-right",
+                            callback: () => {
+                                setStatusLayan(no_rawat, 'Dirujuk')
                             }
                         },
                     }
@@ -1143,10 +1195,10 @@ $.contextMenu({
                     }
 
                 },
-                "ubah" : {
-                    name : 'Ubah Data',
-                    icon : "fas fa-pencil",
-                    callback : ()=>{
+                "ubah": {
+                    name: 'Ubah Data',
+                    icon: "fas fa-pencil",
+                    callback: () => {
                         ubahRegistrasi(no_rawat)
                     }
                 },
@@ -1303,7 +1355,7 @@ $.contextMenu({
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',
                     callback: function (item, option, e, x, y) {
-                         resumeMedis(`${no_rawat}`)
+                        resumeMedis(`${no_rawat}`)
                     }
 
                 },

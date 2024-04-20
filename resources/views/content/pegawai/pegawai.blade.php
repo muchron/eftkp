@@ -22,7 +22,18 @@
             </label>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <select name="jk" id="jk" class="form-select">
+            <select name="jk" id="jk" class="form-select form-select-2">
+                <option value="L">Laki-laki</option>
+                <option value="P">Perempuan</option>
+            </select>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <label for="nama" class="form-label mt-2">
+                Jabatan
+            </label>
+        </div>
+        <div class="col-lg-8 col-md-6 col-sm-12">
+            <select name="jnj_jabatan" id="jnj_jabatan" class="form-select form-select-2">
                 <option value="L">Laki-laki</option>
                 <option value="P">Perempuan</option>
             </select>
@@ -33,21 +44,16 @@
             </label>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-12">
-            <select name="jnj_jabatan" id="jnj_jabatan" class="form-select">
+            <select name="jnj_jabatan" id="jnj_jabatan" class="form-select form-select-2">
                 <option value="L">Laki-laki</option>
                 <option value="P">Perempuan</option>
             </select>
         </div>
+
     </div>
 </form>
 @push('script')
     <script>
         let formPegawai = $('#formPegawai')
-
-        $(document).ready(()=>{
-            formPegawai.find('select[name="jk"]').select2({});
-        })
-
-
     </script>
 @endpush

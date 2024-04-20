@@ -30,6 +30,7 @@
           <a href="{{ url('setting/user') }}" class="dropdown-item"><i class="ti ti-user me-2"></i> Profile</a>
           <form action="{{ url('logout') }}" method="post">
               <input type="hidden" value="{{ csrf_token() }}" name="_token">
+              <input type="hidden" value="{{ Request::segment(1) }}" name="href">
               <button class="dropdown-item"><i class="ti ti-logout me-2"></i> Logout</button>
           </form>
       </div>

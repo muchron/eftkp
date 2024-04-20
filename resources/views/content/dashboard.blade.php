@@ -111,6 +111,9 @@
             <div class="col-lg-4 col-md-12 col-sm-12">
                 @include('content.dashboard._grafikKecamatan')
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @include('content.dashboard._grafikTahunan')
+            </div>
         </div>
     </div>
 @endsection
@@ -122,6 +125,7 @@
             setCardKunjungan();
             dataGrafikKecamatan();
             dataGrafikKelurahan();
+            dataGrafikTahunan()
         })
 
         function setCardKunjungan() {

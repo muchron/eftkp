@@ -52,6 +52,7 @@ use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SuratSehatController;
+use App\Http\Controllers\UploadController;
 use App\Models\DiagnosaPasien;
 use App\Models\KamarInap;
 use App\Models\PemeriksaanGigi;
@@ -157,6 +158,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/kecamatan', [RegPeriksaController::class, 'getKecamatan']);
     Route::get('/registrasi/kelurahan', [RegPeriksaController::class, 'getKelurahan']);
     Route::get('/registrasi/grafik', [RegPeriksaController::class, 'getGrafik']);
+    Route::get('/registrasi/grafik/tahun', [RegPeriksaController::class, 'getGrafikTahunan']);
 
 
     // PENILIAIAN AWAL/SKRINING
@@ -246,6 +248,9 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/create', [EfktpTemplateRacikanController::class, 'create']);
     Route::post('resep/racikan/template/update', [EfktpTemplateRacikanController::class, 'update']);
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
+
+    Route::post('upload', [UploadController::class, 'create']);
+
 
     // SURAT SAKIT
     Route::get('surat/sakit', [SuratSakitController::class, 'get']);

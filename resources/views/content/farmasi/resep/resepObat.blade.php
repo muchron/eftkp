@@ -36,7 +36,7 @@
         const tglAkhirResep = localStorage.getItem('tglAkhirResep');
 
         $(document).ready(() => {
-            tbResepObat(tglAwalResep,tglAkhirResep);
+            tbResepObat(tglAwalResep, tglAkhirResep);
             tglAwalResep ? $('#tgl_awal').val(tglAwalResep) : '';
             tglAkhirResep ? $('#tgl_akhir').val(tglAkhirResep) : '';
         })
@@ -58,8 +58,7 @@
                         tgl_akhir: tgl_akhir,
                     },
                 },
-                columns: [
-                    {
+                columns: [{
                         title: '',
                         data: 'no_resep',
                         render: (data, type, row, meta) => {
@@ -143,7 +142,7 @@
         }
         $('#btnFilterTanggal').on('click', (e) => {
             tgl_awal = $('#tgl_awal').val();
-            tgl_akhir =$('#tgl_akhir').val();
+            tgl_akhir = $('#tgl_akhir').val();
 
             localStorage.setItem('tglAwalResep', tgl_awal);
             localStorage.setItem('tglAkhirResep', tgl_akhir);

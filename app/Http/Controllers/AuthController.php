@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Admin;
 use App\Models\Setting;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthController extends Controller
 {
@@ -43,7 +46,16 @@ class AuthController extends Controller
             unset($auth['passwd']);
             $userSesion = $auth;
             $request->session()->put(['pegawai' => $pegawai, 'user' => $userSesion]);
-            return redirect('/');
+            if ($request->has('href')) {
+                $routes = Route::getRoutes();
+                $req = Request::create('/' . $request->href);
+                try {
+                    $routes->match($req);
+                    return redirect('/' . $request->href);
+                } catch (NotFoundHttpException $e) {
+                    return redirect('/');
+                }
+            }
         } else {
             return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
         }
@@ -53,6 +65,9 @@ class AuthController extends Controller
         Auth::logout();
         Session::flush();
         $request->session()->regenerateToken();
+        if ($request->href) {
+            return redirect('/login?href=' . basename(URL::previous()));
+        }
         return redirect('/login');
     }
 }
