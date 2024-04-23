@@ -96,7 +96,7 @@
                     },
                 },
                 createdRow: (row, data, index) => {
-                    $('td', row).eq(0).css('text-align', 'center')
+                    $('td', row).eq(1).css('text-align', 'center')
                 },
                 columnDefs: [{
                         width: '6%',
@@ -112,6 +112,34 @@
                     }
                 ],
                 columns: [{
+                        title: '',
+                        data: 'reg_periksa',
+                        render: (data, type, row, meta) => {
+                            let attr = 'javascript:void(0)';
+                            let target = '';
+                            let action = '';
+
+                            btnStatusLayanan = ''
+                            if (data.stts === 'Belum') {
+                                btnStatusLayanan = 'btn-primary'
+                                action = `setPanggilBpjs('${data.no_rawat}')`
+                            } else if (data.stts === 'Berkas Diterima' || data.stts === 'Dirawat') {
+                                btnStatusLayanan = 'btn-purple'
+                                action = `setBelumBpjs('${data.no_rawat}')`
+                                data.stts = 'Diperiksa';
+                            } else if (data.stts === 'Batal') {
+                                btnStatusLayanan = 'btn-danger'
+                            } else if (data.stts === 'Sudah') {
+                                btnStatusLayanan = 'btn-success'
+                            }
+
+                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" >${data.stts.toUpperCase()}</a>`
+
+
+                            return button;
+                        },
+                    },
+                    {
                         title: 'No. Urut',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
@@ -223,6 +251,18 @@
                         })
                     ])
                 }
+            });
+        }
+
+        function setPanggilBpjs(no_rawat) {
+            setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
+                loadTbPcarePendaftaran(tglAwal, tglAkhir);
+            });
+        }
+
+        function setBelumBpjs(no_rawat) {
+            setStatusLayan(no_rawat, 'Belum').done((response) => {
+                loadTbPcarePendaftaran(tglAwal, tglAkhir);
             });
         }
     </script>

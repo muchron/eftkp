@@ -241,6 +241,9 @@ class RegPeriksaController extends Controller
         $panggil = RegPeriksa::where('tgl_registrasi', date('Y-m-d'))
             ->where('stts', 'Berkas Diterima')
             ->with($this->relation)
+            ->with(['pcarePendaftaran' => function ($q) {
+                return $q->select(['no_rawat', 'noUrut']);
+            }])
             ->first();
         return response()->json($panggil);
     }

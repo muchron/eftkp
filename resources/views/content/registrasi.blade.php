@@ -22,6 +22,7 @@
     <script>
         //Script Reistrasi
         let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
+        let selectDokterPoli = formFilterRegistrasi.find('select[name="dokter"'); //get data from selection filter stts
         $(document).ready(() => {
             $('#tglAwal').val(tglAwal)
             $('#tglAkhir').val(tglAkhir)
@@ -32,27 +33,7 @@
             });
         })
 
-        function setStatusLayan(no_rawat, status) {
-            return $.post(`${url}/registrasi/update/status`, {
-                stts: status,
-                no_rawat: no_rawat
-            }).done(() => {
-                loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-            }).fail((error, status, code) => {
-                if (error.status !== 500) {
-                    const errorMessage = {
-                        status: error.status,
-                        statusText: code,
-                        responseJSON: error.responseJSON.message,
-                    }
-                    console.log(errorMessage)
-                    alertErrorAjax(errorMessage)
 
-                } else {
-                    alertErrorAjax(error)
-                }
-            });
-        }
 
         function ubahRegistrasi(no_rawat) {
             modalRegistrasi.modal('show');

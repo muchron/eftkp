@@ -236,9 +236,9 @@
                             <div class="tab-pane" id="pane2">
                                 <div class="row">
                                     <div class="col">
-{{--                                        <div class="table-responsive">--}}
-                                            <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
-{{--                                        </div>--}}
+                                        {{--                                        <div class="table-responsive"> --}}
+                                        <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
+                                        {{--                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -301,9 +301,9 @@
         }
 
 
-       function isExistPasien(data) {
+        function isExistPasien(data) {
             $.get(`${url}/pasien/exist`, data)
-       }
+        }
 
         $('#btnSimpanPasien').on('click', (e) => {
             e.preventDefault;
@@ -336,6 +336,7 @@
         })
 
         function regPoliBpjs(data) {
+            loadingAjax();
             $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
                 if (pendaftaran.metaData.code == 200) {
                     const response = pendaftaran.response;
@@ -402,16 +403,14 @@
                         $.get(`${url}/mapping/pcare/dokter`, {
                             kdDokterPcare: kdDokterPcare
                         }).done((resDokter) => {
+                            loadingAjax().close();
                             selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
                             const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
                             formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
                             formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
                         })
                     })
-
-
                     modalRegistrasi.modal('show')
-                    loadingAjax().close();
                 }
             })
         }
@@ -634,8 +633,8 @@
                         title: 'Asuransi',
                         data: 'penjab',
                         render: (data, type, row, meta) => {
-                            return asuransi = data.png_jawab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>`
-                                :`<span class='badge badge-pill text-bg-orange'>${data.png_jawab}</span>` ;
+                            return asuransi = data.png_jawab.includes('BPJS') ? `<span class='badge badge-pill text-bg-green'>BPJS</span>` :
+                                `<span class='badge badge-pill text-bg-orange'>${data.png_jawab}</span>`;
                         }
 
                     },

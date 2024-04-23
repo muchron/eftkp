@@ -234,6 +234,8 @@
         var btnSimpanRacikan = $('#btnSimpanRacikan')
         var btnCetakResep = $('#btnCetakResep')
         var tabelResepUmum = $('#tabelResepUmum')
+        let tabelPcarePendaftaran = $('#tabelPcarePendaftaran')
+        let tabelRegistrasi = $('#tabelRegistrasi')
         var tabelResepRacikan = $('#tabelResepRacikan')
         var inputAlergi = $('#formCpptRajal').find('#alergi')
         let username = "{{ session()->get('pegawai')->nik }}"
@@ -326,7 +328,11 @@
                                     const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                                     setStatusLayan(data['no_rawat'], stts);
                                 }
-                                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter )
+                                if (tabelPcarePendaftaran.length) {
+                                    loadTbPcarePendaftaran(tglAwal, tglAkhir);
+                                } else if (tabelRegistrasi.length) {
+                                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
+                                }
                             })
                             return false;
                         }
@@ -345,7 +351,7 @@
                             const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                             setStatusLayan(data['no_rawat'], stts);
                         }
-                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter )
+                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
                     })
                 }
 

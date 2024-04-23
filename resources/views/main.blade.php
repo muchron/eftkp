@@ -210,7 +210,7 @@
         }
 
         .dropzone {
-            border:
+            border: 1px solid rgb(227 214 214 / 80%) !important;
         }
     </style>
 </head>
@@ -321,6 +321,29 @@
                 })
             }
 
+        }
+
+        function setStatusLayan(no_rawat, status) {
+            return $.post(`${url}/registrasi/update/status`, {
+                stts: status,
+                no_rawat: no_rawat
+            }).done(() => {
+                if ($('#tabelRegistrasi').length > 0) {
+                    loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
+                }
+            }).fail((error, status, code) => {
+                if (error.status !== 500) {
+                    const errorMessage = {
+                        status: error.status,
+                        statusText: code,
+                        responseJSON: error.responseJSON.message,
+                    }
+                    alertErrorAjax(errorMessage)
+
+                } else {
+                    alertErrorAjax(error)
+                }
+            });
         }
 
         function getRegDetail(no_rawat) {

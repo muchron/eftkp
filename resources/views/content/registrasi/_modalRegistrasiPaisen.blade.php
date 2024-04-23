@@ -119,11 +119,11 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input type="text" class="form-control text-end" name="sistole">
+                                        <input type="text" class="form-control text-end" name="sistole" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                                         <span class="input-group-text" style="width:10px;padding:2px;">
                                             /
                                         </span>
-                                        <input type="text" class="form-control text-end" name="diastole">
+                                        <input type="text" class="form-control text-end" name="diastole" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -134,7 +134,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="0">
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -145,7 +145,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="0">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -156,7 +156,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="0">
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -167,7 +167,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="0">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -178,7 +178,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="0">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -189,7 +189,7 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="-">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="0">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -272,7 +272,7 @@
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
-                        loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), dokterLocal.kd_dokter)
+                        loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
                     if (data.bridging) {
                         data['tensi'] = `${data.sistole}/${data.diastole}`

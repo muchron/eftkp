@@ -76,14 +76,19 @@
             const date = new Date();
 
             const hari = setHari(date.getDay());
-            $('#tanggal').html(`${hari}, ${formatTanggal(tanggal)}`);
+            $('#tanggal').html(`${hari}, ${formatTanggal(date.toISOString().split('T')[0])}`);
 
             setInterval(() => {
                 const currentSpeech = $('#speech').val()
                 $.get(`${url}/registrasi/get/panggil`).done((response) => {
+                    console.log(response);
+
                     if (Object.keys(response).length) {
-                        console.log(response);
-                        $('#nomor').html(response.no_reg)
+                        if (response.pcare_pendaftaran) {
+                            $('#nomor').html(response.pcare_pendaftaran.noUrut)
+                        } else {
+                            $('#nomor').html(response.no_reg)
+                        }
                         $('#nama').html(response.pasien.nm_pasien)
                         $('#poliklinik').html(response.poliklinik.nm_poli)
                         $('#dokter').html(response.dokter.nm_dokter)

@@ -287,13 +287,13 @@
 
         function setPanggil(no_rawat) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
             });
         }
 
         function setBelum(no_rawat) {
             setStatusLayan(no_rawat, 'Belum').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
             });
         }
     </script>

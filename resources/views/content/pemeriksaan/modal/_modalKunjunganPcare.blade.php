@@ -358,8 +358,6 @@
         var formRujukanSpesialis = $('#formRujukanSpesialis')
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
-        var tabelPcarePendaftaran = $('#tabelPcarePendaftaran');
-        var tabelRegistrasi = $('#tabelRegistrasi');
 
         function getKunjunganRujuk(noKunjungan) {
             const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
@@ -641,8 +639,13 @@
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
                             }
-                            loadingAjax().close();
-                            $('#modalKunjunganPcare').modal('hide')
+                            loadingAjax().close().then(() => {
+                                if (tabelRegistrasi.length) {
+                                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                                } else if (tabelPcarePendaftaran.length) {
+                                    loadTbPcarePendaftaran(tglAwal, tglAkhir)
+                                }
+                            });
                             $('#modalCppt').modal('hide');
                         }).fail((request) => {
                             alertErrorAjax(request)
@@ -664,7 +667,7 @@
         }
 
         function editKunjungan() {
-
+            return false;
             element = ['input', 'select'];
             const data = getDataForm('formKunjunganPcare', element);
             data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()

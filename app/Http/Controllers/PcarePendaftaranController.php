@@ -17,14 +17,13 @@ class PcarePendaftaranController extends Controller
     }
     function get(Request $request)
     {
+        $pcare = PcarePendaftaran::with(['regPeriksa.pasien' => function ($q) {
+            return $q->with(['kel', 'kec', 'kab']);
+        }, 'kunjungan', 'pemeriksaan']);
         if ($request->tgl_awal || $request->tgl_akhir) {
-            $pcare = PcarePendaftaran::with(['regPeriksa.pasien' => function ($q) {
-                return $q->with(['kel', 'kec', 'kab']);
-            }, 'kunjungan'])->whereBetween('tglDaftar',[date('Y-m-d', strtotime($request->tgl_awal)),date('Y-m-d', strtotime($request->tgl_akhir))])->get();
+            $pcare = $pcare->whereBetween('tglDaftar', [date('Y-m-d', strtotime($request->tgl_awal)), date('Y-m-d', strtotime($request->tgl_akhir))])->get();
         } else {
-            $pcare = PcarePendaftaran::with(['regPeriksa.pasien' => function ($q) {
-                return $q->with(['kel', 'kec', 'kab']);
-            }, 'kunjungan'])->where('tglDaftar', date('Y-m-d'))->get();
+            $pcare = $pcare->where('tglDaftar', date('Y-m-d'))->get();
         }
         if ($request->datatable) {
             return DataTables::of($pcare)->make(true);
