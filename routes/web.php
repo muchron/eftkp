@@ -26,6 +26,7 @@ use App\Http\Controllers\SuratSakitController;
 use App\Http\Controllers\MetodeRacikController;
 use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\BahasaPasienController;
+use App\Http\Controllers\Bridging\Icare;
 use App\Http\Controllers\MapingDokterController;
 use App\Http\Controllers\RujukInternalController;
 use App\Http\Controllers\setNoRkmMedisController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\PemeriksaanRalanController;
 use App\Http\Controllers\PerusahaanPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
+use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
 use App\Http\Controllers\EfktpTindakanResikoJatuhController;
 use App\Http\Controllers\KamarInapController;
@@ -250,6 +252,9 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
 
     Route::post('upload', [UploadController::class, 'create']);
+    Route::get('berkas/penunjang/kategori', [EfktpKategoriBerkasPenunjangController::class, 'get']);
+
+    Route::get('icare', [Icare::class, 'get']);
 
 
     // SURAT SAKIT

@@ -19,6 +19,9 @@ trait PcareConfig
             'password' => $setting->password,
             'app_code' => $setting->appCode,
             'base_url' => $setting->baseUrl,
+            'icare_url' => $setting->urlIcare,
+            'user_icare' => $setting->userIcare,
+            'password_icare' => $setting->passwordIcare,
             'service_name' => $setting->service,
         ];
     }

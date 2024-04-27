@@ -372,6 +372,24 @@
                 nip: nip
             })
         }
+
+        function riwayatIcare(no_peserta) {
+            loadingAjax();
+            $.get(`${url}/icare`, {
+                no_peserta: no_peserta,
+            }).done((response) => {
+                if (response.metaData.code === 200) {
+                    loadingAjax().close();
+                    window.open(response.response.url, 'Riwayat Perawatan Icare', "width=" + screen.availWidth + ",height=" + screen.availHeight)
+                } else {
+                    Swal.fire(
+                        'Peringatan',
+                        response.metaData.message,
+                        'warning'
+                    )
+                }
+            })
+        }
     </script>
     @stack('script')
 </body>

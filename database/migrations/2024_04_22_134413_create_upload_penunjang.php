@@ -17,7 +17,7 @@ return new class extends Migration
             $table->collation = 'latin1_swedish_ci';
             $table->id();
             $table->string('no_rawat', 17);
-            $table->string('kategori', 20);
+            $table->integer('id_kategori', 20)->autoIncrement(false);
             $table->text('file');
             $table->string('nik', 20);
             $table->timestamps();

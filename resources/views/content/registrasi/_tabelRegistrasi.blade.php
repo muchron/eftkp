@@ -120,8 +120,11 @@
                 createdRow: (row, data, index) => {
                     $(row).addClass('table-rows')
                         .attr('data-id', data.no_rawat)
+                        .attr('data-penjab', data.penjab.png_jawab.includes('BPJS') ? 'BPJS' : 'UMUM')
                         .attr('data-poli', data.kd_poli)
-                        .attr('data-no_rkm_medis', data.no_rkm_medis);
+                        .attr('data-dokter_pcare', data.dokter.maping.kd_dokter_pcare)
+                        .attr('data-no_rkm_medis', data.no_rkm_medis)
+                        .attr('data-noPeserta', data.pasien.no_peserta);
                 },
                 columns: [{
                         title: '',

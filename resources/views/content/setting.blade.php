@@ -47,6 +47,12 @@
                     </div>
                 </div>
                 <div class="mb-3 row">
+                    <label class="col-3 col-form-label required">Icare Url</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="urlIcare" placeholder="Icare Url" value="{{ $data ? $data->urlIcare : '' }}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
                     <label class="col-3 col-form-label required">Username Pcare</label>
                     <div class="col">
                         <input type="text" class="form-control" name="user" placeholder="Username Pcare" value="{{ $data ? $data->user : '' }}">
@@ -56,6 +62,19 @@
                     <label class="col-3 col-form-label required">Password Pcare</label>
                     <div class="col">
                         <input type="text" class="form-control" name="password" placeholder="Password Pcare" value="{{ $data ? $data->password : '' }}" formnovalidate>
+                        <span class="invalid-feedback" id="errorPassword"></span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-3 col-form-label required">Username I-Care</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="userIcare" placeholder="Username Icare" value="{{ $data ? $data->userIcare : '' }}">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-3 col-form-label required">Password I-Care</label>
+                    <div class="col">
+                        <input type="text" class="form-control" name="passwordIcare" placeholder="Password Icare" value="{{ $data ? $data->passwordIcare : '' }}" formnovalidate>
                         <span class="invalid-feedback" id="errorPassword"></span>
                     </div>
                 </div>

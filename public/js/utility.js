@@ -1044,6 +1044,9 @@ $.contextMenu({
         const no_rawat = element.data('id');
         const poli = element.data('poli');
         const no_rkm_medis = element.data('no_rkm_medis');
+        const noPeserta = element.data('nopeserta');
+        const dokterPcare = element.data('dokter_pcare');
+        const penjab = element.data('penjab');
         element.addClass('text-red')
         return {
             items: {
@@ -1145,9 +1148,7 @@ $.contextMenu({
                         "SkriningResikoJatuh": {
                             name: "Skrining Resiko Jatuh",
                             icon: "fas fa-edit",
-                            disabled: () => {
-                                // return true;
-                            },
+
                             callback: (item, opt) => {
                                 skriningResikoJatuh(`${no_rawat}`);
                             }
@@ -1195,6 +1196,17 @@ $.contextMenu({
                     }
 
                 },
+                "icare": {
+                    name: "Riwayat ICare",
+                    icon: 'fa-regular fa-info',
+                    disabled: () => {
+                        return penjab == 'BPJS' ? false : true;
+                    },
+                    callback: function (item, option, e, x, y) {
+                        riwayatIcare(`${noPeserta}`)
+                    }
+
+                },
                 "ubah": {
                     name: 'Ubah Data',
                     icon: "fas fa-pencil",
@@ -1238,6 +1250,34 @@ $.contextMenu({
                     icon: "",
                     callback: function (item, option, e, x, y) {
                         modalCpptRujuk(`${no_rawat}`)
+                    }
+
+                },
+            }
+        }
+    }
+});
+
+$.contextMenu({
+    selector: '.rowPendaftaranPcare',
+    build: (element, event) => {
+        const no_rawat = element.data('id');
+        const no_peserta = element.data('peserta');
+        return {
+            items: {
+                "cppt": {
+                    name: "CPPT",
+                    icon: 'fa-regular fa-stethoscope',
+                    callback: function (item, option, e, x, y) {
+                        modalCppt(`${no_rawat}`)
+                    }
+
+                },
+                "icare": {
+                    name: "Riwayat ICare",
+                    icon: 'fa-regular fa-info',
+                    callback: function (item, option, e, x, y) {
+                        riwayatIcare(`${no_peserta}`)
                     }
 
                 },

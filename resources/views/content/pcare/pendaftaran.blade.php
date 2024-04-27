@@ -97,6 +97,8 @@
                 },
                 createdRow: (row, data, index) => {
                     $('td', row).eq(1).css('text-align', 'center')
+                    $(row).addClass('rowPendaftaranPcare').attr('data-id', data.no_rawat)
+                        .attr('data-peserta', data.noKartu);
                 },
                 columnDefs: [{
                         width: '6%',
