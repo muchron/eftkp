@@ -14,8 +14,6 @@ Homestead.yaml
 auth.json
 npm-debug.log
 composer.lock
-kyc/composer.lock
-kyc/satusehat.ini
 yarn-error.log
 /.fleet
 /.idea
