@@ -217,7 +217,6 @@
 
 <body class="layout-fluid">
     <script src="{{ asset('public/js/demo-theme.min.js') }}"></script>
-    @yield('navbars')
     <div class="page-wrapper">
         @yield('contents')
     </div>

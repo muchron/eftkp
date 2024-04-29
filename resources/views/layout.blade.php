@@ -1,12 +1,10 @@
 @extends('main')
 
-@section('navbars')
-    @include('components.navbar')
-@endsection
 
 @section('contents')
     {{-- page header : informasi header --}}
 
+    <x-navbar />
     <div class="page-body my-1">
         <div class="container-xl">
             <div class="page-header d-print-none my-2">
