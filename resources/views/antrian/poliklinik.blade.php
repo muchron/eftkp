@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <marquee behavior="" direction="">
                             <h1 class="mt-2">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro corporis molestiae ipsa distinctio esse nam fuga est aperiam, neque magni iusto et consequatur quod sed maiores velit voluptatibus, accusamus cumque!
+                                Selamat datang di {{ $data->nama_instansi }}, <i class="ti ti-home" style="font-size:25px"></i> Alamat : {{ $data->alamat_instansi }}, {{ $data->kabupaten }}, {{ $data->propinsi }}, <i class="ti ti-mail" style="font-size:25px"></i> Kritik, Saran & Informasi : {{ $data->email }}, {{ $data->kontak }},
                             </h1>
                         </marquee>
                     </div>
