@@ -6,7 +6,7 @@
         <h1 class="navbar-brand d-none-navbar-horizontal pe-0 pe-md-3">
             <img src="data:image/png;base64,{{ base64_encode($data->logo) }}" alt="" width="30px">
             <a href="{{ url('/') }}" style="text-decoration: none" class="text-brand">
-                {{ env('APP_NAME') }}
+                {{ $data->nama_instansi }}
             </a>
         </h1>
 
