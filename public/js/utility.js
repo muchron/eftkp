@@ -1239,10 +1239,16 @@ $.contextMenu({
     }
 });
 $.contextMenu({
+    events: {
+        hide: (element, event) => {
+            $(element.selector).removeClass('text-red')
+        }
+    },
+
     selector: '.rows-rujuk',
     build: (element, event) => {
         const no_rawat = element.data('id');
-
+        element.addClass('text-red')
         return {
             items: {
                 "cppt": {
@@ -1259,8 +1265,14 @@ $.contextMenu({
 });
 
 $.contextMenu({
+    events: {
+        hide: (element, event) => {
+            $(element.selector).removeClass('text-red')
+        }
+    },
     selector: '.rowPendaftaranPcare',
     build: (element, event) => {
+        element.addClass('text-red')
         const no_rawat = element.data('id');
         const no_peserta = element.data('peserta');
         return {
@@ -1288,6 +1300,7 @@ $.contextMenu({
 $.contextMenu({
     selector: '.rows-pasien',
     build: (element, event) => {
+        element.addClass('text-red')
         const no_rkm_medis = element.data('id');
         const poli = element.data('poli');
         const peserta = element.data('peserta');
