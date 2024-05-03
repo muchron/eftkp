@@ -177,19 +177,19 @@
                                         </select>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Terapi</label>
-                                        <input autocomplete="off" type="text" class="form-control" name="rtl">
+                                        <label class="form-label">Terapi Obat</label>
+                                        <textarea name="rtl" class="form-control" id="" rows="6"></textarea>
                                     </div>
                                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="form-label">Terapi Non-obat</label>
+                                        <textarea name="instruksi" class="form-control" id="" rows="6"></textarea>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
                                         <select class="form-select" name="sttsPulang" id="sttsPulang">
-                                            {{-- <option value="0">Sembuh</option> --}}
-                                            {{-- <option value="1">Meninggal</option> --}}
-                                            {{-- <option value="2">Pulang Paksa</option> --}}
                                             <option value="3" selected>Berobat Jalan</option>
                                             <option value="4">Rujuk Vertikal</option>
                                             <option value="6">Rujuk Horizontal (Belum Tersedia)</option>
-                                            {{-- <option value="9">Lain-lain</option> --}}
                                         </select>
                                     </div>
                                 </div>
@@ -407,11 +407,31 @@
         })
 
         function showModalKunjunganPcare(data) {
+            $.get(`${url}/farmasi/resep/get`, {
+                no_rawat: data.no_rawat
+            }).done((response) => {
+                let textResep = '';
+                const resep = response.map((item) => {
+                    console.log(item);
+                    textResep = item.resep_dokter.map((rd) => {
+                        return `${rd.obat.nama_brng} ${rd.jml}`
+                    }).join(', ')
+                    if (item.resep_racikan.length) {
+                        textResep += ',';
+                        textResep += item.resep_racikan.map((rr) => {
+                            return rr.detail.map((detail) => {
+                                return `${detail.obat.nama_brng} ${detail.jml}`
+                            })
+                        }).join(', ')
+                    }
+                })
+
+                formKunjunganPcare.find('textarea[name=rtl]').text(textResep)
+            })
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
-
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
             );
