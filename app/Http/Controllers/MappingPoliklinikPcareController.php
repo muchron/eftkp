@@ -9,8 +9,13 @@ class MappingPoliklinikPcareController extends Controller
 {
     function get(Request $request)
     {
-        $mapping = MappingPoliklinikPcare::where('kd_poli_pcare', $request->kdPoliPcare)
-            ->with('poliklinik')->first();
+        $mapping = MappingPoliklinikPcare::with('poliklinik');
+
+        if ($request->kdPoliPcare) {
+            $mapping = $mapping->where('kd_poli_pcare', $request->kdPoliPcare)->first();
+        } else {
+            $mapping = $mapping->where('kd_poli_rs', $request->kdPoli)->first();
+        }
         return response()->json($mapping);
     }
 }

@@ -34,4 +34,12 @@ class Pendaftaran extends Controller
         $bpjs = $this->bpjs;
         return $bpjs->peserta($request->noKartu)->tanggalDaftar($request->tglDaftar)->nomorUrut($request->no);
     }
+    function post(Request $request)
+    {
+        $bpjs = $this->bpjs;
+        $data = [
+            ''
+        ];
+        // return $bpjs->store();
+    }
 }

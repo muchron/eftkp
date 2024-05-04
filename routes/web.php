@@ -348,6 +348,7 @@ Route::middleware('auth')->group(function () {
 
     // PENDAFTARAN
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::post('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'post']);
     Route::get('/bridging/pcare/delete', [Bridging\Pendaftaran::class, 'delete']);
     Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);
 
