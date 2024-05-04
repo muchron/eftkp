@@ -176,13 +176,23 @@
                                             <option value="04">Coma</option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                                         <label class="form-label">Terapi Obat</label>
-                                        <textarea name="rtl" class="form-control" id="" rows="6"></textarea>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control" name="rtl">
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                        <label class="form-label">Prognosa</label>
+                                        <select class="form-select" name="kdPrognosa" id="kdPrognosa">
+                                            <option value="01" selected>Sanam (Sembuh)</option>
+                                            <option value="02">Bonam (Baik)</option>
+                                            <option value="03">Malam (Buruk/Jelek)</option>
+                                            <option value="04">Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)</option>
+                                            <option value="05">Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                                         <label class="form-label">Terapi Non-obat</label>
-                                        <textarea name="instruksi" class="form-control" id="" rows="6"></textarea>
+                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control" name="instruksi">
                                     </div>
                                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
@@ -192,38 +202,44 @@
                                             <option value="6">Rujuk Horizontal (Belum Tersedia)</option>
                                         </select>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
                                 <div class="row gy-2">
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Dokter</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kd_dokter_pcare" readonly="">
                                             <input autocomplete="off" type="text" class="form-control w-50" name="nm_dokter" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="form-label">Anamnesa</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="anamnesa" id="anamnesa" value="-" onblur="isEmpty(this)" onfocus="return removeZero(this)">
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Diagnosa 1</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa1" readonly="">
                                             <input autocomplete="off" type="text" class="form-control" name="diagnosa1" readonly style="width:60%">
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Diagnosa 2</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa2" readonly="">
                                             <input autocomplete="off" type="text" class="form-control" name="diagnosa2" readonly style="width:60%">
                                         </div>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Diagnosa 3</label>
                                         <div class="input-group">
                                             <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa3" readonly="">
                                             <input autocomplete="off" type="text" class="form-control" name="diagnosa3" readonly style="width:60%">
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 
@@ -407,31 +423,33 @@
         })
 
         function showModalKunjunganPcare(data) {
-            $.get(`${url}/farmasi/resep/get`, {
-                no_rawat: data.no_rawat
-            }).done((response) => {
-                let textResep = '';
-                const resep = response.map((item) => {
-                    console.log(item);
-                    textResep = item.resep_dokter.map((rd) => {
+            const no_resep = $('#modalCppt').find('input[name=no_resep]').val()
+            if (no_resep.length > 0) {
+                $.get(`${url}/farmasi/resep/get`, {
+                    no_resep: no_resep
+                }).done((response) => {
+                    let textResep = '';
+                    textResep = response.resep_dokter.map((rd) => {
                         return `${rd.obat.nama_brng} ${rd.jml}`
                     }).join(', ')
-                    if (item.resep_racikan.length) {
-                        textResep += ',';
-                        textResep += item.resep_racikan.map((rr) => {
+
+                    if (response.resep_racikan.length) {
+                        textResep += ', ';
+                        textResep += response.resep_racikan.map((rr) => {
                             return rr.detail.map((detail) => {
                                 return `${detail.obat.nama_brng} ${detail.jml}`
                             })
                         }).join(', ')
                     }
-                })
 
-                formKunjunganPcare.find('textarea[name=rtl]').text(textResep)
-            })
+                    formKunjunganPcare.find('input[name=rtl]').val(textResep)
+                })
+            }
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
+
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
             );
@@ -441,6 +459,8 @@
                 if (input.length) {
                     if (key == 'nm_pasien') {
                         data[key] = data[key].split(' / ')[0]
+                    } else if (key == 'instruksi') {
+                        data[key] = data[key].replaceAll('\n', ', ')
                     }
                     input.val(data[key])
                 }
@@ -634,8 +654,7 @@
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
-            // obatPcare('1105U0210224Y000967', data['no_resep']);
-            // return false;
+            loadingAjax();
             $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
@@ -643,6 +662,13 @@
                     }).join(',');
                     data['noKunjungan'] = noKunjungan
                     alertSuccessAjax('Berhasil post kunjungan').then(() => {
+                        if (tabelRegistrasi.length) {
+                            loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                        } else if (tabelPcarePendaftaran.length) {
+                            loadTbPcarePendaftaran(tglAwal, tglAkhir)
+                        }
+
+                        $('#modalCppt').modal('hide');
                         loadingAjax().close();
                         $.post(`${url}/pcare/kunjungan`, data).done((response) => {
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
@@ -658,15 +684,8 @@
                                 })
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
-                            }
-                            loadingAjax().close().then(() => {
-                                if (tabelRegistrasi.length) {
-                                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
-                                } else if (tabelPcarePendaftaran.length) {
-                                    loadTbPcarePendaftaran(tglAwal, tglAkhir)
-                                }
-                            });
-                            $('#modalCppt').modal('hide');
+                            };
+
                         }).fail((request) => {
                             alertErrorAjax(request)
                         })
@@ -687,6 +706,20 @@
         }
 
         function editKunjungan() {
+            console.log('wkwkwkwkwk');
+            loadingAjax();
+            setTimeout(() => {
+                loadingAjax().then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('result ==>', result);
+                        // Swal closed by timer
+                        resolve();
+                    } else {
+                        // Swal closed by user interaction
+                        reject('Swal closed by user');
+                    }
+                })
+            }, 5000);
             return false;
             element = ['input', 'select'];
             const data = getDataForm('formKunjunganPcare', element);

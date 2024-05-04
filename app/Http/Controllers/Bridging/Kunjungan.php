@@ -48,6 +48,15 @@ class Kunjungan extends Controller
             "kdDiag1" => $data['kdDiagnosa1'],
             "kdDiag2" => $data['kdDiagnosa2'],
             "kdDiag3" => $data['kdDiagnosa3'],
+            "anamnesa" => $data['anamnesa'],
+            "alergiMakan" => "00",
+            "alergiUdara" => "00",
+            "alergiObat" => "00",
+            "kdPrognosa" => $data['kdPrognosa'],
+            "terapiObat" => $data['rtl'],
+            "terapiNonObat" => $data['instruksi'],
+            "bmhp" => "-",
+            "suhu" => $data['suhu_tubuh'],
             "kdPoliRujukInternal" => $request->kdInnternal ? $request->kdInnternal : null,
         ];
 
@@ -117,6 +126,15 @@ class Kunjungan extends Controller
             "kdDiag1" => $request->kdDiagnosa1,
             "kdDiag2" => $request->kdDiagnosa2,
             "kdDiag3" => $request->kdDiagnosa3,
+            "anamnesa" => $request->anamnesa,
+            "alergiMakan" => "00",
+            "alergiUdara" => "00",
+            "alergiObat" => "00",
+            "kdPrognosa" => $request->kdPrognosa,
+            "terapiObat" => $request->rtl,
+            "terapiNonObat" => $request->instruksi,
+            "bmhp" => "-",
+            "suhu" => $request->suhu_tubuh,
             "kdPoliRujukInternal" => $request->kdInnternal ? $request->kdInnternal : null,
         ];
         if ($request->jenisRujukan) {

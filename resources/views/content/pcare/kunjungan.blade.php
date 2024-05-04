@@ -190,28 +190,28 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     loadingAjax();
-                    $.post(`kunjungan/delete/${noKunjungan}`).done((response) => {
-                        $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
-                            if (resDelete.metaData.code == 200) {
-                                alertSuccessAjax(`${resDelete.response}`).then(() => {
-                                    loadTbPcareKunjungan(tglAwal, tglAkhir);
-                                    $.post(`pendaftaran/delete`, {
-                                        no_rawat: no_rawat
-                                    }).done(() => {
-                                        alertSuccessAjax('Data Pendaftaran Pcare dihapus')
-                                    })
+                    $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
+                        if (resDelete.metaData.code == 200) {
+                            alertSuccessAjax(`${resDelete.response}`).then(() => {
+                                $.post(`kunjungan/delete/${noKunjungan}`).fail((request) => {
+                                    alertErrorAjax(errorMsg)
+                                });
+                                loadTbPcareKunjungan(tglAwal, tglAkhir);
+                                $.post(`pendaftaran/delete`, {
+                                    no_rawat: no_rawat
+                                }).done(() => {
+                                    alertSuccessAjax('Data Pendaftaran Pcare dihapus')
                                 })
-                            } else {
-                                const errorMsg = {
-                                    status: 500,
-                                    statusText: 'Gagal menghapus kunjungan'
-                                }
-                                alertErrorAjax(errorMsg)
+                            })
+                        } else {
+                            const errorMsg = {
+                                status: 500,
+                                statusText: 'Gagal menghapus kunjungan'
                             }
-                        })
-                    }).fail(() => {
-                        loadingAjax().close();
-                    });
+                            alertErrorAjax(errorMsg)
+                        }
+                    })
+
                 }
             });
         }

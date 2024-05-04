@@ -343,6 +343,8 @@ Route::middleware('auth')->group(function () {
 
     // BRIDGING
     Route::get('/bridging/pcare/dokter', [Bridging\Dokter::class, 'dokter']);
+    Route::get('/bridging/pcare/alergi/{keyword}', [Bridging\Alergi::class, 'get']);
+    Route::get('/bridging/pcare/prognosa', [Bridging\Prognosa::class, 'get']);
 
     // PENDAFTARAN
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);

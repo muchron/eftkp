@@ -30,7 +30,7 @@
     <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://unpkg.com/sweetalert2@11"></script>
+    <script src="{{ asset('/public/js/swetalert/sweetalert2@11.js') }}"></script>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 

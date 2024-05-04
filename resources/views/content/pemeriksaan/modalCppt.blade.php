@@ -33,6 +33,7 @@
     <script>
         var tabObat = $('#tabObat');
         $('#modalCppt').on('hidden.bs.modal', (e) => {
+            $('.modal-backdrop').remove();
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
@@ -44,7 +45,12 @@
 
         function modalCppt(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                const {pasien, pemeriksaan_ralan, dokter, poliklinik} = response;
+                const {
+                    pasien,
+                    pemeriksaan_ralan,
+                    dokter,
+                    poliklinik
+                } = response;
                 $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
                 $('#formCpptRajal input[name=stts]').val(response.stts)
                 $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
@@ -114,7 +120,10 @@
             }).done((resep) => {
                 if (resep.length) {
                     resep.map((res) => {
-                        const {resep_racikan, resep_dokter} = res;
+                        const {
+                            resep_racikan,
+                            resep_dokter
+                        } = res;
                         btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
                         $(`#no_resep`).val(res.no_resep);
                         if (resep_dokter.length)
