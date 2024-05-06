@@ -20,3 +20,9 @@
         </div>
     </div>
 </header>
+@push('script')
+    <script>
+        let getSessionDokter = `{!! session()->get('pegawai')->dokter !!}`;
+        var isDokter = getSessionDokter.length ? JSON.parse(getSessionDokter) : '';
+    </script>
+@endpush
