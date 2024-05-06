@@ -268,7 +268,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'GET',
-                "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
+                "{$this->base_url}/{$feature}{$params}",
                 [
                     'headers' => $this->headers
                 ]
@@ -292,7 +292,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'POST',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->base_url}/{$feature}",
                 [
                     'headers' => $this->headers,
                     'body'    => json_encode($data),
@@ -312,7 +312,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'PUT',
-                "{$this->base_url}/{$this->service_name}/{$feature}",
+                "{$this->base_url}/{$feature}",
                 [
                     'headers' => $this->headers,
                     'body'    => json_encode($data),
@@ -329,7 +329,7 @@ class PcareService
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json';
         $this->headers['Accept'] = 'application/json';
-        $url = "{$this->base_url}/{$this->service_name}";
+        $url = "{$this->base_url}";
         if ($id !== null) {
             $url .= "/{$feature}/{$id}";
         } else {

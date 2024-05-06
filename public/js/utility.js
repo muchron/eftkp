@@ -314,10 +314,10 @@ function alertSessionExpired(requestStatus) {
     }
 }
 
-function loadingAjax() {
+function loadingAjax(html = '') {
     const loading = Swal.fire({
         title: "Mohon tunggu!",
-        html: "Sedang mengambil data",
+        html: html.length ? html : "Sedang mengambil data",
         timerProgressBar: true,
         allowOutsideClick: false,
         allowEscapeKey: false,
@@ -1066,18 +1066,25 @@ $.contextMenu({
                     }
 
                 },
-                "rujukInternal": {
-                    name: "Rujuk Internal",
-                    icon: "fas fa-clinic-medical",
-                    callback: (item) => {
-                        rujukInternal(`${no_rawat}`);
-                    }
-                },
-                "rujukKeluar": {
-                    name: "Rujuk Keluar",
-                    icon: "fas fa-truck-medical",
-                    callback: (item) => {
-                        rujukEksternal(`${no_rawat}`);
+                "Rujuk": {
+                    name: "Rujuk",
+                    items: {
+                        "RujukInternal": {
+                            name: "Rujuk Internal",
+                            icon: "fas fa-clinic-medical",
+                            callback: (item) => {
+                                rujukInternal(`${no_rawat}`);
+                            },
+
+                        },
+
+                        "rujukKeluar": {
+                            name: "Rujuk Keluar",
+                            icon: "fas fa-truck-medical",
+                            callback: (item) => {
+                                rujukEksternal(`${no_rawat}`);
+                            }
+                        },
                     }
                 },
                 "PeriksaGigi": {

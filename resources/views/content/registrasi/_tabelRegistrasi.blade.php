@@ -51,7 +51,7 @@
         const inputTglAkhir = $('#tglAkhir')
         const selectFilterDokter = formFilterRegistrasi.find('select[name="dokter"]');
         const selectFilterStts = formFilterRegistrasi.find('select[name="stts"]');
-        var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+
         const dokterLocal = localStorage.getItem('dokter') ? JSON.parse(localStorage.getItem('dokter')) : isDokter;
         const statusLocal = localStorage.getItem('stts') ? localStorage.getItem('stts') : '';
 

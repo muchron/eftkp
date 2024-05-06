@@ -239,6 +239,8 @@
         let url = "{{ url('') }}"
         let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
         let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+        let getSessionDokter = `{!! session()->get('pegawai')->dokter !!}`;
+        var isDokter = getSessionDokter.length ? JSON.parse(getSessionDokter) : '';
         (function(factory) {
             typeof define === 'function' && define.amd ? define(factory) :
                 factory();

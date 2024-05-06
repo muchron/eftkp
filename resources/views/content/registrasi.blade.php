@@ -23,6 +23,7 @@
         //Script Reistrasi
         let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
         let selectDokterPoli = formFilterRegistrasi.find('select[name="dokter"'); //get data from selection filter stts
+
         $(document).ready(() => {
             $('#tglAwal').val(tglAwal)
             $('#tglAkhir').val(tglAkhir)

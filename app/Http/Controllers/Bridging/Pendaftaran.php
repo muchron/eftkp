@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Bridging;
 
 use AamDsam\Bpjs\PCare;
-use App\Http\Controllers\Controller;
 use App\Traits\PcareConfig;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 
 class Pendaftaran extends Controller
 {
@@ -32,14 +33,41 @@ class Pendaftaran extends Controller
     function delete(Request $request)
     {
         $bpjs = $this->bpjs;
-        return $bpjs->peserta($request->noKartu)->tanggalDaftar($request->tglDaftar)->nomorUrut($request->no);
+        $bpjs->peserta($request->noKartu)
+            ->tanggalDaftar($request->tglDaftar)
+            ->nomorUrut($request->noUrut)
+            ->kodePoli($request->kdPoli);
+        try {
+            return $bpjs->destroy();
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo);
+        }
     }
     function post(Request $request)
     {
+
         $bpjs = $this->bpjs;
         $data = [
-            ''
+            "kdProviderPeserta" => $request->kdProviderPeserta,
+            "tglDaftar" => date('d-m-Y'),
+            "noKartu" => $request->no_peserta,
+            "kdPoli" => $request->kd_poli_pcare,
+            "keluhan" => $request->keluhan,
+            "kunjSakit" => true,
+            "sistole" => (int)$request->sistole,
+            "diastole" => (int)$request->diastole,
+            "beratBadan" => (int)$request->berat,
+            "tinggiBadan" => (int)$request->tinggi,
+            "respRate" => (int)$request->respirasi,
+            "lingkarPerut" => (int)$request->lingkar_perut,
+            "heartRate" => (int)$request->nadi,
+            "rujukBalik" => 0,
+            "kdTkp" => $request->kdTkp,
         ];
-        // return $bpjs->store();
+        try {
+            return $bpjs->store($data);
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo);
+        }
     }
 }

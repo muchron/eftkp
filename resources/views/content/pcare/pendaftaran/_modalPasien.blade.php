@@ -785,6 +785,17 @@
                                     resetFormRegistrasi();
                                 }
                             });
+                        } else {
+                            const umur = hitungUmur(splitTanggal(result.tglLahir));
+                            const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+                            formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
+                            formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
+                            formPasien.find('#umur').val(textUmur).addClass('is-valid');
+                            formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
+                            formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
+                            formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
+                            const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
+                            formPasien.find('#kd_pj').append(bpjs).trigger('change');
                         }
                     })
 

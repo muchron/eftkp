@@ -103,8 +103,11 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label for="form-label">TKP</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="kdTkp" readonly>
-                                    <input type="text" class="form-control w-50" name="tkp" readonly>
+                                    <select class="form-select form-select-2" name="kdTkp" style="width: 100%" data-dropdown-parent='#modalRegistrasi'>
+                                        <option value="10">10 - RJTP</option>
+                                        <option value="20">20 - RITP</option>
+                                        <option value="50">50 - Promotif</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
@@ -222,7 +225,7 @@
         let timeDisplay = $('.jam');
         let checkJam = $('.checkJam');
         let setTime = '';
-        var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+        // var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
 
         modalRegistrasi.on('shown.bs.modal', () => {
             selectDokter(kd_dokter, modalRegistrasi)
@@ -266,15 +269,67 @@
             })
         })
 
+        function createPendaftaranPcare(data) {
+            $.post(`./bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
+                if (resPendaftaran.metaData.code === 201 && resPendaftaran.metaData.message === 'CREATED') {
+                    data['noUrut'] = resPendaftaran.response.message;
+                    $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
+                        alertErrorAjax(error)
+                    })
+                    alertSuccessAjax("Berhasil mendaftarkan pasien di PCare").then(() => {
+                        if (modalRegistrasi.length) {
+                            modalRegistrasi.modal('hide');
+                        }
+
+                        if (modalPasien.length) {
+                            modalPasien.modal('hide');
+                        }
+                    });
+                }
+            }).fail((error) => {
+                alertErrorAjax(error)
+            })
+        }
+
+        function checkPesertaPcare(data) {
+            $.get(`./bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
+                $.get(`${url}/setting/pcare/user`).done((kode) => {
+                    data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;
+                    if (kode !== data['kdProviderPeserta']) {
+                        Swal.fire({
+                            title: "Peringatan ?",
+                            html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Iya, Lanjutkan",
+                            cancelButtonText: "Tidak, Batalkan"
+                        }).then((res) => {
+                            loadingAjax()
+                            if (res.isConfirmed) {
+                                createPendaftaranPcare(data)
+
+                            } else {
+                                resetFormRegistrasi();
+                            }
+                        });
+                    } else {
+                        createPendaftaranPcare(data)
+                    }
+                })
+            })
+        }
 
         function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
+
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
-                    if (data.bridging) {
+                    if (data.no_peserta) {
                         data['tensi'] = `${data.sistole}/${data.diastole}`
                         data['nip'] = data.kd_dokter
                         data['spo2'] = '98'
@@ -286,28 +341,38 @@
                         data['kesadaran'] = 'Compos Mentis'
                         data['pemeriksaan'] = '-'
                         $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
-                            alertSuccessAjax().then(() => {
-                                renderPendaftaranPcare();
-                                $.post(`${url}/pcare/pendaftaran`, data).done((response) => {
-                                    loadTbPcarePendaftaran(tglAwal, tglAkhir)
+
+                            if (!data.bridging) {
+                                loadingAjax();
+                                checkPesertaPcare(data)
+                            } else {
+                                alertSuccessAjax().then(() => {
+                                    if ($('#tbPendaftaranPcare').lenght > 0) {
+                                        renderPendaftaranPcare();
+                                    }
+                                    $.post(`${url}/pcare/pendaftaran`, data).done((response) => {
+                                        loadTbPcarePendaftaran(tglAwal, tglAkhir)
+                                        modalRegistrasi.modal('hide');
+                                        modalPasien.modal('hide');
+                                    })
                                 })
-                            })
+                            }
 
                         })
+                    } else {
+                        modalRegistrasi.modal('hide');
+                        modalPasien.modal('hide');
                     }
-                    modalRegistrasi.modal('hide');
-                    modalPasien.modal('hide');
+
                 })
             }).fail((error, status, code) => {
                 if (error.status !== 500) {
                     const errorMessage = {
                         status: error.status,
                         statusText: code,
-                        responseJSON: error.responseJSON.message,
+                        responseJSON: error.responseJSON,
                     }
-                    console.log(errorMessage)
                     alertErrorAjax(errorMessage)
-
                 } else {
                     alertErrorAjax(error)
                 }
@@ -418,13 +483,13 @@
                     response['noUrut'] = noUrut;
                     regPoliBpjs(response)
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
-
+                    loadingAjax()
                     periksaPendaftaran.removeClass('d-none');
                     $.get(`${url}/mapping/pcare/poliklinik`, {
                         kdPoli: formRegistrasiPoli.find('select[name=kd_poli]').val()
                     }).done((resultPoli) => {
-                        console.log(resultPoli);
-                        // formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
+                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(resultPoli.kd_poli_pcare)
+                        formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(resultPoli.nm_poli_pcare)
                     })
                     // GET DOKTER
                     $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
@@ -438,12 +503,14 @@
                         $.get(`${url}/mapping/pcare/dokter`, {
                             kdDokterPcare: kdDokterPcare
                         }).done((resDokter) => {
-                            loadingAjax().close();
                             selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
                             const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
                             formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
                             formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+
+                            loadingAjax().close();
                         })
+
                     })
                 } else {
                     periksaPendaftaran.addClass('d-none');

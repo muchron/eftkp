@@ -49,7 +49,7 @@
 
             let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
-            var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+
 
             $('#tglAwal').val(tglAwal)
             $('#tglAkhir').val(tglAkhir)
@@ -218,7 +218,14 @@
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
                             const btnCppt = row.kunjungan ? `btn-success` : `btn-outline-primary`;
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deletePendaftaran('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i> Hapus</button>
+                            const parameter = {
+                                noUrut: row.noUrut,
+                                noKartu: row.noKartu,
+                                tglDaftar: splitTanggal(row.tglDaftar),
+                                kdPoli: row.kdPoli,
+                                no_rawat: row.reg_periksa.no_rawat
+                            }
+                            return `<button type="button" class="btn btn-sm btn-danger" onclick='deletePendaftaran(${JSON.stringify(parameter)})'><i class="ti ti-trash"></i> Hapus</button>
                             <button type="button" class="btn btn-sm ${btnCppt}" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },
@@ -232,7 +239,8 @@
             $.get(`kunjungan/print/${noKunjungan}`).done((response) => {})
         }
 
-        function deletePendaftaran(noUrut, no_rawat) {
+        function deletePendaftaran(parameter) {
+
             Swal.fire({
                 title: "Yakin hapus ?",
                 html: "Anda tidak bisa mengembalikan data ini",
@@ -244,14 +252,20 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/pcare/pendaftaran/delete`, {
-                        'noUrut': noUrut,
-                        'no_rawat': no_rawat,
-                    }).done((response) => [
-                        alertSuccessAjax('Berhasil').then(() => {
-                            loadTbPcarePendaftaran(splitTanggal(tglAwal.value), splitTanggal(tglAkhir.value));
+                    loadingAjax('Sedang data pendaftaran di Pcare');
+                    $.post(`${url}/bridging/pcare/pendaftaran/delete`, parameter).done((response) => {
+                        alertSuccessAjax('Berhasil menghapus data di Pcare').then(() => {
+                            loadingAjax('Menghapus data internal');
+                            $.post(`${url}/pcare/pendaftaran/delete`, {
+                                'noUrut': parameter.noUrut,
+                                'no_rawat': parameter.no_rawat,
+                            }).done((response) => [
+                                alertSuccessAjax('Berhasil').then(() => {
+                                    loadTbPcarePendaftaran(tglAwal, tglAkhir);
+                                })
+                            ])
                         })
-                    ])
+                    })
                 }
             });
         }
