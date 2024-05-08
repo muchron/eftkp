@@ -123,7 +123,7 @@
                         .attr('data-penjab', data.penjab.png_jawab.includes('BPJS') ? 'BPJS' : 'UMUM')
                         .attr('data-poli', data.kd_poli)
                         .attr('data-no_rkm_medis', data.no_rkm_medis)
-                        .attr('data-noPeserta', data.pasien.no_peserta);
+                        .attr('data-noPeserta', data.pasien?.no_peserta);
                 },
                 columns: [{
                         title: '',
