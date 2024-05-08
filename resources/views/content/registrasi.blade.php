@@ -53,6 +53,7 @@
                 formRegistrasiPoli.find('input[name="no_rawat"]').val(response.no_rawat)
                 formRegistrasiPoli.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
                 formRegistrasiPoli.find('input[name="nm_pasien"]').val(pasien.nm_pasien)
+                formRegistrasiPoli.find('input[name="no_peserta"]').val(pasien.no_peserta)
                 formRegistrasiPoli.find('input[name=keluarga]').val(response.hubunganpj)
                 formRegistrasiPoli.find('input[name=namakeluarga]').val(response.p_jawab)
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.almt_pj)
@@ -65,7 +66,31 @@
                 const poli = new Option(`${response.kd_poli} - ${poliklinik?.nm_poli}`, response.kd_poli, true, true);
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj)
                 formRegistrasiPoli.find('select[name=kd_dokter]').append(dpjp)
-                formRegistrasiPoli.find('select[name=kd_poli]').append(poli)
+                formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
+
+                if (penjab.png_jawab.includes('BPJS')) {
+                    periksaPendaftaran.removeClass('d-none')
+                    periksaPendaftaran.find('input').prop('disabled', false)
+                    $.get(`${url}/mapping/pcare/poliklinik`, {
+                        kdPoli: poliklinik.kd_poli
+                    }).done((response) => {
+                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.kd_poli_pcare)
+                        formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(response.nm_poli_pcare)
+                    })
+
+                    getPemeriksaanRalan(no_rawat, dokter.kd_dokter).done((response) => {
+                        formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
+                        formRegistrasiPoli.find('input[name=sistole]').val(response.tensi.split('/')[0])
+                        formRegistrasiPoli.find('input[name=diastole]').val(response.tensi.split('/')[1])
+                        formRegistrasiPoli.find('input[name=suhu_tubuh]').val(response.suhu_tubuh)
+                        formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggi)
+                        formRegistrasiPoli.find('input[name=berat]').val(response.berat)
+                        formRegistrasiPoli.find('input[name=respirasi]').val(response.respirasi)
+                        formRegistrasiPoli.find('input[name=nadi]').val(response.nadi)
+                        formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkar_perut)
+                    })
+                }
+
                 btnSimpanReg.removeAttr('onclick').attr('onclick', 'updateRegPeriksa()')
             });
         }
@@ -91,6 +116,7 @@
                     }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
+                            createPendafranPcare(data)
                             modalRegistrasi.modal('hide')
                         })
                     }).fail((error, status, code) => {
@@ -100,7 +126,6 @@
                                 statusText: code,
                                 responseJSON: error.responseJSON.message,
                             }
-                            console.log(errorMessage)
                             alertErrorAjax(errorMessage)
 
                         } else {
@@ -110,6 +135,37 @@
                 }
             })
 
+        }
+
+        function createPendafranPcare(data) {
+            data['tensi'] = `${data.sistole}/${data.diastole}`
+            data['nip'] = data.kd_dokter
+            data['spo2'] = '98'
+            data['alergi'] = '-'
+            data['rtl'] = '-'
+            data['penilaian'] = '-'
+            data['gcs'] = '15'
+            data['instruksi'] = '-'
+            data['kesadaran'] = 'Compos Mentis'
+            data['pemeriksaan'] = '-'
+            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
+                if (!data.bridging) {
+                    loadingAjax('Memeriksa kepesertaan pasien');
+                    checkPesertaPcare(data)
+                } else {
+                    alertSuccessAjax().then(() => {
+                        if ($('#tbPendaftaranPcare').lenght > 0) {
+                            renderPendaftaranPcare();
+                        }
+                        if (tabelRegistrasi.length) {
+                            loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
+                        }
+                    })
+                }
+
+            }).fail((error) => {
+                alertErrorAjax(error)
+            })
         }
     </script>
 @endpush

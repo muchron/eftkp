@@ -220,6 +220,7 @@
         let tglReg = formRegistrasiPoli.find('input[name=tgl_registrasi]')
         let noReg = formRegistrasiPoli.find('input[name=no_reg]')
         let checkNoReg = formRegistrasiPoli.find('input[name=checkNoReg]')
+        let selectPoliklinikReg = formRegistrasiPoli.find('select[name=kd_poli]')
         let btnSimpanReg = $('#btnSimpanReg')
         let periksaPendaftaran = $('#periksaPendaftaran')
         let timeDisplay = $('.jam');
@@ -285,6 +286,12 @@
                             modalPasien.modal('hide');
                         }
                     });
+                } else {
+                    Swal.fire({
+                        title: "Gagal mendaftarkan pasien di PCare",
+                        html: `Error Code ${resPendaftaran.metaData.code} : ${resPendaftaran.metaData.message}`,
+                        icon: 'error'
+                    })
                 }
             }).fail((error) => {
                 alertErrorAjax(error)
@@ -323,42 +330,13 @@
 
         function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
-
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
                     if (data.no_peserta) {
-                        data['tensi'] = `${data.sistole}/${data.diastole}`
-                        data['nip'] = data.kd_dokter
-                        data['spo2'] = '98'
-                        data['alergi'] = '-'
-                        data['rtl'] = '-'
-                        data['penilaian'] = '-'
-                        data['gcs'] = '15'
-                        data['instruksi'] = '-'
-                        data['kesadaran'] = 'Compos Mentis'
-                        data['pemeriksaan'] = '-'
-                        $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
-
-                            if (!data.bridging) {
-                                loadingAjax();
-                                checkPesertaPcare(data)
-                            } else {
-                                alertSuccessAjax().then(() => {
-                                    if ($('#tbPendaftaranPcare').lenght > 0) {
-                                        renderPendaftaranPcare();
-                                    }
-                                    $.post(`${url}/pcare/pendaftaran`, data).done((response) => {
-                                        loadTbPcarePendaftaran(tglAwal, tglAkhir)
-                                        modalRegistrasi.modal('hide');
-                                        modalPasien.modal('hide');
-                                    })
-                                })
-                            }
-
-                        })
+                        createPendafranPcare(data)
                     } else {
                         modalRegistrasi.modal('hide');
                         modalPasien.modal('hide');
@@ -526,5 +504,14 @@
             const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
             return textUmur;
         }
+
+        selectPoliklinikReg.on('select2:select', (e) => {
+            $.get(`${url}/mapping/pcare/poliklinik`, {
+                kdPoli: e.currentTarget.value
+            }).done((response) => {
+                formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.kd_poli_pcare)
+                formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(response.nm_poli_pcare)
+            })
+        })
     </script>
 @endpush
