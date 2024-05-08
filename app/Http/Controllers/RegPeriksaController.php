@@ -25,9 +25,9 @@ class RegPeriksaController extends Controller
             'dokter', 'pasien' => function ($q) {
                 return $q->with(['kel', 'kec', 'kab', 'prop']);
             }, 'penjab', 'pemeriksaanRalan', 'diagnosa' => function ($query) {
-                $query->orderBy('prioritas', 'ASC')->with('penyakit');
+                return $query->orderBy('prioritas', 'ASC')->with('penyakit');
             }, 'prosedur' => function ($query) {
-                $query->orderBy('prioritas', 'ASC')->with('icd9');
+                return $query->orderBy('prioritas', 'ASC')->with('icd9');
             }, 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
             'kamarInap' => function ($q) {
                 return $q->where('stts_pulang', '!=', 'Pindah Kamar')
