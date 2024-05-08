@@ -226,7 +226,7 @@
                     {
                         title: 'Alamat',
                         render: (data, type, row, meta) => {
-                            return `${row.pasien.alamat}, ${row.pasien.kel.nm_kel}`;
+                            return `${row.pasien?.alamat}, ${row.pasien?.kel.nm_kel}`;
                         },
                     },
                     {
