@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    function getKodePPK(Request $request)
+    function getKodePPK()
     {
         $setting = Setting::select('kode_ppk')->first();
         return response()->json($setting->kode_ppk);

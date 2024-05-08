@@ -300,7 +300,7 @@
 
         function checkPesertaPcare(data) {
             $.get(`./bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
-                $.get(`${url}/setting/pcare/user`).done((kode) => {
+                $.get(`${url}/setting/ppk`).done((kode) => {
                     data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;
                     if (kode !== data['kdProviderPeserta']) {
                         Swal.fire({
@@ -316,9 +316,9 @@
                             loadingAjax()
                             if (res.isConfirmed) {
                                 createPendaftaranPcare(data)
-
                             } else {
                                 resetFormRegistrasi();
+                                loadingAjax().close();
                             }
                         });
                     } else {
