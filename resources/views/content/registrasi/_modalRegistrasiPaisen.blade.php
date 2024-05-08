@@ -335,7 +335,7 @@
                     if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
-                    if (data.no_peserta) {
+                    if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
                         createPendafranPcare(data)
                     } else {
                         modalRegistrasi.modal('hide');

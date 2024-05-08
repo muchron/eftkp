@@ -116,7 +116,9 @@
                     }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-                            createPendafranPcare(data)
+                            if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
+                                createPendafranPcare(data)
+                            }
                             modalRegistrasi.modal('hide')
                         })
                     }).fail((error, status, code) => {
