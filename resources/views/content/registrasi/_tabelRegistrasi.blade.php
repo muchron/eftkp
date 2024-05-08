@@ -233,10 +233,14 @@
                         title: 'Alergi',
                         data: 'pasien',
                         render: (data, type, row, meta) => {
-                            const alergi = data.alergi.map((val) => {
-                                return val.alergi
-                            }).join(', ')
-                            return `<span class="text-red">${alergi}</span>`;
+                            if (data) {
+                                const alergi = data?.alergi.map((val) => {
+                                    return val.alergi
+                                }).join(', ')
+                                return `<span class="text-red">${alergi}</span>`;
+
+                            }
+                            return '';
                         },
                     },
                     {
