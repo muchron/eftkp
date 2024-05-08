@@ -213,7 +213,7 @@
                         title: 'Pasien',
                         data: 'pasien',
                         render: (data, type, row, meta) => {
-                            return `<span class="text-muted" style="font-style:italic">${row.no_rawat}</span> <br/> ${data.nm_pasien} (${data.jk})`;
+                            return `<span class="text-muted" style="font-style:italic">${row.no_rawat}</span> <br/> ${data?.nm_pasien} (${data?.jk})`;
                         }
                     },
                     {
