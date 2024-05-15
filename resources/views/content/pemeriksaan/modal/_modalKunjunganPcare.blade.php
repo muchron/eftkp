@@ -449,7 +449,10 @@
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
+            formKunjunganPcare.find('#tglKunjungan').val(data.tgl_registrasi)
 
+
+            console.log('data ===', data);
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
             );
@@ -467,6 +470,13 @@
                 if (select.length) {
                     select.find(`option:contains("${data[key]}")`).attr('selected', 'selected')
                 }
+            })
+
+            getRegDetail(data.no_rawat).done((response) => {
+                const tanggal = splitTanggal(response.tgl_registrasi);
+                formKunjunganPcare.find('#tglKunjungan').val(tanggal)
+                formKunjunganPcare.find('#tgl_daftar').val(tanggal)
+                formKunjunganPcare.find('#tglPulang').val(tanggal)
             })
 
             getDiagnosaPasien(data.no_rawat).done((response) => {
