@@ -67,7 +67,7 @@ class RegPeriksaController extends Controller
 
     function setNoRawat(Request $request): string
     {
-        $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
+        $tgl_registrasi = $request->tgl_registrasi ? date('Y-m-d', strtotime($request->tgl_registrasi)) : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
             ->where('tgl_registrasi', $tgl_registrasi)
             ->orderBy('no_rawat', 'DESC')->first();

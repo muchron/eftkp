@@ -235,6 +235,7 @@
         });
         modalRegistrasi.on('hidden.bs.modal', () => {
             btnSimpanReg.removeAttr('onclick').attr('onclick', 'createRegPeriksa()')
+            formRegistrasiPoli.trigger('reset');
         })
 
         function refreshTime() {
@@ -330,6 +331,13 @@
 
         function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
+            if (data.kd_dokter === '-') {
+                return Swal.fire({
+                    title: "Peringatan",
+                    html: `Anda belum memilih dokter`,
+                    icon: 'warning',
+                })
+            }
             $.post(`${url}/registrasi`, data).done((response) => {
                 alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
                     if (tabelRegistrasi.length) {
@@ -417,6 +425,7 @@
             $.get(`${url}/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {
+                formRegistrasiPoli.find('input').prop('disabled', false)
                 if (Object.values(response.reg_periksa).length) {
                     formRegistrasiPoli.find('input[name=status]').val("Lama")
                 } else {

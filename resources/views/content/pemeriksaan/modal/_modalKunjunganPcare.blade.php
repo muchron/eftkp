@@ -451,8 +451,6 @@
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
             formKunjunganPcare.find('#tglKunjungan').val(data.tgl_registrasi)
 
-
-            console.log('data ===', data);
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
             );
@@ -490,6 +488,7 @@
                 no_rawat: data.no_rawat
             }).done((response) => {
                 if (Object.values(response).length) {
+                    $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()').html('<i class="ti ti-device-floppy me-2"></i> Ubah Kunjungan');
                     formKunjunganPcare.find('input[name=noKunjungan]').val(response.noKunjungan)
                     formKunjunganPcare.find('input[name=noKunjungan]').addClass('is-valid')
                     formKunjunganPcare.find('input[name=tglPulang]').val(splitTanggal(response.tglPulang))
@@ -716,65 +715,63 @@
         }
 
         function editKunjungan() {
-            console.log('wkwkwkwkwk');
-            loadingAjax();
-            setTimeout(() => {
-                loadingAjax().then((result) => {
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                        console.log('result ==>', result);
-                        // Swal closed by timer
-                        resolve();
-                    } else {
-                        // Swal closed by user interaction
-                        reject('Swal closed by user');
-                    }
-                })
-            }, 5000);
-            return false;
-            element = ['input', 'select'];
-            const data = getDataForm('formKunjunganPcare', element);
-            data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
-            data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
-            data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
-            data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
-            data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
-            // obatPcare('1105U0210224Y000967', data['no_resep']);
-            // return false;
-            loadingAjax();
-            // UPDATE KUNJUNGAN BRIDGING
-            $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
-                if (response.metaData.code == 200) {
-                    // UPDATE KUNJUNGAN UMUM LOCAL
-                    updateKunjunganUmum(data).done((resKunjungan) => {
-                        if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
-                            data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
-                            data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
-                            // APAKAH MEMILIKI RUJUKAN
-                            getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
-                                dataRujukan = Object.assign(data, resRujukan)
-                                // UPDATE RUJUKAN
-                                updateRujukSubSpesialis(dataRujukan)
+            Swal.fire({
+                title: "Perhatian",
+                html: `Pasien telah tercatat dalam data kunjungan Pcare <br/> Apakah anda yakin mengubah data kunjungan ?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Iya, Yakin",
+                cancelButtonText: "Tidak, Batalkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    element = ['input', 'select'];
+                    const data = getDataForm('formKunjunganPcare', element);
+                    data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
+                    data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
+                    data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
+                    data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
+                    data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
+                    loadingAjax();
+                    $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
+                        if (response.metaData.code == 200) {
+                            // UPDATE KUNJUNGAN UMUM LOCAL
+                            updateKunjunganUmum(data).done((resKunjungan) => {
+                                if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
+                                    data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
+                                    data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
+                                    // APAKAH MEMILIKI RUJUKAN
+                                    getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
+                                        dataRujukan = Object.assign(data, resRujukan)
+                                        // UPDATE RUJUKAN
+                                        updateRujukSubSpesialis(dataRujukan)
+                                    })
+                                    setStatusLayan(data['no_rawat'], 'Dirujuk');
+                                } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
+                                    setStatusLayan(data['no_rawat'], 'Sudah');
+                                }
+                                alertSuccessAjax('BERHASIL UBAH KUNJUNGAN').then(() => {
+                                    $('#modalCppt').modal('hide');
+                                    $('#modalKunjunganPcare').modal('hide');
+                                });
                             })
-                            $('#modalKunjunganPcare').modal('hide')
-                            setStatusLayan(data['no_rawat'], 'Dirujuk');
-                        } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
-                            setStatusLayan(data['no_rawat'], 'Sudah');
+                        } else {
+                            const statusCode = response.metaData.code;
+                            const statusText = response.metaData.message.split('response:')[1];
+                            const errorMsg = {
+                                status: statusCode,
+                                statusText: statusText,
+                            }
+                            alertErrorAjax(errorMsg)
                         }
-                        alertSuccessAjax('BERHASIL UBAH KUNJUNGAN');
+                    }).fail((request) => {
+                        alertErrorAjax(request)
                     })
-                } else {
-                    const statusCode = response.metaData.code;
-                    const statusText = response.metaData.message.split('response:')[1];
-                    const errorMsg = {
-                        status: statusCode,
-                        statusText: statusText,
-                    }
-                    alertErrorAjax(errorMsg)
                 }
-            }).fail((request) => {
-                alertErrorAjax(request)
+            });
 
-            })
+
         }
     </script>
 @endpush
