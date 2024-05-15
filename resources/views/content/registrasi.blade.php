@@ -48,7 +48,7 @@
                 checkJam.prop('checked', false).trigger('change')
                 checkNoReg.prop('checked', false).trigger('change')
 
-                formRegistrasiPoli.find('input').prop('disabled', true)
+                // formRegistrasiPoli.find('input').prop('disabled', true)
                 formRegistrasiPoli.find('input[name="no_reg"]').prop('disabled', false).val(response.no_reg)
                 formRegistrasiPoli.find('input[name="no_rawat"]').val(response.no_rawat)
                 formRegistrasiPoli.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
