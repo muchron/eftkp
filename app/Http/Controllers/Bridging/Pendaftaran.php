@@ -49,7 +49,7 @@ class Pendaftaran extends Controller
         $bpjs = $this->bpjs;
         $data = [
             "kdProviderPeserta" => $request->kdProviderPeserta,
-            "tglDaftar" => date('d-m-Y'),
+            "tglDaftar" => $request->tgl_registrasi,
             "noKartu" => $request->no_peserta,
             "kdPoli" => $request->kd_poli_pcare,
             "keluhan" => $request->keluhan,
