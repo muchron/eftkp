@@ -57,6 +57,7 @@
                 formRegistrasiPoli.find('input[name=keluarga]').val(response.hubunganpj)
                 formRegistrasiPoli.find('input[name=namakeluarga]').val(response.p_jawab)
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.almt_pj)
+                formRegistrasiPoli.find('input[name=tgl_registrasi]').val(splitTanggal(response.tgl_registrasi))
                 formRegistrasiPoli.find('input[name=status]').val(response.stts_daftar)
                 formRegistrasiPoli.find('input[name=no_peserta]').prop('disabled', false)
                 modalRegistrasi.find('.modal-title').html('Ubah Data Registrasi')
