@@ -155,10 +155,10 @@
                         data: 'noKunjungan',
                         render: (data, type, row, meta) => {
                             if (row.rujuk_subspesialis) {
-                                return `<button type="button" class="btn btn-sm btn-success" onclick="showPrintRujukan('${data}')"><i class="ti ti-printer"></i></button>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                                return `<button type="button" class="btn btn-sm btn-success" onclick="showPrintRujukan('${data}')"><i class="ti ti-printer me-2"></i> Cetak</button>
+                                <button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash me-2"></i> Hapus</button>`;
                             }
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash"></i></button>`;
+                            return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteRujukSubspesialis('${data}', '${row.no_rawat}')"><i class="ti ti-trash me-2"></i> Hapus</button>`;
                         },
                     },
 

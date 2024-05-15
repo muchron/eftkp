@@ -217,6 +217,7 @@
                         title: '',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
+                            const classHidden = Object.keys(row.kunjungan).length ? 'd-none' : '';
                             const btnCppt = row.kunjungan ? `btn-success` : `btn-outline-primary`;
                             const parameter = {
                                 noUrut: row.noUrut,
@@ -225,7 +226,7 @@
                                 kdPoli: row.kdPoli,
                                 no_rawat: row.reg_periksa.no_rawat
                             }
-                            return `<button type="button" class="btn btn-sm btn-danger" onclick='deletePendaftaran(${JSON.stringify(parameter)})'><i class="ti ti-trash"></i> Hapus</button>
+                            return `<button type="button" class="btn btn-sm btn-danger ${classHidden}" onclick='deletePendaftaran(${JSON.stringify(parameter)})'><i class="ti ti-trash"></i> Hapus</button>
                             <button type="button" class="btn btn-sm ${btnCppt}" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },

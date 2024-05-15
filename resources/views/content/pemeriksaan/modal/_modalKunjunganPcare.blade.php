@@ -413,6 +413,11 @@
             return riwayat;
         }
         $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
+            const sttsPulang = $('#sttsPulang')
+            const no_rawat = formKunjunganPcare.find('input[name=no_rawat]').val()
+            if (sttsPulang.val() != 3) {
+                setStatusLayan(no_rawat, 'Dirujuk')
+            }
             $('#modalCppt').modal('hide');
             if (tabelRegistrasi.length) {
                 loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
@@ -487,7 +492,9 @@
             getKunjunganUmum({
                 no_rawat: data.no_rawat
             }).done((response) => {
+                let kunjungan = '';
                 if (Object.values(response).length) {
+                    kunjungan = response.kdStatusPulang
                     $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'editKunjungan()').html('<i class="ti ti-device-floppy me-2"></i> Ubah Kunjungan');
                     formKunjunganPcare.find('input[name=noKunjungan]').val(response.noKunjungan)
                     formKunjunganPcare.find('input[name=noKunjungan]').addClass('is-valid')
@@ -495,7 +502,6 @@
                     formKunjunganPcare.find('input[name=tglKunjungan]').val(splitTanggal(response.tglPulang))
                     if (response.kdStatusPulang == 4) {
                         formRujukanSpesialis.find(['input', 'button']).removeAttr('disabled');
-                        formKunjunganPcare.find('select[name=sttsPulang]').val(response.kdStatusPulang)
                         formKunjunganPcare.find('input[name=kdPpkRujukan]').val(response.rujuk_subspesialis.kdPPK)
                         formKunjunganPcare.find('input[name=ppkRujukan]').val(response.rujuk_subspesialis.nmPPK)
                         formKunjunganPcare.find('input[name=tglEstRujukan]').val(splitTanggal(response.rujuk_subspesialis.tglEstRujuk))
@@ -521,9 +527,11 @@
                 } else {
                     formKunjunganPcare.find('input[name=noKunjungan]').val()
                     formKunjunganPcare.find('input[name=noKunjungan]').removeClass('is-valid')
+                    kunjungan = 3
                     $('#btnSimpanKunjungan').removeAttr('onclick').attr('onclick', 'createKunjungan()');
 
                 }
+                formKunjunganPcare.find('select[name=sttsPulang]').val(kunjungan).trigger('change');
             })
             $('#modalKunjunganPcare').modal('show')
         }
@@ -556,10 +564,9 @@
                     const rujuk = response.map((val) => {
                         return val.detail.tglAkhirRujuk
                     }).slice(-1).join('')
-
                     const dateNow = formKunjunganPcare.find('input[name=tglKunjungan]').val();
                     const diff = dateDiff(rujuk, splitTanggal(dateNow))
-                    if (diff > 0) {
+                    if (diff > 0, rujuk === splitTanggal(dateNow)) {
                         Swal.fire({
                             title: "Informasi",
                             html: `Pasien ini masih memiliki rujukan aktif <br/> hingga <b class="text-danger">${splitTanggal(rujuk)}</b>, buat rujukan lagi ?`,
@@ -680,10 +687,12 @@
                         $('#modalCppt').modal('hide');
                         loadingAjax().close();
                         $.post(`${url}/pcare/kunjungan`, data).done((response) => {
+
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
+                                    loadingAjax();
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
                                         alertSuccessAjax('Berhasil buat rujukan').then(() => {
