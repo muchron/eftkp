@@ -44,12 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                {{-- <div class="card border rounded-4 text-center" style="height: 70vh"> --}}
-                {{-- <div class="card-body"> --}}
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                {{-- </div> --}}
-                {{-- </div> --}}
+            <div class="col-lg-6 col-md-12 col-sm-12" id="videoAntrean">
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card border rounded-4 text-center" style="height: 10vh">
@@ -72,6 +67,26 @@
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
     <script>
         $(document).ready(() => {
+            $.get(`${url}/setting/antrian/video`).done((response) => {
+                if (response) {
+                    $('#videoAntrean').html(response.content);
+                } else {
+                    $('#videoAntrean').html(`<iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`);
+
+                }
+                $('iframe').attr('width', '100%').attr('height', '100%')
+            })
+            // let getVideoAntrean = '';
+
+            // if (localStorage.getItem('videoAntrean')) {
+            //     getVideoAntrean = localStorage.getItem('videoAntrean');
+            // } else {
+            //     getVideoAntrean = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`
+
+            // }
+            // $('#videoAntrean').html(getVideoAntrean);
+            // $('iframe').attr('width', '100%').attr('height', '100%')
+
             jam();
             const date = new Date();
 

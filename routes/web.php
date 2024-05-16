@@ -1,21 +1,32 @@
 <?php
 
-use App\Http\Controllers\RujukController;
 use App\Models\Setting;
+use App\Models\KamarInap;
 use App\Models\SukuBangsa;
+use Illuminate\Http\Request;
+use App\Models\DiagnosaPasien;
+use App\Models\PemeriksaanGigi;
 use App\Models\EfktpTemplateRacikan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Bridging\Icare;
 use App\Http\Controllers\Icd9Controller;
+use App\Http\Controllers\RujukController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\PenjabController;
+use App\Http\Controllers\UploadController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\PropinsiController;
 use App\Http\Controllers\KabupatenController;
+use App\Http\Controllers\KamarInapController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\ResepObatController;
+use App\Models\PenilaianAwalKeperawatanRalan;
 use App\Http\Controllers\Bridging as Bridging;
 use App\Http\Controllers\CacatFisikController;
 use App\Http\Controllers\DataBarangController;
@@ -23,42 +34,34 @@ use App\Http\Controllers\PoliklinikController;
 use App\Http\Controllers\RegPeriksaController;
 use App\Http\Controllers\SukuBangsaController;
 use App\Http\Controllers\SuratSakitController;
+use App\Http\Controllers\SuratSehatController;
 use App\Http\Controllers\MetodeRacikController;
 use App\Http\Controllers\ResepDokterController;
 use App\Http\Controllers\BahasaPasienController;
-use App\Http\Controllers\Bridging\Icare;
 use App\Http\Controllers\MapingDokterController;
 use App\Http\Controllers\RujukInternalController;
 use App\Http\Controllers\setNoRkmMedisController;
 use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\PcareKunjunganController;
 use App\Http\Controllers\ProsedurPasienController;
+use App\Http\Controllers\PemeriksaanGigiController;
 use App\Http\Controllers\EfktpPcareAlergiController;
+use App\Http\Controllers\MappingObatPcareController;
 use App\Http\Controllers\PcarePendaftaranController;
 use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\PemeriksaanRanapController;
 use App\Http\Controllers\PerusahaanPasienController;
 use App\Http\Controllers\ResepDokterRacikanController;
 use App\Http\Controllers\BridgingPcareSettingController;
-use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
 use App\Http\Controllers\EfktpTemplateRacikanController;
-use App\Http\Controllers\EfktpTindakanResikoJatuhController;
-use App\Http\Controllers\KamarInapController;
-use App\Http\Controllers\MappingObatPcareController;
 use App\Http\Controllers\PemeriksaanGigiHasilController;
 use App\Http\Controllers\MappingPoliklinikPcareController;
 use App\Http\Controllers\PcareRujukSubspesialisController;
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\PemeriksaanGigiController;
-use App\Http\Controllers\PemeriksaanRanapController;
-use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
+use App\Http\Controllers\EfktpTindakanResikoJatuhController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\SuratSehatController;
-use App\Http\Controllers\UploadController;
-use App\Models\DiagnosaPasien;
-use App\Models\KamarInap;
-use App\Models\PemeriksaanGigi;
-use App\Models\PenilaianAwalKeperawatanRalan;
+use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
+use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
+use Illuminate\Database\QueryException;
 
 /*
 |--------------------------------------------------------------------------
@@ -336,9 +339,31 @@ Route::middleware('auth')->group(function () {
     Route::get('mapping/pcare/obat', [MappingObatPcareController::class, 'get']);
 
     // SETTING
+
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
     Route::get('/setting/pcare/user', [BridgingPcareSettingController::class, 'getUser']);
+
+    Route::post('/setting/antrian/video', function (Request $request) {
+        $data = [
+            'title' => 'video',
+            'content' => $request->content,
+        ];
+        try {
+            Storage::put('public/video.json', json_encode($data));
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+        return response()->json('SUKSES');
+    });
+
+    Route::get('/setting/antrian/video', function () {
+        $data = Storage::get('public/video.json');
+        if ($data) {
+            return response()->json(json_decode($data));
+        }
+    });
+
 
 
     // EFKTP
