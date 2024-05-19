@@ -289,7 +289,10 @@
     
                                     </div>
                                     <button class="btn btn-sm btn-primary mt-3" type="button" onclick="salinCppt('${result.no_rawat}', '${result.nip}')">
-                                        <i class="ti ti-copy"></i> Copy CPPT
+                                        <i class="ti ti-copy me-2"></i> Copy CPPT
+                                    </button>
+                                    <button class="btn btn-sm btn-success mt-3" type="button" onclick="modalUploadPenunjang('${result.no_rawat}')">
+                                        <i class="ti ti-checklist me-2"></i> Lihat Berkas
                                     </button>
                                 </div>
                             </div>`

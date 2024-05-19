@@ -530,7 +530,6 @@
             $.post(`${url}/kecamatan`, {
                 kecamatan: nmKecamatan,
             }).done((response) => {
-                console.log('RESPONSE ==', response);
                 if (response.message == 'SUKSES') {
                     toast();
                     const option = new Option(nmKecamatan, response.id, true, true);
