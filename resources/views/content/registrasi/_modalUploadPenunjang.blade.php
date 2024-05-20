@@ -53,8 +53,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
-    <link rel="stylesheet" href="{{asset('public/css/magnify/jquery.magnify.css')}}">
-    <script src="{{asset('public/js/magnify/jquery.magnify.min.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('public/css/magnify/jquery.magnify.css') }}">
+    <script src="{{ asset('public/js/magnify/jquery.magnify.min.js') }}"></script>
 
     <script>
         const modalUpload = $('#modalUploadPenunjang')
@@ -77,22 +77,36 @@
                 this.on(`sendingmultiple`, (data, xhr, formData) => {
                     formData.append('kategori', kategori.val());
                     formData.append('no_rawat', modalUpload.find('input[name=no_rawat]').val());
-                }).on('complete', function(file){
-                    if(file.status === 'success'){
-                        alertSuccessAjax('Berhasil Upload Berkas').then(()=>{
+                }).on('complete', function(file) {
+                    if (file.status === 'success') {
+                        alertSuccessAjax('Berhasil Upload Berkas').then(() => {
                             this.removeFile(file);
                             rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                         })
                     }
                     // console.log('RESPONSE', file.status);
+                }).on('error', function(file, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Upload Berkas',
+                        text: error
+                    }).then(() => {
+                        formUploadPenunjang.files.forEach((item) => {
+                            console.log(item);
+                            item.status = Dropzone.QUEUED
+                        })
+                        // console.log('FILE ===', formUploadPenunjang.files);
+                        // console.log('FILE ===', file);
+                        // console.log('ERROR ===', error);
+                    })
                 })
                 // }
             }
         })
 
         modalUpload.on('shown.bs.modal', () => {
-            $.get(`${url}/berkas/penunjang/kategori/first`).done((response)=>{
-                const option = new Option(response.kategori,response.id, true, true);
+            $.get(`${url}/berkas/penunjang/kategori/first`).done((response) => {
+                const option = new Option(response.kategori, response.id, true, true);
                 kategori.append(option).trigger('change');
             })
         })
@@ -104,13 +118,17 @@
             modalUpload.modal('show');
             modalUpload.find('input[name=no_rawat]').val(no_rawat);
             rendercontainerBerkas(no_rawat)
-            getRegDetail(no_rawat).done((response)=> {
-                    console.log(response)
-                const {poliklinik, penjab, pasien} = response;
-                    modalUpload.find('input[name=nm_pasien]').val(pasien.nm_pasien);
-                    modalUpload.find('input[name=alamat]').val(pasien.alamat);
-                    modalUpload.find('input[name=poliklinik]').val(poliklinik.nm_poli);
-                    modalUpload.find('input[name=no_rkm_medis]').val(response.no_rkm_medis);
+            getRegDetail(no_rawat).done((response) => {
+                console.log(response)
+                const {
+                    poliklinik,
+                    penjab,
+                    pasien
+                } = response;
+                modalUpload.find('input[name=nm_pasien]').val(pasien.nm_pasien);
+                modalUpload.find('input[name=alamat]').val(pasien.alamat);
+                modalUpload.find('input[name=poliklinik]').val(poliklinik.nm_poli);
+                modalUpload.find('input[name=no_rkm_medis]').val(response.no_rkm_medis);
             })
             kategori.select2({
                 delay: 2,
@@ -144,18 +162,18 @@
 
         function rendercontainerBerkas(no_rawat) {
             $.get(`${url}/upload`, {
-                no_rawat:no_rawat
-            }).done((response)=>{
+                no_rawat: no_rawat
+            }).done((response) => {
                 containerBerkas.empty();
-                const berkas = response.map((item, index)=>{
+                const berkas = response.map((item, index) => {
                     const filetype = item.file.split('.').pop()
                     let content = '';
-                    if(filetype !== 'pdf'){
-                        content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/images/') }}/${item.file}">
-                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/images/') }}/${item.file}" class="card-img-top">
+                    if (filetype !== 'pdf') {
+                        content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/penunjang/images/') }}/${item.file}">
+                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/penunjang/images') }}/${item.file}" class="card-img-top">
                                          </a>`;
-                    }else{
-                         content = ` <a class="d-block" href="{{ asset('public/storage/images/') }}/${item.file}" target="_blank">
+                    } else {
+                        content = ` <a class="d-block" href="{{ asset('public/storage/penunjang/pdf') }}/${item.file}" target="_blank">
                                             <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/img/logo-pdf.png') }}" class="card-img-top">
                                          </a>`;
                     }
@@ -183,13 +201,13 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Hapus!'
-            }).then((result)=>{
-                if(result.isConfirmed){
-                    $.post(`${url}/upload/delete/${id}`).done((response)=>{
-                        alertSuccessAjax().then(()=>{
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(`${url}/upload/delete/${id}`).done((response) => {
+                        alertSuccessAjax().then(() => {
                             rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                         })
-                    }).fail((error)=>{
+                    }).fail((error) => {
                         alertErrorAjax()
                     })
                 }
@@ -215,7 +233,5 @@
             })
 
         });
-
-
     </script>
 @endpush
