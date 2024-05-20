@@ -33,9 +33,8 @@ class UploadController extends Controller
 				} else {
 					$destination = storage_path("app/public/penunjang/images");
 				}
-				$image = uniqid() . time() . '.' . $fileType;
+				$image = $this->formatNoRawat($request->no_rawat, '_') . '_' . uniqid() . '_' . time() . '.' . $fileType;
 				$value->move($destination, $image);
-
 				$data = [
 					'file' => $image,
 					'id_kategori' => $request->kategori,
@@ -74,5 +73,10 @@ class UploadController extends Controller
 			return response()->json($e->errorInfo, 500);
 		}
 		return response()->json(['message' => 'SUKSES']);
+	}
+	function formatNoRawat($no_rawat, $replaceWith = ''): String
+	{
+		$no_rawat = str_replace('/', $replaceWith, $no_rawat);
+		return $no_rawat;
 	}
 }

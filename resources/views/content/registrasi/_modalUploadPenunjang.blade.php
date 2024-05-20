@@ -84,7 +84,6 @@
                             rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                         })
                     }
-                    // console.log('RESPONSE', file.status);
                 }).on('error', function(file, error) {
                     Swal.fire({
                         icon: 'error',
@@ -95,12 +94,8 @@
                             console.log(item);
                             item.status = Dropzone.QUEUED
                         })
-                        // console.log('FILE ===', formUploadPenunjang.files);
-                        // console.log('FILE ===', file);
-                        // console.log('ERROR ===', error);
                     })
                 })
-                // }
             }
         })
 
@@ -119,7 +114,6 @@
             modalUpload.find('input[name=no_rawat]').val(no_rawat);
             rendercontainerBerkas(no_rawat)
             getRegDetail(no_rawat).done((response) => {
-                console.log(response)
                 const {
                     poliklinik,
                     penjab,
@@ -177,13 +171,19 @@
                                             <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/img/logo-pdf.png') }}" class="card-img-top">
                                          </a>`;
                     }
+                    // <button class="btn btn-outline-success btn-sm w-100"></button>
                     return `<div class="col-sm-6 col-lg-2">
                         <div class="card card-sm" title="">
+                            <span class="badge bg-blue text-blue-fg badge-notification badge-pill" style="transform:none!important">${item.kategori.kategori}</span>
                             ${content}
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-outline-success btn-sm w-100">${item.kategori.kategori}</button>
-                            <button class="btn btn-danger btn-sm w-100" type="button" onclick="deleteBerkas(${item.id})"><i class="ti ti-trash me-2"></i>Hapus</button>
+                            <div class="input-group mb-2">
+                              <span class="input-group-text input-group-text-sm">
+                                <input class="form-check-input m-0 checkPenunjang${item.id}" name="checkBerkas" value="${item.id}" type="checkbox">
+                              </span>
+                              <button class="btn btn-danger btn-sm w-75" type="button" onclick="deleteBerkas(${item.id})"><i class="ti ti-trash me-2"></i>Hapus</button>
+                            </div>
                         </div>
                     </div>`
                 })
@@ -192,6 +192,12 @@
         }
 
         function deleteBerkas(id) {
+            // const input = $('input[name="checkBerkas"]');
+            // console.log(input);
+
+            // input.each((index, item) => {
+            //     console.log($(item).is(':checked'));
+            // })
 
             Swal.fire({
                 title: 'Apakah anda yakin?',
