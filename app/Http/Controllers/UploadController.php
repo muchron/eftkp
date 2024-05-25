@@ -25,14 +25,19 @@ class UploadController extends Controller
 	function upload(Request $request): JsonResponse
 	{
 		$create = array();
+		if (!$request->kategori) {
+			return response()->json('Belum memilih kategori berkas', 500);
+		}
 		try {
 			foreach ($request->file('file') as $key => $value) {
 				$fileType = $value->getClientOriginalExtension();
+
 				if ($fileType === 'pdf') {
 					$destination = storage_path("app/public/penunjang/pdf");
 				} else {
 					$destination = storage_path("app/public/penunjang/images");
 				}
+
 				$image = $this->formatNoRawat($request->no_rawat, '_') . '_' . uniqid() . '_' . time() . '.' . $fileType;
 				$value->move($destination, $image);
 				$data = [
@@ -66,7 +71,13 @@ class UploadController extends Controller
 			$kategoris = EfktpUploadPenunjang::where('id', $id);
 			if ($kategoris->first()) {
 				$kategori = $kategoris->first();
-				Storage::delete($kategori->file);
+
+				$fileType = explode('.', $kategori->file);
+				if ($fileType[1] === 'pdf') {
+					Storage::delete("public/penunjang/pdf/" . $kategori->file);
+				} else {
+					Storage::delete("public/penunjang/images/" . $kategori->file);
+				}
 				$delete = $kategoris->delete();
 			}
 		} catch (QueryException $e) {

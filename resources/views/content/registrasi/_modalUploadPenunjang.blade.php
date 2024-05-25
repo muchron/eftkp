@@ -41,6 +41,9 @@
                 <div class="mt-2 row gy-2" id="containerBerkas">
 
                 </div>
+                <button type="button" class="btn btn-primary d-none" id="btnCheckAllBerkas"><i class="ti ti-check me-2"></i>Pilih Semua</button>
+                <button type="button" class="btn btn-warning d-none" id="btnResetCheckBerkas"><i class="ti ti-reload me-2"></i>Batalkan pilihan</button>
+                <button type="button" class="btn btn-danger d-none" id="btnHapusAllBerkas"><i class="ti ti-trash me-2"></i>Hapus berkas terpilih (<span class="jmlItemBerkas"></span>)</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"> <i class="ti ti-x me-2"></i>Keluar</button>
@@ -60,6 +63,10 @@
         const modalUpload = $('#modalUploadPenunjang')
         const kategori = modalUpload.find('#kategori')
         const containerBerkas = $('#containerBerkas')
+        const btnResetCheckBerkas = $('#btnResetCheckBerkas');
+        const btnHapusAllBerkas = $('#btnHapusAllBerkas');
+        const btnCheckAllBerkas = $('#btnCheckAllBerkas');
+
         // const formUploadPenunjang = modalUpload.find('#formUploadPenunjang')
 
         Dropzone.autoDiscover = false;
@@ -91,7 +98,6 @@
                         text: error
                     }).then(() => {
                         formUploadPenunjang.files.forEach((item) => {
-                            console.log(item);
                             item.status = Dropzone.QUEUED
                         })
                     })
@@ -105,6 +111,7 @@
                 kategori.append(option).trigger('change');
             })
         })
+
         modalUpload.on('hidden.bs.modal', () => {
             containerBerkas.empty();
         })
@@ -158,6 +165,11 @@
             $.get(`${url}/upload`, {
                 no_rawat: no_rawat
             }).done((response) => {
+                if (response.length) {
+                    btnCheckAllBerkas.removeClass('d-none')
+                } else {
+                    btnCheckAllBerkas.addClass('d-none')
+                }
                 containerBerkas.empty();
                 const berkas = response.map((item, index) => {
                     const filetype = item.file.split('.').pop()
@@ -180,7 +192,7 @@
                         <div class="card-body">
                             <div class="input-group mb-2">
                               <span class="input-group-text input-group-text-sm">
-                                <input class="form-check-input m-0 checkPenunjang${item.id}" name="checkBerkas" value="${item.id}" type="checkbox">
+                                <input class="form-check-input m-0 checkPenunjang${item.id}" name="checkBerkas" value="${item.id}" type="checkbox" onclick="checkBerkas(this)">
                               </span>
                               <button class="btn btn-danger btn-sm w-75" type="button" onclick="deleteBerkas(${item.id})"><i class="ti ti-trash me-2"></i>Hapus</button>
                             </div>
@@ -192,13 +204,6 @@
         }
 
         function deleteBerkas(id) {
-            // const input = $('input[name="checkBerkas"]');
-            // console.log(input);
-
-            // input.each((index, item) => {
-            //     console.log($(item).is(':checked'));
-            // })
-
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 text: "Anda tidak akan dapat mengembalikan ini!",
@@ -219,6 +224,69 @@
                 }
             })
         }
+
+        function checkBerkas(evt) {
+            const checkbox = $('input[name="checkBerkas"]');
+            if (checkbox.is(':checked')) {
+                let key = [];
+                checkbox.each((index, item) => {
+                    const isChecked = $(item).is(':checked');
+                    if (isChecked) {
+                        key.push(item.value);
+                    }
+
+                })
+
+                $('.jmlItemBerkas').html(key.length)
+                btnResetCheckBerkas.removeClass('d-none')
+                btnHapusAllBerkas.removeClass('d-none')
+                btnHapusAllBerkas.attr('onclick', `deleteAllBerkas(${key})`)
+            } else {
+                $('.jmlItemBerkas').html('')
+                btnResetCheckBerkas.addClass('d-none')
+                btnHapusAllBerkas.addClass('d-none')
+            }
+        }
+
+        btnCheckAllBerkas.on('click', (evt) => {
+            const checkbox = $('input[name="checkBerkas"]').trigger('click');
+            btnResetCheckBerkas.removeClass('d-none')
+            btnHapusAllBerkas.removeClass('d-none')
+        })
+
+        function deleteAllBerkas(...data) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: `Anda ingin menghapus ${data.length} berkas, dan tidak akan dapat dikembalikan lagi!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    data.forEach((item) => {
+                        $.post(`${url}/upload/delete/${item}`).done((response) => {
+                            alertSuccessAjax().then(() => {
+                                rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
+                                btnResetCheckBerkas.addClass('d-none')
+                                btnHapusAllBerkas.addClass('d-none')
+                            })
+                        }).fail((error) => {
+                            alertErrorAjax()
+                        })
+                    })
+                }
+            })
+
+        }
+
+        btnResetCheckBerkas.on('click', () => {
+            const checkbox = $('input[name="checkBerkas"]');
+            checkbox.prop('checked', false);
+            btnHapusAllBerkas.addClass('d-none')
+            btnResetCheckBerkas.addClass('d-none')
+        })
 
         function submitFile() {
             formUploadPenunjang.processQueue();
