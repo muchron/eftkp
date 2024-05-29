@@ -41,6 +41,9 @@
                 <div class="mt-2 row gy-2" id="containerBerkas">
 
                 </div>
+                <button type="button" class="btn btn-primary d-none" id="btnCheckAllBerkas"><i class="ti ti-check me-2"></i>Pilih Semua</button>
+                <button type="button" class="btn btn-warning d-none" id="btnResetCheckBerkas"><i class="ti ti-reload me-2"></i>Batalkan pilihan</button>
+                <button type="button" class="btn btn-danger d-none" id="btnHapusAllBerkas"><i class="ti ti-trash me-2"></i>Hapus berkas terpilih (<span class="jmlItemBerkas"></span>)</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"> <i class="ti ti-x me-2"></i>Keluar</button>
@@ -53,13 +56,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
 
-    <link rel="stylesheet" href="{{asset('public/css/magnify/jquery.magnify.css')}}">
-    <script src="{{asset('public/js/magnify/jquery.magnify.min.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('public/css/magnify/jquery.magnify.css') }}">
+    <script src="{{ asset('public/js/magnify/jquery.magnify.min.js') }}"></script>
 
     <script>
         const modalUpload = $('#modalUploadPenunjang')
         const kategori = modalUpload.find('#kategori')
         const containerBerkas = $('#containerBerkas')
+        const btnResetCheckBerkas = $('#btnResetCheckBerkas');
+        const btnHapusAllBerkas = $('#btnHapusAllBerkas');
+        const btnCheckAllBerkas = $('#btnCheckAllBerkas');
+
         // const formUploadPenunjang = modalUpload.find('#formUploadPenunjang')
 
         Dropzone.autoDiscover = false;
@@ -77,25 +84,34 @@
                 this.on(`sendingmultiple`, (data, xhr, formData) => {
                     formData.append('kategori', kategori.val());
                     formData.append('no_rawat', modalUpload.find('input[name=no_rawat]').val());
-                }).on('complete', function(file){
-                    if(file.status === 'success'){
-                        alertSuccessAjax('Berhasil Upload Berkas').then(()=>{
+                }).on('complete', function(file) {
+                    if (file.status === 'success') {
+                        alertSuccessAjax('Berhasil Upload Berkas').then(() => {
                             this.removeFile(file);
                             rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                         })
                     }
-                    // console.log('RESPONSE', file.status);
+                }).on('error', function(file, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Upload Berkas',
+                        text: error
+                    }).then(() => {
+                        formUploadPenunjang.files.forEach((item) => {
+                            item.status = Dropzone.QUEUED
+                        })
+                    })
                 })
-                // }
             }
         })
 
         modalUpload.on('shown.bs.modal', () => {
-            $.get(`${url}/berkas/penunjang/kategori/first`).done((response)=>{
-                const option = new Option(response.kategori,response.id, true, true);
+            $.get(`${url}/berkas/penunjang/kategori/first`).done((response) => {
+                const option = new Option(response.kategori, response.id, true, true);
                 kategori.append(option).trigger('change');
             })
         })
+
         modalUpload.on('hidden.bs.modal', () => {
             containerBerkas.empty();
         })
@@ -104,13 +120,16 @@
             modalUpload.modal('show');
             modalUpload.find('input[name=no_rawat]').val(no_rawat);
             rendercontainerBerkas(no_rawat)
-            getRegDetail(no_rawat).done((response)=> {
-                    console.log(response)
-                const {poliklinik, penjab, pasien} = response;
-                    modalUpload.find('input[name=nm_pasien]').val(pasien.nm_pasien);
-                    modalUpload.find('input[name=alamat]').val(pasien.alamat);
-                    modalUpload.find('input[name=poliklinik]').val(poliklinik.nm_poli);
-                    modalUpload.find('input[name=no_rkm_medis]').val(response.no_rkm_medis);
+            getRegDetail(no_rawat).done((response) => {
+                const {
+                    poliklinik,
+                    penjab,
+                    pasien
+                } = response;
+                modalUpload.find('input[name=nm_pasien]').val(pasien.nm_pasien);
+                modalUpload.find('input[name=alamat]').val(pasien.alamat);
+                modalUpload.find('input[name=poliklinik]').val(poliklinik.nm_poli);
+                modalUpload.find('input[name=no_rkm_medis]').val(response.no_rkm_medis);
             })
             kategori.select2({
                 delay: 2,
@@ -144,28 +163,39 @@
 
         function rendercontainerBerkas(no_rawat) {
             $.get(`${url}/upload`, {
-                no_rawat:no_rawat
-            }).done((response)=>{
+                no_rawat: no_rawat
+            }).done((response) => {
+                if (response.length) {
+                    btnCheckAllBerkas.removeClass('d-none')
+                } else {
+                    btnCheckAllBerkas.addClass('d-none')
+                }
                 containerBerkas.empty();
-                const berkas = response.map((item, index)=>{
+                const berkas = response.map((item, index) => {
                     const filetype = item.file.split('.').pop()
                     let content = '';
-                    if(filetype !== 'pdf'){
-                        content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/images/') }}/${item.file}">
-                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/images/') }}/${item.file}" class="card-img-top">
+                    if (filetype !== 'pdf') {
+                        content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/penunjang/images/') }}/${item.file}">
+                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/penunjang/images') }}/${item.file}" class="card-img-top">
                                          </a>`;
-                    }else{
-                         content = ` <a class="d-block" href="{{ asset('public/storage/images/') }}/${item.file}" target="_blank">
+                    } else {
+                        content = ` <a class="d-block" href="{{ asset('public/storage/penunjang/pdf') }}/${item.file}" target="_blank">
                                             <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/img/logo-pdf.png') }}" class="card-img-top">
                                          </a>`;
                     }
+                    // <button class="btn btn-outline-success btn-sm w-100"></button>
                     return `<div class="col-sm-6 col-lg-2">
                         <div class="card card-sm" title="">
+                            <span class="badge bg-blue text-blue-fg badge-notification badge-pill" style="transform:none!important">${item.kategori.kategori}</span>
                             ${content}
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-outline-success btn-sm w-100">${item.kategori.kategori}</button>
-                            <button class="btn btn-danger btn-sm w-100" type="button" onclick="deleteBerkas(${item.id})"><i class="ti ti-trash me-2"></i>Hapus</button>
+                            <div class="input-group mb-2">
+                              <span class="input-group-text input-group-text-sm">
+                                <input class="form-check-input m-0 checkPenunjang${item.id}" name="checkBerkas" value="${item.id}" type="checkbox" onclick="checkBerkas(this)">
+                              </span>
+                              <button class="btn btn-danger btn-sm w-75" type="button" onclick="deleteBerkas(${item.id})"><i class="ti ti-trash me-2"></i>Hapus</button>
+                            </div>
                         </div>
                     </div>`
                 })
@@ -174,7 +204,6 @@
         }
 
         function deleteBerkas(id) {
-
             Swal.fire({
                 title: 'Apakah anda yakin?',
                 text: "Anda tidak akan dapat mengembalikan ini!",
@@ -183,18 +212,81 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Hapus!'
-            }).then((result)=>{
-                if(result.isConfirmed){
-                    $.post(`${url}/upload/delete/${id}`).done((response)=>{
-                        alertSuccessAjax().then(()=>{
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(`${url}/upload/delete/${id}`).done((response) => {
+                        alertSuccessAjax().then(() => {
                             rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                         })
-                    }).fail((error)=>{
+                    }).fail((error) => {
                         alertErrorAjax()
                     })
                 }
             })
         }
+
+        function checkBerkas(evt) {
+            const checkbox = $('input[name="checkBerkas"]');
+            if (checkbox.is(':checked')) {
+                let key = [];
+                checkbox.each((index, item) => {
+                    const isChecked = $(item).is(':checked');
+                    if (isChecked) {
+                        key.push(item.value);
+                    }
+
+                })
+
+                $('.jmlItemBerkas').html(key.length)
+                btnResetCheckBerkas.removeClass('d-none')
+                btnHapusAllBerkas.removeClass('d-none')
+                btnHapusAllBerkas.attr('onclick', `deleteAllBerkas(${key})`)
+            } else {
+                $('.jmlItemBerkas').html('')
+                btnResetCheckBerkas.addClass('d-none')
+                btnHapusAllBerkas.addClass('d-none')
+            }
+        }
+
+        btnCheckAllBerkas.on('click', (evt) => {
+            const checkbox = $('input[name="checkBerkas"]').trigger('click');
+            btnResetCheckBerkas.removeClass('d-none')
+            btnHapusAllBerkas.removeClass('d-none')
+        })
+
+        function deleteAllBerkas(...data) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: `Anda ingin menghapus ${data.length} berkas, dan tidak akan dapat dikembalikan lagi!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    data.forEach((item) => {
+                        $.post(`${url}/upload/delete/${item}`).done((response) => {
+                            alertSuccessAjax().then(() => {
+                                rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
+                                btnResetCheckBerkas.addClass('d-none')
+                                btnHapusAllBerkas.addClass('d-none')
+                            })
+                        }).fail((error) => {
+                            alertErrorAjax()
+                        })
+                    })
+                }
+            })
+
+        }
+
+        btnResetCheckBerkas.on('click', () => {
+            const checkbox = $('input[name="checkBerkas"]');
+            checkbox.prop('checked', false);
+            btnHapusAllBerkas.addClass('d-none')
+            btnResetCheckBerkas.addClass('d-none')
+        })
 
         function submitFile() {
             formUploadPenunjang.processQueue();
@@ -215,7 +307,5 @@
             })
 
         });
-
-
     </script>
 @endpush

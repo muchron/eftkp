@@ -259,8 +259,8 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
 
     Route::post('upload', [UploadController::class, 'upload']);
-	Route::get('upload', [UploadController::class, 'get']);
-	Route::post('upload/delete/{id}', [UploadController::class, 'delete']);
+    Route::get('upload', [UploadController::class, 'get']);
+    Route::post('upload/delete/{id}', [UploadController::class, 'delete']);
 
     Route::get('berkas/penunjang/kategori', [EfktpKategoriBerkasPenunjangController::class, 'get']);
     Route::get('berkas/penunjang/kategori/first', [EfktpKategoriBerkasPenunjangController::class, 'getFirst']);

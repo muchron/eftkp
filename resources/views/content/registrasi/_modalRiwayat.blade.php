@@ -15,8 +15,8 @@
                             <ul class="nav nav-tabs" role="tablist" id="tabRiwayat">
                                 <li class="nav-item" role="presentation"><a href="#tabCppt" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Pemeriksaan/CPPT</a></li>
                                 <li class="nav-item" role="presentation"><a href="#tabPenunjang" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Penunjang</a></li>
-{{--                                <li class="nav-item" role="presentation"><a href="#tabSkriningAwal" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 3</a></li>--}}
-{{--                                <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 4</a></li>--}}
+                                {{--                                <li class="nav-item" role="presentation"><a href="#tabSkriningAwal" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 3</a></li> --}}
+                                {{--                                <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 4</a></li> --}}
                             </ul>
                             <div class="tab-content">
                                 <div class="card mb-2" id="cardInfoPasien">
@@ -57,7 +57,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{--card informasi pasien--}}
+                                    {{-- card informasi pasien --}}
                                 </div>
                                 <div id="tabCppt" class="card tab-pane active show" role="tabpanel">
                                     <div class="card-body">
@@ -101,12 +101,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{--card informasi pasien--}}
-                                </div>
-                                <div id="tabPenunjang" class="card tab-pane" role="tabpanel">
-                                    <div class="card-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias architecto, beatae delectus, distinctio error eum iusto mollitia non nostrum officia placeat quasi quod quos sequi vero. Illo natus optio quam.
-                                    </div>
+                                    {{-- card informasi pasien --}}
+
                                 </div>
 
                             </div>
@@ -129,13 +125,13 @@
         const listRiwayatRegistrasi = $('#listRiwayatRegistrasi');
         const riwayatPemeriksaanRalan = $('#riwayatPemeriksaanRalan');
         const riwayatPemeriksaanRanap = $('#riwayatPemeriksaanRanap');
-        const riwayatDiagnosaPasien= $('#riwayatDiagnosaPasien');
-        const riwayatTindakanPasien= $('#riwayatTindakanPasien');
+        const riwayatDiagnosaPasien = $('#riwayatDiagnosaPasien');
+        const riwayatTindakanPasien = $('#riwayatTindakanPasien');
         const dataInfoPasien = $('#dataInfoPasien');
 
-        function riwayat(no_rkm_medis){
-            $.get(`${url}/registrasi/pasien/${no_rkm_medis}`).done((response)=>{
-                if(!response){
+        function riwayat(no_rkm_medis) {
+            $.get(`${url}/registrasi/pasien/${no_rkm_medis}`).done((response) => {
+                if (!response) {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Oops...',
@@ -148,15 +144,25 @@
             })
         }
 
-        modalRiwayat.on('show.bs.modal', ()=>{
+        modalRiwayat.on('show.bs.modal', () => {
             switcTab(tabRiwayat)
             listRiwayatRegistrasi.empty();
             riwayatPemeriksaanRalan.empty();
         });
 
-        function setContentRiwayat(no_rawat){
-            getRegDetail(no_rawat).done((response)=>{
-                const {pasien, poliklinik, penjab, dokter, riwayat_pemeriksaan, pemeriksaan_ranap, diagnosa, prosedur} = response;
+        function setContentRiwayat(no_rawat) {
+            getRegDetail(no_rawat).done((response) => {
+                console.log(response)
+                const {
+                    pasien,
+                    poliklinik,
+                    penjab,
+                    dokter,
+                    riwayat_pemeriksaan,
+                    pemeriksaan_ranap,
+                    diagnosa,
+                    prosedur
+                } = response;
                 dataInfoPasien.find('#no_rawat').html(response.no_rawat)
                 dataInfoPasien.find('#tanggal').html(`${formatTanggal(response.tgl_registrasi)} ${response.jam_reg}`)
                 dataInfoPasien.find('#no_rkm_medis').html(response.no_rkm_medis)
@@ -173,10 +179,13 @@
         }
 
 
-        function setContentCpptRalan(data){
+        function setContentCpptRalan(data) {
             riwayatPemeriksaanRalan.empty();
-            const riwayat = data.map((item, index)=>{
-               const {pegawai} = item;
+
+            const riwayat = data.map((item, index) => {
+                const {
+                    pegawai
+                } = item;
                 return `<div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="card card-sm mb-2">
@@ -218,11 +227,13 @@
             riwayatPemeriksaanRalan.append(riwayat);
         }
 
-        function setContentCpptRanap(data){
+        function setContentCpptRanap(data) {
             riwayatPemeriksaanRanap.empty();
-            if(data.length){
-                const riwayat = data.map((item, index)=>{
-                    const {pegawai} = item;
+            if (data.length) {
+                const riwayat = data.map((item, index) => {
+                    const {
+                        pegawai
+                    } = item;
                     return `<div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="card card-sm mb-2">
@@ -263,40 +274,41 @@
                 }).join('')
                 riwayatPemeriksaanRanap.parent().removeClass('d-none')
                 riwayatPemeriksaanRanap.append(riwayat);
-            }else{
+            } else {
                 riwayatPemeriksaanRanap.parent().addClass('d-none')
             }
         }
-        function setRiwayatDiagnosa(data){
+
+        function setRiwayatDiagnosa(data) {
             riwayatDiagnosaPasien.empty();
-            if(data.length){
-                const diagnosa = data.map((item, index)=>{
+            if (data.length) {
+                const diagnosa = data.map((item, index) => {
                     return `<li class="${item.prioritas === 1 ? 'text-red' : ''}">${item.kd_penyakit} - ${item.penyakit.nm_penyakit} ${item.prioritas === 1 ? '(*)' : ''}</li>`
                 })
                 $('#cardDiagnosaPasien').removeClass('d-none')
                 riwayatDiagnosaPasien.append(diagnosa)
-            }else{
+            } else {
                 $('#cardDiagnosaPasien').addClass('d-none')
 
             }
         }
-        function setRiwayatTindakan(data){
+
+        function setRiwayatTindakan(data) {
             riwayatTindakanPasien.empty();
-            if(data.length){
-                const tindakan = data.map((item, index)=>{
+            if (data.length) {
+                const tindakan = data.map((item, index) => {
                     return `<li class="${item.prioritas === 1 ? 'text-red' : ''}">${item.kode} - ${item.icd9.deskripsi_pendek} ${item.prioritas === 1 ? '(*)' : ''}</li>`
                 })
                 $('#cardTindakanPasien').removeClass('d-none')
                 riwayatTindakanPasien.append(tindakan)
-            }else{
+            } else {
                 $('#cardTindakanPasien').addClass('d-none')
 
             }
         }
 
-        tabPenunjang.on('shown.bs.tab', ()=>{
+        tabPenunjang.on('shown.bs.tab', () => {
             alert('WKWKWKWK');
         })
     </script>
-
 @endpush
