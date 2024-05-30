@@ -2,7 +2,7 @@
     <div class="card-status-top bg-success"></div>
     <div class="card-body">
         <h5 class="card-title">RIWAYAT PERIKSA</h5>
-        <div class="accordion" id="listRiwayat" style="max-height: 460px;overflow:scroll">
+        <div class="accordion" id="listRiwayat" style="max-height: 72vh;overflow:scroll">
 
         </div>
     </div>

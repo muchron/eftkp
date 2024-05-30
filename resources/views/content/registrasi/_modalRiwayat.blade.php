@@ -11,57 +11,56 @@
                         @include('content.registrasi.riwayat._listRiwayat')
                     </div>
                     <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+                        <div class="card mb-2" id="cardInfoPasien">
+                            <div class="card-body">
+                                <div class="card-title">Informasi Pasien</div>
+                                <div class="datagrid" id="dataInfoPasien">
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Tgl. Registrasi</div>
+                                        <div class="datagrid-content" id="tanggal"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">No. Rawat</div>
+                                        <div class="datagrid-content" id="no_rawat"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">No. RM</div>
+                                        <div class="datagrid-content" id="no_rkm_medis"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Nama</div>
+                                        <div class="datagrid-content" id="nama"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Tgl. Lahir</div>
+                                        <div class="datagrid-content" id="tgl_lahir"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Poliklinik</div>
+                                        <div class="datagrid-content" id="poli"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Dokter</div>
+                                        <div class="datagrid-content" id="dokter"></div>
+                                    </div>
+                                    <div class="datagrid-item">
+                                        <div class="datagrid-title">Asuransi</div>
+                                        <div class="datagrid-content" id="penjab"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-tabs">
                             <ul class="nav nav-tabs" role="tablist" id="tabRiwayat">
-                                <li class="nav-item" role="presentation"><a href="#tabCppt" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Pemeriksaan/CPPT</a></li>
-                                <li class="nav-item" role="presentation"><a href="#tabPenunjang" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Penunjang</a></li>
+                                <li class="nav-item" role="presentation"><a href="#tabCppt" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabCppt" aria-selected="true" role="tab">Pemeriksaan/CPPT</a></li>
+                                <li class="nav-item" role="presentation"><a href="#tabPenunjang" class="nav-link" data-bs-toggle="tab" data-bs-target="#tabPenunjang" aria-selected="false" role="tab" tabindex="-1">Penunjang</a></li>
                                 {{--                                <li class="nav-item" role="presentation"><a href="#tabSkriningAwal" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 3</a></li> --}}
                                 {{--                                <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Tab 4</a></li> --}}
                             </ul>
                             <div class="tab-content">
-                                <div class="card mb-2" id="cardInfoPasien">
-                                    <div class="card-body">
-                                        <div class="card-title">Informasi Pasien</div>
-                                        <div class="datagrid" id="dataInfoPasien">
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Tgl. Registrasi</div>
-                                                <div class="datagrid-content" id="tanggal"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">No. Rawat</div>
-                                                <div class="datagrid-content" id="no_rawat"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">No. RM</div>
-                                                <div class="datagrid-content" id="no_rkm_medis"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Nama</div>
-                                                <div class="datagrid-content" id="nama"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Tgl. Lahir</div>
-                                                <div class="datagrid-content" id="tgl_lahir"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Poliklinik</div>
-                                                <div class="datagrid-content" id="poli"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Dokter</div>
-                                                <div class="datagrid-content" id="dokter"></div>
-                                            </div>
-                                            <div class="datagrid-item">
-                                                <div class="datagrid-title">Asuransi</div>
-                                                <div class="datagrid-content" id="penjab"></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div id="tabCppt" class="card fade tab-pane active show" role="tabpanel">
                                     {{-- card informasi pasien --}}
-                                </div>
-                                <div id="tabCppt" class="card tab-pane active show" role="tabpanel">
                                     <div class="card-body">
-
                                         <div class="card border-0 mb-2" id="">
                                             <div class="row">
                                                 <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12" id="cardDiagnosaPasien">
@@ -104,7 +103,9 @@
                                     {{-- card informasi pasien --}}
 
                                 </div>
+                                <div id="tabPenunjang" class="card fade tab-pane" role="tabpanel">
 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,11 +118,31 @@
     </div>
 </div>
 @push('script')
+    <style>
+        @media (max-width: 990px) {
+            #listRiwayatRegistrasi {
+                display: none;
+            }
+        }
+
+        @media (min-width: 990px) {
+            #listRiwayatRegistrasi {
+                display: inline !important;
+            }
+        }
+
+        @media (max-width: 990px) {
+            #nav-riwayat {
+                display: inline !important;
+            }
+        }
+    </style>
     <script>
         const modalRiwayat = $('#modalRiwayat');
         const tabCppt = $('#tabCppt');
         const tabRiwayat = $('#tabRiwayat');
         const tabPenunjang = $('#tabPenunjang');
+        const triggerTabPenunjang = $('a[data-bs-target="#tabPenunjang"]')
         const listRiwayatRegistrasi = $('#listRiwayatRegistrasi');
         const riwayatPemeriksaanRalan = $('#riwayatPemeriksaanRalan');
         const riwayatPemeriksaanRanap = $('#riwayatPemeriksaanRanap');
@@ -152,7 +173,6 @@
 
         function setContentRiwayat(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
-                console.log(response)
                 const {
                     pasien,
                     poliklinik,
@@ -307,8 +327,52 @@
             }
         }
 
-        tabPenunjang.on('shown.bs.tab', () => {
-            alert('WKWKWKWK');
+        triggerTabPenunjang.on('shown.bs.tab', (e) => {
+            const no_rawat = $('div#no_rawat').text();
+            renderBerkasPenunjang(no_rawat);
         })
+
+        function renderBerkasPenunjang(no_rawat) {
+
+            $.get(`${url}/upload`, {
+                no_rawat: no_rawat,
+            }).done((response) => {
+                const berkas = response.map((item, index) => {
+                    const filetype = item.file.split('.').pop()
+                    let content = '';
+                    if (filetype !== 'pdf') {
+                        content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/penunjang/images/') }}/${item.file}">
+                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/penunjang/images') }}/${item.file}" class="card-img-top">
+                                         </a>`;
+                    } else {
+                        content = ` <a class="d-block" href="{{ asset('public/storage/penunjang/pdf') }}/${item.file}" target="_blank">
+                                            <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/img/logo-pdf.png') }}" class="card-img-top">
+                                         </a>`;
+                    }
+                    // <button class="btn btn-outline-success btn-sm w-100"></button>
+                    return `<div class="col-sm-6 col-lg-2">
+                        <div class="card card-sm" title="">
+                            <span class="badge bg-blue text-blue-fg badge-notification badge-pill" style="transform:none!important">${item.kategori.kategori}</span>
+                            ${content}
+                        </div>
+                    </div>`
+                });
+
+                const html = `<div class="card-body">
+                                        <div class="card mb-2">
+                                            <div class="card-header">
+                                                Berkas Penunjang
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row gy-2" id="cardBerkasPenunjang">
+                                                    ${berkas}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>`
+                tabPenunjang.empty().append(html)
+            })
+        }
     </script>
 @endpush

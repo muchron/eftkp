@@ -42,12 +42,13 @@
         modalCpptRanap.on('hidden.bs.modal', () => {
             $('#listRiwayat').empty()
             selectAlergi(alergi, formCpptRanap);
-        })
+        });
+
         modalCpptRanap.on('shown.bs.modal', () => {
             alergi.addClass('bg-red')
             checkboxTimer(checkJam)
             selectAlergi(alergi, formCpptRanap);
-        })
+        });
 
 
         function runningTime() {

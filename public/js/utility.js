@@ -1080,7 +1080,7 @@ $.contextMenu({
 
                         "rujukKeluar": {
                             name: "Rujuk Keluar",
-                            icon: "fas fa-truck-medical",
+                            icon: "fas fa-clinic-medical",
                             callback: (item) => {
                                 rujukEksternal(`${no_rawat}`);
                             }
@@ -1106,7 +1106,7 @@ $.contextMenu({
                         },
                         "SuratSakit": {
                             name: "Keterangan Sakit",
-                            icon: "fas fa-envelope-open-text",
+                            icon: "fas fa-envelope",
                             callback: (item) => {
                                 suratSakit(`${no_rawat}`);
                             }
@@ -1167,28 +1167,28 @@ $.contextMenu({
                     items: {
                         "Sudah": {
                             name: 'Sudah',
-                            icon: "fas fa-check",
+                            icon: "fas fa-tag",
                             callback: () => {
                                 setStatusLayan(no_rawat, 'Sudah')
                             }
                         },
                         "Belum": {
                             name: 'Belum',
-                            icon: "fas fa-hourglass-start",
+                            icon: "fas fa-tag",
                             callback: () => {
                                 setStatusLayan(no_rawat, 'Belum')
                             }
                         },
                         "Batal": {
                             name: 'Batal',
-                            icon: "fas fa-x",
+                            icon: "fas fa-tag",
                             callback: () => {
                                 setStatusLayan(no_rawat, 'Batal')
                             }
                         },
                         "Dirujuk": {
                             name: 'Dirujuk',
-                            icon: "fas fa-person-walking-arrow-right",
+                            icon: "fas fa-tag",
                             callback: () => {
                                 setStatusLayan(no_rawat, 'Dirujuk')
                             }
@@ -1375,9 +1375,29 @@ $.contextMenu({
                 },
                 "Obat": {
                     name: "Obat",
-                    icon: 'fa-regular fa-pills',
-                    callback: function (item, option, e, x, y) {
-                        cpptRanap(`${no_rawat}`)
+                    // icon: 'fa-regular fa-pills',
+                    // callback: function (item, option, e, x, y) {
+                    //     cpptRanap(`${no_rawat}`)
+                    // }
+                    items: {
+                        "Resep Obat": {
+                            name: "Resep Obat",
+                            icon: 'fa-regular fa-tablets',
+                            callback: function (item, option, e, x, y) {
+                                // cpptRanap(`${no_rawat}`)
+                            }
+
+                        },
+                        "Pemberian Obat": {
+                            name: "Pemberian Obat",
+                            icon: 'fa-regular fa-tablets',
+                            callback: function (item, option, e, x, y) {
+                                // cpptRanap(`${no_rawat}`)
+                            }
+
+                        },
+
+
                     }
 
                 },
