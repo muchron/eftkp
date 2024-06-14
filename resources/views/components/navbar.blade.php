@@ -18,7 +18,6 @@
                 @include('components.navbar._menu')
             </div>
         </div>
-    </div>
 </header>
 @push('script')
     <script>

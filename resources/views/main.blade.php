@@ -6,19 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ env('APP_NAME') }}
-        @if (count(Request::segments()))
-            ::
-            @for ($i = 1; $i <= count(Request::segments()); $i++)
-                {{ ucfirst(Request::segment($i)) }}
-                @if (($i < count(Request::segments())) & ($i >= 1))
-                    -
-                @endif
-            @endfor
-        @else
-            :: {{ $data->nama_instansi }}
-        @endif
-    </title>
+    <x-title />
     <!-- CSS files -->
     <link href="{{ asset('/public/css/tabler.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
@@ -210,8 +198,13 @@
             }
         }
 
-        .dropzone {
+        @media (max-width: 1024px) {
+            .text-brand {
+                display: none
+            }
+        }
 
+        .dropzone {
             border: 1px solid rgb(227 214 214 / 80%) !important;
         }
     </style>

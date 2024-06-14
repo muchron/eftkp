@@ -118,7 +118,7 @@
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
                             if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
-                                createPendafranPcare(data)
+                                createBridgingPendaftaranPcare(data)
                             }
                             modalRegistrasi.modal('hide')
                         })
@@ -138,37 +138,6 @@
                 }
             })
 
-        }
-
-        function createPendafranPcare(data) {
-            data['tensi'] = `${data.sistole}/${data.diastole}`
-            data['nip'] = data.kd_dokter
-            data['spo2'] = '98'
-            data['alergi'] = '-'
-            data['rtl'] = '-'
-            data['penilaian'] = '-'
-            data['gcs'] = '15'
-            data['instruksi'] = '-'
-            data['kesadaran'] = 'Compos Mentis'
-            data['pemeriksaan'] = '-'
-            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
-                if (!data.bridging) {
-                    loadingAjax('Memeriksa kepesertaan pasien');
-                    checkPesertaPcare(data)
-                } else {
-                    alertSuccessAjax().then(() => {
-                        if ($('#tbPendaftaranPcare').lenght > 0) {
-                            renderPendaftaranPcare();
-                        }
-                        if (tabelRegistrasi.length) {
-                            loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
-                        }
-                    })
-                }
-
-            }).fail((error) => {
-                alertErrorAjax(error)
-            })
         }
     </script>
 @endpush

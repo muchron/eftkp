@@ -43,26 +43,32 @@
         }
 
         function createPasienBpjs(noKartu, noUrut = '') {
-            loadingAjax();
+            loadingAjax('Mengambil data pasien BPJS');
             $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((result) => {
-                $('#modalPasien').modal('show')
-                loadingAjax().close();
-                const umur = hitungUmur(splitTanggal(result.response.tglLahir));
-                const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-                formPasien.find('input[name=nm_pasien]').val(result.response.nama)
-                formPasien.find('select[name=jk]').val(result.response.sex).change()
-                formPasien.find('select[name=gol_darah]').val('-')
-                formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
-                formPasien.find('input[name=umur]').val(contentUmur)
-                formPasien.find('input[name=no_ktp]').val(result.response.noKTP)
-                formPasien.find('input[name=no_tlp]').val(result.response.noHP)
-                formPasien.find('input[name=no_peserta]').val(noKartu)
-                formPasien.find('input[name=sttsForm]').val('bridging')
-                formPasien.find('input[name=noUrut]').val(noUrut)
+                if (result.metaData.code === 200) {
+                    $('#modalPasien').modal('show')
+                    loadingAjax().close();
+                    const umur = hitungUmur(splitTanggal(result.response.tglLahir));
+                    const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+                    formPasien.find('input[name=nm_pasien]').val(result.response.nama)
+                    formPasien.find('select[name=jk]').val(result.response.sex).change()
+                    formPasien.find('select[name=gol_darah]').val('-')
+                    formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
+                    formPasien.find('input[name=umur]').val(contentUmur)
+                    formPasien.find('input[name=no_ktp]').val(result.response.noKTP)
+                    formPasien.find('input[name=no_tlp]').val(result.response.noHP)
+                    formPasien.find('input[name=no_peserta]').val(noKartu)
+                    formPasien.find('input[name=sttsForm]').val('bridging')
+                    formPasien.find('input[name=noUrut]').val(noUrut)
 
-                const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
+                    formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                } else {
+                    alertErrorBpjs(result);
+                }
 
+            }).fail((error) => {
+                alertErrorBpjs(erorr);
             })
         }
 

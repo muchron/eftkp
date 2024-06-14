@@ -248,7 +248,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" id="btnResetPasien" onclick="resetFormRegistrasi()"><i class="ti ti-reload me-2"></i>Baru</button>
-                <button type="button" class="btn btn-success" id="btnSimpanPasien"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+                <button type="button" class="btn btn-success" id="btnSimpanPasien" onclick="createPasienBaru()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
             </div>
         </div>
     </div>
@@ -305,8 +305,7 @@
             $.get(`${url}/pasien/exist`, data)
         }
 
-        $('#btnSimpanPasien').on('click', (e) => {
-            e.preventDefault;
+        function createPasienBaru() {
             const data = getDataForm('formPasien', ['input', 'select']);
             loadingAjax();
             $.post(`${url}/pasien`, data).done((response) => {
@@ -319,26 +318,26 @@
                                 formPasien.find('input[name=no_rkm_medis]').val(response)
                             })
                         }
+                        resetSelect();
+                        if (formPasien.find('input[name=sttsForm]').val() == 'bridging') {
+                            regPoliBpjs(data);
+                            renderPendaftaranPcare(start = '', length = '')
+                        }
+                        formPasien.find('input').removeClass('is-valid')
+                        formPasien.find('select').removeClass('is-valid')
+                        switchTab('tabs2')
                     })
-                    resetSelect();
-                    if (formPasien.find('input[name=sttsForm]').val() == 'bridging') {
-                        regPoliBpjs(data);
-                        renderPendaftaranPcare(start = '', length = '')
-                    }
-                    // modalPasien.modal('hide');
-                    formPasien.find('input').removeClass('is-valid')
-                    formPasien.find('select').removeClass('is-valid')
-                    switchTab('tabs2')
                 }
             }).fail((request) => {
                 alertErrorAjax(request)
             })
-        })
+        }
 
         function regPoliBpjs(data) {
-            loadingAjax();
+            loadingAjax('Sedang menyiapkan data pendaftaran di Pcare');
             $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
                 if (pendaftaran.metaData.code == 200) {
+                    loadingAjax().close();
                     const response = pendaftaran.response;
                     periksaPendaftaran.removeClass('d-none');
                     formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(response.poli.nmPoli)
@@ -385,10 +384,13 @@
                     $.get(`${url}/mapping/pcare/poliklinik`, {
                         kdPoliPcare: response.poli.kdPoli
                     }).done((resultPoli) => {
+
                         selectPoliklinik(formRegistrasiPoli.find('select[name=kd_poli]'), modalRegistrasi);
                         const poli = new Option(`${resultPoli.poliklinik.kd_poli} - ${resultPoli.poliklinik.nm_poli}`, `${resultPoli.poliklinik.kd_poli}`, true, true);
                         formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
                         formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
+                    }).fail((error) => {
+                        alertErrorAjax(error)
                     })
 
                     // GET DOKTER
@@ -408,9 +410,15 @@
                             const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
                             formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
                             formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                        }).fail((error) => {
+                            alertErrorAjax(error)
                         })
+                    }).fail((erorr) => {
+                        alertErrorAjax(error)
                     })
                     modalRegistrasi.modal('show')
+                } else {
+                    alertErrorBpjs(response)
                 }
             })
         }

@@ -36,7 +36,6 @@
             const noKunjungan = modalPrintKunjungan.find('#noKunjungan').val();
             localStorage.setItem('setPaper', size)
             renderPrintRujukan(noKunjungan, size)
-            // modalPrintKunjungan.find("#print").removeAttr('src').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}${size}`)
         })
 
         modalPrintKunjungan.on('shown.bs.modal', () => {

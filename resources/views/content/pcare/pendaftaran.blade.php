@@ -217,7 +217,11 @@
                         title: '',
                         data: 'noUrut',
                         render: (data, type, row, meta) => {
-                            const classHidden = Object.keys(row.kunjungan).length ? 'd-none' : '';
+                            let classHidden = ''
+                            if (row.kunjungan) {
+                                classHidden = Object.keys(row.kunjungan).length ? 'd-none' : '';
+                            }
+
                             const btnCppt = row.kunjungan ? `btn-success` : `btn-outline-primary`;
                             const parameter = {
                                 noUrut: row.noUrut,

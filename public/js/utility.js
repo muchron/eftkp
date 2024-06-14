@@ -298,6 +298,15 @@ function alertErrorAjax(request) {
     );
 }
 
+function alertErrorBpjs(error) {
+    const errorResponse = `${error.metaData.message.split('response:')[1]}`;
+    return Swal.fire({
+        title: 'Pesan dari BPJS',
+        html: `Terjadi kesalahan pada : ${errorResponse}`,
+        icon: 'error',
+    })
+}
+
 function alertSessionExpired(requestStatus) {
     if (requestStatus == 401) {
         Swal.fire({

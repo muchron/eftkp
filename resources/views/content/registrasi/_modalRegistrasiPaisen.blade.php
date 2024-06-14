@@ -272,7 +272,7 @@
         })
 
         function createPendaftaranPcare(data) {
-            $.post(`./bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
+            $.post(`${url}/bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
                 if (resPendaftaran.metaData.code === 201 && resPendaftaran.metaData.message === 'CREATED') {
                     data['noUrut'] = resPendaftaran.response.message;
                     $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
@@ -294,6 +294,45 @@
                         icon: 'error'
                     })
                 }
+            }).fail((error) => {
+                alertErrorAjax(error)
+            })
+        }
+
+        function createBridgingPendaftaranPcare(data) {
+            data['tensi'] = `${data.sistole}/${data.diastole}`
+            data['nip'] = data.kd_dokter
+            data['spo2'] = '98'
+            data['alergi'] = '-'
+            data['rtl'] = '-'
+            data['penilaian'] = '-'
+            data['gcs'] = '15'
+            data['instruksi'] = '-'
+            data['kesadaran'] = 'Compos Mentis'
+            data['pemeriksaan'] = '-'
+            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
+                if (!data.bridging) {
+                    loadingAjax('Memeriksa kepesertaan pasien');
+                    checkPesertaPcare(data)
+                } else {
+                    $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
+                        alertErrorAjax(error)
+                    }).done(() => {
+                        alertSuccessAjax().then(() => {
+                            if ($('#tbPendaftaranPcare').length > 0) {
+                                renderPendaftaranPcare();
+                                loadTbPcarePendaftaran(tglAwal, tglAkhir)
+                            }
+                            if (tabelRegistrasi.length) {
+                                loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
+                            }
+                        })
+
+                        modalRegistrasi.modal('hide')
+
+                    })
+                }
+
             }).fail((error) => {
                 alertErrorAjax(error)
             })
@@ -344,7 +383,7 @@
                         loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
                     if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
-                        createPendafranPcare(data)
+                        createBridgingPendaftaranPcare(data)
                     } else {
                         modalRegistrasi.modal('hide');
                         modalPasien.modal('hide');
