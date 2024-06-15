@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Traits\Track;
+use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\RegPeriksa;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -35,7 +37,6 @@ class RegPeriksaController extends Controller
             }
         ];
     }
-
 
     function setNoReg(Request $request): string
     {
@@ -303,5 +304,24 @@ class RegPeriksaController extends Controller
             ->groupBy('bulan')
             ->get();
         return response()->json($regPeriksa, 200);
+    }
+    function print(Request $request)
+    {
+        $regPeriksa = RegPeriksa::select(['tgl_registrasi', 'jam_reg', 'kd_poli', 'kd_dokter', 'no_rkm_medis', 'no_reg', 'no_rawat', 'umurdaftar', 'sttsumur', 'kd_pj'])
+            ->where('no_rawat', $request->no_rawat)
+            ->with(['pasien' => function ($q) {
+                return $q->select(['nm_pasien', 'alamat', 'kd_kel', 'no_rkm_medis', 'alamatpj', 'jk', 'tgl_lahir', 'no_peserta'])
+                    ->with(['kel', 'kec', 'kab']);
+            }, 'poliklinik', 'dokter', 'penjab', 'pcarePendaftaran'])->first();
+        $setting = Setting::first();
+
+        if ($request->width == '4') {
+            $pdf = PDF::loadView('content.print.buktiRegister4', ['data' => $regPeriksa, 'setting' => $setting]);
+            $pdf->setPaper([0, 0, $request->width * 28.3465, 300])->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+        } else {
+            $pdf = PDF::loadView('content.print.buktiRegister', ['data' => $regPeriksa, 'setting' => $setting]);
+            $pdf->setPaper([0, 0, 8 * 28.3465, 400])->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+        }
+        return $pdf->stream('Bukti-Registrasi-' . date('Ymd') . $regPeriksa->no_rkm_medis . '.pdf');
     }
 }

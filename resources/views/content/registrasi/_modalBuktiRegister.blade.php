@@ -1,8 +1,8 @@
-<div class="modal modal-blur fade" id="modalPrintKunjungan" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+<div class="modal modal-blur fade" id="modalBuktiRegister" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
-                <h5 class="modal-title m-0">Print Surat Kunjungan</h5>
+                <h5 class="modal-title m-0">Cetak Bukti Register</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-2">
@@ -10,12 +10,12 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <label for="sizePrint" class="form-label mt-2">Ukuran Pinter</label>
                         <select name="size" id="size" class="form-select mb-2">
-                            <option value="a5">A5</option>
-                            <option value="a4">A4</option>
                             <option value="8">8 cm</option>
+                            <option value="4">4 cm</option>
+                            <option value="5.8">5.8 cm</option>
                         </select>
                     </div>
-                    <input type="hidden" id="noKunjungan" name="noKunjungan">
+                    <input type="hidden" id="no_rawat" name="no_rawat">
                 </div>
                 <iframe id="print" type="" width="100%" height="600"></iframe>
             </div>
@@ -27,12 +27,12 @@
 </div>
 @push('script')
     <script>
-        var modalPrintKunjungan = $('#modalPrintKunjungan');
-        var selectSize = modalPrintKunjungan.find('#size');
-        var setPaper = localStorage.getItem('setPaper') ? localStorage.getItem('setPaper') : 'a5';
+        var modalBuktiRegister = $('#modalBuktiRegister');
+        var selectSizeBukti = modalBuktiRegister.find('#size');
+        var setPaperRegister = localStorage.getItem('setPaperRegister') ? localStorage.getItem('setPaperRegister') : '8';
 
-        function renderPrintRujukan(noKunjungan, width = '') {
-            const size = width == 'a5' ? '' : `&size=${width}`;
+        function buktiRegister(no_rawat, size = '') {
+            const sizePaper = size == '8' ? '' : `&width=${size}`;
             Swal.fire({
                 title: "Tunggu",
                 html: "Sedang mengambil data...",
@@ -41,25 +41,30 @@
                     Swal.showLoading();
                 },
             });
-            modalPrintKunjungan.find('#print').on('load', (e) => {
+            modalBuktiRegister.find('#print').on('load', (e) => {
                 if (e.currentTarget.src) {
                     toast('Berhasil');
                 }
 
             })
-            modalPrintKunjungan.find('#print').removeAttr('src').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}${size}`);
+            modalBuktiRegister.find('#no_rawat').val(no_rawat)
+            modalBuktiRegister.find('#print').attr('src', `${url}/registrasi/bukti/print?no_rawat=${no_rawat}${sizePaper}`);
+            modalBuktiRegister.modal('show');
         }
-
-        selectSize.on('change', (e) => {
+        selectSizeBukti.on('change', (e) => {
             const size = e.currentTarget.value;
-            const noKunjungan = modalPrintKunjungan.find('#noKunjungan').val();
-            localStorage.setItem('setPaper', size)
-            renderPrintRujukan(noKunjungan, size)
+            const no_rawat = modalBuktiRegister.find('#no_rawat').val();
+            buktiRegister(no_rawat, size)
+            localStorage.setItem('setPaperRegister', size)
         })
 
-        modalPrintKunjungan.on('shown.bs.modal', () => {
-            paper = localStorage.getItem('setPaper');
-            selectSize.val(setPaper).change();
+        modalBuktiRegister.on('shown.bs.modal', () => {
+            paper = localStorage.getItem('setPaperRegister');
+            selectSizeBukti.val(paper).change();
+        });
+
+        modalBuktiRegister.on('hidden.bs.modal', () => {
+            modalBuktiRegister.find('#print').attr('src', '');
         })
     </script>
 @endpush
