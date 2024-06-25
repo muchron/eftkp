@@ -28,7 +28,7 @@
                 <p>{{ $data->dokter->nm_dokter }}</p>
                 <p><strong><i>{{ $data->penjab->png_jawab }}</i></strong></p>
             </div>
-            <table class="table" width="100%">
+            {{-- <table class="table" width="100%">
                 <tr>
                     <td width="30%">No. RM</td>
                     <td width="4%">:</td>
@@ -54,7 +54,7 @@
                     <td width="4%">:</td>
                     <td style="text-align: justify">{{ $data->pasien->alamat }}, {{ $data->pasien->kel->nm_kel }}</td>
                 </tr>
-            </table>
+            </table> --}}
 
             <hr />
             <p class="mt-2 text-center">Terimakasih atas kepercayaan anda, bawalah kartu ini untuk berkunjung</p>
