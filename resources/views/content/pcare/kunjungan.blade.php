@@ -191,7 +191,7 @@
                 if (result.isConfirmed) {
                     loadingAjax();
                     $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
-                        if (resDelete.metaData.code == 200 || resDelete.metaData.code == 201) {
+                        if (resDelete.metaData.code == 200) {
                             alertSuccessAjax(`${resDelete.response}`).then(() => {
                                 $.post(`kunjungan/delete/${noKunjungan}`).fail((request) => {
                                     alertErrorAjax(errorMsg)
