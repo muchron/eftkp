@@ -1,6 +1,4 @@
-<?php
-
-namespace AamDsam\Bpjs\PCare;
+<?php namespace AamDsam\Bpjs\PCare;
 
 use AamDsam\Bpjs\PCare\PcareService;
 

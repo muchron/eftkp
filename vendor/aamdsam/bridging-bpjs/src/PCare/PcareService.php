@@ -1,10 +1,7 @@
 <?php
-
 namespace AamDsam\Bpjs\PCare;
 
 use GuzzleHttp\Client;
-
-use function PHPUnit\Framework\isEmpty;
 
 class PcareService
 {
@@ -95,7 +92,7 @@ class PcareService
             'verify' => false
         ]);
 
-        foreach ($configurations as $key => $val) {
+        foreach ($configurations as $key => $val){
             if (property_exists($this, $key)) {
                 $this->$key = $val;
             }
@@ -113,28 +110,27 @@ class PcareService
 
     public function responseDecoded($response)
     {
-
-
         // ubah ke array
         $responseArray = json_decode($response, true);
         if (!is_array($responseArray)) {
             return [
                 "metaData" => [
-                    "message" => $response,
-                    "code" => 500
+                    "message" => $responseArray,
+                    "code" => 201
                 ]
             ];
         }
 
-        if (!isset($responseArray["response"]) || $responseArray['metaData']['code'] == 401) {
+        if (!isset($responseArray["response"])) {
             return $responseArray;
         }
 
+        
         $responseDecrypt = $this->stringDecrypt($responseArray["response"]);
         $responseArrayDecrypt = json_decode($responseDecrypt, true);
 
         // apabila bukan array
-        if (!is_array($responseArrayDecrypt) || $responseDecrypt == '') {
+        if (!is_array($responseArrayDecrypt) || $responseDecrypt==''){
             return $responseArray;
         }
 
@@ -169,7 +165,7 @@ class PcareService
     }
 
     public function store($data = [])
-    {
+    {                               
         $response = $this->post($this->feature, $data);
         return $this->responseDecoded($response);
     }
@@ -203,7 +199,7 @@ class PcareService
     {
         date_default_timezone_set('UTC');
         $this->timestamp = strval(time() - strtotime('1970-01-01 00:00:00'));
-
+        
         date_default_timezone_set(env('APP_TIMEZONE', 'Asia/Singapore'));
         return $this;
     }
@@ -251,13 +247,12 @@ class PcareService
         return $this->service_name;
     }
 
-    function stringDecrypt($string)
-    {
+    function stringDecrypt($string){      
         $encrypt_method = 'AES-256-CBC';
         $key_hash = hex2bin(hash('sha256', $this->key_decrypt));
         $iv = substr(hex2bin(hash('sha256', $this->key_decrypt)), 0, 16);
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key_hash, OPENSSL_RAW_DATA, $iv);
-
+    
         return \LZCompressor\LZString::decompressFromEncodedURIComponent($output);
     }
 
@@ -268,7 +263,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'GET',
-                "{$this->base_url}/{$feature}{$params}",
+                "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
                 [
                     'headers' => $this->headers
                 ]
@@ -286,13 +281,13 @@ class PcareService
         $this->headers['Accept'] = 'application/json';
         $this->headers['Content-Type'] = 'text/plain';
 
-        if (!empty($headers)) {
+        if (!empty($headers)){
             $this->headers = array_merge($this->headers, $headers);
         }
         try {
             $response = $this->clients->request(
                 'POST',
-                "{$this->base_url}/{$feature}",
+                "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
                     'body'    => json_encode($data),
@@ -312,7 +307,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'PUT',
-                "{$this->base_url}/{$feature}",
+                "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
                     'body'    => json_encode($data),
@@ -329,7 +324,7 @@ class PcareService
         $params = $this->getParams($parameters);
         $this->headers['Content-Type'] = 'application/json';
         $this->headers['Accept'] = 'application/json';
-        $url = "{$this->base_url}";
+        $url = "{$this->base_url}/{$this->service_name}";
         if ($id !== null) {
             $url .= "/{$feature}/{$id}";
         } else {
