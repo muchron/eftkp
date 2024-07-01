@@ -210,6 +210,8 @@
                             }
                             alertErrorAjax(errorMsg)
                         }
+                    }).fail((error) => {
+                        alertErrorAjax(error)
                     })
 
                 }
@@ -239,24 +241,5 @@
         modalPrintKunjungan.on('hidden.bs.modal', () => {
             modalPrintKunjungan.find('#print').removeAttr('src');
         })
-
-        function renderPrintRujukan(noKunjungan, width = '') {
-            const size = width == 'a5' ? '' : `&size=${width}`;
-            Swal.fire({
-                title: "Tunggu",
-                html: "Sedang mengambil data...",
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
-            });
-            modalPrintKunjungan.find('#print').on('load', (e) => {
-                if (e.currentTarget.src) {
-                    toast('Berhasil');
-                }
-
-            })
-            modalPrintKunjungan.find('#print').removeAttr('src').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}${size}`);
-        }
     </script>
 @endpush

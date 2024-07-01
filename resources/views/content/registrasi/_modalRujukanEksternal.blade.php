@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
-                <h5 class="modal-title m-0">Rujukan Internal</h5>
+                <h5 class="modal-title m-0">Rujukan Keluar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -12,46 +12,46 @@
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                     <div class="row p-3 gy-2">
-                                            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                                                <label for="no_rawat">No. Rawat</label>
-                                                <input type="text" class="form-control" name="no_rawat" id="no_rawat" readonly />
-                                            </div>
-                                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                                                <label for="no_rkm_medis">Pasien</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="no_rkm_medis" id="no_rkm_medis" readonly />
-                                                    <input type="text" class="form-control w-50" name="nm_pasien" id="nm_pasien" readonly />
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                <label for="no_rkm_medis">No. Rujukan</label>
-                                                <input type="text" class="form-control" name="no_rujuk" id="no_rujuk">
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                                <label for="no_rkm_medis">Tgl & Jam Rujuk</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control filterTangal" name="tgl_rujuk" id="tgl_rujuk" value="{{date('d-m-Y')}}">
-                                                    <input type="text" class="form-control jam" name="jam" id="jam" value="{{ date('H:i:s') }}" readonly />
-                                                    <span class="input-group-text">
-                                                        <input class="form-check-input m-0" type="checkbox" checked="" id="" name="checkjamRujuk" onchange="toggleTime(this)">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6 col-md-6 col-sm-12">
-                                                <label for="kd_dokter">Dokter Perujuk</label>
-                                                <select class="form-select" name="kd_dokter" id="kd_dokter" style="width:100%"></select>
-                                            </div>
-                                            <div class="col-xl-6 col-md-6 col-sm-12">
-                                                <label for="keterangan_diagnosa">Ket. Diagnosa</label>
-                                                <select class="form-select" name="keterangan_diagnosa" id="keterangan_diagnosa" style="width:100%"></select>
+                                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                            <label for="no_rawat">No. Rawat</label>
+                                            <input type="text" class="form-control" name="no_rawat" id="no_rawat" readonly />
+                                        </div>
+                                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                                            <label for="no_rkm_medis">Pasien</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="no_rkm_medis" id="no_rkm_medis" readonly />
+                                                <input type="text" class="form-control w-50" name="nm_pasien" id="nm_pasien" readonly />
                                             </div>
                                         </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <label for="no_rkm_medis">No. Rujukan</label>
+                                            <input type="text" class="form-control" name="no_rujuk" id="no_rujuk">
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                            <label for="no_rkm_medis">Tgl & Jam Rujuk</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control filterTangal" name="tgl_rujuk" id="tgl_rujuk" value="{{ date('d-m-Y') }}">
+                                                <input type="text" class="form-control jam" name="jam" id="jam" value="{{ date('H:i:s') }}" readonly />
+                                                <span class="input-group-text">
+                                                    <input class="form-check-input m-0" type="checkbox" checked="" id="" name="checkjamRujuk" onchange="toggleTime(this)">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-12">
+                                            <label for="kd_dokter">Dokter Perujuk</label>
+                                            <select class="form-select" name="kd_dokter" id="kd_dokter" style="width:100%"></select>
+                                        </div>
+                                        <div class="col-xl-6 col-md-6 col-sm-12">
+                                            <label for="keterangan_diagnosa">Ket. Diagnosa</label>
+                                            <select class="form-select" name="keterangan_diagnosa" id="keterangan_diagnosa" data-tags="true" style="width:100%"></select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                     <div class="row p-3 gy-2">
                                         <div class="col-xl-6 col-md-6 col-sm-12">
                                             <label for="rujuk_ke">FK/RS. Rujukan</label>
-                                            <select class="form-select" name="rujuk_ke" id="rujuk_ke" data-dropdown-parent="#modalRujukanEksternal"  data-tags="true" style="width:100%"></select>
+                                            <select class="form-select" name="rujuk_ke" id="rujuk_ke" data-dropdown-parent="#modalRujukanEksternal" data-tags="true" style="width:100%"></select>
                                         </div>
                                         <div class="col-xl-3 col-md-3 col-sm-12">
                                             <label for="kat_rujuk">Kat. Rujuk</label>
@@ -122,7 +122,7 @@
 @push('script')
     <script>
         let modalRujukanEksternal = $('#modalRujukanEksternal');
-        let modalPrintRujukEksternal= $('#modalPrintRujukEksternal');
+        let modalPrintRujukEksternal = $('#modalPrintRujukEksternal');
         let formRujukanEksternal = $('#formRujukanEksternal');
         let formFilterRujukEksternal = $('#formFilterRujukEksternal');
         let tglAwalRujukEks = formRujukanEksternal.find('#tglAwal').val();
@@ -131,13 +131,15 @@
         let linkSearchPemeriksaan = $('#linkSearchPemeriksaan')
 
         function rujukEksternal(no_rawat) {
-            loadRujukEksternal()
+            // console.log('no rawat', no_rawat);
+            // return true;
+            loadRujukEksternal(tglAwalRujukEks, tglAkhirRujukEks)
             getRegDetail(no_rawat).done((response) => {
                 modalRujukanEksternal.modal('show')
                 formRujukanEksternal.find('input[name=no_rawat]').val(no_rawat)
                 formRujukanEksternal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formRujukanEksternal.find('input[name=nm_pasien]').val(response.pasien.nm_pasien)
-                dokterRujuk = formRujukanEksternal .find('select[name=kd_dokter]')
+                dokterRujuk = formRujukanEksternal.find('select[name=kd_dokter]')
                 selectDokter(dokterRujuk, modalRujukanEksternal);
                 selectDiagnosa(diagnosaRujuk, modalRujukanEksternal);
                 formRujukanEksternal.find('input[name=checkjamRujuk]').trigger('change')
@@ -147,16 +149,18 @@
             })
             $.get(`${url}/rujuk/keluar/detail`, {
                 no_rawat: no_rawat
-            }).done((response)=>{
-                if(!Object.keys(response).length){
-                    setNoRujukEksternal().done((result)=>{
+            }).done((response) => {
+                if (!Object.keys(response).length) {
+                    setNoRujukEksternal().done((result) => {
                         formRujukanEksternal.find('input[name=no_rujuk]').val(result)
                     });
-                }else{
-                    const {dokter} = response
+                } else {
+                    const {
+                        dokter
+                    } = response
                     formRujukanEksternal.find('input[name=no_rujuk]').val(response.no_rujuk)
                     const optDokter = new Option(dokter.nm_dokter, response.kd_dokter, true, true);
-                    const optDiagnosa = new Option(response.keterangan_diagnosa,response.keterangan_diagnosa, true, true);
+                    const optDiagnosa = new Option(response.keterangan_diagnosa, response.keterangan_diagnosa, true, true);
                     const optRujuk = new Option(response.rujuk_ke, response.rujuk_ke, true, true)
                     const optKatRujuk = new Option(response.kat_rujuk, response.kat_rujuk, true, true)
                     const optAmbulance = new Option(response.ambulance, response.ambulance, true, true)
@@ -176,13 +180,13 @@
             })
         }
 
-        modalRujukanEksternal.on('hidden.bs.modal', ()=>{
+        modalRujukanEksternal.on('hidden.bs.modal', () => {
             formRujukanEksternal.find('label').removeClass('text-danger');
             formRujukanEksternal.trigger('reset');
             formRujukanEksternal.find('select').val(null).trigger('change')
         })
 
-        function toggleTime(param){
+        function toggleTime(param) {
             const isChecked = $(param).is(':checked')
             if (!isChecked) {
                 clearInterval(setTime)
@@ -193,20 +197,20 @@
             }
         }
 
-        function setNoRujukEksternal(){
+        function setNoRujukEksternal() {
             return $.get(`${url}/rujuk/keluar/nomor`)
         }
 
-        const selectEksternal = (id) =>{
+        const selectEksternal = (id) => {
             return formRujukanEksternal.find(`select[name=${id}]`)
         }
 
         selectEksternal('keterangan').select2({
             dropdownParent: modalRujukanEksternal,
-            tags : true,
-            delay : 1,
-            scrollAfterSelect : true,
-            cache : true,
+            tags: true,
+            delay: 1,
+            scrollAfterSelect: true,
+            cache: true,
             ajax: {
                 url: `${url}/rujuk/keluar/keterangan`,
                 dataType: 'JSON',
@@ -219,7 +223,7 @@
                 processResults: (data) => {
                     return {
                         results: data.map((item) => {
-                          return {
+                            return {
                                 id: item.keterangan,
                                 text: item.keterangan,
                                 detail: item.keterangan,
@@ -233,10 +237,10 @@
 
         selectEksternal('rujuk_ke').select2({
             dropdownParent: modalRujukanEksternal,
-            tags : true,
-            delay : 1,
-            scrollAfterSelect : true,
-            cache : true,
+            tags: true,
+            delay: 1,
+            scrollAfterSelect: true,
+            cache: true,
             ajax: {
                 url: `${url}/rujuk/keluar/faskes`,
                 dataType: 'JSON',
@@ -249,7 +253,7 @@
                 processResults: (data) => {
                     return {
                         results: data.map((item) => {
-                          return {
+                            return {
                                 id: item.rujuk_ke,
                                 text: item.rujuk_ke,
                                 detail: item.rujuk_ke,
@@ -261,8 +265,8 @@
             },
         })
 
-        function loadRujukEksternal(tglAwal='', tglAkhir='') {
-            const tbRujukEksternal = new DataTable('#tbRujukanEksternal',{
+        function loadRujukEksternal(tglAwal = '', tglAkhir = '') {
+            const tbRujukEksternal = new DataTable('#tbRujukanEksternal', {
                 responsive: true,
                 stateSave: true,
                 serverSide: false,
@@ -278,108 +282,110 @@
                         tglAkhir: tglAkhir,
                     },
                 },
-                columns: [
-                {
-                    title: '',
-                    data: 'no_rawat',
-                    render: (data, type, row, meta) => {
+                columns: [{
+                        title: '',
+                        data: 'no_rawat',
+                        render: (data, type, row, meta) => {
 
-                        return `<button class="btn btn-sm btn-primary" onclick="printRujukEksternal('${row.no_rujuk}')"><i class="ti ti-printer"></i></button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteRujukEksternal('${data}')"><i class="ti ti-trash"></i></button>`;
+                            return `<button class="btn btn-sm btn-primary" onclick="printRujukEksternal('${row.no_rujuk}')"><i class="ti ti-printer"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteRujukEksternal('${data}')"><i class="ti ti-trash"></i></button>`;
+                        }
+                    },
+                    {
+                        title: 'No. Rujukan',
+                        data: 'no_rujuk',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'No. Rawat',
+                        data: 'no_rawat',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Pasien',
+                        data: 'pasien.no_rkm_medis',
+                        render: (data, type, row, meta) => {
+                            return `${data} - ${row.pasien.nm_pasien}`;
+                        }
+                    },
+                    {
+                        title: 'Tanggal & Jam',
+                        data: 'tgl_rujuk',
+                        render: (data, type, row, meta) => {
+                            return `${splitTanggal(data)} ${row.jam}`;
+                        }
+                    },
+                    // {
+                    //     title: 'Dokter & Poli',
+                    //     data: 'poliklinik.nm_poli',
+                    //     render: (data, type, row, meta) => {
+                    //         return `${data} <br/> ${row.dokter.nm_dokter}`;
+                    //     }
+                    // },
+                    {
+                        title: 'Rujuk Ke',
+                        data: 'rujuk_ke',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Diagnosa',
+                        data: 'keterangan_diagnosa',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Kategori',
+                        data: 'kat_rujuk',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Ambulance',
+                        data: 'ambulance',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+                    },
+                    {
+                        title: 'Keterangan',
+                        data: 'keterangan',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
                     }
-                },
-                {
-                    title: 'No. Rujukan',
-                    data: 'no_rujuk',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'No. Rawat',
-                    data: 'no_rawat',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'Pasien',
-                    data: 'pasien.no_rkm_medis',
-                    render: (data, type, row, meta) => {
-                        return `${data} - ${row.pasien.nm_pasien}`;
-                    }
-                },
-                {
-                    title: 'Tanggal & Jam',
-                    data: 'tgl_rujuk',
-                    render: (data, type, row, meta) => {
-                        return `${splitTanggal(data)} ${row.jam}`;
-                    }
-                },
-                // {
-                //     title: 'Dokter & Poli',
-                //     data: 'poliklinik.nm_poli',
-                //     render: (data, type, row, meta) => {
-                //         return `${data} <br/> ${row.dokter.nm_dokter}`;
-                //     }
-                // },
-                {
-                    title: 'Rujuk Ke',
-                    data: 'rujuk_ke',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'Diagnosa',
-                    data: 'keterangan_diagnosa',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'Kategori',
-                    data: 'kat_rujuk',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'Ambulance',
-                    data: 'ambulance',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                },
-                {
-                    title: 'Keterangan',
-                    data: 'keterangan',
-                    render: (data, type, row, meta) => {
-                        return data;
-                    }
-                }]
+                ]
 
-            })
-                .on('draw', ()=>{tbRujukEksternal.columns.adjust().draw()});
+            });
+            // .on('draw', () => {
+            //     tbRujukEksternal.columns.adjust().draw()
+            // });
         }
-        $('#btnFilterRujukanEksternal').on('click', (e)=>{
+        $('#btnFilterRujukanEksternal').on('click', (e) => {
             e.preventDefault()
             const tglAwal = formFilterRujukEksternal.find('#tglAwal').val()
             const tglAkhir = formFilterRujukEksternal.find('#tglAkhir').val()
             loadRujukEksternal(tglAwal, tglAkhir)
         })
 
-        function simpanRujukanEksternal(){
+        function simpanRujukanEksternal() {
 
             const data = getDataForm('formRujukanEksternal', ['input', 'select']);
             data['keterangan_diagnosa'] = formRujukanEksternal.find('select[name="keterangan_diagnosa"] option:selected').text();
-            $.post(`${url}/rujuk/keluar`, data).done((response)=>{
-                setStatusLayan(data['no_rawat'], 'Dirujuk').done((response)=>{
+            $.post(`${url}/rujuk/keluar`, data).done((response) => {
+                setStatusLayan(data['no_rawat'], 'Dirujuk').done((response) => {
                     loadRujukEksternal(tglAwal, tglAkhir)
                     formRujukanEksternal.find('label').removeClass('text-danger');
                 })
-            }).fail((request, error, status)=>{
-                if(request.status === 500){
+            }).fail((request, error, status) => {
+                if (request.status === 500) {
                     alertErrorAjax(request)
                     return false;
                 }
@@ -388,15 +394,15 @@
                     icon: 'error',
                     title: 'Gagal',
                     html: `Error Code : ${request.status} ${status} <br> <strong class="text-danger">${request.responseJSON.message}</strong>`,
-                }).then(()=>{
+                }).then(() => {
                     setAlertLabel(err, formRujukanEksternal)
                 })
 
             })
         }
 
-        function setAlertLabel(errors, element){
-            for(let key in errors){
+        function setAlertLabel(errors, element) {
+            for (let key in errors) {
                 const errorMessages = errors[key];
                 const errorMessageElement = element.find(`label[for=${key}`);
                 if (errorMessageElement) {
@@ -407,7 +413,7 @@
             }
         }
 
-        function deleteRujukEksternal(no_rawat){
+        function deleteRujukEksternal(no_rawat) {
             Swal.fire({
                 title: "Yakin hapus rujukan ?",
                 html: `Data yang dihapus tidak dapat dikembalikan`,
@@ -420,19 +426,20 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post(`${url}/rujuk/keluar/delete`, {
-                        no_rawat : no_rawat,
-                    }).done((response)=>{
-                        alertSuccessAjax('Hapus data rujukan').then(()=>{
+                        no_rawat: no_rawat,
+                    }).done((response) => {
+                        alertSuccessAjax('Hapus data rujukan').then(() => {
                             loadRujukEksternal(tglAwal, tglAkhir)
                         })
-                    }).fail((request)=>{
+                    }).fail((request) => {
                         alertErrorAjax(request)
                     })
                 }
             });
 
         }
-        function printRujukEksternal(no_rujuk){
+
+        function printRujukEksternal(no_rujuk) {
             modalPrintRujukEksternal.modal('show');
             Swal.fire({
                 title: "Tunggu",
@@ -450,10 +457,8 @@
             })
             modalPrintRujukEksternal.find("#print").removeAttr('src').attr('src', `${url}/rujuk/keluar/print/${no_rujuk}`)
         }
-        modalPrintRujukEksternal.on('hidden.bs.modal', ()=>{
+        modalPrintRujukEksternal.on('hidden.bs.modal', () => {
             modalPrintRujukEksternal.find("#print").removeAttr('src');
         });
-
-
     </script>
 @endpush

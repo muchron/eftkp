@@ -65,6 +65,8 @@
                       const kedua = formFilterSakit.find('input[name=tgl_kedua]').val()
                       loadSuratSakit(pertama, kedua)
                   })
+              }).fail((error) => {
+                  alertErrorAjax(error)
               })
           })
       </script>

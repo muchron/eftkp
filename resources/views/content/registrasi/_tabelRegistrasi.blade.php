@@ -171,7 +171,7 @@
                     {
                         title: 'No',
                         render: (data, type, row, meta) => {
-                            return row.no_reg;
+                            return `<span style="cursor:pointer" onclick="buktiRegister('${row.no_rawat}')">${row.no_reg}</span>    `;
                         }
                     },
 

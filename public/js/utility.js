@@ -1075,6 +1075,14 @@ $.contextMenu({
                     }
 
                 },
+                "buktiRegister": {
+                    name: "Bukti Register",
+                    icon: "fas fa-file",
+                    callback: function (item, option, e, x, y) {
+                        buktiRegister(`${no_rawat}`)
+                    }
+
+                },
                 "Rujuk": {
                     name: "Rujuk",
                     items: {

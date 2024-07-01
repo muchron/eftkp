@@ -92,6 +92,7 @@ Route::get('/setting/ppk', [SettingController::class, 'getKodePPK']);
 
 Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
 Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
+Route::get('/registrasi/bukti/print', [RegPeriksaController::class, 'print']);
 
 Route::middleware('auth')->group(function () {
 
@@ -392,7 +393,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/bridging/pcare/kunjungan/post', [Bridging\Kunjungan::class, 'post']);
     Route::post('/bridging/pcare/kunjungan/update', [Bridging\Kunjungan::class, 'put']);
     Route::post('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
-    Route::get('/bridging/pcare/kunjungan/delete/{noKunjungan}', [Bridging\Kunjungan::class, 'delete']);
     Route::get('/bridging/pcare/kunjungan/rujukan/{noKunjungan}', [Bridging\Kunjungan::class, 'getRujukan']);
 
     // SPESIALIS
