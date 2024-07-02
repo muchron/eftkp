@@ -299,10 +299,21 @@ function alertErrorAjax(request) {
 }
 
 function alertErrorBpjs(error) {
-    const errorResponse = `${error.metaData.message.split('response:')[1]}`;
+    const { metaData, response } = error;
+    const message = `${metaData.message}`;
+    const isArrayResponse = Array.isArray(response);
+    let responseMessage = ''
+    if (isArrayResponse) {
+        responseMessage = response.map((item) =>
+            `${item.field} : ${item.message}`
+        );
+    } else {
+        responseMessage = `${response.field} : ${response.message}`;
+    }
     return Swal.fire({
         title: 'Pesan dari BPJS',
-        html: `Terjadi kesalahan pada : ${errorResponse}`,
+        html: `<strong class="text-danger">${responseMessage}</strong><br/>
+        <small>${message}</small>`,
         icon: 'error',
     })
 }
@@ -350,17 +361,16 @@ function alertError(msg = '') {
 function toast(message = '', type = '') {
     const textMessage = message ? message : 'Berhasil'
     const typeIcon = type ? type : 'success'
-    const Toast = Swal.mixin({
+    Swal.fire({
         toast: true,
         position: "top-end",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
-    });
-    Toast.fire({
         icon: typeIcon,
         title: `${textMessage}`,
     });
+
 }
 
 function dateDiff(date1, date2) {
@@ -372,7 +382,7 @@ function dateDiff(date1, date2) {
 }
 
 function getSukuBangsa(suku) {
-    return bangsa = $.get('/efktp/suku', {
+    return bangsa = $.get(`${url}/suku`, {
         suku: suku,
     });
 }
@@ -384,7 +394,7 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/suku',
+            url: `${url}/suku`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -456,7 +466,7 @@ function selectAlergi(element, parent) {
 }
 
 function getBahasa(bahasa) {
-    return bahasa = $.get('/efktp/bahasa', {
+    return bahasa = $.get(`${url}/bahasa`, {
         bahasa: bahasa,
     });
 }
@@ -479,7 +489,7 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/bahasa',
+            url: `${url}/bahasa`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -514,7 +524,7 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
 }
 
 function getCacatFisik(cacat) {
-    return bahasa = $.get('/efktp/cacat', {
+    return bahasa = $.get(`${url}/cacat`, {
         cacat: cacat,
     });
 }
@@ -527,7 +537,7 @@ function selectCacatFisik(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/cacat',
+            url: `${url}/cacat`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -567,7 +577,7 @@ function selectPenjab(element, parrent) {
         tags: false,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/penjab',
+            url: `${url}/penjab`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -599,7 +609,7 @@ function selectDataBarang(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/barang/get',
+            url: `${url}/barang/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -638,7 +648,7 @@ function selectDokter(element, parrent) {
         tags: true,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: '/efktp/dokter/get',
+            url: `${url}/dokter/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -675,7 +685,7 @@ function selectKelurahan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: '/efktp/kelurahan',
+            url: `${url}/kelurahan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -712,7 +722,7 @@ function selectKecamatan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: '/efktp/kecamatan',
+            url: `${url}/kecamatan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -749,7 +759,7 @@ function selectKabupaten(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: '/efktp/kabupaten',
+            url: `${url}/kabupaten`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -786,7 +796,7 @@ function selectPropinsi(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: '/efktp/propinsi',
+            url: `${url}/propinsi`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -823,7 +833,7 @@ function selectPerusahaan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: '/efktp/perusahaan',
+            url: `${url}/perusahaan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -859,7 +869,7 @@ function selectPoliklinik(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/poliklinik',
+            url: `${url}/poliklinik`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -885,46 +895,8 @@ function selectPoliklinik(element, parrent) {
         cache: true
 
     });
-    // const option = new Option('U0009 - Poliklinik Umum', 'U0009', true, true);
-    // element.append(option).trigger('change');
     return select2;
 }
-// function selectDokter(element, parrent) {
-//     const select2 = element.select2({
-//         dropdownParent: parrent,
-//         delay: 2,
-//         scrollAfterSelect: true,
-//         ajax: {
-//             url: '/efktp/dokter',
-//             dataType: 'JSON',
-//
-//             data: (params) => {
-//                 const query = {
-//                     dokter: params.term
-//                 }
-//                 return query
-//             },
-//             processResults: (data) => {
-//                 return {
-//                     results: data.map((item) => {
-//                         const items = {
-//                             id: item.kd_dokter,
-//                             text: `${item.kd_dokter} - ${item.nm_dokter}`,
-//                             detail: item
-//                         }
-//                         return items;
-//                     })
-//                 }
-//             }
-//
-//         },
-//         cache: true
-//
-//     });
-//     const option = new Option('-', '-', true, true);
-//     element.append(option).trigger('change');
-//     return select2;
-// }
 
 function selectPegawai(element, parrent) {
     const select2 = element.select2({
@@ -932,7 +904,7 @@ function selectPegawai(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/pegawai',
+            url: `${url}/pegawai`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -968,7 +940,7 @@ function selectPenyakit(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/penyakit/get',
+            url: `${url}/penyakit/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -1004,7 +976,7 @@ function selectTindakan(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: '/efktp/tindakan/get',
+            url: `${url}/tindakan/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -1063,7 +1035,7 @@ $.contextMenu({
                     name: "CPPT",
                     icon: "fas fa-stethoscope",
                     callback: function (item, option, e, x, y) {
-                        modalCppt(`${no_rawat}`)
+                        showCpptRalan(`${no_rawat}`)
                     }
 
                 },
@@ -1305,7 +1277,7 @@ $.contextMenu({
                     name: "CPPT",
                     icon: 'fa-regular fa-stethoscope',
                     callback: function (item, option, e, x, y) {
-                        modalCppt(`${no_rawat}`)
+                        showCpptRalan(`${no_rawat}`)
                     }
 
                 },
