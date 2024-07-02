@@ -170,7 +170,7 @@
             width: 100% !important;
         }
 
-        @media (min-width: 1920px) {
+        @media (min-width: 1440px) {
             .table {
                 font-size: 12px;
             }

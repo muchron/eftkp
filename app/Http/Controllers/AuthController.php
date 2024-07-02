@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Pegawai;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,16 +37,25 @@ class AuthController extends Controller
 
         if ($auth) {
             $isAuth = Auth::login($auth);
-            $pegawai = \App\Models\Pegawai::where('nik', $auth->username)
+            $pegawai = Pegawai::where('nik', $auth->username)
                 ->with('dokter', function ($q) {
                     return $q->select('kd_dokter', 'nm_dokter');
-                })
+                })->select(['nik', 'departemen', 'nama', 'jk', 'jbtn'])
                 ->first();
-            unset($auth['id_user']);
-            unset($auth['password']);
-            unset($auth['passwd']);
+
+            $unsetAuth = [
+                $auth['password'],
+                $auth['id_user'],
+                $auth['passwd']
+            ];
+
+            unset($unsetAuth);
             $userSesion = $auth;
-            $request->session()->put(['pegawai' => $pegawai, 'user' => $userSesion]);
+
+            $request->session()->put(
+                ['pegawai' => $pegawai, 'user' => $userSesion, 'role' => $this->setRole($pegawai)]
+            );
+
             if ($request->has('href')) {
                 $routes = Route::getRoutes();
                 $req = Request::create('/' . $request->href);
@@ -69,5 +79,10 @@ class AuthController extends Controller
             return redirect('/login?href=' . basename(URL::previous()));
         }
         return redirect('/login');
+    }
+
+    function setRole($pegawai): string
+    {
+        return $role = $pegawai->dokter ? 'dokter' : 'petugas';
     }
 }

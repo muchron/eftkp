@@ -71,8 +71,8 @@ class Kunjungan extends Controller
                     ],
                     'khusus' => null,
                 ];
-                $data['kdTacc'] = -1;
-                $data['alasanTacc'] = null;
+                $data['kdTacc'] = $request->kdTacc;
+                $data['alasanTacc'] = $request->alasanTacc;
             } else if ($request->jenisRujukan == 'khusus') {
                 $data['rujukLanjut'] = [
                     "kdppk" => $request->kdPpkRujukan,
@@ -93,7 +93,7 @@ class Kunjungan extends Controller
                     "subSpesialis" => null,
                 ];
                 $data['kdTacc'] = $request->kdTacc;
-                $data['alasanTacc'] = $request->kalasanTacc;
+                $data['alasanTacc'] = $request->alasanTacc;
             }
         }
 
@@ -148,8 +148,8 @@ class Kunjungan extends Controller
                     ],
                     'khusus' => null,
                 ];
-                $data['kdTacc'] = -1;
-                $data['alasanTacc'] = null;
+                $data['kdTacc'] = $request->kdTacc;
+                $data['alasanTacc'] = $request->kalasanTacc;
             } else if ($request->jenisRujukan == 'khusus') {
                 $data['rujukLanjut'] = [
                     "kdppk" => $request->kdPpkRujukan,

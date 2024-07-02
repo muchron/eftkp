@@ -218,13 +218,7 @@
         </div>
     </fieldset>
 </form>
-@include('content.pemeriksaan.modal._modalKunjunganPcare')
-@include('content.pemeriksaan.modal._modalReferensiSpesialis')
-@include('content.pemeriksaan.modal._modalReferensiSubSpesialis')
-@include('content.pemeriksaan.modal._modalReferensiSpesialisKhusus')
-@include('content.pemeriksaan.modal._modalReferensiRujukan')
-@include('content.pemeriksaan.modal._modalReferensiPoliFktp')
-@include('content.pemeriksaan.modal._modalReferensiTacc')
+
 @push('script')
     <script>
         var btnTambahResep = $('#btnTambahResep')

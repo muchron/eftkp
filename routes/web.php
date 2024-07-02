@@ -97,6 +97,7 @@ Route::get('/registrasi/bukti/print', [RegPeriksaController::class, 'print']);
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/', function () {
         return view('content.dashboard', ['data' => Setting::first()]);
     });
@@ -383,6 +384,7 @@ Route::middleware('auth')->group(function () {
 
     // PENDAFTARAN
     Route::get('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'get']);
+    Route::get('/bridging/pcare/pendaftaran/tglDaftar/{tglDaftar?}/{start?}/{limit?}', [Bridging\Pendaftaran::class, 'getByTanggal']);
     Route::post('/bridging/pcare/pendaftaran', [Bridging\Pendaftaran::class, 'post']);
     Route::post('/bridging/pcare/pendaftaran/delete', [Bridging\Pendaftaran::class, 'delete']);
     Route::get('/bridging/pcare/pendaftaran/nourut/{noUrut}', [Bridging\Pendaftaran::class, 'getUrut']);
@@ -420,6 +422,9 @@ Route::middleware('auth')->group(function () {
     // OBAT
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
     Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
+
+    //	Diagnosa
+    Route::get('/bridging/pcare/diagnosa/{diagnosa}', [Bridging\Diagnosa::class, 'get']);
 });
 
 require 'Extras/web.php';

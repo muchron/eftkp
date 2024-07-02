@@ -24,6 +24,22 @@
         </div>
     </div>
 </div>
+<div class="modal modal-blur fade" id="modalCetakSuratSakit" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content rounded-3">
+            <div class="modal-header">
+                <h5 class="modal-title m-0">Cetak :: Surat Sehat</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="print" type="" width="100%" height="600"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @push('script')
     <script>
         let modalSuratSakit = $('#modalSuratSakit');
@@ -31,12 +47,15 @@
         let formFilterSakit = $('#formFilterSakit');
         let tanggalAwal = formSuratSakit.find('input[name=tanggalawal]');
         let tanggalAkhir = formSuratSakit.find('input[name=tanggalakhir]');
-        $('#modalSuratSakit').on('shown.bs.modal', (e) => {
+
+        const modalCetakSuratSakit = $('#modalCetakSuratSakit');
+
+        modalSuratSakit.on('shown.bs.modal', (e) => {
             const lamaSakit = setLamaSakit(tanggalAwal.val(), tanggalAkhir.val());
             formSuratSakit.find('input[name=lama]').val(lamaSakit)
             setNoSuratSakit().done((response) => {
                 formSuratSakit.find('input[name=no_surat]').val(response)
-            }).fail((error) =>{
+            }).fail((error) => {
                 alertErrorAjax(error)
             })
             loadSuratSakit();
@@ -55,7 +74,7 @@
                 formSuratSakit.find('input[name=pekerjaan]').val(response.pasien.pekerjaan)
                 formSuratSakit.find('input[name=pasien]').val(`${response.no_rkm_medis} - ${response.pasien.nm_pasien} (${response.umurdaftar} ${response.sttsumur}) `)
                 modalSuratSakit.modal('show')
-            }).fail((error) =>{
+            }).fail((error) => {
                 alertErrorAjax(error)
             })
 
@@ -76,5 +95,24 @@
             }
             formSuratSakit.find('input[name=lama]').val(lamaSakit)
         })
+
+        function cetakSuratSakit(no_surat) {
+            Swal.fire({
+                title: "Tunggu",
+                html: "Sedang mengambil data...",
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+            modalCetakSuratSakit.find('#print').on('load', (e) => {
+                if (e.currentTarget.src) {
+                    toast('Berhasil');
+                }
+
+            })
+            modalCetakSuratSakit.modal('show');
+            modalCetakSuratSakit.find('#print').removeAttr('src').attr('src', `${url}/surat/sehat/print/${no_surat}`)
+        }
     </script>
 @endpush

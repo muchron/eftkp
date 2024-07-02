@@ -231,7 +231,7 @@
                                 no_rawat: row.reg_periksa.no_rawat
                             }
                             return `<button type="button" class="btn btn-sm btn-danger ${classHidden}" onclick='deletePendaftaran(${JSON.stringify(parameter)})'><i class="ti ti-trash"></i> Hapus</button>
-                            <button type="button" class="btn btn-sm ${btnCppt}" onclick="modalCppt('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
+                            <button type="button" class="btn btn-sm ${btnCppt}" onclick="showCpptRalan('${row.reg_periksa.no_rawat}')"><i class="ti ti-pencil"></i> CPPT</button>`;
                         },
                     },
 

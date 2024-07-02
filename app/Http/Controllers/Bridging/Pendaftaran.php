@@ -6,6 +6,7 @@ use AamDsam\Bpjs\PCare;
 use App\Traits\PcareConfig;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Database\QueryException;
 
 class Pendaftaran extends Controller
@@ -23,6 +24,13 @@ class Pendaftaran extends Controller
         $limit = $request->length ? $request->length : 0;
         $bpjs = $this->bpjs;
         return $bpjs->tanggalDaftar(date('d-m-Y'))->index($row, $limit);
+    }
+
+    function getByTanggal($tgl = '', $start = 0, $limit = 15)
+    {
+        $bpjs = $this->bpjs;
+        $tgl = $tgl ? $tgl : date('d-m-Y');
+        return $bpjs->tanggalDaftar($tgl)->index($start, $limit);
     }
     function getUrut($noUrut)
     {

@@ -31,8 +31,10 @@
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                 <label class="form-label">Poli Tujuan</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="nm_poli_pcare" readonly>
-                                <input type="hidden" name="kd_poli_pcare">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" name="kd_poli_pcare" readonly>
+                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control w-50" name="nm_poli_pcare" readonly>
+                                </div>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                 <label for="form-label">Tanggal Daftar</label>
@@ -245,8 +247,8 @@
 
                         </div>
                     </fieldset>
-                    <fieldset class="form-fieldset">
-                        <div class="row gy-2 d-none" id="formRujukanLanjut">
+                    <fieldset class="form-fieldset d-none" id="formRujukanLanjut">
+                        <div class="row gy-2">
                             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                                 <label class="form-label mt-3">
                                     Rujukan Lanjut
@@ -289,6 +291,27 @@
                                             <button class="btn btn-outline-secondary" type="button" id="btnSarana"><i class="ti ti-search"></i></button>
                                         </div>
                                     </div>
+                                    <div id="taccNonSpesialis" class="d-none">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                            <label class="form-label">
+                                                TACC
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="kdTacc" name="kdTacc" readonly>
+                                                <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc" readonly>
+                                                <button class="btn btn-outline-secondary" type="button" id="btnTacc" onclick="renderReferensiTacc('subspesialis')"><i class="ti ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                            <label class="form-label">
+                                                Alasan TACC
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="alasanTacc" name="alasanTacc" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
@@ -374,6 +397,7 @@
         var formRujukanSpesialis = $('#formRujukanSpesialis')
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
+        const modalKunjunganPcare = $('#modalKunjunganPcare')
 
         function getKunjunganRujuk(noKunjungan) {
             const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
@@ -412,20 +436,44 @@
             const riwayat = $.get(`${url}/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
             return riwayat;
         }
-        $('#modalKunjunganPcare').on('hidden.bs.modal', () => {
-            const sttsPulang = $('#sttsPulang')
-            const no_rawat = formKunjunganPcare.find('input[name=no_rawat]').val()
-            if (sttsPulang.val() != 3) {
-                setStatusLayan(no_rawat, 'Dirujuk')
-            }
-            $('#modalCppt').modal('hide');
-            if (tabelRegistrasi.length) {
-                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
-            } else if (tabelPcarePendaftaran) {
-                loadTbPcarePendaftaran(tglAwal, tglAkhir)
-            }
-            document.getElementById('formKunjunganPcare').reset();
+        modalKunjunganPcare.on('hidden.bs.modal', () => {
+            formRujukanLanjut.addClass('d-none');
+            formKunjunganPcare.trigger('reset');
         })
+
+        function checkDiagnosaRujuk(kdDiagnosa) {
+            const taccNonSpesialis = formKunjunganPcare.find('#taccNonSpesialis')
+            $.ajax({
+                url: `${url}/bridging/pcare/diagnosa/${kdDiagnosa}`,
+                method: 'GET',
+                beforeSend: () => {
+                    loadingAjax('Memeriksa diagnosa rujukan')
+                }
+            }).done((result) => {
+                const {
+                    metaData,
+                    response
+                } = result;
+                if (metaData.code === 200) {
+                    response.list.forEach((item, index) => {
+                        if (item.nonSpesialis) {
+                            taccNonSpesialis.removeClass('d-none')
+                            Swal.fire({
+                                title: "Informasi",
+                                html: `Ditemukan Diagnosa Non-Spesialistik`,
+                                icon: 'info',
+                                confirmButtonColor: "#3085d6",
+                                confirmButtonText: "OK"
+                            })
+                        } else {
+                            loadingAjax().close();
+                            taccNonSpesialis.addClass('d-none')
+                        }
+                    })
+
+                }
+            })
+        }
 
         function showModalKunjunganPcare(data) {
             const no_resep = $('#modalCppt').find('input[name=no_resep]').val()
@@ -476,16 +524,39 @@
             })
 
             getRegDetail(data.no_rawat).done((response) => {
+                const {
+                    dokter,
+                    poliklinik
+                } = response;
                 const tanggal = splitTanggal(response.tgl_registrasi);
-                formKunjunganPcare.find('#tglKunjungan').val(tanggal)
-                formKunjunganPcare.find('#tgl_daftar').val(tanggal)
-                formKunjunganPcare.find('#tglPulang').val(tanggal)
+                formKunjunganPcare.find('#tglKunjungan').val(tanggal);
+                formKunjunganPcare.find('#tgl_daftar').val(tanggal);
+                formKunjunganPcare.find('#tglPulang').val(tanggal);
+                formKunjunganPcare.find('input[name=kd_dokter_pcare]').val(dokter.maping.kd_dokter_pcare);
+                formKunjunganPcare.find('input[name=nm_dokter_pcare]').val(dokter.maping.nm_dokter_pcare)
+                formKunjunganPcare.find('input[name=kd_poli_pcare]').val(poliklinik.maping.kd_poli_pcare)
+                formKunjunganPcare.find('input[name=nm_poli_pcare]').val(poliklinik.maping.nm_poli_pcare)
             })
 
             getDiagnosaPasien(data.no_rawat).done((response) => {
-                response.map((diagnosa) => {
-                    formKunjunganPcare.find(`input[name=kdDiagnosa${diagnosa.prioritas}]`).val(diagnosa.kd_penyakit)
-                    formKunjunganPcare.find(`input[name=diagnosa${diagnosa.prioritas}]`).val(diagnosa.penyakit.nm_penyakit)
+                if (response.length != 1) {
+                    Swal.fire({
+                        title: "Gagal",
+                        html: `Tidak ditemukan hasil diagnosa, silahkan isikan diagnosa terlebih dahulu`,
+                        icon: 'error',
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "OK"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            modalKunjunganPcare.modal('hide')
+                            $('#btnDiagnosaPasien').trigger('click')
+                        }
+                    })
+                    return false;
+                }
+                response.forEach((item, index) => {
+                    formKunjunganPcare.find(`input[name=kdDiagnosa${item.prioritas}]`).val(item.kd_penyakit)
+                    formKunjunganPcare.find(`input[name=diagnosa${item.prioritas}]`).val(item.penyakit.nm_penyakit)
                 })
             })
 
@@ -533,7 +604,7 @@
                 }
                 formKunjunganPcare.find('select[name=sttsPulang]').val(kunjungan).trigger('change');
             })
-            $('#modalKunjunganPcare').modal('show')
+            modalKunjunganPcare.modal('show')
         }
 
         function cekRujukanAktif(no_rkm_medis) {
@@ -547,15 +618,23 @@
             });
         }
 
+        function gerReferensiDiagnosa(kdDiagnosa) {
+            return $.get(`${url}/bridging/pcare/diagnosa/${kdDiagnosa}`)
+        }
+
         $('#sttsPulang').on('change', (e) => {
             const element = $(e.currentTarget)
             const elementVal = element.val()
             const formRujukanLanjut = $('#formRujukanLanjut');
             const no_rkm_medis = formKunjunganPcare.find('input[name=no_rkm_medis]').val()
+            const kdDiagnosa = formKunjunganPcare.find('input[name=kdDiagnosa1]').val();
+
             const btnRujukan = $('#rujukanLanjut');
             const button = formRujukanLanjut.find('button')
             const radio = formRujukanLanjut.find('input[type=radio]').removeAttr('disabled')
             if (elementVal == 4) {
+                checkDiagnosaRujuk(kdDiagnosa)
+
                 formRujukanLanjut.removeClass('d-none');
                 formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
                 formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
@@ -605,7 +684,7 @@
             formRujukanInternal.find('input[type=radio]').removeAttr('disabled')
             formRujukanInternal.find('button').attr('disabled', 'disabled')
             formRujukanKhusus.find('input[type=text]').val('')
-            formRujukanInternal.find('input[type=text]').val('')
+            formRujukanInternal.find('input[type=text]').val('').attr('disabled', true)
             formRujukanLanjut.find('#kdPpkRujukan').val('');
             formRujukanLanjut.find('#ppkRujukan').val('');
         })
@@ -663,21 +742,31 @@
         })
 
         function createKunjungan() {
-            element = ['input', 'select'];
+            const element = ['input', 'select'];
             const data = getDataForm('formKunjunganPcare', element);
+            const isNonSpesialis = $('#nonSpesialis').hasClass('d-none')
+
             data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
             data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
             data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
             data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
             data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
-            loadingAjax();
+
+            if (isNonSpesialis) {
+                data['alasanTacc'] = null;
+                data['kdTacc'] = '-1';
+            } else {
+                data['alasanTacc'] = formRujukanSpesialis.find('#alasanTacc').val();
+                data['kdTacc'] = formRujukanSpesialis.find('#kdTacc').val();
+            }
+            loadingAjax('Tunggu sebentar...');
             $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
                     }).join(',');
                     data['noKunjungan'] = noKunjungan
-                    alertSuccessAjax('Berhasil post kunjungan').then(() => {
+                    alertSuccessAjax('Berhasil membuat data kunjungan').then(() => {
                         if (tabelRegistrasi.length) {
                             loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
                         } else if (tabelPcarePendaftaran.length) {
@@ -685,14 +774,12 @@
                         }
 
                         $('#modalCppt').modal('hide');
-                        loadingAjax().close();
                         $.post(`${url}/pcare/kunjungan`, data).done((response) => {
-
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
+                                loadingAjax('Membuat data rujukan...');
                                 getKunjunganRujuk(data['noKunjungan']).done((resRujukan) => {
-                                    loadingAjax();
                                     dataRujukan = Object.assign(data, resRujukan)
                                     createRujukSubSpesialis(dataRujukan).done((responseRujukan) => {
                                         alertSuccessAjax('Berhasil buat rujukan').then(() => {
@@ -710,13 +797,7 @@
 
                     })
                 } else {
-                    const statusCode = response.metaData.code;
-                    const statusText = response.metaData.message ? response.metaData.message.split('response:')[1] : 'Terjadi Kesalahan';
-                    const errorMsg = {
-                        status: statusCode,
-                        statusText: statusText,
-                    }
-                    alertErrorAjax(errorMsg)
+                    alertErrorBpjs(response)
                 }
             })
 
@@ -735,14 +816,24 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    element = ['input', 'select'];
+                    const element = ['input', 'select'];
                     const data = getDataForm('formKunjunganPcare', element);
                     data['jenisRujukan'] = $('#formKunjunganPcare input[name=jenisRujukan]:checked').val()
                     data['nmStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang] option:selected').text()
                     data['kdStatusPulang'] = $('#formKunjunganPcare select[name=sttsPulang]').val()
                     data['nmSadar'] = $('#formKunjunganPcare select[name=kesadaran] option:selected').text()
                     data['no_resep'] = $('#modalCppt input[name=no_resep]').val()
-                    loadingAjax();
+                    const isNonSpesialis = $('#nonSpesialis').hasClass('d-none')
+
+                    if (isNonSpesialis) {
+                        data['alasanTacc'] = null;
+                        data['kdTacc'] = '-1';
+                    } else {
+                        data['alasanTacc'] = formRujukanSpesialis.find('#alasanTacc').val();
+                        data['kdTacc'] = formRujukanSpesialis.find('#kdTacc').val();
+                    }
+
+                    loadingAjax('Mengubah data kunjungan...');
                     $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
                         if (response.metaData.code == 200) {
                             // UPDATE KUNJUNGAN UMUM LOCAL
@@ -762,7 +853,7 @@
                                 }
                                 alertSuccessAjax('BERHASIL UBAH KUNJUNGAN').then(() => {
                                     $('#modalCppt').modal('hide');
-                                    $('#modalKunjunganPcare').modal('hide');
+                                    modalKunjunganPcare.modal('hide');
                                 });
                             })
                         } else {

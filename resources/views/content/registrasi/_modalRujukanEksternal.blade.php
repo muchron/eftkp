@@ -131,8 +131,7 @@
         let linkSearchPemeriksaan = $('#linkSearchPemeriksaan')
 
         function rujukEksternal(no_rawat) {
-            // console.log('no rawat', no_rawat);
-            // return true;
+       
             loadRujukEksternal(tglAwalRujukEks, tglAkhirRujukEks)
             getRegDetail(no_rawat).done((response) => {
                 modalRujukanEksternal.modal('show')
@@ -453,7 +452,7 @@
                 if (e.currentTarget.src) {
                     toast('Berhasil');
                 }
-
+                
             })
             modalPrintRujukEksternal.find("#print").removeAttr('src').attr('src', `${url}/rujuk/keluar/print/${no_rujuk}`)
         }

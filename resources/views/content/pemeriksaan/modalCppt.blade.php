@@ -29,21 +29,32 @@
 @include('content.pemeriksaan.modal._diagnosaPasien')
 @include('content.pemeriksaan.modal._tindakanPasien')
 @include('content.pemeriksaan.modal._modalEditRacikan')
+@include('content.pemeriksaan.modal._modalCetakResep')
+@include('content.pemeriksaan.modal._modalKunjunganPcare')
+@include('content.pemeriksaan.modal._modalReferensiSpesialis')
+@include('content.pemeriksaan.modal._modalReferensiSubSpesialis')
+@include('content.pemeriksaan.modal._modalReferensiSpesialisKhusus')
+@include('content.pemeriksaan.modal._modalReferensiRujukan')
+@include('content.pemeriksaan.modal._modalReferensiPoliFktp')
+@include('content.pemeriksaan.modal._modalReferensiTacc')
+
 @push('script')
     <script>
         var tabObat = $('#tabObat');
-        $('#modalCppt').on('hidden.bs.modal', (e) => {
+        const modalCppt = $('#modalCppt')
+
+        modalCppt.on('hidden.bs.modal', (e) => {
             $('.modal-backdrop').remove();
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
         })
 
-        $('#modalCppt').on('shown.bs.modal', (e) => {
+        modalCppt.on('shown.bs.modal', (e) => {
             switcTab(tabObat)
         })
 
-        function modalCppt(no_rawat) {
+        function showCpptRalan(no_rawat) {
             getRegDetail(no_rawat).done((response) => {
                 const {
                     pasien,

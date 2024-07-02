@@ -111,16 +111,24 @@ class PcareService
 
     public function responseDecoded($response)
     {
-
-
         // ubah ke array
         $responseArray = json_decode($response, true);
         if (!is_array($responseArray)) {
+            $failedResponse = explode('response:', $response);
+            $failMessage = explode('response:', $response)[0];
+            $responseString = explode('response:', $response)[1];
+
+            $string = explode(',"metaData":', $responseString)[0] . "}";
+
+            // return json_decode($string, true);
+            $response =  json_decode($string, true);
+
             return [
-                "metaData" => [
-                    "message" => $response,
+                "response" => $response['response'],
+                'metaData' => [
+                    "message"  => $failMessage,
                     "code" => 500
-                ]
+                ],
             ];
         }
 
@@ -266,7 +274,7 @@ class PcareService
         try {
             $response = $this->clients->request(
                 'GET',
-                "{$this->base_url}/{$this->service_name}/{$feature}{$params}",
+                "{$this->base_url}/{$this->service_name}{$feature}{$params}",
                 [
                     'headers' => $this->headers
                 ]

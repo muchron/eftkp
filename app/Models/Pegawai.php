@@ -17,4 +17,8 @@ class Pegawai extends Model
     {
         return $this->hasOne(Dokter::class, 'kd_dokter', 'nik');
     }
+    function departemen()
+    {
+        return $this->belongsTo(Departemen::class, 'departemen', 'dep_id');
+    }
 }

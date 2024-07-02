@@ -86,10 +86,10 @@
                     formData.append('no_rawat', modalUpload.find('input[name=no_rawat]').val());
                 }).on('complete', function(file) {
                     if (file.status === 'success') {
-                        alertSuccessAjax('Berhasil Upload Berkas').then(() => {
-                            this.removeFile(file);
-                            rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
-                        })
+                        toast('Berhasil Upload Berkas')
+                        this.removeFile(file);
+                        rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
+
                     }
                 }).on('error', function(file, error) {
                     Swal.fire({
@@ -215,9 +215,8 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.post(`${url}/upload/delete/${id}`).done((response) => {
-                        alertSuccessAjax().then(() => {
-                            rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
-                        })
+                        toast()
+                        rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
                     }).fail((error) => {
                         alertErrorAjax()
                     })
@@ -267,11 +266,11 @@
                 if (result.isConfirmed) {
                     data.forEach((item) => {
                         $.post(`${url}/upload/delete/${item}`).done((response) => {
-                            alertSuccessAjax().then(() => {
-                                rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
-                                btnResetCheckBerkas.addClass('d-none')
-                                btnHapusAllBerkas.addClass('d-none')
-                            })
+                            toast()
+                            rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
+                            btnResetCheckBerkas.addClass('d-none')
+                            btnHapusAllBerkas.addClass('d-none')
+
                         }).fail((error) => {
                             alertErrorAjax()
                         })

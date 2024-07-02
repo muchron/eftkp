@@ -96,33 +96,28 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     deleteResep(no_rawat).done((response) => {
-                        alertSuccessAjax().then(() => {
-                            $('#no_resep').val('');
-                            btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                            btnTambahResep.text('Buat Resep')
-                            btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
+                        $('#no_resep').val('');
+                        btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                        btnTambahResep.text('Buat Resep')
+                        btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
 
-                            btnSimpanObat.addClass('d-none')
-                            btnTambahObat.addClass('d-none')
-                            tabelResepUmum.addClass('d-none')
-                            tabelResepUmum.find('tbody').empty();
+                        btnSimpanObat.addClass('d-none')
+                        btnTambahObat.addClass('d-none')
+                        tabelResepUmum.addClass('d-none')
+                        tabelResepUmum.find('tbody').empty();
 
-                            btnTambahRacikan.addClass('d-none')
-                            tabelResepRacikan.addClass('d-none')
-                            btnSimpanRacikan.addClass('d-none')
-                            tabelResepRacikan.find('tbody').empty();
-                            btnCetakResep.addClass('d-none')
-                        })
+                        btnTambahRacikan.addClass('d-none')
+                        tabelResepRacikan.addClass('d-none')
+                        btnSimpanRacikan.addClass('d-none')
+                        tabelResepRacikan.find('tbody').empty();
+                        btnCetakResep.addClass('d-none')
+                        toast('Berhasil menghapus resep')
                     }).fail((request) => {
                         alertErrorAjax(request)
                     })
                 }
             });
 
-        }
-
-        function cetakResep(noRawat) {
-            window.open(`${url}/resep/print?no_rawat=${noRawat}`)
         }
     </script>
 @endpush

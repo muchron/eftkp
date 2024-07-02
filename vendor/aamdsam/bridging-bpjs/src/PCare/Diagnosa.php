@@ -8,4 +8,11 @@ class Diagnosa extends PcareService
      * @var string
      */
     protected $feature = 'diagnosa';
+
+	public function diagnosa($diagnosa)
+	{
+		$this->feature .= "/{$diagnosa}";
+		return $this;
+	}
+
 }
