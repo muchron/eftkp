@@ -295,7 +295,7 @@
                     })
                 }
             }).fail((error) => {
-                alertErrorAjax(error)
+                alertErrorBpjs(error)
             })
         }
 
@@ -334,12 +334,12 @@
                 }
 
             }).fail((error) => {
-                alertErrorAjax(error)
+                alertErrorBpjs(error)
             })
         }
 
         function checkPesertaPcare(data) {
-            $.get(`./bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
+            $.get(`${url}/bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
                 $.get(`${url}/setting/ppk`).done((kode) => {
                     data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;
                     if (kode !== data['kdProviderPeserta']) {
@@ -364,7 +364,11 @@
                     } else {
                         createPendaftaranPcare(data)
                     }
+                }).fail((error) => {
+                    alertErrorBpjs(error)
                 })
+            }).fail((error) => {
+                alertErrorBpjs(error)
             })
         }
 
