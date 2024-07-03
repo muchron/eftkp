@@ -341,7 +341,26 @@
         function checkPesertaPcare(data) {
             $.get(`${url}/bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
                 if (result.metaData.code !== 200) {
-                    return alertErrorBpjs(result)
+                    $.post(`${url}/registrasi/delete`, {
+                        no_rawat: data.no_rawat
+                    }).done(() => {
+                        Swal.fire({
+                            title: "Gagal mendaftarkan pasien di PCare",
+                            html: `<strong class="text-danger">${result.response.field} : ${result.response.message}</strong><br/>
+                            Error Code ${result.metaData.code} : ${result.metaData.message}`,
+                            icon: 'error'
+                        })
+
+                        if (tabelRegistrasi.length) {
+                            loadTabelRegistrasi()
+                        } else if (tabelPcarePendaftaran.length) {
+                            loadTbPcarePendaftaran()
+                        }
+                    }).fail((error) => {
+                        alertErrorAjax(error)
+                    })
+
+                    return false;
                 }
                 $.get(`${url}/setting/ppk`).done((kode) => {
                     data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;

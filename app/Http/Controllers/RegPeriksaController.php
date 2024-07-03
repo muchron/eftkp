@@ -176,6 +176,17 @@ class RegPeriksaController extends Controller
     }
 
 
+    function delete(Request $request): JsonResponse
+    {
+        try {
+            $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->delete();
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+        $this->insertSql(new RegPeriksa(), ['no_rawat' => $request->no_rawat]);
+        return response()->json($regPeriksa, 200);
+    }
+
     function create(Request $request): JsonResponse
     {
         $data = [
