@@ -340,6 +340,9 @@
 
         function checkPesertaPcare(data) {
             $.get(`${url}/bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
+                if (result.metaData.code !== 200) {
+                    return alertErrorBpjs(result)
+                }
                 $.get(`${url}/setting/ppk`).done((kode) => {
                     data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;
                     if (kode !== data['kdProviderPeserta']) {
