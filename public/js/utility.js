@@ -308,7 +308,11 @@ function alertErrorBpjs(error) {
             `${item.field} : ${item.message}`
         );
     } else {
-        responseMessage = `${response.field} : ${response.message}`;
+        if (response) {
+            responseMessage = `Periksa kembali, mungkin ada field yang kosong`;
+        } else {
+            responseMessage = `${response?.field} : ${response?.message}`;
+        }
     }
     return Swal.fire({
         title: 'Pesan dari BPJS',
