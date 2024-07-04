@@ -19,7 +19,7 @@ class DataBarangController extends Controller
                 })->orderBy('nama_brng', 'ASC')
                 ->get();
         } else {
-            $barang = DataBarang::whereHas('jenis', function ($query) {
+            $barang = DataBarang::where('status', '1')->whereHas('jenis', function ($query) {
                 return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
             })->limit(10)->orderBy('nama_brng', 'ASC')->get();
         }
