@@ -311,7 +311,7 @@ function alertErrorBpjs(error) {
         if (response) {
             responseMessage = `Periksa kembali, mungkin ada field yang kosong`;
         } else {
-            responseMessage = `${response?.field} : ${response?.message}`;
+            responseMessage = `${response.field} : ${response.message}`;
         }
     }
     return Swal.fire({
