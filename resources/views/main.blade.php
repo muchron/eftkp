@@ -175,7 +175,7 @@
                 font-size: 12px;
             }
 
-            .table .btn-sm {
+            .btn {
                 font-size: 12px;
             }
 
