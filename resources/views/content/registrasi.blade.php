@@ -1,4 +1,3 @@
-
 @extends('layout')
 
 @section('body')
@@ -74,6 +73,9 @@
                 if (penjab.png_jawab.includes('BPJS')) {
                     periksaPendaftaran.removeClass('d-none')
                     periksaPendaftaran.find('input').prop('disabled', false)
+                    setMappingPoliPcare(poliklinik.kd_poli)
+                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                    setMappingDokterPcare()
                     $.get(`${url}/mapping/pcare/poliklinik`, {
                         kdPoli: poliklinik.kd_poli
                     }).done((response) => {
@@ -92,6 +94,10 @@
                         formRegistrasiPoli.find('input[name=nadi]').val(response.nadi)
                         formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkar_perut)
                     })
+                } else {
+                    selectDokter(kd_dokter, modalRegistrasi)
+                    periksaPendaftaran.addClass('d-none');
+                    formRegistrasiPoli.find('input[name=no_peserta]').val('-')
                 }
 
                 btnSimpanReg.removeAttr('onclick').attr('onclick', 'updateRegPeriksa()')

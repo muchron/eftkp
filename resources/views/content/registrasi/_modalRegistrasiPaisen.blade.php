@@ -103,7 +103,7 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label for="form-label">TKP</label>
                                 <div class="input-group">
-                                    <select class="form-select form-select-2" name="kdTkp" style="width: 100%" data-dropdown-parent='#modalRegistrasi'>
+                                    <select class="form-select form-select-2" name="kdTkp" id="kdTkp" style="width: 100%" data-dropdown-parent='#modalRegistrasi'>
                                         <option value="10">10 - RJTP</option>
                                         <option value="20">20 - RITP</option>
                                         <option value="50">50 - Promotif</option>
@@ -229,7 +229,7 @@
         // var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
 
         modalRegistrasi.on('shown.bs.modal', () => {
-            selectDokter(kd_dokter, modalRegistrasi)
+
             selectPoliklinik(kd_poli, modalRegistrasi)
             selectPenjab(kd_pj, modalRegistrasi);
         });
@@ -441,7 +441,7 @@
             }
         })
 
-        kd_poli.on('change', (e) => {
+        kd_poli.on('select2:select', (e) => {
             const kdPoli = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
             setNoReg({
@@ -453,7 +453,7 @@
             })
         })
 
-        kd_dokter.on('change', (e) => {
+        kd_dokter.on('select2:select', (e) => {
             const kdDokter = e.currentTarget.value
             const tgl = splitTanggal(tglReg.val());
             setNoReg({
@@ -475,6 +475,32 @@
                 noReg.val(response)
             })
         })
+
+        kd_pj.on('select2:select', (e) => {
+            const kdPj = e.currentTarget.value
+            const penjabLabel = $(e.currentTarget).find('option:selected').text();
+            const no_rkm_medis = formRegistrasiPoli.find('input[name=no_rkm_medis]').val()
+            const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val()
+            if (!penjabLabel.includes('BPJS')) {
+                selectDokter(kd_dokter, modalRegistrasi)
+                formRegistrasiPoli.find(`input[name=no_peserta]`).val('-')
+                periksaPendaftaran.addClass('d-none')
+            } else {
+                selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                setMappingPoliPcare(kdPoli);
+                setMappingDokterPcare();
+                const optTkp = new Option('10 - RJTP', 10, true, true);
+                formRegistrasiPoli.find('#kdTkp').append(optTkp);
+                $.get(`${url}/pasien`, {
+                    no_rkm_medis: no_rkm_medis
+                }).done((response) => {
+                    periksaPendaftaran.removeClass('d-none')
+                    formRegistrasiPoli.find(`input[name=no_peserta]`).val(response.no_peserta)
+                })
+            }
+        })
+
+
 
         function setNoReg(data = {}) {
             const setNoReg = $.get(`${url}/registrasi/set/noreg`, {
@@ -526,7 +552,6 @@
                 const optPoli = new Option(`U0009 - Poliklinik Umum`, `U0009`, true, true);
                 const pj = new Option(`${response.kd_pj} - ${response.penjab.png_jawab}`, response.kd_pj, true, true);
                 formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(response.tgl_lahir))
-
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj).trigger('change');
                 formRegistrasiPoli.find('select[name=kd_poli]').append(optPoli).trigger('change');
 
@@ -535,36 +560,14 @@
                     response['noUrut'] = noUrut;
                     regPoliBpjs(response)
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
-                    loadingAjax()
                     periksaPendaftaran.removeClass('d-none');
-                    $.get(`${url}/mapping/pcare/poliklinik`, {
-                        kdPoli: formRegistrasiPoli.find('select[name=kd_poli]').val()
-                    }).done((resultPoli) => {
-                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(resultPoli.kd_poli_pcare)
-                        formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(resultPoli.nm_poli_pcare)
-                    })
-                    // GET DOKTER
-                    $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
-                        const dokter = respDokter.response.list
-                        const kdDokterPcare = dokter.map((dr, index) => {
-                            if (index == 0) {
-                                return dr.kdDokter;
-                            }
-                        }).join('')
+                    const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
+                    setMappingPoliPcare(kdPoli)
+                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                    setMappingDokterPcare()
 
-                        $.get(`${url}/mapping/pcare/dokter`, {
-                            kdDokterPcare: kdDokterPcare
-                        }).done((resDokter) => {
-                            selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
-                            const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
-                            formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
-                            formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
-
-                            loadingAjax().close();
-                        })
-
-                    })
                 } else {
+                    selectDokter(kd_dokter, modalRegistrasi)
                     periksaPendaftaran.addClass('d-none');
                 }
             })
@@ -587,5 +590,41 @@
                 formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(response.nm_poli_pcare)
             })
         })
+
+        function setMappingPoliPcare(kdPoli) {
+            $.get(`${url}/mapping/pcare/poliklinik`, {
+                kdPoli: kdPoli,
+            }).done((resultPoli) => {
+                formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(resultPoli.kd_poli_pcare)
+                formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(resultPoli.nm_poli_pcare)
+            }).fail((error) => {
+                alertErrorAjax(error)
+            })
+        }
+
+        function setMappingDokterPcare() {
+            loadingAjax('Sedang mengambil data dokter Pcare')
+            $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
+                const dokter = respDokter.response.list
+                const kdDokterPcare = dokter.map((dr, index) => {
+                    if (index == 0) {
+                        return dr.kdDokter;
+                    }
+                }).join('')
+
+                $.get(`${url}/mapping/pcare/dokter`, {
+                    kdDokterPcare: kdDokterPcare
+                }).done((resDokter) => {
+                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                    const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
+                    formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
+                    formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                    loadingAjax().close();
+                }).fail((error) => {
+                    alertErrorBpjs(error)
+                })
+
+            })
+        }
     </script>
 @endpush

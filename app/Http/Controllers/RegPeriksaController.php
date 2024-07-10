@@ -38,7 +38,7 @@ class RegPeriksaController extends Controller
         ];
     }
 
-    function setNoReg(Request $request): string
+    function setNoReg(Request $request): JsonResponse
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $kd_dokter = $request->kd_dokter;
@@ -63,10 +63,11 @@ class RegPeriksaController extends Controller
             $no = (int)$urut->no_reg + 1;
         }
         $no_reg = sprintf('%03d', $no);
-        return $no_reg;
+
+        return response()->json($no_reg);
     }
 
-    function setNoRawat(Request $request): string
+    function setNoRawat(Request $request): JsonResponse
     {
         $tgl_registrasi = $request->tgl_registrasi ? date('Y-m-d', strtotime($request->tgl_registrasi)) : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
@@ -80,7 +81,7 @@ class RegPeriksaController extends Controller
         }
         $no_reg = sprintf('%06d', $no);
         $tglRawat = date('Y/m/d', strtotime($tgl_registrasi));
-        return "{$tglRawat}/{$no_reg}";
+        return response()->json("{$tglRawat}/{$no_reg}");
     }
 
     function setStatusPoli(Request $request): string
