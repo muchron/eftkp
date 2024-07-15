@@ -1184,7 +1184,7 @@ $.contextMenu({
                             name: "Radiologi",
                             icon: "fas fa-tag",
                             callback: (item, opt) => {
-                                permintaanRadiologi(`${no_rawat}`);
+                                // permintaanRadiologi(`${no_rawat}`);
                             }
                         },
                     }
