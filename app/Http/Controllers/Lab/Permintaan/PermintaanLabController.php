@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Lab\Permintaan;
 use App\Models\Lab\Permintaan\PermintaanLab;
 use App\Http\Controllers\Controller;
 use App\Traits\Track;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -76,5 +77,23 @@ class PermintaanLabController extends Controller
             'status' => true,
             'data' => $permintaan->noorder
         ]);
+    }
+
+    function delete($noorder): JsonResponse
+    {
+        $find = $this->permintaan->where('noorder', $noorder);
+
+        if ($find->first()) {
+            try {
+                $delete = $find->delete();
+                if ($delete) {
+                    $this->deleteSql($this->permintaan, ['noorder' => $noorder]);
+                }
+            } catch (QueryException $e) {
+                return response()->json($e->errorInfo, 500);
+            }
+            return response()->json('Berhasil');
+        }
+        return response()->json(['Tidak ditemukan'], 400);
     }
 }

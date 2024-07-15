@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalPermintaanLab" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modalPermintaanLab modal-fullscreen modal-scrolled" role="document">
+    <div class="modal-dialog modalPermintaanLab modal-xl modal-scrolled" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Permintaan Pemeriksaan Laboratorium</h5>
@@ -167,7 +167,7 @@
                         const permintaan = response.map((item, index) => {
                             return `<tr>
                             <td>${index+1}</td>
-                            <td>${item.noorder}</td>
+                            <td>${item.noorder} <a href="javascript:void(0)" onclick="deletePermintaanLab('${item.noorder}')" title="Hapus permintaan" class="text-red"><i class="ti ti-trash"></i></a></td>
                             <td>${splitTanggal(item.tgl_permintaan)} ${item.jam_permintaan}</td>
                             <td>${item.informasi_tambahan}</td>
                             <td>${item.diagnosa_klinis}</td>
@@ -177,7 +177,7 @@
                         }).join('');
                         contentPermintaan = permintaan;
                     } else {
-                        contentPermintaan = `<tr><td colspan=7 class="text-center text-danger">Tidak ada history permintaan </td></tr>`
+                        contentPermintaan = `<tr><td colspan=7 class="text-center text-danger"><strong>Tidak ada permintaan lab</strong></td></tr>`
                     }
                     formPermintaanLab.find('#btndataDetailPermintaan').removeClass('btn-primary').addClass('btn-danger').html(`<i class="ti ti-eye-off me-2"></i>Sembunyikan`)
                     tableHasilPermintaan.find('tbody').append(contentPermintaan)
@@ -194,14 +194,14 @@
             return data.map((item) => {
                 return `<tr>
                         <td></td>
-                        <td colspan=6><strong>${item.jenis.nm_perawatan} [${item.kd_jenis_prw}]</strong> : ${getDetailPermintaan(item.detail)}</td>
+                        <td colspan=6><strong>[${item.kd_jenis_prw}] ${item.jenis.nm_perawatan}</strong> : ${getDetailPermintaan(item.detail)}</td>
                     </tr>`
             }).join('');
         }
 
         function getDetailPermintaan(data) {
             return data.map((val, index) => {
-                return `<span class="text-danger">${val.item.nama}</span>`
+                return `<span class="badge bg-primary">${val.item.nama}</span>`
             }).join(' | ');
         }
 
@@ -393,7 +393,17 @@
             return $.post(`${url}/lab/permintaan/detail`, {
                 data: data,
             }).done((response) => {
-                alertSuccessAjax('Berhasil membuat permintaan lab')
+                toast('Permintaan lab dibuat');
+                const no_rawat = formPermintaanLab.find('#no_rawat').val();
+                getPermintaanLab(no_rawat);
+
+                if (tableHasilPermintaan.hasClass('d-none')) {
+                    getPermintaanLab(no_rawat)
+                } else {
+                    tableHasilPermintaan.addClass('d-none')
+                    getPermintaanLab(no_rawat)
+                }
+
                 tablePermintaanLab.find('tbody').empty();
                 tablePermintaanLab.find('input[type=checkbox]').prop('checked', false)
                 formPermintaanLab.find('#informasi_tambahan').val('-')
@@ -402,6 +412,38 @@
                 getNomorPermintaan();
             }).fail((error) => {
                 alertErrorAjax(error)
+            })
+        }
+
+        function deletePermintaanLab(noorder) {
+            Swal.fire({
+                title: "Yakin hapus data ini ?",
+                html: "Data permintaan lab akan di hapus",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Iya, Yakin",
+                cancelButtonText: "Tidak, Batalkan",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(`${url}/lab/permintaan/delete/${noorder}`)
+                        .done((response) => {
+                            toast('Permintaan lab di hapus');
+                            const no_rawat = formPermintaanLab.find('#no_rawat').val();
+                            getPermintaanLab(no_rawat);
+
+                            if (tableHasilPermintaan.hasClass('d-none')) {
+                                getPermintaanLab(no_rawat)
+                            } else {
+                                tableHasilPermintaan.addClass('d-none')
+                                getPermintaanLab(no_rawat)
+                            }
+                            getNomorPermintaan();
+                        }).fail((error) => {
+                            alertErrorAjax(error)
+                        })
+                }
             })
         }
     </script>
