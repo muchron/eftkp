@@ -681,6 +681,45 @@ function selectDokter(element, parrent) {
     });
 
 }
+function selectMappingDokterPcare(element, parrent) {
+    return element.select2({
+        dropdownParent: parrent,
+        delay: 2,
+        scrollAfterSelect: true,
+        allowClear: true,
+        tags: true,
+        placeholder: 'Pilin dokter',
+        ajax: {
+            url: `${url}/mapping/pcare/dokter`,
+            dataType: 'JSON',
+
+            data: (params) => {
+                return {
+                    dokter: params.term
+                }
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        return {
+                            id: item.kd_dokter_pcare,
+                            text: item.nm_dokter,
+                            detail: item
+                        }
+
+                    })
+                }
+            }
+
+        },
+        cache: true
+
+    }).on('select2:unselecting', (e) => {
+        const option = new Option('', '', true, true);
+        $(e.currentTarget).append(option).trigger('change');
+    });
+
+}
 function selectKelurahan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,

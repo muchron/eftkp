@@ -253,7 +253,7 @@
         </div>
     </div>
 </div>
-@include('content.registrasi._modalRegistrasiPaisen')
+@include('content.registrasi._modalRegistrasiPasien')
 @include('content.registrasi._modalPesertaBpjs')
 @push('script')
     <script>
