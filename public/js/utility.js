@@ -1481,6 +1481,25 @@ $.contextMenu({
                     },
 
                 },
+                "Permintaan": {
+                    name: "Permintaan",
+                    items: {
+                        "PemeriksaanLab": {
+                            name: "Laboratorium",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                permintaanLab(`${no_rawat}`);
+                            }
+                        },
+                        "PemeriksaanRadiologi": {
+                            name: "Radiologi",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                // permintaanRadiologi(`${no_rawat}`);
+                            }
+                        },
+                    }
+                },
                 "Resume Medis": {
                     name: "Resume Medis",
                     icon: 'fa-regular fa-file',

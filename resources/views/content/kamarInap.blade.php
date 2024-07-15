@@ -37,6 +37,7 @@
     @include('content.kamarInap.resume.modalResumeMedis')
     @include('content.registrasi._modalSuratSakit')
     @include('content.registrasi._modalRiwayat')
+    @include('content.laboratorium.modal._modalPermintaanLab')
 @endsection
 @push('script')
     <script>
@@ -99,8 +100,7 @@
                         .attr('data-no_rawat', data.kd_poli)
                         .attr('data-no_rkm_medis', data.reg_periksa.no_rkm_medis);
                 },
-                columns: [
-                    {
+                columns: [{
                         title: '',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
@@ -112,7 +112,7 @@
                         title: 'No. Rawat',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            if(!row.reg_periksa.pasien){
+                            if (!row.reg_periksa.pasien) {
                                 alertErrorAjax({
                                     title: 'Error',
                                     status: 404,
