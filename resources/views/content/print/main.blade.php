@@ -13,9 +13,8 @@
         h2,
         h3,
         h4,
-        h5,
-        h6 {
-            font-family: Arial, Helvetica, sans-serif !important;
+        h5 {
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         @page {

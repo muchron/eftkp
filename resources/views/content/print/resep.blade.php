@@ -4,8 +4,9 @@
     {{-- {{ $setting->logo }} --}}
 
     <div width="100%" style="">
-        <div style="text-align: center;">
-            <p class="m-0" style="font-size: 20px;font-weight:bold">{{ $setting->nama_instansi }}</p>
+        <img src="{{ 'data:image/jpeg;base64,' . base64_encode($setting->logo) }}" alt="" width="50px" style="left: 10px;position:absolute;top:10px">
+        <div style="text-align: center; margin-left:60px;">
+            <h6 class="m-0" style="font-size: 15px">{{ $setting->nama_instansi }}</h6>
             <p class="m-0" style="font-size: 11px">{{ $setting->alamat_instansi }}, {{ $setting->kabupaten }},{{ $setting->propinsi }}</p>
             <p class="m-0" style="font-size: 11px">Telp. {{ $setting->kontak }}, Email : {{ $setting->email }} </p>
         </div>

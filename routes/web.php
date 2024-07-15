@@ -92,7 +92,6 @@ Route::get('/setting/ppk', [SettingController::class, 'getKodePPK']);
 
 Route::get('/registrasi/get/panggil', [RegPeriksaController::class, 'getPanggil']);
 Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
-Route::post('/registrasi/delete', [RegPeriksaController::class, 'delete']);
 Route::get('/registrasi/bukti/print', [RegPeriksaController::class, 'print']);
 
 Route::middleware('auth')->group(function () {

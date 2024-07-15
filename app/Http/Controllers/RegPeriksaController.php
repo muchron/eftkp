@@ -38,7 +38,7 @@ class RegPeriksaController extends Controller
         ];
     }
 
-    function setNoReg(Request $request): JsonResponse
+    function setNoReg(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? $request->tgl_registrasi : date('Y-m-d');
         $kd_dokter = $request->kd_dokter;
@@ -63,11 +63,10 @@ class RegPeriksaController extends Controller
             $no = (int)$urut->no_reg + 1;
         }
         $no_reg = sprintf('%03d', $no);
-
-        return response()->json($no_reg);
+        return $no_reg;
     }
 
-    function setNoRawat(Request $request): JsonResponse
+    function setNoRawat(Request $request): string
     {
         $tgl_registrasi = $request->tgl_registrasi ? date('Y-m-d', strtotime($request->tgl_registrasi)) : date('Y-m-d');
         $regPeriksa = $this->regPeriksa->select('no_rawat')
@@ -81,7 +80,7 @@ class RegPeriksaController extends Controller
         }
         $no_reg = sprintf('%06d', $no);
         $tglRawat = date('Y/m/d', strtotime($tgl_registrasi));
-        return response()->json("{$tglRawat}/{$no_reg}");
+        return "{$tglRawat}/{$no_reg}";
     }
 
     function setStatusPoli(Request $request): string
@@ -176,17 +175,6 @@ class RegPeriksaController extends Controller
         return response()->json(['Berhasil mengubah data registrasi', $request->no_rawat]);
     }
 
-
-    function delete(Request $request): JsonResponse
-    {
-        try {
-            $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->delete();
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo, 500);
-        }
-        $this->insertSql(new RegPeriksa(), ['no_rawat' => $request->no_rawat]);
-        return response()->json($regPeriksa, 200);
-    }
 
     function create(Request $request): JsonResponse
     {

@@ -308,11 +308,7 @@ function alertErrorBpjs(error) {
             `${item.field} : ${item.message}`
         );
     } else {
-        if (response) {
-            responseMessage = `Periksa kembali, mungkin ada field yang kosong`;
-        } else {
-            responseMessage = `${response.field} : ${response.message}`;
-        }
+        responseMessage = `${response.field} : ${response.message}`;
     }
     return Swal.fire({
         title: 'Pesan dari BPJS',
@@ -677,47 +673,7 @@ function selectDokter(element, parrent) {
         cache: true
 
     }).on('select2:unselecting', (e) => {
-        const option = new Option('-', '-', true, true);
-        $(e.currentTarget).append(option).trigger('change');
-    });
-
-}
-
-function selectMappingDokterPcare(element, parrent) {
-    return element.select2({
-        dropdownParent: parrent,
-        delay: 2,
-        scrollAfterSelect: true,
-        allowClear: true,
-        tags: true,
-        cache: true,
-        placeholder: 'Pilin dokter',
-        ajax: {
-            url: `${url}/mapping/pcare/dokter`,
-            data: (params) => {
-                const query = {
-                    dokter: params.term
-                }
-                return query
-            },
-            processResults: (data) => {
-                return {
-                    results: data.map((item) => {
-                        return {
-                            id: item.kd_dokter,
-                            text: item.nm_dokter_pcare,
-                            detail: item
-                        }
-
-                    })
-                }
-            }
-
-        },
-        cache: true
-
-    }).on('select2:unselecting', (e) => {
-        const option = new Option('-', '-', true, true);
+        const option = new Option('', '', true, true);
         $(e.currentTarget).append(option).trigger('change');
     });
 

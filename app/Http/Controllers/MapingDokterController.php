@@ -9,14 +9,7 @@ class MapingDokterController extends Controller
 {
     function get(Request $request)
     {
-        $dokter = MapingDokterPcare::with('dokter');
-        if ($request->kdDokterPcare) {
-            $dokter =  $dokter->where('kd_dokter_pcare', $request->kdDokterPcare)->first();
-        } else if ($request->dokter) {
-            $dokter = $dokter->where('nm_dokter_pcare', 'like', "%$request->dokter%")->get();
-        } else {
-            $dokter = $dokter->get();
-        }
+        $dokter = MapingDokterPcare::where('kd_dokter_pcare', $request->kdDokterPcare)->with('dokter')->first();
         return response()->json($dokter);
     }
 }
