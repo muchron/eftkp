@@ -5,7 +5,7 @@
 @section('content')
     <div class="container" style="margin: 20px">
         <div width="100%">
-            <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px" style="top:20px;left: 25px;position:absolute">
+            {{-- <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px" style="top:20px;left: 25px;position:absolute"> --}}
             <div style="text-align: center; margin-left:60px;">
                 <h5 class="m-0">{{ $data['nama_instansi'] }}</h5>
                 <p class="m-0">{{ $data['alamat_instansi'] }}</p>
@@ -15,8 +15,8 @@
 
             {{-- @dd($data) --}}
         </div>
-        <div class="no_surat" style="text-align: center">
-            <h6><u>SURAT KETERANGAN SEHAT</u></h6>
+        <div class="no_surat text-center">
+            <h5><u>SURAT KETERANGAN SEHAT</u></h5>
             <p>No. {{ $data['no_surat'] }}</p>
         </div>
         <p class="mb-0">Yang bertanda tangan di bawah ini : </p>

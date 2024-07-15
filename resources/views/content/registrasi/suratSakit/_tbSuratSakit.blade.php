@@ -45,7 +45,6 @@
                         title: 'No. Surat',
                         data: 'no_surat',
                         render: (data, type, row, meta) => {
-                            console.log('ROW ===', row);
                             return data
                         },
                     },
@@ -53,7 +52,6 @@
                         title: 'No. Rawat',
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
-                            console.log('ROW ===', row);
                             return data
                         },
                     },

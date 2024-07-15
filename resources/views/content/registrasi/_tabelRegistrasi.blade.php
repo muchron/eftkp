@@ -164,7 +164,7 @@
                             if (row.pemeriksaan_ralan) {
                                 classBtnPemerisksaan = 'btn-success'
                             }
-                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="modalCppt('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
+                            return `<button type="button" class="btn btn-sm ${classBtnPemerisksaan}" onclick="showCpptRalan('${row.no_rawat}')"><i class="ti ti-file-pencil"></i> CPPT</button>`;
                         },
                     },
 

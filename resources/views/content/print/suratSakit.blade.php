@@ -14,8 +14,8 @@
 
             {{-- @dd($data) --}}
         </div>
-        <div class="no_surat" style="text-align: center">
-            <h6 style="margin: 5px"><u>SURAT KETERANGAN SAKIT</u></h6>
+        <div class="no_surat" style="text-align:center;margin-bottom:10px">
+            <h5><u>SURAT KETERANGAN SAKIT</u></h5>
             <p>No. {{ $data['no_surat'] }}</p>
         </div>
         <p>Yang bertanda tangan di bawah ini, menerangkan bahwa : </p>
