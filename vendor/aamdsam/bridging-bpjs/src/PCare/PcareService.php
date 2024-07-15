@@ -115,12 +115,15 @@ class PcareService
         $responseArray = json_decode($response, true);
         if (!is_array($responseArray)) {
             $failedResponse = explode('response:', $response);
-            $failMessage = explode('response:', $response)[0];
-            $responseString = explode('response:', $response)[1];
+            if (is_array($failedResponse)) {
+                $failMessage = explode('response:', $response)[0];
+                $responseString = explode('response:', $response)[1];
 
-            $string = explode(',"metaData":', $responseString)[0] . "}";
+                $string = explode(',"metaData":', $responseString)[0] . "}";
+            } else {
+                $string = $response;
+            }
 
-            // return json_decode($string, true);
             $response =  json_decode($string, true);
 
             return [

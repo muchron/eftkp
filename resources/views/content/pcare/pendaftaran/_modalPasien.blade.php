@@ -335,6 +335,7 @@
 
         function regPoliBpjs(data) {
             loadingAjax('Sedang menyiapkan data pendaftaran di Pcare');
+            const selectKdPj = formRegistrasiPoli.find('select[name=kd_pj]');
             $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
                 if (pendaftaran.metaData.code == 200) {
                     loadingAjax().close();
@@ -365,9 +366,13 @@
                     formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(splitTanggal(response.peserta.tglLahir)))
 
                     // SET PENJAB
-                    selectPenjab(formRegistrasiPoli.find('select[name=kd_pj]'), modalRegistrasi);
-                    const bpjs = new Option(`BPJ - BPJS`, 'BPJ', true, true);
-                    formRegistrasiPoli.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                    $.get(`${url}/penjab`, {
+                        nama: 'BPJS',
+                    }).done((response) => {
+                        selectPenjab(selectKdPj, modalRegistrasi);
+                        const bpjs = new Option(`${response.kd_pj} - ${response.png_jawab}`, `${response.kd_pj}`, true, true);
+                        selectKdPj.append(bpjs).trigger('change');
+                    })
 
                     refreshTime();
 
@@ -377,45 +382,42 @@
                     setNoReg().done((response) => {
                         formRegistrasiPoli.find('input[name=no_reg]').val(response)
                     });
+                    // // SET POLIKLINIK
+                    // $.get(`${url}/mapping/pcare/poliklinik`, {
+                    //     kdPoliPcare: response.poli.kdPoli
+                    // }).done((resultPoli) => {
 
+                    //     selectPoliklinik(formRegistrasiPoli.find('select[name=kd_poli]'), modalRegistrasi);
+                    //     const poli = new Option(`${resultPoli.poliklinik.kd_poli} - ${resultPoli.poliklinik.nm_poli}`, `${resultPoli.poliklinik.kd_poli}`, true, true);
+                    //     formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
+                    //     formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
+                    // }).fail((error) => {
+                    //     alertErrorAjax(error)
+                    // })
 
+                    // // GET DOKTER
+                    // $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
+                    //     const dokter = respDokter.response.list
+                    //     const kdDokterPcare = dokter.map((dr, index) => {
+                    //         if (index == 0) {
+                    //             return dr.kdDokter;
+                    //         }
+                    //     }).join('')
 
-                    // SET POLIKLINIK
-                    $.get(`${url}/mapping/pcare/poliklinik`, {
-                        kdPoliPcare: response.poli.kdPoli
-                    }).done((resultPoli) => {
-
-                        selectPoliklinik(formRegistrasiPoli.find('select[name=kd_poli]'), modalRegistrasi);
-                        const poli = new Option(`${resultPoli.poliklinik.kd_poli} - ${resultPoli.poliklinik.nm_poli}`, `${resultPoli.poliklinik.kd_poli}`, true, true);
-                        formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
-                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.poli.kdPoli)
-                    }).fail((error) => {
-                        alertErrorAjax(error)
-                    })
-
-                    // GET DOKTER
-                    $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
-                        const dokter = respDokter.response.list
-                        const kdDokterPcare = dokter.map((dr, index) => {
-                            if (index == 0) {
-                                return dr.kdDokter;
-                            }
-                        }).join('')
-
-                        $.get(`${url}/mapping/pcare/dokter`, {
-                            kdDokterPcare: kdDokterPcare
-                        }).done((resDokter) => {
-                            loadingAjax().close();
-                            selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
-                            const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
-                            formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
-                            formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
-                        }).fail((error) => {
-                            alertErrorAjax(error)
-                        })
-                    }).fail((erorr) => {
-                        alertErrorAjax(error)
-                    })
+                    //     $.get(`${url}/mapping/pcare/dokter`, {
+                    //         kdDokterPcare: kdDokterPcare
+                    //     }).done((resDokter) => {
+                    //         loadingAjax().close();
+                    //         selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
+                    //         const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
+                    //         formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
+                    //         formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                    //     }).fail((error) => {
+                    //         alertErrorAjax(error)
+                    //     })
+                    // }).fail((erorr) => {
+                    //     alertErrorAjax(error)
+                    // })
                     modalRegistrasi.modal('show')
                 } else {
                     alertErrorBpjs(response)
@@ -450,17 +452,24 @@
         }
 
         modalPasien.on('shown.bs.modal', (e) => {
+            const inputNoRm = formPasien.find('input[name=no_rkm_medis]');
+            const inputNoPeserta = formPasien.find('input[name=no_peserta]');
+            const inputUmur = formPasien.find('input[name=umur]');
+            const umur = hitungUmur(splitTanggal(tglLahir.val()))
+            const textTglLahir = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+
             switchTab('tabs1');
             renderTbPasien();
             resetSelect();
             $.get(`${url}/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response)
             })
-            const optPj = new Option('-', '-', true, true)
-            const umur = hitungUmur(splitTanggal(tglLahir.val()))
-            const textTglLahir = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-            formPasien.find('input[name=umur]').val(textTglLahir)
-            formPasien.find('select[name=kd_pj]').append(optPj).trigger('change')
+            inputUmur.val(textTglLahir)
+
+            if (inputNoPeserta.val() === '-') {
+                const optPj = new Option('---', '-', true, true)
+                formPasien.find('select[name=kd_pj]').append(optPj).trigger('change')
+            }
         })
 
         modalPasien.on('hidden.bs.modal', (e) => {
@@ -761,7 +770,6 @@
             const noKartu = findBy == 'noKartu' ? formPasien.find('#no_peserta').val() : formPasien.find('#no_ktp').val();
             loadingAjax();
             $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((response) => {
-
                 if (response.metaData.code == 200) {
                     loadingAjax().close();
                     const result = response.response;
@@ -777,19 +785,9 @@
                                 confirmButtonText: "Iya, Lanjutkan",
                                 cancelButtonText: "Tidak, Batalkan"
                             }).then((res) => {
-                                if (res.isConfirmed) {
-                                    const umur = hitungUmur(splitTanggal(result.tglLahir));
-                                    const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-                                    formPasien.find('#nm_pasien').val(result.nama).addClass('is-valid');
-                                    formPasien.find('#no_ktp').val(result.noKTP).addClass('is-valid');
-                                    formPasien.find('#umur').val(textUmur).addClass('is-valid');
-                                    formPasien.find('#no_tlp').val(result.noHP).addClass('is-valid');
-                                    formPasien.find('#tgl_lahir').val(result.tglLahir).addClass('is-valid');
-                                    formPasien.find('#jk').val(result.sex).change().addClass('is-valid');
-                                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                                    formPasien.find('#kd_pj').append(bpjs).trigger('change');
-                                } else {
+                                if (!res.isConfirmed) {
                                     resetFormRegistrasi();
+                                    return true;
                                 }
                             });
                         } else {
@@ -807,12 +805,7 @@
                     })
 
                 } else {
-                    const error = {
-                        status: response.metaData.code,
-                        statusText: 'Nomor peserta tidak ditemukan',
-                        responseJSON: response.metaData.message,
-                    }
-                    alertErrorAjax(error);
+                    alertErrorBpjs(response);
                 }
             });
         }

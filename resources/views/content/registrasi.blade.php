@@ -19,6 +19,7 @@
     @include('content.pemeriksaan.modal.penilaianAwal._modalSkriningJatuh')
     @include('content.registrasi._modalRiwayat')
     @include('content.registrasi._modalBuktiRegister')
+    @include('content.laboratorium.modal._modalPermintaanLab')
 @endsection
 @push('script')
     <script>

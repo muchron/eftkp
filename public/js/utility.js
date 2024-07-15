@@ -600,6 +600,9 @@ function selectPenjab(element, parrent) {
             },
         },
         cache: true,
+    }).on('select2:unselecting', (e) => {
+        const option = new Option('-', '-', true, true);
+        $(e.currentTarget).append(option).trigger('change');
     });
     return select2;
 }
@@ -1106,16 +1109,16 @@ $.contextMenu({
                 // "Pcare": {
                 //     name: 'Pcare',
                 //     items: {
-                //         "resepPcare": {
-                //             name: "Resep Obat Pcare",
-                //             icon: "fas fa-pills",
-                //             disabled: () => {
-                //                 // return true;
-                //             },
-                //             callback: (item, opt) => {
-                //                 obatPcare(`${no_rawat}`);
-                //             }
-                //         },
+                //         // "resepPcare": {
+                //         //     name: "Resep Obat Pcare",
+                //         //     icon: "fas fa-pills",
+                //         //     disabled: () => {
+                //         //         // return true;
+                //         //     },
+                //         //     callback: (item, opt) => {
+                //         //         obatPcare(`${no_rawat}`);
+                //         //     }
+                //         // },
                 //         "kunjungan": {
                 //             name: "Kunjungan Pcare",
                 //             icon: "fas fa-list",
@@ -1128,6 +1131,25 @@ $.contextMenu({
                 //         },
                 //     },
                 // },
+                "Permintaan": {
+                    name: "Permintaan",
+                    items: {
+                        "PemeriksaanLab": {
+                            name: "Laboratorium",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                permintaanLab(`${no_rawat}`);
+                            }
+                        },
+                        "PemeriksaanRadiologi": {
+                            name: "Radiologi",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                permintaanRadiologi(`${no_rawat}`);
+                            }
+                        },
+                    }
+                },
                 "PenilaianAwal": {
                     name: "Penilaian Awal",
                     items: {

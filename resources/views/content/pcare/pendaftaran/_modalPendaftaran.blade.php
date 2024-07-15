@@ -46,23 +46,55 @@
             loadingAjax('Mengambil data pasien BPJS');
             $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((result) => {
                 if (result.metaData.code === 200) {
-                    $('#modalPasien').modal('show')
-                    loadingAjax().close();
-                    const umur = hitungUmur(splitTanggal(result.response.tglLahir));
-                    const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-                    formPasien.find('input[name=nm_pasien]').val(result.response.nama)
-                    formPasien.find('select[name=jk]').val(result.response.sex).change()
-                    formPasien.find('select[name=gol_darah]').val('-')
-                    formPasien.find('input[name=tgl_lahir]').val(result.response.tglLahir)
-                    formPasien.find('input[name=umur]').val(contentUmur)
-                    formPasien.find('input[name=no_ktp]').val(result.response.noKTP)
-                    formPasien.find('input[name=no_tlp]').val(result.response.noHP)
-                    formPasien.find('input[name=no_peserta]').val(noKartu)
-                    formPasien.find('input[name=sttsForm]').val('bridging')
-                    formPasien.find('input[name=noUrut]').val(noUrut)
+                    $.get(`${url}/pasien/get/nokartu/${noKartu}`).done((response) => {
+                        if (!isObjectEmpty(response)) {
+                            $('#modalPasien').modal('show')
+                            $.get(`${url}/setting/pcare/user`).done((kode) => {
+                                if (kode.toUpperCase() !== result.response.kdProviderPst.kdProvider)
+                                    Swal.fire({
+                                        title: "Peringatan ?",
+                                        html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: "#3085d6",
+                                        cancelButtonColor: "#d33",
+                                        confirmButtonText: "Iya, Lanjutkan",
+                                        cancelButtonText: "Tidak, Batalkan"
+                                    }).then((res) => {
+                                        if (!res.isConfirmed) {
+                                            $('#modalPasien').modal('hide')
+                                            resetFormRegistrasi();
+                                            return true;
+                                        } else {
+                                            toast('Peserta belum memiliki nomor rekam medis')
+                                        }
+                                    });
+                            });
+                            const umur = hitungUmur(splitTanggal(result.response.tglLahir));
+                            const contentUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+                            formPasien.find('input[name=nm_pasien]').addClass('is-valid').val(result.response.nama)
+                            formPasien.find('select[name=jk]').addClass('is-valid').val(result.response.sex).change()
+                            formPasien.find('select[name=gol_darah]').addClass('is-valid').val('-')
+                            formPasien.find('input[name=tgl_lahir]').addClass('is-valid').val(result.response.tglLahir)
+                            formPasien.find('input[name=umur]').addClass('is-valid').val(contentUmur)
+                            formPasien.find('input[name=no_ktp]').addClass('is-valid').val(result.response.noKTP)
+                            formPasien.find('input[name=no_tlp]').addClass('is-valid').val(result.response.noHP)
+                            formPasien.find('input[name=no_peserta]').addClass('is-valid').val(noKartu)
+                            formPasien.find('input[name=sttsForm]').addClass('is-valid').val('bridging')
+                            formPasien.find('input[name=noUrut]').addClass('is-valid').val(noUrut)
+                            formPasien.find('input[name=no_peserta]').addClass('is-valid').val(noKartu)
 
-                    const bpjs = new Option('BPJ - BPJS', 'BPJS', true, true);
-                    formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                            $.get(`${url}/penjab`, {
+                                nama: 'BPJS',
+                            }).done((response) => {
+                                const bpjs = new Option(`${response.kd_pj} - ${response.png_jawab}`, `${response.kd_pj}`, true, true);
+                                formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
+                            })
+                        } else {
+                            formRegistrasiPoli.find('input[name=bridging]').val(true)
+                        }
+                    })
+
                 } else {
                     alertErrorBpjs(result);
                 }
@@ -114,7 +146,7 @@
 
                 },
                 ajax: {
-                    url: '../bridging/pcare/pendaftaran',
+                    url: `${url}/bridging/pcare/pendaftaran`,
                     dataSrc: 'response.list',
                     data: (q) => {
                         q.start = customStart;

@@ -93,8 +93,8 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Poli Tujuan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_poli_pcare" readonly>
-                                    <input type="text" class="form-control w-50" name="nm_poli_pcare" readonly>
+                                    <input type="text" class="form-control" name="kd_poli_pcare" id="kd_poli_pcare" readonly>
+                                    <input type="text" class="form-control w-50" name="nm_poli_pcare" id="nm_poli_pcare" readonly>
                                 </div>
                                 <input type="hidden" name="kd_poli_rs">
                                 <input type="hidden" name="bridging">
@@ -273,6 +273,7 @@
 
         function createPendaftaranPcare(data) {
             $.post(`${url}/bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
+
                 if (resPendaftaran.metaData.code === 201 && resPendaftaran.metaData.message === 'CREATED') {
                     data['noUrut'] = resPendaftaran.response.message;
                     $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
@@ -288,11 +289,22 @@
                         }
                     });
                 } else {
-                    Swal.fire({
-                        title: "Gagal mendaftarkan pasien di PCare",
-                        html: `Error Code ${resPendaftaran.metaData.code} : ${resPendaftaran.metaData.message}`,
-                        icon: 'error'
+                    alertErrorBpjs(resPendaftaran).then((result) => {
+                        $.post(`${url}/registrasi/delete`, {
+                            no_rawat: data.no_rawat
+                        }).done((response) => {
+                            toast('Menghapus data pasien dari registrasi ')
+                            if (tabelRegistrasi.length) {
+                                loadTabelRegistrasi()
+                            } else if (tabelPcarePendaftaran.length) {
+                                loadTbPcarePendaftaran()
+                            }
+                        }).fail((error) => {
+                            alertErrorAjax(error)
+                        })
                     })
+
+
                 }
             }).fail((error) => {
                 alertErrorAjax(error)
@@ -318,7 +330,7 @@
                     $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
                         alertErrorAjax(error)
                     }).done(() => {
-                        alertSuccessAjax().then(() => {
+                        alertSuccessAjax('Berhasil menyimpan data pendaftaran').then(() => {
                             if ($('#tbPendaftaranPcare').length > 0) {
                                 renderPendaftaranPcare();
                                 loadTbPcarePendaftaran(tglAwal, tglAkhir)
@@ -370,7 +382,7 @@
 
         function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
-            if (data.kd_dokter === '-') {
+            if (data.kd_dokter === '-' || data.kd_dokter === '') {
                 return Swal.fire({
                     title: "Peringatan",
                     html: `Anda belum memilih dokter`,
@@ -507,37 +519,22 @@
                 if (noUrut) {
                     periksaPendaftaran.removeClass('d-none');
                     response['noUrut'] = noUrut;
-                    regPoliBpjs(response)
+                    const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
+                    formRegistrasiPoli.find('input[name=bridging]').val(true);
+                    formRegistrasiPoli.find('input[name=noUrut]').val(noUrut);
+                    setMappingPoliPcare(kdPoli)
+                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                    setMappingDokterPcare()
+
+                    // regPoliBpjs(response)
+
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
                     loadingAjax()
                     periksaPendaftaran.removeClass('d-none');
-                    $.get(`${url}/mapping/pcare/poliklinik`, {
-                        kdPoli: formRegistrasiPoli.find('select[name=kd_poli]').val()
-                    }).done((resultPoli) => {
-                        formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(resultPoli.kd_poli_pcare)
-                        formRegistrasiPoli.find('input[name=nm_poli_pcare]').val(resultPoli.nm_poli_pcare)
-                    })
-                    // GET DOKTER
-                    $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
-                        const dokter = respDokter.response.list
-                        const kdDokterPcare = dokter.map((dr, index) => {
-                            if (index == 0) {
-                                return dr.kdDokter;
-                            }
-                        }).join('')
-
-                        $.get(`${url}/mapping/pcare/dokter`, {
-                            kdDokterPcare: kdDokterPcare
-                        }).done((resDokter) => {
-                            selectDokter(formRegistrasiPoli.find('select[name=kd_dokter]'), modalRegistrasi);
-                            const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
-                            formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
-                            formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
-
-                            loadingAjax().close();
-                        })
-
-                    })
+                    const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
+                    setMappingPoliPcare(kdPoli)
+                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+                    setMappingDokterPcare();
                 } else {
                     periksaPendaftaran.addClass('d-none');
                 }
