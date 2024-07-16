@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalCpptRanap" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modalCpptRanap modal-fullscreen modal-scrolled" role="document">
+    <div class="modal-dialog modalCpptRanap modal-fullscreen modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Pemeriksaan / CPPT</h5>

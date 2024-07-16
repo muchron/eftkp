@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modallistKeluhanRanap" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-scrolled" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Hasil Pemeriksaan</h5>
@@ -43,6 +43,7 @@
             })
 
         }
+
         function listObjektifRanap() {
             var no_rawat = formResumeMedis.find('input[name="no_rawat"]').val();
             var dpjp = formResumeMedis.find('input[name="kd_dokter"]').val();
@@ -66,13 +67,13 @@
             $('#tabelPemeriksaanRanap').DataTable({
                 responsive: true,
                 serverSide: false,
-                autoWidth : true,
+                autoWidth: true,
                 destroy: true,
                 processing: true,
-                data:data,
-                scrollY : '40vh',
-                scrollX : true,
-                createdRow : (row, data, index)=>{
+                data: data,
+                scrollY: '40vh',
+                scrollX: true,
+                createdRow: (row, data, index) => {
                     $(row).attr('data-id', index).attr('onclick', `setTextPeriksa(this)`)
                         .attr('data-target', `${data.kategori}`).attr('data-bs-dismiss', 'modal');
                 },
@@ -111,11 +112,11 @@
             })
         }
 
-        function setTextPeriksa(e){
+        function setTextPeriksa(e) {
             const text = $(e).find('td')[1].innerHTML;
             const element = $(`textarea[id='${e.dataset.target}']`);
-            let value =  element.val() !== '-' ? element.val().replaceAll('<br>','').replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
-            value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('<br>','');
+            let value = element.val() !== '-' ? element.val().replaceAll('<br>', '').replaceAll('&lt;', '<').replaceAll('&gt;', '>') + ';\n' : '';
+            value += text.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('<br>', '');
             element.val(value)
         }
     </script>

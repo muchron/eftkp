@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalPermintaanLab" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modalPermintaanLab modal-xl modal-scrolled" role="document">
+    <div class="modal-dialog modalPermintaanLab modal-xl modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Permintaan Pemeriksaan Laboratorium</h5>
@@ -107,6 +107,7 @@
         </div>
     </div>
 </div>
+@include('content.laboratorium.modal._modalHasilPeriksaLab')
 
 @push('script')
     <script>
@@ -171,7 +172,7 @@
                             <td>${splitTanggal(item.tgl_permintaan)} ${item.jam_permintaan}</td>
                             <td>${item.informasi_tambahan}</td>
                             <td>${item.diagnosa_klinis}</td>
-                            <td>${splitTanggal(item.tgl_sampel)} ${item.jam_sampel}</td>
+                            <td>${isGetHasilLab(item)} </td>
                             <td>${splitTanggal(item.tgl_hasil)} ${item.jam_hasil}</td>
                             </tr>${getPermintaanPeriksa(item.pemeriksaan)}`
                         }).join('');
@@ -188,6 +189,14 @@
                 formPermintaanLab.find('#btndataDetailPermintaan').removeClass('btn-danger').addClass('btn-primary').html(`<i class="ti ti-eye me-2"></i>History Permintaan`)
             }
             tableHasilPermintaan.toggleClass('d-none');
+        }
+
+        function isGetHasilLab(item) {
+            console.log(item);
+            if (item.tgl_hasil === '0000-00-00') {
+                return `${splitTanggal(item.tgl_sampel)} ${item.jam_sampel}`
+            }
+            return `${splitTanggal(item.tgl_sampel)} ${item.jam_sampel} <a href="javascript:void(0)" onclick="showHasilPeriksaLab('${item.no_rawat}', '${item.tgl_hasil}')" title="Lihat Hasil" class="text-success"><i class="ti ti-check"></i></a>`
         }
 
         function getPermintaanPeriksa(data) {

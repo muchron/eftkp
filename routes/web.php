@@ -61,6 +61,7 @@ use App\Http\Controllers\EfktpTindakanResikoJatuhController;
 use App\Http\Controllers\ResepDokterRacikanDetailController;
 use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
 use App\Http\Controllers\Lab\JnsPerawatanLabController;
+use App\Http\Controllers\Lab\PeriksaLabController;
 use App\Http\Controllers\Lab\Permintaan\DetailPermintaanLabController;
 use App\Http\Controllers\Lab\Permintaan\PermintaanLabController;
 use App\Http\Controllers\Lab\Permintaan\PermintaanPemeriksaanLabController;
@@ -267,8 +268,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::group(['prefix' => 'lab'], function () {
+
         Route::get('/jenis/get', [JnsPerawatanLabController::class, 'get']);
         Route::get('/jenis/template/get', [JnsPerawatanLabController::class, 'getTemplate']);
+        Route::get('/periksa/get', [PeriksaLabController::class, 'get']);
+
         Route::group(['prefix' => 'permintaan'], function () {
             Route::get('/', [PermintaanLabController::class, 'get']);
             Route::get('/test', [PermintaanLabController::class, 'createPermintaan']);

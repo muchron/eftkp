@@ -1,5 +1,5 @@
 <div class="modal modal-blur fade" id="modalListRm" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-md modal-dialog-centered modal-scrolled" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Kelengkapan Berkas Rekam Medis</h5>
@@ -21,7 +21,7 @@
     <script>
         let modalListRm = $('#modalListRm')
 
-        function listRm(no_rawat){
+        function listRm(no_rawat) {
             modalListRm.modal('show')
         }
     </script>
