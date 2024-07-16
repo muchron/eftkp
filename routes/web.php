@@ -271,6 +271,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/jenis/template/get', [JnsPerawatanLabController::class, 'getTemplate']);
         Route::group(['prefix' => 'permintaan'], function () {
             Route::get('/', [PermintaanLabController::class, 'get']);
+            Route::get('/test', [PermintaanLabController::class, 'createPermintaan']);
             Route::post('/', [PermintaanLabController::class, 'create']);
             Route::post('/delete/{noorder}', [PermintaanLabController::class, 'delete']);
             Route::post('/pemeriksaan', [PermintaanPemeriksaanLabController::class, 'create']);
@@ -366,8 +367,9 @@ Route::middleware('auth')->group(function () {
 
     // SETTING
 
-    Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'index']);
+    Route::get('/setting', [BridgingPcareSettingController::class, 'index']);
     Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
+    Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'get']);
     Route::get('/setting/pcare/user', [BridgingPcareSettingController::class, 'getUser']);
     Route::post('/setting/antrian/video', function (Request $request) {
         $data = [

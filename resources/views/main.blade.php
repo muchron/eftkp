@@ -208,6 +208,7 @@
             border: 1px solid rgb(227 214 214 / 80%) !important;
         }
     </style>
+    @stack('style')
 </head>
 
 <body class="layout-fluid">

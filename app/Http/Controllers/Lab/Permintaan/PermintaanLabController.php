@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Lab\Permintaan;
 
 use App\Models\Lab\Permintaan\PermintaanLab;
 use App\Http\Controllers\Controller;
+use App\Traits\ResponseHandlerTrait;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +12,8 @@ use Illuminate\Http\Request;
 
 class PermintaanLabController extends Controller
 {
-    use Track;
+    use Track, ResponseHandlerTrait;
+
     private $permintaan;
     public function __construct()
     {
@@ -95,5 +97,9 @@ class PermintaanLabController extends Controller
             return response()->json('Berhasil');
         }
         return response()->json(['Tidak ditemukan'], 400);
+    }
+    function createPermintaan(Request $request): JsonResponse
+    {
+       
     }
 }

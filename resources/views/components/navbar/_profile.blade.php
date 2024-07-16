@@ -26,7 +26,7 @@
           </div>
       </a>
       <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="dropdownMenu">
-          <a href="{{ url('setting/pcare') }}" class="dropdown-item"><i class="ti ti-settings me-2"></i> Setting Pcare</a>
+          <a href="{{ url('setting') }}" class="dropdown-item"><i class="ti ti-settings me-2"></i> Setting</a>
           <a href="{{ url('setting/user') }}" class="dropdown-item"><i class="ti ti-user me-2"></i> Profile</a>
           <form action="{{ url('logout') }}" method="post">
               <input type="hidden" value="{{ csrf_token() }}" name="_token">

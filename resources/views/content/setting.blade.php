@@ -1,5 +1,16 @@
 @extends('layout')
 
+@push('style')
+    <style>
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+    </style>
+@endpush
 @section('body')
     <div class="container">
         @if (session('status'))
@@ -17,99 +28,30 @@
             </div>
         @endif
         <div class="row gy-2">
-            <div class="col-xl-6 col-lg-6 col-md-12">
-                <form class="card" id="formSettingPcare" name="formSettingPcare" method="post" action="{{ url('setting/pcare') }}">
-                    <div class="card-header">
-                        <h3 class="card-title">Setting PCARE </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Cons ID</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="consId" placeholder="Cons ID" value="{{ $data ? $data->consId : '' }}">
-                                <input type="hidden" name="consIdExisting" value="{{ $data ? $data->consId : '' }}">
+            <div class="container-xl">
+                <div class="card">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-3 border-end">
+                            <div class="card-body">
+                                <div class="list-group list-group-transparent" id="settings-links">
+                                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active" data-target="pcare">Setting PCARE</a>
+                                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center" data-target="antrian">Display Antrean</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Secret Key</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="secretKey" placeholder="Secret Key" value="{{ $data ? $data->secretKey : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">User Key</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="userKey" placeholder="User Key" value="{{ $data ? $data->userKey : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Pcare Url</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="baseUrl" placeholder="Pcare Url" value="{{ $data ? $data->baseUrl : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Icare Url</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="urlIcare" placeholder="Icare Url" value="{{ $data ? $data->urlIcare : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Username Pcare</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="user" placeholder="Username Pcare" value="{{ $data ? $data->user : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Password Pcare</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="password" placeholder="Password Pcare" value="{{ $data ? $data->password : '' }}" formnovalidate>
-                                <span class="invalid-feedback" id="errorPassword"></span>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Username I-Care</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="userIcare" placeholder="Username Icare" value="{{ $data ? $data->userIcare : '' }}">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">Password I-Care</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="passwordIcare" placeholder="Password Icare" value="{{ $data ? $data->passwordIcare : '' }}" formnovalidate>
-                                <span class="invalid-feedback" id="errorPassword"></span>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-3 col-form-label required">App Code</label>
-                            <div class="col">
-                                <input type="text" class="form-control" name="appCode" placeholder="App Code" value="{{ $data ? $data->appCode : '' }}">
-                                <span class="badge bg-primary mt-2"> Terakhir diubah : {{ $data ? date('d-m-Y H:i:s', strtotime($data->updated_at)) : '' }}</span>
+                        <div class="col-12 col-md-9 d-flex flex-column">
+                            <div class="card-body" style="height: 70vh;max-height: 80vh;overflow-y:auto">
+                                <div class="content-section" id="pcare">
+                                    @include('content.setting._pcareSetting')
+                                </div>
+                                <div class="content-section" id="antrian">
+                                    @include('content.setting._videoAntreanSetting')
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-end">
-                        <button type="submit" class="btn btn-success" id="btnSettingPcare"><i class="ti ti-device-floppy"></i> Simpan</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-12">
-                <form class="card" id="formSetting" name="formSetting">
-                    <div class="card-body">
-                        <div class="row gy-2">
-                            <div class="col-12">
-                                <label class="col-3 col-form-label">Video Antrean</label>
-                                <textarea class="form-control" rows="6" name="txtVideoAntrean" id="txtVideoAntrean"> </textarea>
-                            </div>
-                            <div class="col-12">
-                                <div id="videoAntrean" style="height:50vh"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-end">
-                        <button type="button" class="btn btn-success" id="btnVideoAntrean"><i class="ti ti-device-floppy"></i> Simpan</button>
-                    </div>
-                </form>
+                </div>
+
             </div>
         </div>
 
@@ -118,31 +60,43 @@
 
 @push('script')
     <script>
-        $('#btnVideoAntrean').on('click', (e) => {
-            const videoAntrean = $("#txtVideoAntrean").val()
-            $.post(`${url}/setting/antrian/video`, {
-                content: videoAntrean
-            }).done((response) => {
-                alertSuccessAjax().then(() => {
-                    location.reload();
-                })
-
-            })
-        })
         $(document).ready(() => {
+            $('#settings-links a').on('click', function(event) {
+                event.preventDefault();
 
-            $.get(`${url}/setting/antrian/video`).done((response) => {
-                if (response) {
-                    content = response.content
-                } else {
-                    content = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-                }
-                $('#videoAntrean').html(content);
-                $("#txtVideoAntrean").val(content)
-                $('iframe').attr('width', '100%').attr('height', '100%')
-            })
+                // Remove 'active' class from all links and content sections
+                $('#settings-links a').removeClass('active');
+                $('.content-section').removeClass('active');
 
+                // Add 'active' class to clicked link
+                $(this).addClass('active');
+
+                // Show the corresponding content section
+                var targetId = $(this).data('target');
+                $('#' + targetId).addClass('active');
+            });
+
+            // Initially show the first section
+            $('#settings-links a').first().click();
+
+            getSettingPcare()
+            getVideoAntrean()
 
         });
+
+        function toggleSettingPcare(e) {
+            const trigger = e.currentTarget
+            const target = e.currentTarget.dataset.target
+            const el = $(`${target}`);
+            const isText = el.attr('type') === 'text' ? true : false;
+            if (isText) {
+                $(trigger).html('<i class="ti ti-eye-off"></i>').attr('class', 'btn btn-outline-secondary')
+                el.attr('type', 'password')
+            } else {
+                $(trigger).html('<i class="ti ti-eye"></i>').attr('class', 'btn btn-danger')
+                el.attr('type', 'text')
+            }
+
+        }
     </script>
 @endpush
