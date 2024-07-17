@@ -83,14 +83,14 @@ use Illuminate\Database\QueryException;
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
 
-Route::get('/antrian/poliklinik', function () {
+Route::get('/antrean/poliklinik', function () {
     $settings = Setting::select()->get();
 
     foreach ($settings as $setting) {
         $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
         $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
     }
-    return view('antrian.poliklinik', ['data' => $setting]);
+    return view('antrean.poliklinik', ['data' => $setting]);
 });
 
 
@@ -375,7 +375,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting/pcare', [BridgingPcareSettingController::class, 'create']);
     Route::get('/setting/pcare', [BridgingPcareSettingController::class, 'get']);
     Route::get('/setting/pcare/user', [BridgingPcareSettingController::class, 'getUser']);
-    Route::post('/setting/antrian/video', function (Request $request) {
+    Route::post('/setting/antrean/video', function (Request $request) {
         $data = [
             'title' => 'video',
             'content' => $request['content'],
@@ -388,7 +388,7 @@ Route::middleware('auth')->group(function () {
         return response()->json($data);
     });
 
-    Route::get('/setting/antrian/video', function () {
+    Route::get('/setting/antrean/video', function () {
         $data = Storage::get('public/video.json');
         if ($data) {
             return response()->json(json_decode($data));

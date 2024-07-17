@@ -35,7 +35,7 @@
                             <div class="card-body">
                                 <div class="list-group list-group-transparent" id="settings-links">
                                     <a href="#" class="list-group-item list-group-item-action d-flex align-items-center active" data-target="pcare">Setting PCARE</a>
-                                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center" data-target="antrian">Display Antrean</a>
+                                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center" data-target="antrean">Display Antrean</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 <div class="content-section" id="pcare">
                                     @include('content.setting._pcareSetting')
                                 </div>
-                                <div class="content-section" id="antrian">
+                                <div class="content-section" id="antrean">
                                     @include('content.setting._videoAntreanSetting')
                                 </div>
                             </div>

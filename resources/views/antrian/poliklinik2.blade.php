@@ -35,7 +35,7 @@
                 <div class="card border rounded-4 text-center" style="height: 70vh;" id="poliklinik">
 
                     <div class="card-body">
-                        <h3 class="mb-5" style="margin-top:15vh">Nomor Antrian</h3>
+                        <h3 class="mb-5" style="margin-top:15vh">Nomor Antrean</h3>
                         <h1 class="mb-5" style="font-size: 800%" id="nomor">000</h1>
                         <h1 class="" style="font-size: 350%" id="nama">-</h1>
                         <h1 class="m-0" id="poliklinik">-</h1>

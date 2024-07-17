@@ -119,13 +119,13 @@
              </span>
          </a>
      </li>
-     <li class="nav-item {{ Request::is('antrian') ? 'active' : '' }}">
-         <a class="nav-link" href="{{ url('antrian/poliklinik') }}" target="_blank">
+     <li class="nav-item {{ Request::is('antrean') ? 'active' : '' }}">
+         <a class="nav-link" href="{{ url('antrean/poliklinik') }}" target="_blank">
              <span class="nav-link-icon d-md-none d-lg-inline-block mt-1">
                  <i class="ti ti-screen-share fw-2"></i>
              </span>
              <span class="nav-link-title">
-                 Antrian
+                 antrean
              </span>
          </a>
      </li>

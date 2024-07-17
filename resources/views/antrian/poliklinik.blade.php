@@ -34,7 +34,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="card border rounded-4 text-center" style="height: 70vh;">
                     <div class="card-body">
-                        <h3 class="mb-5" style="margin-top:15vh">Nomor Antrian</h3>
+                        <h3 class="mb-5" style="margin-top:15vh">Nomor Antrean</h3>
                         <h1 class="mb-5" style="font-size: 800%" id="nomor">000</h1>
                         <h1 class="" style="font-size: 350%" id="nama">-</h1>
                         <h1 class="m-0" id="poliklinik">-</h1>
@@ -64,7 +64,7 @@
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
     <script>
         $(document).ready(() => {
-            $.get(`${url}/setting/antrian/video`).done((response) => {
+            $.get(`${url}/setting/antrean/video`).done((response) => {
                 if (response) {
                     $('#videoAntrean').html(response.content);
                 } else {
