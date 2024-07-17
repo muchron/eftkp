@@ -216,6 +216,23 @@
     <div class="page-wrapper">
         @yield('contents')
     </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="otherMenu" aria-labelledby="otherMenuLabel" aria-modal="true" role="dialog">
+        <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="otherMenuLabel">Menu Lainnya</h2>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                    The current link item
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">A second link item</a>
+                <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+                <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+                <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+            </div>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>

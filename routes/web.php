@@ -378,14 +378,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting/antrian/video', function (Request $request) {
         $data = [
             'title' => 'video',
-            'content' => $request->content,
+            'content' => $request['content'],
         ];
         try {
             Storage::put('public/video.json', json_encode($data));
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo, 500);
+        } catch (Throwable  $e) {
+            return response()->json($e, 500);
         }
-        return response()->json('SUKSES');
+        return response()->json($data);
     });
 
     Route::get('/setting/antrian/video', function () {

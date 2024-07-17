@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-9 d-flex flex-column">
-                            <div class="card-body" style="height: 70vh;max-height: 80vh;overflow-y:auto">
+                            <div class="card-body" style="height: 80vh;overflow-y:auto">
                                 <div class="content-section" id="pcare">
                                     @include('content.setting._pcareSetting')
                                 </div>

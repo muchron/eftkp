@@ -1,41 +1,8 @@
-<div class="card">
-    <div class="card-body">
-        <div id="table-default" class="table-responsive">
-            <table class="table table-sm table-striped table-hover nowrap" id="tabelRegistrasi" width="100%">
-            </table>
-        </div>
-    </div>
-    <div class="card-footer">
-        <form action="registrasi/get" method="get" id="formFilterRegistrasi">
-            <div class="row d-none-sm d-none-md gy-2">
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <div class="input-group">
-                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
-                        <span class="input-group-text">
-                            s.d
-                        </span>
-                        <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
-                        <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
-                    </div>
-                </div>
-                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
-                    <select class="form-select" id="dokter" name="dokter" style="width: 100%"></select>
-                </div>
-                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
-                    <select class="form-select form-select-2" id="stts" name="stts" style="width: 100%">
-                        <option value="" selected>-</option>
-                        <option value="Belum">Belum</option>
-                        <option value="Sudah">Sudah</option>
-                        <option value="Batal">Batal</option>
-                        <option value="Dirujuk">Dirujuk</option>
-                    </select>
-                </div>
-                <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
-                    <button type="button" class="btn btn-primary w-100" data-bs-target='#modalPasien' data-bs-toggle="modal"><i class="ti ti-users me-2"></i>Pasien</button>
-                </div>
-            </div>
-        </form>
-    </div>
+
+
+<div id="table-default" class="table-responsive">
+    <table class="table table-sm table-striped table-hover nowrap" id="tabelRegistrasi" width="100%">
+    </table>
 </div>
 
 {{-- MODAL --}}
@@ -293,13 +260,13 @@
 
         function setPanggil(no_rawat) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
+                loadTabelRegistrasi(tglAwal, tglAkhir)
             });
         }
 
         function setBelum(no_rawat) {
             setStatusLayan(no_rawat, 'Belum').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
+                loadTabelRegistrasi(tglAwal, tglAkhir)
             });
         }
     </script>

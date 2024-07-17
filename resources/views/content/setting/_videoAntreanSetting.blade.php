@@ -17,12 +17,13 @@
         const contentVideoAntrean = $('#contentVideoAntrean');
 
         function setVideoAntrean() {
-            const content = $("#txtVideoAntrean").val()
+            const content = $("#txtVideoAntrean").val();
             $.post(`${url}/setting/antrian/video`, {
+                title: 'video',
                 content: content
             }).done((response) => {
                 alertSuccessAjax('Berhasil set video antrean')
-                contentVideoAntrean.html(content);
+                contentVideoAntrean.html(response.content);
                 $("#txtVideoAntrean").addClass('is-valid')
                 $('iframe').attr('width', '100%').attr('height', '100%')
 

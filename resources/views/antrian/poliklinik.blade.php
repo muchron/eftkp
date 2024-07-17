@@ -58,10 +58,7 @@
                 </div>
             </div>
         </div>
-        {{-- <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam nisi laudantium aut natus nam, debitis delectus quos eos harum inventore explicabo non earum voluptate dolor eaque quas. Sint, laudantium nam!</h1> --}}
     </div>
-    {{-- {{ print_r($data) }} --}}
-    {{-- @dd($data) --}}
 @endsection
 @push('script')
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
@@ -96,8 +93,6 @@
             setInterval(() => {
                 const currentSpeech = $('#speech').val()
                 $.get(`${url}/registrasi/get/panggil`).done((response) => {
-                    console.log(response);
-
                     if (Object.keys(response).length) {
                         if (response.pcare_pendaftaran) {
                             $('#nomor').html(response.pcare_pendaftaran.noUrut)
@@ -112,7 +107,7 @@
                         const speech = response.pasien.nm_pasien.split(', ');
                         responsiveVoice.speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`, 'Indonesian Female', {
                             rate: 0.9,
-                            volume: 20,
+                            volume: 50,
                         });
                         setStatusLayan(response.no_rawat, 'Dirawat')
                         setInterval(blinkText($('#nama')), 2000);
