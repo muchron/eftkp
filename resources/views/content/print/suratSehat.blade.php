@@ -5,8 +5,7 @@
 @section('content')
     <div class="container" style="margin: 20px">
         <div width="100%">
-            {{-- <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px" style="top:20px;left: 25px;position:absolute"> --}}
-            <div style="text-align: center; margin-left:60px;">
+            <div style="text-align: center;">
                 <h5 class="m-0">{{ $data['nama_instansi'] }}</h5>
                 <p class="m-0">{{ $data['alamat_instansi'] }}</p>
                 <p class="m-0">Telp. {{ $data['kontak'] }}, Email : {{ $data['email'] }} </p>
@@ -19,10 +18,10 @@
             <h5><u>SURAT KETERANGAN SEHAT</u></h5>
             <p>No. {{ $data['no_surat'] }}</p>
         </div>
-        <p class="mb-0">Yang bertanda tangan di bawah ini : </p>
+        <p class="mb-0">Yang bertanda tangan di bawah ini</p>
         <table class="table" width="100%">
             <tr>
-                <td width="20%">Nama</td>
+                <td width="25%">Nama</td>
                 <td width="2%">:</td>
                 <td>{{ $data['dokter'] }}</td>
             </tr>
@@ -32,10 +31,10 @@
                 <td>{{ $data['jabatan'] }}</td>
             </tr>
         </table>
-        <p class="mb-0">menerangkan bahwa : </p>
+        <p style="margin:10px">menerangkan bahwa</p>
         <table class="table" width="100%">
             <tr>
-                <td width="20%">Nama Pasien</td>
+                <td width="25%">Nama Pasien</td>
                 <td width="2%">:</td>
                 <td>{{ $data['nm_pasien'] }}</td>
             </tr>

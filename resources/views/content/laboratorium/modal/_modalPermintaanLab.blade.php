@@ -168,11 +168,11 @@
                         const permintaan = response.map((item, index) => {
                             return `<tr>
                             <td>${index+1}</td>
-                            <td>${item.noorder} <a href="javascript:void(0)" onclick="deletePermintaanLab('${item.noorder}')" title="Hapus permintaan" class="text-red"><i class="ti ti-trash"></i></a></td>
+                            <td>${item.noorder} <a href="javascript:void(0)" onclick="deletePermintaanLab('${item.noorder}')" title="Hapus permintaan" class="text-red"><i class="ti ti-trash"></i></a> ${isGetHasilLab(item)}</td>
                             <td>${splitTanggal(item.tgl_permintaan)} ${item.jam_permintaan}</td>
                             <td>${item.informasi_tambahan}</td>
                             <td>${item.diagnosa_klinis}</td>
-                            <td>${isGetHasilLab(item)} </td>
+                            <td>${splitTanggal(item.tgl_sampel)} ${item.jam_sampel}</td>
                             <td>${splitTanggal(item.tgl_hasil)} ${item.jam_hasil}</td>
                             </tr>${getPermintaanPeriksa(item.pemeriksaan)}`
                         }).join('');
@@ -192,11 +192,11 @@
         }
 
         function isGetHasilLab(item) {
-            console.log(item);
-            if (item.tgl_hasil === '0000-00-00') {
-                return `${splitTanggal(item.tgl_sampel)} ${item.jam_sampel}`
+
+            if (item.tgl_hasil !== '0000-00-00') {
+                return `<a href="javascript:void(0)" onclick="showHasilPermintaanLab('${item.no_rawat}', '${item.tgl_hasil}')" title="Lihat Hasil" class="text-success"><i class="ti ti-eye"></i></a>`
             }
-            return `${splitTanggal(item.tgl_sampel)} ${item.jam_sampel} <a href="javascript:void(0)" onclick="showHasilPeriksaLab('${item.no_rawat}', '${item.tgl_hasil}')" title="Lihat Hasil" class="text-success"><i class="ti ti-check"></i></a>`
+            return '';
         }
 
         function getPermintaanPeriksa(data) {

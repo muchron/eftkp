@@ -6,11 +6,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="card border-0">
-                    <div class="card-body p-0">
-                        @include('content.registrasi.suratSehat._formSuratSehat')
-                    </div>
-                </div>
+                <fieldset class="form-fieldset p-1">
+                    @include('content.registrasi.suratSehat._formSuratSehat')
+                </fieldset>
                 <div class="card mt-2">
                     <div class="card-body">
                         <div class="table-responsive mt-2">
@@ -51,7 +49,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <iframe id="print" type="" width="100%" height="600"></iframe>
+                <iframe id="print" type="" width="100%" height="500"></iframe>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
@@ -81,7 +79,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '25vh',
+                scrollY: '13vh',
                 scrollX: true,
                 ajax: {
                     url: `${url}/surat/sehat`,

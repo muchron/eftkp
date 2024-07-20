@@ -125,7 +125,7 @@
                  <i class="ti ti-screen-share fw-2"></i>
              </span>
              <span class="nav-link-title">
-                 antrean
+                 Antrean
              </span>
          </a>
      </li>

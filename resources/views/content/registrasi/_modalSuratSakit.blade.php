@@ -11,7 +11,7 @@
                         @include('content.registrasi.suratSakit._formSuratSakit')
                     </div>
                 </div>
-                <div class="card mt-2">
+                <div class="card">
                     <div class="card-body">
                         @include('content.registrasi.suratSakit._tbSuratSakit')
                     </div>

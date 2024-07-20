@@ -85,7 +85,7 @@
                     },
                 },
                 createdRow: (row, data, index) => {
-                    $(row).addClass('table-rows')
+                    $(row).addClass('rows-registrasi')
                         .attr('data-id', data.no_rawat)
                         .attr('data-penjab', data.penjab.png_jawab.includes('BPJS') ? 'BPJS' : 'UMUM')
                         .attr('data-poli', data.kd_poli)

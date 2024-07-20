@@ -1057,7 +1057,7 @@ function selectJabatan(element, parent) {
 
 // CONTEXT MENU
 $.contextMenu({
-    selector: '.table-rows',
+    selector: '.rows-registrasi',
     events: {
         hide: (element, event) => {
             $(element.selector).removeClass('text-red')
@@ -1123,6 +1123,25 @@ $.contextMenu({
                     icon: "fas fa-tooth",
                     callback: (item, opt) => {
                         pemeriksaanGigi(`${no_rawat}`);
+                    }
+                },
+                "Tindakan & Pemeriksaan": {
+                    name: "Tindakan & Pemeriksaan",
+                    items: {
+                        "PemeriksaanLab": {
+                            name: "Laboratorium",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                showPeriksaLab(`${no_rawat}`)
+                            }
+                        },
+                        "PemeriksaanRadiologi": {
+                            name: "Radiologi",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                // permintaanRadiologi(`${no_rawat}`);
+                            }
+                        },
                     }
                 },
                 "Surat": {
@@ -1422,6 +1441,25 @@ $.contextMenu({
                         cpptRanap(`${no_rawat}`)
                     }
 
+                },
+                "Tindakan & Pemeriksaan": {
+                    name: "Tindakan & Pemeriksaan",
+                    items: {
+                        "PemeriksaanLab": {
+                            name: "Laboratorium",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                showPeriksaLab(`${no_rawat}`)
+                            }
+                        },
+                        "PemeriksaanRadiologi": {
+                            name: "Radiologi",
+                            icon: "fas fa-tag",
+                            callback: (item, opt) => {
+                                // permintaanRadiologi(`${no_rawat}`);
+                            }
+                        },
+                    }
                 },
                 "Obat": {
                     name: "Obat",
