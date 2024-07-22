@@ -264,11 +264,13 @@
         }
 
         tglReg.on('change', (e) => {
-            e.preventDefault()
-            const tgl = e.currentTarget.value;
-            setNoRawat(tgl).done((response) => {
-                formRegistrasiPoli.find('input[name=no_rawat]').val(response)
-            })
+            const isEdit = modalRegistrasi.find('.modal-title').html().includes('Ubah')
+            if (!isEdit) {
+                const tgl = e.currentTarget.value;
+                setNoRawat(tgl).done((response) => {
+                    formRegistrasiPoli.find('input[name=no_rawat]').val(response)
+                })
+            }
         })
 
         function createPendaftaranPcare(data) {

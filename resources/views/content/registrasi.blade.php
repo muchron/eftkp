@@ -80,8 +80,6 @@
                 } = response;
                 checkJam.prop('checked', false).trigger('change')
                 checkNoReg.prop('checked', false).trigger('change')
-
-                // formRegistrasiPoli.find('input').prop('disabled', true)
                 formRegistrasiPoli.find('input[name="no_reg"]').prop('disabled', false).val(response.no_reg)
                 formRegistrasiPoli.find('input[name="no_rawat"]').val(response.no_rawat)
                 formRegistrasiPoli.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
@@ -123,6 +121,8 @@
                         formRegistrasiPoli.find('input[name=nadi]').val(response.nadi)
                         formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkar_perut)
                     })
+                } else {
+                    formRegistrasiPoli.find('input[name=no_peserta]').val('-')
                 }
 
                 btnSimpanReg.removeAttr('onclick').attr('onclick', 'updateRegPeriksa()')
@@ -147,6 +147,8 @@
                         kd_dokter: data['kd_dokter'],
                         no_reg: data['no_reg'],
                         kd_poli: data['kd_poli'],
+                        tgl_registrasi: data['tgl_registrasi'],
+                        jam_reg: data['jam_reg']
                     }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
