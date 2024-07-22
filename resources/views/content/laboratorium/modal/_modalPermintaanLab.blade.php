@@ -203,14 +203,16 @@
             return data.map((item) => {
                 return `<tr>
                         <td></td>
-                        <td colspan=6><strong>[${item.kd_jenis_prw}] ${item.jenis.nm_perawatan}</strong> : ${getDetailPermintaan(item.detail)}</td>
+                        <td colspan=6><strong>${item.jenis.nm_perawatan}</strong> : ${getDetailPermintaan(item.detail)}</td>
                     </tr>`
             }).join('');
         }
 
         function getDetailPermintaan(data) {
-            return data.map((val, index) => {
-                return `<span class="badge bg-primary">${val.item.nama}</span>`
+            return data.filter((val, index) => {
+                return val.item.nama.trim() !== '';
+            }).map(val => {
+                return `<span class="badge bg-primary">${val.item.nama}</span>`;
             }).join(' | ');
         }
 
@@ -261,7 +263,7 @@
                         return `<tr>
                         <td><input type="checkbox" class="form-check checkJenisPemeriksaan" name="${item.kd_jenis_prw}" id="${item.kd_jenis_prw}" onclick="checkJenisPemeriksaan(this)"/></td>
                         <td colspan=3><b>${item.nm_perawatan}</b></td>
-                        </tr>${setTemplatePemeriksaan(item.template)}`
+                        </tr>${setTemplatePemeriksaan(item)}`
                     });
                 })
                 tablePermintaanLab.find('tbody').empty().append(pemeriksaan).append(subPemeriksaan)
@@ -287,7 +289,7 @@
                             return `<tr>
                             <td><input type="checkbox" class="form-check checkJenisPemeriksaan" name="${item.kd_jenis_prw}" id="${item.kd_jenis_prw}" /></td>
                             <td colspan=3><b>${item.nm_perawatan}</b></td>
-                            </tr>${setTemplatePemeriksaan(item.template)}`
+                            </tr>${setTemplatePemeriksaan(item)}`
                         });
                     })
 
@@ -305,15 +307,25 @@
 
 
         function setTemplatePemeriksaan(data) {
-            return data.map((i) => {
+            const {
+                template
+            } = data;
+            return template.map((i) => {
                 if (i.Pemeriksaan.length) {
                     return `<tr>
-                        <td><input class="form-checkbox item" type="checkbox" name="${i.id_template}" id="${i.id_template}" data-parent="${i.kd_jenis_prw}" /></td>
-                        <td><span class="ms-4">${i.Pemeriksaan}</span></td>
-                        <td>${i.satuan}</td>
-                        <td><b>LD</b> : ${i.nilai_rujukan_ld} ${i.satuan}, <b>LA</b> : ${i.nilai_rujukan_la} ${i.satuan}, <b>PD</b> : ${i.nilai_rujukan_pd} ${i.satuan}, <b>PA</b> : ${i.nilai_rujukan_pa} ${i.satuan} </td>
-                    </tr>`
+                    <td><input class="form-checkbox itemPemeriksaanLab" type="checkbox" name="${i.id_template}" id="${i.id_template}" data-parent="${i.kd_jenis_prw}" /></td>
+                    <td><span class="ms-4">${i.Pemeriksaan}</span></td>
+                    <td>${i.satuan}</td>
+                    <td><b>LD</b> : ${i.nilai_rujukan_ld} ${i.satuan}, <b>LA</b> : ${i.nilai_rujukan_la} ${i.satuan}, <b>PD</b> : ${i.nilai_rujukan_pd} ${i.satuan}, <b>PA</b> : ${i.nilai_rujukan_pa} ${i.satuan} </td>
+                </tr>`
 
+                } else {
+                    return `<tr>
+                    <td><input class="form-checkbox itemPemeriksaanLab" type="checkbox" name="${i.id_template}" id="${i.id_template}" data-parent="${i.kd_jenis_prw}" /></td>
+                    <td><span class="ms-4">${data.nm_perawatan}</span></td>
+                    <td>${i.satuan}</td>
+                    <td></td>
+                </tr>`
                 }
             })
         }
@@ -346,25 +358,58 @@
             const data = getDataForm('formPermintaanLab', ['input']);
             const dataDetailPermintaan = [];
             const dataPemeriksaan = [];
-            $('.item').each((index, e) => {
-                if ($(e).prop('checked')) {
+            $('.itemPemeriksaanLab').each((index, e) => {
+                const element = $(e);
+                const item = element.prop('checked')
+                if (item) {
+                    const noorder = data.noorder;
+                    const id = element.attr('id');
+                    const kd_jenis_prw = element.data('parent');
+                    const stts_bayar = 'Belum';
+
+                    const exists = dataPemeriksaan.find(entry =>
+                        entry.kd_jenis_prw === kd_jenis_prw
+                    );
+
+                    if (!exists) {
+                        dataPemeriksaan.push({
+                            noorder: noorder,
+                            kd_jenis_prw: kd_jenis_prw,
+                            stts_bayar: stts_bayar
+                        });
+                    }
+
                     dataDetailPermintaan.push({
-                        noorder: data.noorder,
-                        id_template: $(e).attr('id'),
-                        kd_jenis_prw: $(e).attr('data-parent'),
-                        stts_bayar: 'Belum',
-                    })
+                        noorder: noorder,
+                        id_template: id,
+                        kd_jenis_prw: kd_jenis_prw,
+                        stts_bayar: stts_bayar,
+                    });
                 }
             });
+
             $('.checkJenisPemeriksaan').each((index, e) => {
-                if ($(e).prop('checked')) {
-                    dataPemeriksaan.push({
-                        noorder: data.noorder,
-                        kd_jenis_prw: $(e).attr('id'),
-                        stts_bayar: 'Belum',
-                    })
+                const element = $(e);
+                if (element.prop('checked')) {
+
+                    const noorder = data.noorder;
+                    const kd_jenis_prw = element.attr('id');
+                    const stts_bayar = 'Belum';
+
+                    const exists = dataPemeriksaan.find(entry =>
+                        entry.kd_jenis_prw === kd_jenis_prw
+                    );
+
+                    if (!exists) {
+                        dataPemeriksaan.push({
+                            noorder: noorder,
+                            kd_jenis_prw: kd_jenis_prw,
+                            stts_bayar: stts_bayar
+                        });
+                    }
                 }
             });
+
 
             if (dataDetailPermintaan.length) {
                 $.post(`${url}/lab/permintaan`, data).done((response) => {
