@@ -274,7 +274,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/periksa/get', [PeriksaLabController::class, 'get']);
 
         Route::group(['prefix' => 'permintaan'], function () {
-            Route::get('/', [PermintaanLabController::class, 'get']);
+            Route::get('/', [PermintaanLabController::class, 'index']);
+            Route::get('/get', [PermintaanLabController::class, 'get']);
             Route::get('/test', [PermintaanLabController::class, 'createPermintaan']);
             Route::post('/', [PermintaanLabController::class, 'create']);
             Route::post('/delete/{noorder}', [PermintaanLabController::class, 'delete']);

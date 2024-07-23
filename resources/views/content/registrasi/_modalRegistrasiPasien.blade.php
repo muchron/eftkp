@@ -236,6 +236,10 @@
         modalRegistrasi.on('hidden.bs.modal', () => {
             btnSimpanReg.removeAttr('onclick').attr('onclick', 'createRegPeriksa()')
             formRegistrasiPoli.trigger('reset');
+            periksaPendaftaran.hasClass('d-none') ?
+                periksaPendaftaran.removeClass('d-none') :
+                periksaPendaftaran.addClass('d-none');
+
         })
 
         function refreshTime() {
@@ -255,12 +259,9 @@
         }
 
         function setNoRawat(tgl_registrasi = '') {
-
-            const setNoRawat = $.get(`${url}/registrasi/set/norawat`, {
+            return $.get(`${url}/registrasi/set/norawat`, {
                 tgl_registrasi: tgl_registrasi
             })
-            return setNoRawat;
-
         }
 
         tglReg.on('change', (e) => {
@@ -548,8 +549,7 @@
 
         function setUmur(tgl_lahir) {
             const umur = hitungUmur(tgl_lahir);
-            const textUmur = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
-            return textUmur;
+            return `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
         }
 
         selectPoliklinikReg.on('select2:select', (e) => {

@@ -20,6 +20,11 @@ class PermintaanLabController extends Controller
         $this->permintaan = new PermintaanLab();
     }
 
+
+	function index()
+	{
+		return view('content.laboratorium.permintaan');
+	}
     function get(Request $request): JsonResponse
     {
         $permintaan = $this->permintaan->where('no_rawat', $request->no_rawat)

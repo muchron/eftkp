@@ -159,7 +159,7 @@
         function getPermintaanLab(no_rawat) {
             const isVisible = tableHasilPermintaan.hasClass('d-none')
             if (isVisible) {
-                $.get(`${url}/lab/permintaan`, {
+                $.get(`${url}/lab/permintaan/get`, {
                     no_rawat: no_rawat
                 }).done((response) => {
                     let contentPermintaan = '';

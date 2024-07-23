@@ -57,18 +57,6 @@
         let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
         let selectDokterPoli = formFilterRegistrasi.find('select[name="dokter"'); //get data from selection filter stts
 
-        $(document).ready(() => {
-            $('#tglAwal').val(tglAwal)
-            $('#tglAkhir').val(tglAkhir)
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-        })
-
-
-
         function ubahRegistrasi(no_rawat) {
             modalRegistrasi.modal('show');
             getRegDetail(no_rawat).done((response) => {
