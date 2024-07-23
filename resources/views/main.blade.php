@@ -295,7 +295,7 @@
                                                 Laboratorium
                                             </a>
                                             <div class="dropdown-menu">
-                                                <a href="#" class="dropdown-item">
+                                                <a href="{{url('/lab/permintaan')}}" class="dropdown-item">
                                                     Permintaan Lab PK
                                                 </a>
                                                 <a href="#" class="dropdown-item">

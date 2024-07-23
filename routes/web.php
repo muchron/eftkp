@@ -281,6 +281,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/delete/{noorder}', [PermintaanLabController::class, 'delete']);
             Route::post('/pemeriksaan', [PermintaanPemeriksaanLabController::class, 'create']);
             Route::post('/detail', [DetailPermintaanLabController::class, 'create']);
+            Route::get('/detail/{noorder}/{kd_jenis_prw?}', [DetailPermintaanLabController::class, 'get']);
+
             Route::get('/noorder', [PermintaanLabController::class, 'getNoOrder']);
         });
     });

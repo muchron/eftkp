@@ -9,6 +9,8 @@ use App\Traits\Track;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Services\DataTable;
 
 class PermintaanLabController extends Controller
 {
@@ -25,8 +27,11 @@ class PermintaanLabController extends Controller
 	{
 		return view('content.laboratorium.permintaan');
 	}
-    function get(Request $request): JsonResponse
+    function get(Request $request)
     {
+		if($request->dataTable){
+			return $this->getDataTable($request);
+		}
         $permintaan = $this->permintaan->where('no_rawat', $request->no_rawat)
             ->with(['pemeriksaan' => function ($q) {
                 return $q->with([
@@ -102,4 +107,23 @@ class PermintaanLabController extends Controller
     function createPermintaan(Request $request): JsonResponse
     {
     }
+
+	function getDataTable(Request $request)
+	{
+		$keyword = $request->dataTable;
+		$tgl_permintaan = $request->dataTable['tgl_permintaan'];
+		unset($keyword['tgl_permintaan']);
+//		if($request->dataTable){
+			$permintaan = $this->permintaan
+				->whereBetween('tgl_permintaan', $tgl_permintaan)
+				->orWhere($keyword)
+			->with('registrasi', 'pasien', 'perujuk', 'poliklinik', 'penjab');
+//
+//		}else{
+//			$permintaan = $this->permintaan;
+//		}
+//
+		return DataTables::of($permintaan)->make(true);
+	}
+
 }

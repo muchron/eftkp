@@ -2,6 +2,7 @@
 
 namespace App\Models\Lab\Permintaan;
 
+use App\Models\Lab\JnsPerawatanLab;
 use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Lab\TemplateLaboratorium;
@@ -24,4 +25,8 @@ class DetailPermintaanLab extends Model
     {
         return $this->belongsTo(TemplateLaboratorium::class, ['kd_jenis_prw', 'id_template'], ['kd_jenis_prw', 'id_template']);
     }
+	function jenis():BelongsTo
+	{
+		return $this->belongsTo(JnsPerawatanLab::class, 'kd_jenis_prw', 'kd_jenis_prw');
+	}
 }

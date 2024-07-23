@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Lab\Permintaan;
 
+use App\Traits\ResponseHandlerTrait;
 use App\Traits\Track;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Lab\DetailPemeriksaanLab;
@@ -10,7 +12,7 @@ use App\Models\Lab\Permintaan\DetailPermintaanLab;
 
 class DetailPermintaanLabController extends Controller
 {
-    use Track;
+    use Track, ResponseHandlerTrait;
     protected $detail;
 
     public function __construct()
@@ -41,4 +43,22 @@ class DetailPermintaanLabController extends Controller
             'message' => 'Data berhasil disimpan'
         ]);
     }
+
+	function get($noorder, $kd_jenis_prw='') : JsonResponse
+	{
+		$permintaan = $this->detail->with(['item'=>function($q){
+			return $q->select(['kd_jenis_prw', 'id_template', 'Pemeriksaan as nama', 'nilai_rujukan_ld as ld', 'nilai_rujukan_la as la', 'nilai_rujukan_pd as pd', 'nilai_rujukan_pa as pa', 'satuan']);
+		}, 'jenis' => function($q){
+			return $q->select(['nm_perawatan', 'kd_jenis_prw']);
+		}]);
+
+		if(!$kd_jenis_prw){
+			$permintaan = $permintaan->where('noorder', $noorder)->get();
+		}else{
+			$permintaan = $permintaan->where(['noorder'=>$noorder,  'kd_jenis_prw' => $kd_jenis_prw])->first();
+		}
+
+		return $this->success($permintaan);
+
+	}
 }
