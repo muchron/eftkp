@@ -6,6 +6,7 @@ use App\Traits\Track;
 use App\Models\Setting;
 use App\Models\SuratSakit;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Database\QueryException;
@@ -47,7 +48,8 @@ class SuratSakitController extends Controller
     {
         $tgl_surat = $request->tgl_surat ? $request->tgl_surat :  date('Y-m-d');
         $surat = SuratSakit::select('no_surat')->where('tanggalawal', $tgl_surat)->orderBy('no_surat', 'DESC')->first();
-        $strTanggal = date('Ymd');
+
+		$strTanggal = Carbon::parse($tgl_surat)->translatedFormat('Ymd');
         if (!$surat) {
             $no = '001';
         } else {

@@ -90,6 +90,7 @@
                                 const bpjs = new Option(`${response.kd_pj} - ${response.png_jawab}`, `${response.kd_pj}`, true, true);
                                 formPasien.find('select[name=kd_pj]').append(bpjs).trigger('change');
                             })
+                            loadingAjax().close();
                         } else {
                             formRegistrasiPoli.find('input[name=bridging]').val(true)
                         }

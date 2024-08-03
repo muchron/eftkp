@@ -84,6 +84,11 @@
             const akhir = tanggalAkhir.val();
             const lamaSakit = setLamaSakit(awal, akhir);
             formSuratSakit.find('input[name=lama]').val(lamaSakit)
+
+            setNoSuratSakit(awal).done((response)=>{
+                formSuratSakit.find('input[name=no_surat]').val(response)
+            })
+
         })
         tanggalAkhir.on('change', (e) => {
             const akhir = e.currentTarget.value;

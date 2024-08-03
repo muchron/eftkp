@@ -51,7 +51,9 @@ class EfktpPcareAlergiController extends Controller
     {
 
         $alergi = EfktpPcareAlergi::where('no_rkm_medis', $request->no_rkm_medis)
-            ->orWhere('alergi', 'like', '%' . $request->alergi . '%')->get();
+            ->orWhere('alergi', 'like', '%' . $request->alergi . '%')
+	        ->limit(10)
+	        ->get();
         return response()->json($alergi);
     }
 }
