@@ -55,7 +55,7 @@ class RujukController extends Controller
 
 		$data = [
 			'no_rawat' => $request->no_rawat,
-			'no_rujuk' => $request->no_rujuk,
+			'no_rujuk' => json_decode($this->setNoRujuk()->getContent()),
 			'kd_dokter' => $request->kd_dokter,
 			'kat_rujuk' => $request->kat_rujuk,
 			'keterangan_diagnosa' => $request->keterangan_diagnosa,

@@ -129,9 +129,10 @@
         let tglAkhirRujukEks = formRujukanEksternal.find('#tglAkhir').val();
         let diagnosaRujuk = formRujukanEksternal.find('select[name=keterangan_diagnosa]')
         let linkSearchPemeriksaan = $('#linkSearchPemeriksaan')
+        const btnSimpanRujukanEksternal = modalRujukanEksternal.find('#btnSimpanRujukan')
 
         function rujukEksternal(no_rawat) {
-       
+
             loadRujukEksternal(tglAwalRujukEks, tglAkhirRujukEks)
             getRegDetail(no_rawat).done((response) => {
                 modalRujukanEksternal.modal('show')
@@ -175,6 +176,8 @@
                     formRujukanEksternal.find('input[name=tgl_rujuk]').val(splitTanggal(response.tgl_rujuk))
                     formRujukanEksternal.find('input[name=jam]').val(response.jam)
                     formRujukanEksternal.find('input[name=checkjamRujuk]').prop('checked', false).trigger('change')
+                    btnSimpanRujukanEksternal.html('<i class="ti ti-device-floppy me-2"></i> Ubah Rujukan')
+                    formRujukanEksternal.find('input[name=no_rujuk]').addClass('is-valid').attr('disabled', true)
                 }
             })
         }
@@ -182,7 +185,11 @@
         modalRujukanEksternal.on('hidden.bs.modal', () => {
             formRujukanEksternal.find('label').removeClass('text-danger');
             formRujukanEksternal.trigger('reset');
-            formRujukanEksternal.find('select').val(null).trigger('change')
+            formRujukanEksternal.find('select').val('-').trigger('change');
+            formRujukanEksternal.find('input[name=no_rujuk]').hasClass('is-valid') ?
+                formRujukanEksternal.find('input[name=no_rujuk]').attr('disabled', true) :
+                formRujukanEksternal.find('input[name=no_rujuk]').removeClass('is-valid').prop('disabled', false)
+
         })
 
         function toggleTime(param) {
@@ -375,13 +382,19 @@
         })
 
         function simpanRujukanEksternal() {
-
+            loadingAjax();
             const data = getDataForm('formRujukanEksternal', ['input', 'select']);
             data['keterangan_diagnosa'] = formRujukanEksternal.find('select[name="keterangan_diagnosa"] option:selected').text();
             $.post(`${url}/rujuk/keluar`, data).done((response) => {
                 setStatusLayan(data['no_rawat'], 'Dirujuk').done((response) => {
+                    loadingAjax().close();
                     loadRujukEksternal(tglAwal, tglAkhir)
+                    formRujukanEksternal.find('input[name=no_rujuk]').val(data['no_rujuk'])
                     formRujukanEksternal.find('label').removeClass('text-danger');
+                    formRujukanEksternal.find('input[name=checkjamRujuk]').prop('checked', false).trigger('change')
+                    btnSimpanRujukanEksternal.html('<i class="ti ti-device-floppy me-2"></i> Ubah Rujukan')
+                    formRujukanEksternal.find('input[name=no_rujuk]').addClass('is-valid').attr('disabled', true)
+                    alertSuccessAjax('Berhasil')
                 })
             }).fail((request, error, status) => {
                 if (request.status === 500) {
@@ -428,6 +441,10 @@
                         no_rawat: no_rawat,
                     }).done((response) => {
                         alertSuccessAjax('Hapus data rujukan').then(() => {
+                            btnSimpanRujukanEksternal.html('<i class="ti ti-device-floppy me-2"></i> Ubah Rujukan')
+                            formRujukanEksternal.find('input[name=no_rujuk]').hasClass('is-valid') ?
+                                formRujukanEksternal.find('input[name=no_rujuk]').attr('disabled', true) :
+                                formRujukanEksternal.find('input[name=no_rujuk]').removeClass('is-valid').prop('disabled', false)
                             loadRujukEksternal(tglAwal, tglAkhir)
                         })
                     }).fail((request) => {
@@ -452,7 +469,7 @@
                 if (e.currentTarget.src) {
                     toast('Berhasil');
                 }
-                
+
             })
             modalPrintRujukEksternal.find("#print").removeAttr('src').attr('src', `${url}/rujuk/keluar/print/${no_rujuk}`)
         }

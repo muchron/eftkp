@@ -437,6 +437,7 @@
             return riwayat;
         }
         modalKunjunganPcare.on('hidden.bs.modal', () => {
+            // formKunjunganPcare.find('input[name=rtl]').val(textResep)
             formRujukanLanjut.addClass('d-none');
             formKunjunganPcare.trigger('reset');
         })
@@ -494,9 +495,10 @@
                             })
                         }).join(', ')
                     }
-
                     formKunjunganPcare.find('input[name=rtl]').val(textResep)
                 })
+            } else {
+                formKunjunganPcare.find('input[name=rtl]').val('-')
             }
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
