@@ -11,7 +11,7 @@
     <script>
         function salinCppt(no_rawat, nip) {
             const formCpptRajal = $('#formCpptRajal');
-            const noResep = $('#no_resep').val();
+            let noResep = $('#no_resep').val();
             const noRawat = formCpptRajal.find('input[name=no_rawat]').val();
             const dokter = formCpptRajal.find('input[name=nip]').val();
 
@@ -59,13 +59,18 @@
                         cancelButtonText: "Tidak"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            if (!noResep) {
+                            if (!noResep.length) {
+                                console.log('TRUE ===');
+
                                 createResepObat(noRawat, 'ralan', dokter).done((response) => {
                                     btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
                                     btnTambahResep.attr('onclick', `hapusResep('${noRawat}')`)
                                     btnTambahResep.text('Hapus Resep')
                                     btnCetakResep.attr('onclick', `cetakResep('${noRawat}')`)
-                                    btnCetakResep.removeClass('d-none')
+                                    btnCetakResep.removeClass('d-none');
+
+                                    noResep = response.no_resep;
+
                                     $('#no_resep').val(response.no_resep)
                                 }).fail((request) => {
                                     alertErrorAjax(request)
