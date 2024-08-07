@@ -541,7 +541,7 @@
             })
 
             getDiagnosaPasien(data.no_rawat).done((response) => {
-                if (response.length != 1) {
+                if (response.length < 1) {
                     Swal.fire({
                         title: "Gagal",
                         html: `Tidak ditemukan hasil diagnosa, silahkan isikan diagnosa terlebih dahulu`,
