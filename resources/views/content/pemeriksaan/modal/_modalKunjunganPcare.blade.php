@@ -643,7 +643,7 @@
                 formRujukanLanjut.find('#ppkRujukan').removeAttr('disabled');
                 getRiwayatRujukSpesialis(no_rkm_medis).done((response) => {
                     const rujuk = response.map((val) => {
-                        return val.detail.tglAkhirRujuk
+                        return val.detail && val.detail.tglAkhirRujuk
                     }).slice(-1).join('')
                     const dateNow = formKunjunganPcare.find('input[name=tglKunjungan]').val();
                     const diff = dateDiff(rujuk, splitTanggal(dateNow))

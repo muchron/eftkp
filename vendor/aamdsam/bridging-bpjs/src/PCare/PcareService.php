@@ -120,16 +120,17 @@ class PcareService
                 $responseString = explode('response:', $response)[1];
 
                 $string = explode(',"metaData":', $responseString)[0] . "}";
+                $message = explode(',"metaData":', $responseString)[1] . "\"}";
             } else {
                 $string = $response;
             }
 
             $response =  json_decode($string, true);
-
+            $responseMessage = $message ? $message : '';
             return [
                 "response" => $response['response'],
                 'metaData' => [
-                    "message"  => $failMessage,
+                    "message"  => $failMessage . $responseMessage,
                     "code" => 500
                 ],
             ];
