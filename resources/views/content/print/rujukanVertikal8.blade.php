@@ -4,11 +4,11 @@
     <div width="100%" style="font-size: 11px">
         <img src="{{ asset('/public/img/logo-bpjs.png') }}" alt="" width="200px" style="position: absolute;top:0px;right:40px" />
         <div class="text-center" style="margin-top:40px">
-            <h3 style="margin-bottom:0px;margin-top:0px">Divisi Regional : {{ $data['detail']['nmKR'] }}</h3>
-            <h3 style="margin-bottom:0px;margin-top:0px">Kantor Cabang : {{ $data['detail']['nmKC'] }}</h3>
+            <h6 style="margin-bottom:0px;margin-top:0px;font-size:10px">Divisi Regional : {{ $data['detail']['nmKR'] }}</h6>
+            <h6 style="margin-bottom:0px;margin-top:0px;font-size:10px">Kantor Cabang : {{ $data['detail']['nmKC'] }}</h6>
         </div>
         <img style="position: absolute;top:95px;right:40px" src="data:image/png;base64,{{ DNS1D::getBarcodePNG($data['noKunjungan'], 'C39E') }}" height="35" width="200" />
-        <h3 style="text-align:center">Rujukan FKTP</h3>
+        <h6 style="text-align:center;">Rujukan FKTP</h6>
         <div style="border:1px solid; padding:10px;margin-top:55px;margin-bottom:10px">
             <table>
                 <tr>
