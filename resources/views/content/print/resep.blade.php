@@ -122,8 +122,9 @@
             </table>
         @endif
 
-
+        {{-- @dd($data->kd_dokter) --}}
         <div style="margin-top:10px;text-align: center;left:0px;font-size:12px;">
+            <img style="position: absolute;top:370px;right:150px" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('Ditandatangani oleh ' . $data->dokter->nm_dokter . ' pada ' . $data->tgl_peresepan . ' ' . $data->jam_peresepan, 'QRCODE') }}" height="60" width="60" />
             <p style="margin-bottom:75px">Ttd. Dokter</p>
             <p class="m-0"><u>{{ $data->dokter->nm_dokter }}</u></p>
             <p class="m-0">SIP : {{ $data->dokter->no_ijn_praktek }}</p>

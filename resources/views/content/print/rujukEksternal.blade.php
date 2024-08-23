@@ -48,6 +48,7 @@
         <div style="margin-top:20px;text-align: center;left:0px">
             <p class="m-0">{{ $setting['kabupaten'] }}, {{ Carbon\Carbon::parse($data['tgl_rujuk'])->translatedFormat('d F Y') }}</p>
             <p style="margin-bottom:75px">Ttd. Dokter</p>
+            <img style="position: absolute;top:465px;right:240px" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('Ditandatangani oleh ' . $data['dokter']['nm_dokter'] . ' pada ' . $data['tgl_rujuk'] . ' ' . $data['jam'], 'QRCODE') }}" height="70" width="70" />
             <p class="m-0"><u>{{ $data['dokter']['nm_dokter'] }}</u></p>
             <p class="m-0">SIP : {{ $data['dokter']['no_ijn_praktek'] }}</p>
         </div>
