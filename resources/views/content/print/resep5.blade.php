@@ -121,8 +121,7 @@
                 </tbody>
             </table>
         @endif
-
-
+        
         <div style="margin-top:10px;text-align: center;left:0px;font-size:12px;">
             <p style="margin-bottom:75px">Ttd. Dokter</p>
             <p class="m-0"><u>{{ $data->dokter->nm_dokter }}</u></p>

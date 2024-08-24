@@ -45,13 +45,26 @@
         </table>
         <p class="mt-2" style="text-align: justify">Demikian surat ini kami buat dan digunakan sebagaimana mestinya, Terimakasih </p>
 
-        <div style="margin-top:20px;text-align: center;left:0px">
-            <p class="m-0">{{ $setting['kabupaten'] }}, {{ Carbon\Carbon::parse($data['tgl_rujuk'])->translatedFormat('d F Y') }}</p>
-            <p style="margin-bottom:75px">Ttd. Dokter</p>
-            <img style="position: absolute;top:465px;right:240px" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('Ditandatangani oleh ' . $data['dokter']['nm_dokter'] . ' pada ' . $data['tgl_rujuk'] . ' ' . $data['jam'], 'QRCODE') }}" height="70" width="70" />
-            <p class="m-0"><u>{{ $data['dokter']['nm_dokter'] }}</u></p>
-            <p class="m-0">SIP : {{ $data['dokter']['no_ijn_praktek'] }}</p>
-        </div>
-
+        <table style="text-align: center" width="100%">
+            <tr>
+                <td>{{ $setting['kabupaten'] }}, {{ Carbon\Carbon::parse($data['tgl_rujuk'])->translatedFormat('d F Y') }}</td>
+            </tr>
+            <tr>
+                <td>Ttd. Dokter</td>
+            </tr>
+            <tr>
+                <td><img style="" src="data:image/png;base64,{{ DNS2D::getBarcodePNG('Ditandatangani oleh ' . $data['dokter']['nm_dokter'] . ' pada ' . $data['tgl_rujuk'] . ' ' . $data['jam'], 'QRCODE') }}" height="70" width="70" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <strong><u>{{ $data['dokter']['nm_dokter'] }}</u></strong>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    SIP : {{ $data['dokter']['no_ijn_praktek'] }}
+                </td>
+            </tr>
+        </table>
     </div>
 @endsection
