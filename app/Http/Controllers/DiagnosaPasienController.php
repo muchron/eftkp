@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\Track;
-use Illuminate\Http\Request;
 use App\Models\DiagnosaPasien;
-use Illuminate\Support\Facades\DB;
+use App\Traits\Track;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DiagnosaPasienController extends Controller
 {
     use Track;
-    function show(Request $request)
+    public function show(Request $request)
     {
         $diagsnosaPasien = DiagnosaPasien::where('no_rawat', $request->no_rawat)->get();
         return $diagsnosaPasien;
     }
-    function create(Request $request)
+    public function create(Request $request)
     {
         $data = $request->data;
 
@@ -32,7 +32,7 @@ class DiagnosaPasienController extends Controller
         }
         return response()->json('SUKSES');
     }
-    function get(Request $request)
+    public function get(Request $request)
     {
         $key = [
             'no_rawat' => $request->no_rawat,
@@ -41,7 +41,7 @@ class DiagnosaPasienController extends Controller
 
         return response()->json($diagnosa);
     }
-    function delete(Request $request)
+    public function delete(Request $request)
     {
         $key = [
             'no_rawat' => $request->no_rawat,
@@ -58,7 +58,23 @@ class DiagnosaPasienController extends Controller
         }
     }
 
-    function grafik(Request $request)
+    public function update(Request $request)
+    {
+        try {
+            $delete = DiagnosaPasien::where('no_rawat', $request->data[0]['no_rawat'])->delete();
+            if ($delete) {
+                $this->deleteSql(new DiagnosaPasien(), ['no_rawat' => $request->data[0]['no_rawat']]);
+                $this->create($request);
+            }
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+
+        return response()->json('SUKSES');
+
+    }
+
+    public function grafik(Request $request)
     {
         $diagnosa = DiagnosaPasien::with(['penyakit' => function ($q) {
             return $q->select('kd_penyakit', 'nm_penyakit');

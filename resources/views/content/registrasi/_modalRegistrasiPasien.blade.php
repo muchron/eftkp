@@ -385,6 +385,9 @@
 
         function createRegPeriksa() {
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
+            const tglAwal = $('#tglAwal').val();
+            const tglAkhir = $('#tglAkhir').val();
+
             if (data.kd_dokter === '-' || data.kd_dokter === '') {
                 return Swal.fire({
                     title: "Peringatan",

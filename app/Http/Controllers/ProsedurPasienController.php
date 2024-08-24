@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Icd9;
 use App\Models\ProsedurPasien;
 use App\Traits\Track;
-use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -13,12 +11,12 @@ class ProsedurPasienController extends Controller
 {
     use Track;
 
-    function get(Request $request)
+    public function get(Request $request)
     {
         $tindakan = ProsedurPasien::where('no_rawat', $request->no_rawat)->orderBy('prioritas', 'ASC')->with('icd9')->get();
         return response()->json($tindakan);
     }
-    function create(Request $request)
+    public function create(Request $request)
     {
 
         $data = $request->data;
@@ -35,7 +33,7 @@ class ProsedurPasienController extends Controller
         return response()->json('SUKSES', 201);
     }
 
-    function delete(Request $request)
+    public function delete(Request $request)
     {
         $key = [
             'no_rawat' => $request->no_rawat,
@@ -51,5 +49,20 @@ class ProsedurPasienController extends Controller
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+    }
+
+    public function update(ProsedurPasien $prosedur, Request $request)
+    {
+        try {
+            $delete = $prosedur->where('no_rawat', $request->data[0]['no_rawat'])->delete();
+            if ($delete) {
+                $this->deleteSql($prosedur, ['no_rawat' => $request->data[0]['no_rawat']]);
+                $this->create($request);
+            }
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
+
+        return response()->json('SUKSES');
     }
 }

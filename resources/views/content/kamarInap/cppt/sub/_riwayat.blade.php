@@ -49,10 +49,9 @@
                             </div>`
                 })
                 $('#listRiwayat').append(pemeriksaan)
-
-                console.log('RESPONSE ===', response);
             })
         }
+
         $('#listRiwayat').on('show.bs.collapse', function(e) {
             const id = e.target.id;
             const no_rawat = $(`#${id}`).data('id');
@@ -148,8 +147,7 @@
                             </div>
                         </div>`
                     body.append([ttv, pemeriksaan]).hide().fadeIn()
-                    // })
-                    // }
+
                 })
             }
         });

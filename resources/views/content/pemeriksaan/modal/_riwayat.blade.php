@@ -9,13 +9,45 @@
 </div>
 @push('script')
     <script>
-        function salinCppt(no_rawat, nip) {
-            const formCpptRajal = $('#formCpptRajal');
-            let noResep = $('#no_resep').val();
-            const noRawat = formCpptRajal.find('input[name=no_rawat]').val();
-            const dokter = formCpptRajal.find('input[name=nip]').val();
+        function setButtonResep(noResep) {
+            const btnTambahResep = $('#btnTambahResep');
+            const btnCetakResep = $('#btnCetakResep');
+            const btnSimpanObat = $('#btnSimpanObat');
+            const btnTambahObat = $('#btnTambahObat');
+            const tabelResepUmum = $('#tabelResepUmum');
+            const btnTambahRacikan = $('#btnTambahRacikan');
+            const tabelResepRacikan = $('#tabelResepRacikan');
+            const btnSimpanRacikan = $('#btnSimpanRacikan');
 
-            // set pemeriksaan
+            if (noResep) {
+                btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
+                btnTambahResep.attr('onclick', `hapusResep('${noRawat}')`)
+                btnTambahResep.text('Hapus Resep')
+                btnCetakResep.attr('onclick', `cetakResep('${noRawat}')`)
+                btnCetakResep.removeClass('d-none');
+
+                btnSimpanObat.removeClass('d-none')
+                btnTambahObat.removeClass('d-none')
+                tabelResepUmum.removeClass('d-none')
+                btnTambahRacikan.removeClass('d-none')
+                tabelResepRacikan.removeClass('d-none')
+                btnSimpanRacikan.removeClass('d-none')
+            } else {
+                btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
+                btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
+                btnTambahResep.text('Buat Resep')
+                btnCetakResep.addClass('d-none');
+
+                btnSimpanObat.addClass('d-none')
+                btnTambahObat.addClass('d-none')
+                tabelResepUmum.addClass('d-none')
+                btnTambahRacikan.addClass('d-none')
+                tabelResepRacikan.addClass('d-none')
+                btnSimpanRacikan.addClass('d-none')
+            }
+        }
+
+        function setRiwayatPemeriksaan(no_rawat, nip) {
             getPemeriksaanRalan(no_rawat, nip).done((response) => {
                 Object.keys(response).map((key, index) => {
                     const select = formCpptRajal.find(`select[name=${key}]`)
@@ -23,14 +55,14 @@
                     const textarea = formCpptRajal.find(`textarea[name=${key}]`)
 
                     if (textarea.length) {
-                        textarea.val(response[key] ? response[key] : '-')
+                        textarea.val() === '-' ? textarea.val(response[key]) : ''
                     } else {
-                        textarea.val('0')
+                        textarea.val('-')
                     }
 
                     if (input.length) {
                         if (key != 'no_rawat') {
-                            input.val(response[key])
+                            input.val() === '-' ? input.val(response[key]) : ''
                         }
                     } else {
                         input.val('-')
@@ -42,12 +74,17 @@
                 })
 
             })
+        }
 
-            //copy resep
+        function setRiwayatResep(noRawat) {
+            const no_resep = $('#no_resep').val();
+            const nip = formCpptRajal.find('input[name=nip]').val();
             getResep({
-                no_rawat: no_rawat
-            }).done((resep) => {
-                if (resep.length || (resep.resep_dokter || resep.resep_racikan)) {
+                noRawat
+            }).done((reseps) => {
+                console.log(reseps);
+
+                if (reseps.length || (reseps.resepDokter || reseps.resepRacikan)) {
                     Swal.fire({
                         title: "Terdapat resep pada pemeriksaan ini",
                         html: "apakah anda akan menggunakan resep yang sama ?",
@@ -59,140 +96,215 @@
                         cancelButtonText: "Tidak"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            if (!noResep.length) {
-                                console.log('TRUE ===');
+                            const noResep = getNoResep();
 
-                                createResepObat(noRawat, 'ralan', dokter).done((response) => {
-                                    btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
-                                    btnTambahResep.attr('onclick', `hapusResep('${noRawat}')`)
-                                    btnTambahResep.text('Hapus Resep')
-                                    btnCetakResep.attr('onclick', `cetakResep('${noRawat}')`)
-                                    btnCetakResep.removeClass('d-none');
-
-                                    noResep = response.no_resep;
-
-                                    $('#no_resep').val(response.no_resep)
+                            if (!noResep) {
+                                createResepObat(noRawat, 'ralan', getDokter()).done((response) => {
+                                    setButtonResep(response.noResep);
                                 }).fail((request) => {
-                                    alertErrorAjax(request)
-                                })
+                                    alertErrorAjax(request);
+                                });
                             }
 
                             getResep({
-                                no_rawat: no_rawat
-                            }).done((resep) => {
-                                if (resep.length) {
-                                    resep.forEach((res, index) => {
-                                        let dataObat = '';
-                                        let resepRacik = '';
-                                        let resepRacikDetail = '';
-                                        if (res.resep_dokter.length) {
-                                            dataObat = res.resep_dokter.map((resDokter) => {
-                                                delete resDokter.obat
-                                                resDokter.no_resep = $('#no_resep').val();
-                                                return resDokter
-                                            })
-                                            $.post(`${url}/resep/dokter/create`, {
-                                                dataObat
-                                            }).done((response) => {
-                                                setResepDokter(dataObat[0].no_resep)
-                                                alertSuccessAjax('Resep umum berhasil ditambah');
-                                            }).fail((error) => {
-                                                alertErrorAjax(error)
-                                            })
+                                noRawat
+                            }).done((reseps) => {
+                                if (reseps.length) {
+                                    reseps.forEach((resep) => {
+                                        const dataObat = resep.resepDokter.map((resDokter) => ({
+                                            ...resDokter,
+                                            noResep: getNoResep(),
+                                        }));
 
-                                        }
-                                        if (res.resep_racikan.length) {
-                                            resepRacik = res.resep_racikan.map((resRacik) => {
-                                                delete resRacik.metode
-                                                resepRacikDetail = resRacik.detail;
-                                                resRacik.no_resep = $('#no_resep').val();
-                                                delete resRacik.detail
-                                                return resRacik
-                                            })
+                                        $.post(`${url}/resep/dokter/create`, {
+                                            dataObat
+                                        }).done((response) => {
+                                            setResepDokter(dataObat[0].noResep);
+                                            alertSuccessAjax('Resep umum berhasil ditambah');
+                                        }).fail((error) => {
+                                            alertErrorAjax(error);
+                                        });
 
-                                            resepRacikDetail = resepRacikDetail.map((resRacikDetail) => {
-                                                delete resRacikDetail.obat;
-                                                resRacikDetail.no_resep = $('#no_resep').val();
-                                                return resRacikDetail;
-                                            })
-                                            createResepRacikan(resepRacik).done((resposeRacik) => {
-                                                createDetailRacikan(resepRacik.no_resep, resepRacik.no_racik, resepRacikDetail).done((responseDetail) => {
-                                                    setResepRacikan(resepRacik[0].no_resep)
-                                                    alertSuccessAjax('Resep racikan berhasil ditambah');
-                                                }).error((error) => {
-                                                    alertErrorAjax(error)
-                                                })
+                                        const resepRacik = resep.resepRacikan.map((resRacik) => ({
+                                            ...resRacik,
+                                            noResep: getNoResep(),
+                                        }));
+
+                                        const resepRacikDetail = resep.resepRacikan.map((resRacikDetail) => ({
+                                            ...resRacikDetail,
+                                            noResep: getNoResep(),
+                                        }));
+
+                                        createResepRacikan(resepRacik).done((responseRacik) => {
+                                            createDetailRacikan(responseRacik.noResep, responseRacik.noRacik, resepRacikDetail).done((responseDetail) => {
+                                                setResepRacikan(responseRacik[0].noResep);
+                                                alertSuccessAjax('Resep racikan berhasil ditambah');
                                             }).fail((error) => {
-                                                alertErrorAjax(error)
-                                            })
+                                                alertErrorAjax(error);
+                                            });
+                                        }).fail((error) => {
+                                            alertErrorAjax(error);
+                                        });
+                                    });
+                                } else {
+                                    deleteResep(noRawat).done((response) => {
+                                        setButtonResep('');
+                                    }).fail((request) => {
+                                        alertErrorAjax(request);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+
+        function setRiawatDiagnosa(noRawatNow, no_rawat) {
+            getDiagnosaPasien(noRawatNow).done((response) => {
+                if (response.length >= 1) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Peringatan Diagnosa',
+                        html: `Sudah terdapat diagnosa <span class="text-danger">${response.map((item)=> item.kd_penyakit).join(', ')}</span> pada pemeriksaan ini, anda mau mengganti diagnosa ?`,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Ya, Ganti',
+                        showCancelButton: true,
+                        cancelButtonText: 'Tidak',
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            getDiagnosaPasien(no_rawat).done((resDiagnosa) => {
+                                if (resDiagnosa.length) {
+                                    const diagnosa = resDiagnosa.map((dx) => {
+                                        return {
+                                            no_rawat: noRawatNow,
+                                            kd_penyakit: dx.kd_penyakit,
+                                            prioritas: dx.prioritas,
                                         }
                                     })
-                                } else {
-                                    deleteResep(no_rawat).done((response) => {
-                                        $('#no_resep').val('');
-                                        btnTambahResep.removeClass('btn-danger').addClass('btn-primary');
-                                        btnTambahResep.text('Buat Resep')
-                                        btnTambahResep.attr('onclick', `tambahResep('${noRawat}')`)
-
-                                        btnSimpanObat.addClass('d-none')
-                                        btnTambahObat.addClass('d-none')
-                                        tabelResepUmum.addClass('d-none')
-                                        tabelResepUmum.find('tbody').empty();
-
-                                        btnTambahRacikan.addClass('d-none')
-                                        tabelResepRacikan.addClass('d-none')
-                                        btnSimpanRacikan.addClass('d-none')
-                                        tabelResepRacikan.find('tbody').empty();
-                                        btnCetakResep.addClass('d-none')
+                                    // copy diagnosa
+                                    $.post(`${url}/diagnosa/pasien/update`, {
+                                        data: diagnosa
                                     }).fail((request) => {
                                         alertErrorAjax(request)
+                                    }).done((response) => {
+                                        toast('Berhasil mengganti diagnosa');
+                                        tulisAsesmen(noRawatNow)
+                                    })
+                                }
+
+                            })
+
+                        }
+
+                    })
+                    return true;
+
+                }
+
+                getDiagnosaPasien(no_rawat).done((resDiagnosa) => {
+                    if (resDiagnosa.length) {
+                        const diagnosa = resDiagnosa.map((dx) => {
+                            return {
+                                no_rawat: noRawat,
+                                kd_penyakit: dx.kd_penyakit,
+                                prioritas: dx.prioritas,
+                            }
+                        })
+                        // copy diagnosa
+                        $.post(`${url}/diagnosa/pasien/create`, {
+                            data: diagnosa
+                        }).fail((request) => {
+                            alertErrorAjax(request)
+                        })
+                    }
+
+                })
+            })
+        }
+
+        function setRiwayatTindakan(noRawatNow, no_rawat) {
+            getTindakanPasien(no_rawat).done((response) => {
+                if (response.length >= 1) {
+                    Swal.fire({
+                        title: 'Peringatan Tindakan/Prosedur ?',
+                        html: `Sudah terdapat tindakan/prosedur <span class="text-danger">${response.map((item)=>item.kode)}</span>, apakah anda ingin menggantinya ?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Ya, Ganti",
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            getTindakanPasien(no_rawat).done((resTindakan) => {
+                                if (resTindakan.length) {
+                                    const tindakan = resTindakan.map((px) => {
+                                        return {
+                                            no_rawat: noRawatNow,
+                                            kode: px.kode,
+                                            prioritas: px.prioritas
+                                        }
+                                    });
+
+                                    $.post(`${url}/prosedur/pasien/update`, {
+                                        data: tindakan
+                                    }).fail((request) => {
+                                        alertErrorAjax(request)
+                                    }).done((response) => {
+                                        toast('Berhasil mengganti prosedur');
+                                        tulisInstruksi(noRawatNow)
                                     })
                                 }
                             })
                         }
-                    });
-
+                    })
+                    return false;
                 }
+                getTindakanPasien(no_rawat).done((resTindakan) => {
+                    if (resTindakan.length) {
+                        const tindakan = resTindakan.map((px) => {
+                            return {
+                                no_rawat: noRawatNow,
+                                kode: px.kode,
+                                prioritas: px.prioritas
+                            }
+                        });
+
+                        $.post(`${url}/prosedur/pasien/create`, {
+                            data: tindakan
+                        }).fail((request) => {
+                            alertErrorAjax(request)
+                        })
+                    }
+                })
             })
+        }
+
+
+
+        function salinCppt(no_rawat, nip) {
+            const formCpptRajal = $('#formCpptRajal');
+            let noResep = $('#no_resep').val();
+            const noRawat = formCpptRajal.find('input[name=no_rawat]').val();
+            const dokter = formCpptRajal.find('input[name=nip]').val();
+
+            // set pemeriksaan
+            setRiwayatPemeriksaan(no_rawat, nip)
+
+            //copy resep
+            setRiwayatResep(no_rawat)
 
             // copy diagnosa
-            getDiagnosaPasien(no_rawat).done((resDiagnosa) => {
-                if (resDiagnosa.length) {
-                    const diagnosa = resDiagnosa.map((dx) => {
-                        return {
-                            no_rawat: noRawat,
-                            kd_penyakit: dx.kd_penyakit,
-                            prioritas: dx.prioritas,
-                        }
-                    })
-                    // copy diagnosa
-                    $.post(`${url}/diagnosa/pasien/create`, {
-                        data: diagnosa
-                    }).fail((request) => {
-                        alertErrorAjax(request)
-                    })
-                }
-
-            })
-
+            setRiawatDiagnosa(noRawat, no_rawat)
             // copy tindakan/prosedur
-            getTindakanPasien(no_rawat).done((resTindakan) => {
-                if (resTindakan.length) {
-                    const tindakan = resTindakan.map((px) => {
-                        return {
-                            no_rawat: noRawat,
-                            kode: px.kode,
-                            prioritas: px.prioritas
-                        }
-                    });
+            setRiwayatTindakan(noRawat, no_rawat)
 
-                    $.post(`${url}/prosedur/pasien/create`, {
-                        data: tindakan
-                    }).fail((request) => {
-                        alertErrorAjax(request)
-                    })
-                }
-            })
+
+
 
         }
         $('#listRiwayat').on('show.bs.collapse', function(e) {

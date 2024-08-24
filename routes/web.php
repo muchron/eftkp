@@ -1,73 +1,65 @@
 <?php
 
-use App\Models\Setting;
-use App\Models\KamarInap;
-use App\Models\SukuBangsa;
-use Illuminate\Http\Request;
-use App\Models\DiagnosaPasien;
-use App\Models\PemeriksaanGigi;
-use App\Models\EfktpTemplateRacikan;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BahasaPasienController;
+use App\Http\Controllers\Bridging as Bridging;
+use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\Bridging\Icare;
-use App\Http\Controllers\Icd9Controller;
-use App\Http\Controllers\RujukController;
+use App\Http\Controllers\CacatFisikController;
+use App\Http\Controllers\DataBarangController;
+use App\Http\Controllers\DiagnosaPasienController;
 use App\Http\Controllers\DokterController;
-use App\Http\Controllers\PasienController;
-use App\Http\Controllers\PenjabController;
-use App\Http\Controllers\UploadController;
-use App\Http\Controllers\PegawaiController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\PenyakitController;
-use App\Http\Controllers\PropinsiController;
+use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
+use App\Http\Controllers\EfktpPcareAlergiController;
+use App\Http\Controllers\EfktpTemplateRacikanController;
+use App\Http\Controllers\EfktpTindakanResikoJatuhController;
+use App\Http\Controllers\Icd9Controller;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KamarInapController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
-use App\Http\Controllers\ResepObatController;
-use App\Models\PenilaianAwalKeperawatanRalan;
-use App\Http\Controllers\Bridging as Bridging;
-use App\Http\Controllers\CacatFisikController;
-use App\Http\Controllers\DataBarangController;
-use App\Http\Controllers\PoliklinikController;
-use App\Http\Controllers\RegPeriksaController;
-use App\Http\Controllers\SukuBangsaController;
-use App\Http\Controllers\SuratSakitController;
-use App\Http\Controllers\SuratSehatController;
-use App\Http\Controllers\MetodeRacikController;
-use App\Http\Controllers\ResepDokterController;
-use App\Http\Controllers\BahasaPasienController;
-use App\Http\Controllers\MapingDokterController;
-use App\Http\Controllers\RujukInternalController;
-use App\Http\Controllers\setNoRkmMedisController;
-use App\Http\Controllers\DiagnosaPasienController;
-use App\Http\Controllers\PcareKunjunganController;
-use App\Http\Controllers\ProsedurPasienController;
-use App\Http\Controllers\PemeriksaanGigiController;
-use App\Http\Controllers\EfktpPcareAlergiController;
-use App\Http\Controllers\MappingObatPcareController;
-use App\Http\Controllers\PcarePendaftaranController;
-use App\Http\Controllers\PemeriksaanRalanController;
-use App\Http\Controllers\PemeriksaanRanapController;
-use App\Http\Controllers\PerusahaanPasienController;
-use App\Http\Controllers\ResepDokterRacikanController;
-use App\Http\Controllers\BridgingPcareSettingController;
-use App\Http\Controllers\EfktpTemplateRacikanController;
-use App\Http\Controllers\PemeriksaanGigiHasilController;
-use App\Http\Controllers\MappingPoliklinikPcareController;
-use App\Http\Controllers\PcareRujukSubspesialisController;
-use App\Http\Controllers\EfktpTindakanResikoJatuhController;
-use App\Http\Controllers\ResepDokterRacikanDetailController;
-use App\Http\Controllers\EfktpKategoriBerkasPenunjangController;
 use App\Http\Controllers\Lab\JnsPerawatanLabController;
 use App\Http\Controllers\Lab\PeriksaLabController;
 use App\Http\Controllers\Lab\Permintaan\DetailPermintaanLabController;
 use App\Http\Controllers\Lab\Permintaan\PermintaanLabController;
 use App\Http\Controllers\Lab\Permintaan\PermintaanPemeriksaanLabController;
+use App\Http\Controllers\MapingDokterController;
+use App\Http\Controllers\MappingObatPcareController;
+use App\Http\Controllers\MappingPoliklinikPcareController;
+use App\Http\Controllers\MetodeRacikController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\PcareKunjunganController;
+use App\Http\Controllers\PcarePendaftaranController;
+use App\Http\Controllers\PcareRujukSubspesialisController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PemeriksaanGigiController;
+use App\Http\Controllers\PemeriksaanGigiHasilController;
+use App\Http\Controllers\PemeriksaanRalanController;
+use App\Http\Controllers\PemeriksaanRanapController;
 use App\Http\Controllers\PenilaianAwalKeperawatanRalanController;
-use App\Models\Lab\Permintaan\PermintaanLab;
-use Illuminate\Database\QueryException;
+use App\Http\Controllers\PenjabController;
+use App\Http\Controllers\PenyakitController;
+use App\Http\Controllers\PerusahaanPasienController;
+use App\Http\Controllers\PoliklinikController;
+use App\Http\Controllers\PropinsiController;
+use App\Http\Controllers\ProsedurPasienController;
+use App\Http\Controllers\RegPeriksaController;
+use App\Http\Controllers\ResepDokterController;
+use App\Http\Controllers\ResepDokterRacikanController;
+use App\Http\Controllers\ResepDokterRacikanDetailController;
+use App\Http\Controllers\ResepObatController;
+use App\Http\Controllers\RujukController;
+use App\Http\Controllers\RujukInternalController;
+use App\Http\Controllers\setNoRkmMedisController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SukuBangsaController;
+use App\Http\Controllers\SuratSakitController;
+use App\Http\Controllers\SuratSehatController;
+use App\Http\Controllers\UploadController;
+use App\Models\Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +70,7 @@ use Illuminate\Database\QueryException;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'auth'])->middleware('guest');
@@ -92,7 +84,6 @@ Route::get('/antrean/poliklinik', function () {
     }
     return view('antrean.poliklinik', ['data' => $setting]);
 });
-
 
 Route::get('/setting/ppk', [SettingController::class, 'getKodePPK']);
 
@@ -166,7 +157,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
     Route::post('/registrasi/update/status', [RegPeriksaController::class, 'setStatusLayanan']);
 
-
     Route::get('/registrasi', function () {
         return view('content.registrasi');
     });
@@ -177,7 +167,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/grafik', [RegPeriksaController::class, 'getGrafik']);
     Route::get('/registrasi/grafik/tahun', [RegPeriksaController::class, 'getGrafikTahunan']);
 
-
     // PENILIAIAN AWAL/SKRINING
     Route::get('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'get']);
     Route::post('/penilaian/awal/keperawatan/ralan', [PenilaianAwalKeperawatanRalanController::class, 'createPenilaian']);
@@ -187,7 +176,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'create']);
     Route::get('/skrining/jatuh', [EfktpTindakanResikoJatuhController::class, 'get']);
     Route::get('/skrining/jatuh/print', [EfktpTindakanResikoJatuhController::class, 'print']);
-
 
     // Pemeriksaan
     Route::get('/pemeriksaan/ralan/get', [PemeriksaanRalanController::class, 'get']);
@@ -215,6 +203,7 @@ Route::middleware('auth')->group(function () {
     //Diagnosa Pasien
     Route::post('/diagnosa/pasien/create', [DiagnosaPasienController::class, 'create']);
     Route::post('/diagnosa/pasien/delete', [DiagnosaPasienController::class, 'delete']);
+    Route::post('/diagnosa/pasien/update', [DiagnosaPasienController::class, 'update']);
     Route::get('/diagnosa/pasien/get', [DiagnosaPasienController::class, 'get']);
     Route::get('/diagnosa/pasien/grafik', [DiagnosaPasienController::class, 'grafik']);
 
@@ -222,11 +211,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/prosedur/pasien/get', [ProsedurPasienController::class, 'get']);
     Route::post('/prosedur/pasien/create', [ProsedurPasienController::class, 'create']);
     Route::post('/prosedur/pasien/delete', [ProsedurPasienController::class, 'delete']);
+    Route::post('/prosedur/pasien/update', [ProsedurPasienController::class, 'update']);
 
     // Barang/obat
     Route::get('/barang/get', [DataBarangController::class, 'get']);
-
-
 
     // Resep Obat
     Route::post('/resep/create', [ResepObatController::class, 'create']);
@@ -266,7 +254,6 @@ Route::middleware('auth')->group(function () {
     Route::post('resep/racikan/template/update', [EfktpTemplateRacikanController::class, 'update']);
     Route::post('resep/racikan/template/delete', [EfktpTemplateRacikanController::class, 'delete']);
 
-
     Route::group(['prefix' => 'lab'], function () {
 
         Route::get('/jenis/get', [JnsPerawatanLabController::class, 'get']);
@@ -296,7 +283,6 @@ Route::middleware('auth')->group(function () {
     Route::post('berkas/penunjang/kategori', [EfktpKategoriBerkasPenunjangController::class, 'create']);
 
     Route::get('icare', [Icare::class, 'get']);
-
 
     // SURAT SAKIT
     Route::get('surat/sakit', [SuratSakitController::class, 'get']);
@@ -343,13 +329,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/rujuk/keluar/faskes', [RujukController::class, 'getFaskesRujuk']);
     Route::get('/rujuk/keluar/print/{noRujukan}', [RujukController::class, 'print']);
 
-
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
     Route::post('/pcare/pendaftaran', [PcarePendaftaranController::class, 'create']);
     Route::get('/pcare/pendaftaran/get', [PcarePendaftaranController::class, 'get']);
     Route::post('/pcare/pendaftaran/delete', [PcarePendaftaranController::class, 'delete']);
-
-
 
     // PCARE KUNJUNGAN
     Route::get('/pcare/kunjungan', [PcareKunjunganController::class, 'index']);
@@ -365,7 +348,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/pcare/kunjungan/rujuk/subspesialis/delete/{noKunjungan}', [PcareRujukSubspesialisController::class, 'delete']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/print', [PcareRujukSubspesialisController::class, 'print']);
     Route::get('/pcare/kunjungan/rujuk/subspesialis/riwayat/{no_rkm_medis}', [PcareRujukSubspesialisController::class, 'getAll']);
-
 
     // MAPPING
     Route::get('mapping/pcare/poliklinik', [MappingPoliklinikPcareController::class, 'get']);
@@ -385,7 +367,7 @@ Route::middleware('auth')->group(function () {
         ];
         try {
             Storage::put('public/video.json', json_encode($data));
-        } catch (Throwable  $e) {
+        } catch (Throwable $e) {
             return response()->json($e, 500);
         }
         return response()->json($data);
@@ -397,8 +379,6 @@ Route::middleware('auth')->group(function () {
             return response()->json(json_decode($data));
         }
     });
-
-
 
     // EFKTP
     Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);
@@ -439,7 +419,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/spesialis/khusus', [Bridging\Spesialis::class, 'getKhusus']);
     Route::get('/bridging/pcare/spesialis/rujuk/khusus', [Bridging\Spesialis::class, 'getFaskesKhusus']);
 
-
     // STATUS PULANG
     Route::get('/bridging/pcare/status/pulang/{status}', [Bridging\StatusPulang::class, 'get']);
 
@@ -450,7 +429,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
     Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
 
-    //	Diagnosa
+    //    Diagnosa
     Route::get('/bridging/pcare/diagnosa/{diagnosa}', [Bridging\Diagnosa::class, 'get']);
 });
 
