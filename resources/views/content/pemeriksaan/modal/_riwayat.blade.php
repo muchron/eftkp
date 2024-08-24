@@ -161,7 +161,7 @@
         }
 
 
-        function setRiawatDiagnosa(noRawatNow, no_rawat) {
+        function setRiwayatDiagnosaPasien(noRawatNow, no_rawat) {
             getDiagnosaPasien(noRawatNow).done((response) => {
                 if (response.length >= 1) {
                     Swal.fire({
@@ -209,7 +209,7 @@
                     if (resDiagnosa.length) {
                         const diagnosa = resDiagnosa.map((dx) => {
                             return {
-                                no_rawat: noRawat,
+                                no_rawat: noRawatNow,
                                 kd_penyakit: dx.kd_penyakit,
                                 prioritas: dx.prioritas,
                             }
@@ -226,7 +226,7 @@
             })
         }
 
-        function setRiwayatTindakan(noRawatNow, no_rawat) {
+        function setRiwayatTindakanPasien(noRawatNow, no_rawat) {
             getTindakanPasien(no_rawat).done((response) => {
                 if (response.length >= 1) {
                     Swal.fire({
@@ -299,9 +299,9 @@
             setRiwayatResep(no_rawat)
 
             // copy diagnosa
-            setRiawatDiagnosa(noRawat, no_rawat)
+            setRiwayatDiagnosaPasien(noRawat, no_rawat)
             // copy tindakan/prosedur
-            setRiwayatTindakan(noRawat, no_rawat)
+            setRiwayatTindakanPasien(noRawat, no_rawat)
 
 
 
