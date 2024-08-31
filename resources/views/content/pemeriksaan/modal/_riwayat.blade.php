@@ -55,14 +55,14 @@
                     const textarea = formCpptRajal.find(`textarea[name=${key}]`)
 
                     if (textarea.length) {
-                        textarea.val() === '-' ? textarea.val(response[key]) : ''
+                        textarea.val() === '-' || textarea.val() === '0' ? textarea.val(response[key]) : ''
                     } else {
                         textarea.val('-')
                     }
 
                     if (input.length) {
                         if (key != 'no_rawat') {
-                            input.val() === '-' ? input.val(response[key]) : ''
+                            input.val() === '-' || input.val() === '0' ? input.val(response[key]) : ''
                         }
                     } else {
                         input.val('-')
