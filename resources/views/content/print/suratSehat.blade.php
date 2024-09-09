@@ -3,25 +3,40 @@
     Carbon\Carbon::setLocale('id');
 @endphp
 @section('content')
-    <div class="container" style="margin: 20px;">
-        <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px"
-             style="top:20px;left: 25px;position:absolute">
-        <div width="100%">
-            <div style="text-align: center;">
-                <h5>{{ $data['nama_instansi'] }}</h5>
-                <div style="font-size: 12px">
-                    <p>{{ $data['alamat_instansi'] }}</p>
-                    <p>Telp. {{ $data['kontak'] }}</p>
-                    <p>Email : {{ $data['email'] }}</p>
+    <style>
+        table {
+            font-size : 14px;
+            width: 100%;
+        }
+       .subtitle{
+            font-size: 11px !important;
+        }
+        p {
+            font-size:14px ;
+        }
 
+
+    </style>
+    <div class="container" style="margin: 20px;">
+        <div style="margin-bottom: 20px">
+            <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="60px"
+                 style="top:20px;left: 25px;position:absolute">
+            <div width="100%" style="margin-left: 80px" class="subtitle">
+                <div style="text-align: center;">
+                    <h6>{{ $data['nama_instansi'] }}</h6>
+                    <div>
+                        <span>{{ $data['alamat_instansi'] }}</span>
+                        <br/><span>Telp. {{ $data['kontak'] }}, Email : {{ $data['email'] }} </span>
+                    </div>
                 </div>
             </div>
-            <hr>
 
         </div>
+            <hr>
+
 
         <div class="no_surat text-center">
-            <h5><u>SURAT KETERANGAN SEHAT</u></h5>
+            <h6><u>SURAT KETERANGAN SEHAT</u></h6>
             <p>No. {{ $data['no_surat'] }}</p>
         </div>
         <p style="margin-bottom: 10px;margin-top:10px ">Yang bertanda tangan di bawah ini</p>
