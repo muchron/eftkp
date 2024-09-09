@@ -3,22 +3,28 @@
     Carbon\Carbon::setLocale('id');
 @endphp
 @section('content')
-    <div class="container" style="margin: 20px">
+    <div class="container" style="margin: 20px;">
+        <img src="{{ 'data:image/jpeg;base64,' . $data['logo'] }}" alt="" width="70px"
+             style="top:20px;left: 25px;position:absolute">
         <div width="100%">
             <div style="text-align: center;">
-                <h5 class="m-0">{{ $data['nama_instansi'] }}</h5>
-                <p class="m-0">{{ $data['alamat_instansi'] }}</p>
-                <p class="m-0">Telp. {{ $data['kontak'] }}, Email : {{ $data['email'] }} </p>
+                <h5>{{ $data['nama_instansi'] }}</h5>
+                <div style="font-size: 12px">
+                    <p>{{ $data['alamat_instansi'] }}</p>
+                    <p>Telp. {{ $data['kontak'] }}</p>
+                    <p>Email : {{ $data['email'] }}</p>
+
+                </div>
             </div>
             <hr>
 
-            {{-- @dd($data) --}}
         </div>
+
         <div class="no_surat text-center">
             <h5><u>SURAT KETERANGAN SEHAT</u></h5>
             <p>No. {{ $data['no_surat'] }}</p>
         </div>
-        <p class="mb-0">Yang bertanda tangan di bawah ini</p>
+        <p style="margin-bottom: 10px;margin-top:10px ">Yang bertanda tangan di bawah ini</p>
         <table class="table" width="100%">
             <tr>
                 <td width="25%">Nama</td>
@@ -32,7 +38,7 @@
             </tr>
         </table>
         <p style="margin:10px">menerangkan bahwa</p>
-        <table class="table" width="100%">
+        <table class="table" width="100%" style="margin-bottom: 10px">
             <tr>
                 <td width="25%">Nama Pasien</td>
                 <td width="2%">:</td>
@@ -59,7 +65,7 @@
                     <td>Berat Badan</td>
                     <td>:</td>
                     <td>{{ $data['berat'] }} Kg</td>
-                    <td>Tinggi Badan </td>
+                    <td>Tinggi Badan</td>
                     <td>:</td>
                     <td>{{ $data['tinggi'] }} cm</td>
                 </tr>
@@ -79,10 +85,14 @@
             </table>
 
         </div>
-        <p class="mt-2">Berdasarkan pemeriksaan yang telah dilakukan pada tanggal {{ Carbon\Carbon::parse($data['tanggal'])->translatedFormat('d F Y') }}, yang bersangkutan dinyatakan dalam keadaan <b>{{ strtoupper($data['kesimpulan']) }}</b>. Demikian surat ini kami buat dan digunakan untuk keperluan : <b><u>{{ $data['keperluan'] }}</u></b></p>
+        <p style="margin-top: 10px">Berdasarkan pemeriksaan yang telah dilakukan pada
+            tanggal {{ Carbon\Carbon::parse($data['tanggal'])->translatedFormat('d F Y') }}, yang bersangkutan
+            dinyatakan dalam keadaan <b>{{ strtoupper($data['kesimpulan']) }}</b>. </p>
+        <p style="margin-top: 10px">Demikian surat ini kami buat dan digunakan untuk keperluan : <b><u>{{ $data['keperluan'] }}</u></b>, Terimakasih.</p>
 
         <div style="margin-top:20px;text-align: center;left:0px">
-            <p class="m-0">{{ $data['kabupaten'] }}, {{ Carbon\Carbon::parse($data['tanggal'])->translatedFormat('d F Y') }}</p>
+            <p class="m-0">{{ $data['kabupaten'] }}
+                , {{ Carbon\Carbon::parse($data['tanggal'])->translatedFormat('d F Y') }}</p>
             <p style="margin-bottom:75px">Ttd. Dokter</p>
             <p class="m-0"><u>{{ $data['dokter'] }}</u></p>
             <p class="m-0">SIP : {{ $data['sip'] }}</p>
