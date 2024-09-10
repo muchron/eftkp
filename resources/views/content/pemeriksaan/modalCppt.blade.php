@@ -41,7 +41,7 @@
 @push('script')
     <script>
         var tabObat = $('#tabObat');
-        const modalCppt = $('#modalCppt')
+        const modalCppt = $('#modalCppt');
 
         modalCppt.on('hidden.bs.modal', (e) => {
             $('.modal-backdrop').remove();
@@ -62,22 +62,22 @@
                     dokter,
                     poliklinik
                 } = response;
-                $('#formCpptRajal input[name=no_rawat]').val(no_rawat)
-                $('#formCpptRajal input[name=stts]').val(response.stts)
-                $('#formCpptRajal input[name=no_rkm_medis]').val(response.no_rkm_medis)
-                $('#formCpptRajal input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
-                $('#formCpptRajal input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
-                $('#formCpptRajal input[name=keluarga]').val(`${pasien.keluarga} : ${pasien.namakeluarga}`)
-                $('#formCpptRajal input[name=nip]').val(`${response.kd_dokter}`)
-                $('#formCpptRajal input[name=nm_dokter]').val(`${dokter.nm_dokter}`)
-                $('#formCpptRajal input[name=pembiayaan]').val(setTextPenjab(response.penjab.png_jawab, false))
-                $('#formCpptRajal input[name=no_peserta]').val(`${pasien.no_peserta}`)
-                $('#formCpptRajal input[name=kd_poli]').val(`${response.kd_poli}`)
-                $('#formCpptRajal input[name=nm_poli]').val(`${poliklinik.nm_poli}`)
-                $('#formCpptRajal input[name=kd_poli_pcare]').val(`${poliklinik.maping?.kd_poli_pcare}`)
-                $('#formKunjunganPcare input[name=tgl_daftar]').val(`${splitTanggal(response.tgl_registrasi)}`)
-                $('#formKunjunganPcare input[name=nm_poli_pcare]').val(`${poliklinik.maping?.nm_poli_pcare}`)
-                $('#formKunjunganPcare input[name=kd_dokter_pcare]').val(`${dokter.maping?.kd_dokter_pcare}`)
+                formCpptRajal.find('input[name=no_rawat]').val(no_rawat)
+                formCpptRajal.find('input[name=stts]').val(response.stts)
+                formCpptRajal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
+                formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
+                formCpptRajal.find('input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
+                formCpptRajal.find('input[name=keluarga]').val(`${pasien.keluarga} : ${pasien.namakeluarga}`)
+                formCpptRajal.find('input[name=nip]').val(`${response.kd_dokter}`)
+                formCpptRajal.find('input[name=nm_dokter]').val(`${dokter.nm_dokter}`)
+                formCpptRajal.find('input[name=pembiayaan]').val(setTextPenjab(response.penjab.png_jawab, false))
+                formCpptRajal.find('input[name=no_peserta]').val(`${pasien.no_peserta}`)
+                formCpptRajal.find('input[name=kd_poli]').val(`${response.kd_poli}`)
+                formCpptRajal.find('input[name=nm_poli]').val(`${poliklinik.nm_poli}`)
+                formCpptRajal.find('input[name=kd_poli_pcare]').val(`${poliklinik.maping?.kd_poli_pcare}`)
+                formKunjunganPcare.find('input[name=tgl_daftar]').val(`${splitTanggal(response.tgl_registrasi)}`)
+                formKunjunganPcare.find('input[name=nm_poli_pcare]').val(`${poliklinik.maping?.nm_poli_pcare}`)
+                formKunjunganPcare.find('input[name=kd_dokter_pcare]').val(`${dokter.maping?.kd_dokter_pcare}`)
                 $('#btnTambahResep').attr('onclick', `tambahResep('${no_rawat}')`)
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
@@ -89,19 +89,26 @@
                         const optionAlergi = new Option(resAlergi.alergi, resAlergi.alergi, true, true);
                         inputAlergi.append(optionAlergi).trigger('change');
                     });
-                    selectAlergi(inputAlergi, $('#formCpptRajal'))
+                    selectAlergi(inputAlergi, formCpptRajal)
                 } else {
                     inputAlergi.empty()
-                    selectAlergi(inputAlergi, $('#formCpptRajal'))
+                    selectAlergi(inputAlergi, formCpptRajal)
                 }
+
+                getResep({no_rawat : no_rawat}).done((response) => {
+                    console.log('RESPONSE ===', response)
+                    if(Object.keys(response).length){
+                        setButtonResep(response.no_resep)
+                    }
+                })
 
                 renderResepObat(no_rawat)
 
                 if (pemeriksaan_ralan) {
                     Object.keys(pemeriksaan_ralan).map((key, index) => {
-                        const select = $(`#formCpptRajal select[name=${key}]`);
-                        const input = $(`#formCpptRajal input[name=${key}]`);
-                        const textarea = $(`#formCpptRajal textarea[name=${key}]`);
+                        const select = formCpptRajal.find(`select[name=${key}]`);
+                        const input = formCpptRajal.find(`input[name=${key}]`);
+                        const textarea = formCpptRajal.find(`textarea[name=${key}]`);
 
                         if (textarea.length) {
                             textarea.val(pemeriksaan_ralan[key] ? pemeriksaan_ralan[key] : '-')

@@ -222,6 +222,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/resep/delete', [ResepObatController::class, 'delete']);
     Route::get('/resep/print', [ResepObatController::class, 'print']);
 
+	Route::get('/resep/nomor/generate', \App\Action\GenerateNoResep::class);
+
     // Resep Dokter (NON RACIKAN)
     Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);
     Route::get('/resep/dokter/get', [ResepDokterController::class, 'get']);

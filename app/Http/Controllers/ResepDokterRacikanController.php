@@ -34,7 +34,15 @@ class ResepDokterRacikanController extends Controller
         $countData = count($request->data);
         try {
             for ($i = 0; $i < $countData; $i++) {
-                $response[] = ResepDokterRacikan::create($request->data[$i]);
+                $response[] = ResepDokterRacikan::create([
+	                'no_resep' => $request->data[$i]['no_resep'],
+	                'no_racik' => $request->data[$i]['no_racik'],
+	                'jml_dr' => $request->data[$i]['jml_dr'],
+					'kd_racik' => $request->data[$i]['kd_racik'],
+	                'keterangan' => $request->data[$i]['keterangan'],
+	                'aturan_pakai' => $request->data[$i]['aturan_pakai'],
+                ]);
+
             }
             return response()->json(['SUKSES', $request->data]);
         } catch (QueryException $e) {
