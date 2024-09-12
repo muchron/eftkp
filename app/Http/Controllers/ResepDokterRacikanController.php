@@ -31,6 +31,9 @@ class ResepDokterRacikanController extends Controller
 
     function create(Request $request)
     {
+		if(!$request->data){
+			return false;
+		}
         $countData = count($request->data);
         try {
             for ($i = 0; $i < $countData; $i++) {
