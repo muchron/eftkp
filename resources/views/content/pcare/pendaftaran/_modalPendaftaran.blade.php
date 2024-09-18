@@ -50,17 +50,20 @@
                         if (!isObjectEmpty(response)) {
                             $('#modalPasien').modal('show')
                             $.get(`${url}/setting/ppk`).done((kode) => {
+                                loadingAjax().close();
                                 if (kode.toUpperCase() !== result.response.kdProviderPst.kdProvider)
                                     Swal.fire({
                                         title: "Peringatan ?",
                                         html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",
                                         icon: 'warning',
                                         showCancelButton: true,
+                                        showConfirmButton: true,
                                         confirmButtonColor: "#3085d6",
                                         cancelButtonColor: "#d33",
                                         confirmButtonText: "Iya, Lanjutkan",
                                         cancelButtonText: "Tidak, Batalkan"
                                     }).then((res) => {
+                                        console.log(res);
                                         if (!res.isConfirmed) {
                                             $('#modalPasien').modal('hide')
                                             resetFormRegistrasi();
