@@ -58,12 +58,11 @@
                                         icon: 'warning',
                                         showCancelButton: true,
                                         showConfirmButton: true,
-                                        confirmButtonColor: "#3085d6",
-                                        cancelButtonColor: "#d33",
-                                        confirmButtonText: "Iya, Lanjutkan",
-                                        cancelButtonText: "Tidak, Batalkan"
+                                        // confirmButtonColor: "#3085d6",
+                                        // cancelButtonColor: "#d33",
+                                        // confirmButtonText: "Iya, Lanjutkan",
+                                        // cancelButtonText: "Tidak, Batalkan"
                                     }).then((res) => {
-                                        console.log(res);
                                         if (!res.isConfirmed) {
                                             $('#modalPasien').modal('hide')
                                             resetFormRegistrasi();
