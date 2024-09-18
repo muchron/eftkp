@@ -63,7 +63,7 @@
                                         confirmButtonText: "Iya, Lanjutkan",
                                         cancelButtonText: "Tidak, Batalkan"
                                     }).then((res) => {
-                                        if (!res.isConfirmed) {
+                                        if (res.isDenied) {
                                             $('#modalPasien').modal('hide')
                                             resetFormRegistrasi();
                                             return true;
