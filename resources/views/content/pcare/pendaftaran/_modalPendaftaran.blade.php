@@ -62,7 +62,6 @@
                                         cancelButtonColor: "#d33",
                                         confirmButtonText: "Iya, Lanjutkan",
                                         cancelButtonText: "Tidak, Batalkan"
-                                        showLoaderOnConfirm: false,
                                     }).then((res) => {
                                         if (!res.isConfirmed) {
                                             $('#modalPasien').modal('hide')
