@@ -773,7 +773,7 @@
                 if (response.metaData.code == 200) {
                     loadingAjax().close();
                     const result = response.response;
-                    $.get(`${url}/setting/pcare/user`).done((kode) => {
+                    $.get(`${url}/setting/ppk`).done((kode) => {
                         if (kode !== result.kdProviderPst.kdProvider) {
                             Swal.fire({
                                 title: "Peringatan ?",

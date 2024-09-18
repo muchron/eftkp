@@ -49,7 +49,7 @@
                     $.get(`${url}/pasien/get/nokartu/${noKartu}`).done((response) => {
                         if (!isObjectEmpty(response)) {
                             $('#modalPasien').modal('show')
-                            $.get(`${url}/setting/pcare/user`).done((kode) => {
+                            $.get(`${url}/setting/ppk`).done((kode) => {
                                 if (kode.toUpperCase() !== result.response.kdProviderPst.kdProvider)
                                     Swal.fire({
                                         title: "Peringatan ?",
