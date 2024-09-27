@@ -316,6 +316,7 @@
                         cancelButtonText: "Tidak"
                     }).then((result) => {
                         if (!result.isConfirmed) {
+
                             alertSuccessAjax().then(() => {
                                 $('#modalCppt').modal('hide');
                                 if (username === data['nip']) {
@@ -330,6 +331,7 @@
                             })
                             return false;
                         }
+                        getPendaftaranPcare(data['no_rawat'])
                         setStatusLayan(data['no_rawat'], 'Sudah')
                         data['no_peserta'] = no_peserta;
                         data['no_rkm_medis'] = no_rkm_medis;
@@ -392,6 +394,29 @@
             });
 
             return select2;
+        }
+
+        function getPendaftaranPcare(no_rawat) {
+            $.get(`${url}/pcare/pendaftaran/get`, {
+                no_rawat: no_rawat
+            }).done((resposne) => {
+                if (!Object.keys(resposne).length) {
+                    Swal.fire({
+                        title: "Informasi",
+                        text: "Pasien belum terdaftar di Pcare",
+                        icon: "info",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Lanjut",
+                        cancelButtonText: "Tidak"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            console.log('Pendaftaran Pcare')
+                        }
+                    })
+                }
+            })
         }
     </script>
 @endpush

@@ -86,7 +86,7 @@
                 const poli = new Option(`${response.kd_poli} - ${poliklinik?.nm_poli}`, response.kd_poli, true, true);
                 formRegistrasiPoli.find('select[name=kd_pj]').append(pj)
                 formRegistrasiPoli.find('select[name=kd_dokter]').append(dpjp)
-                formRegistrasiPoli.find('select[name=kd_poli]').append(poli).trigger('change');
+                formRegistrasiPoli.find('select[name=kd_poli]').append(poli);
 
                 if (penjab.png_jawab.includes('BPJS')) {
                     periksaPendaftaran.removeClass('d-none')
@@ -99,15 +99,18 @@
                     })
 
                     getPemeriksaanRalan(no_rawat, dokter.kd_dokter).done((response) => {
-                        formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
-                        formRegistrasiPoli.find('input[name=sistole]').val(response.tensi.split('/')[0])
-                        formRegistrasiPoli.find('input[name=diastole]').val(response.tensi.split('/')[1])
-                        formRegistrasiPoli.find('input[name=suhu_tubuh]').val(response.suhu_tubuh)
-                        formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggi)
-                        formRegistrasiPoli.find('input[name=berat]').val(response.berat)
-                        formRegistrasiPoli.find('input[name=respirasi]').val(response.respirasi)
-                        formRegistrasiPoli.find('input[name=nadi]').val(response.nadi)
-                        formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkar_perut)
+                        if (Object.values(response).length) {
+                            formRegistrasiPoli.find('input[name=keluhan]').val(response.keluhan)
+                            formRegistrasiPoli.find('input[name=sistole]').val(response.tensi?.split('/')[0])
+                            formRegistrasiPoli.find('input[name=diastole]').val(response.tensi?.split('/')[1])
+                            formRegistrasiPoli.find('input[name=suhu_tubuh]').val(response.suhu_tubuh)
+                            formRegistrasiPoli.find('input[name=tinggi]').val(response.tinggi)
+                            formRegistrasiPoli.find('input[name=berat]').val(response.berat)
+                            formRegistrasiPoli.find('input[name=respirasi]').val(response.respirasi)
+                            formRegistrasiPoli.find('input[name=nadi]').val(response.nadi)
+                            formRegistrasiPoli.find('input[name=lingkar_perut]').val(response.lingkar_perut)
+
+                        }
                     })
                 } else {
                     formRegistrasiPoli.find('input[name=no_peserta]').val('-')
@@ -140,7 +143,8 @@
                     }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-                            if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
+                            const isCheckedPendaftaranPcare = switchPendaftaranPcare.is(':checked');
+                            if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && isCheckedPendaftaranPcare) {
                                 createBridgingPendaftaranPcare(data)
                             }
                             modalRegistrasi.modal('hide')

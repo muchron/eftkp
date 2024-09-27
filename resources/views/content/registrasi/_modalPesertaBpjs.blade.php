@@ -82,8 +82,8 @@
 </div>
 @push('script')
     <script>
-        var formPesrta = $('#formPeserta');
-        var modalPesertaBpjs = $('#modalPesertaBpjs');
+        const formPesrta = $('#formPeserta');
+        const modalPesertaBpjs = $('#modalPesertaBpjs');
 
         function getPeserta(no_peserta) {
             loadingAjax();

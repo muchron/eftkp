@@ -687,7 +687,7 @@ function selectMappingDokterPcare(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         allowClear: true,
-        tags: true,
+        tags: false,
         placeholder: 'Pilin dokter',
         ajax: {
             url: `${url}/mapping/pcare/dokter`,
@@ -715,7 +715,7 @@ function selectMappingDokterPcare(element, parrent) {
         cache: true
 
     }).on('select2:unselecting', (e) => {
-        const option = new Option('', '', true, true);
+        const option = new Option('-', '-', true, true);
         $(e.currentTarget).append(option).trigger('change');
     });
 

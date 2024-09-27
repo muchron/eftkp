@@ -88,6 +88,12 @@
                             </div>
                         </div>
                     </fieldset>
+                    <div class="mb-2">
+                        <label class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" checked="" id="switchPendaftaranPcare">
+                            <span class="form-check-label">Kirim Pendaftaran ke Pcare </span>
+                        </label>
+                    </div>
                     <fieldset class="form-fieldset d-none" id="periksaPendaftaran">
                         <div class="row gy-2">
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
@@ -226,13 +232,30 @@
         let timeDisplay = $('.jam');
         let checkJam = $('.checkJam');
         let setTime = '';
-        // var isDokter = JSON.parse(`{!! session()->get('pegawai')->dokter !!}`)
+        const switchPendaftaranPcare = $('#switchPendaftaranPcare');
+
+
+        switchPendaftaranPcare.on('change', (e) => {
+            const isChecked = e.target.checked
+
+            if (isChecked) {
+                periksaPendaftaran.removeClass('d-none')
+                selectMappingDokterPcare(kd_dokter, modalRegistrasi)
+            } else {
+                periksaPendaftaran.addClass('d-none');
+                selectDokter(kd_dokter, modalRegistrasi)
+            }
+
+
+
+        })
 
         modalRegistrasi.on('shown.bs.modal', () => {
             selectDokter(kd_dokter, modalRegistrasi)
             selectPoliklinik(kd_poli, modalRegistrasi)
             selectPenjab(kd_pj, modalRegistrasi);
         });
+
         modalRegistrasi.on('hidden.bs.modal', () => {
             btnSimpanReg.removeAttr('onclick').attr('onclick', 'createRegPeriksa()')
             formRegistrasiPoli.trigger('reset');
@@ -384,9 +407,11 @@
         }
 
         function createRegPeriksa() {
+
             const data = getDataForm('formRegistrasiPoli', ['input', 'select']);
             const tglAwal = $('#tglAwal').val();
             const tglAkhir = $('#tglAkhir').val();
+            const checkPendaftaranPcare = switchPendaftaranPcare.is(':checked')
 
             if (data.kd_dokter === '-' || data.kd_dokter === '') {
                 return Swal.fire({
@@ -400,7 +425,7 @@
                     if (tabelRegistrasi.length) {
                         loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
                     }
-                    if (data.no_peserta !== '-' || data.no_peserta.length > 1) {
+                    if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && checkPendaftaranPcare) {
                         createBridgingPendaftaranPcare(data)
                     } else {
                         modalRegistrasi.modal('hide');
@@ -531,11 +556,8 @@
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
                     setMappingDokterPcare()
-
-                    // regPoliBpjs(response)
-
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
-                    loadingAjax()
+                    loadingAjax();
                     periksaPendaftaran.removeClass('d-none');
                     const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
                     setMappingPoliPcare(kdPoli)
@@ -588,9 +610,13 @@
                 $.get(`${url}/mapping/pcare/dokter`, {
                     kdDokterPcare: kdDokterPcare
                 }).done((resDokter) => {
-                    selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    const dokter = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
-                    formRegistrasiPoli.find('select[name=kd_dokter]').append(dokter).trigger('change');
+                    let mappingDokterPcare;
+                    if (Object.keys(resDokter).length) {
+                        mappingDokterPcare = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
+                    } else {
+                        mappingDokterPcare = new Option(`-`, `-`, true, true);
+                    }
+                    formRegistrasiPoli.find('select[name=kd_dokter]').append(mappingDokterPcare).trigger('change');
                     formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
                     loadingAjax().close();
                 }).fail((error) => {

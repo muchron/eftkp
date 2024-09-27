@@ -95,9 +95,10 @@
                     selectAlergi(inputAlergi, formCpptRajal)
                 }
 
-                getResep({no_rawat : no_rawat}).done((response) => {
-                    console.log('RESPONSE ===', response)
-                    if(Object.keys(response).length){
+                getResep({
+                    no_rawat: no_rawat
+                }).done((response) => {
+                    if (Object.keys(response).length) {
                         setButtonResep(response.no_resep)
                     }
                 })

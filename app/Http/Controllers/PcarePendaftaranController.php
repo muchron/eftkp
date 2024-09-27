@@ -2,36 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\PcarePendaftaran;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class PcarePendaftaranController extends Controller
 {
     use Track;
-    function index()
+    public function index()
     {
         return view('content.pcare.pendaftaran');
     }
-    function get(Request $request)
+    public function get(Request $request)
     {
         $pcare = PcarePendaftaran::with(['regPeriksa.pasien' => function ($q) {
             return $q->with(['kel', 'kec', 'kab']);
         }, 'kunjungan', 'pemeriksaan']);
+
+        if ($request->no_rawat) {
+            $data = $pcare->where('no_rawat', $request->no_rawat)->first();
+        }
+
         if ($request->tgl_awal || $request->tgl_akhir) {
-            $pcare = $pcare->whereBetween('tglDaftar', [date('Y-m-d', strtotime($request->tgl_awal)), date('Y-m-d', strtotime($request->tgl_akhir))])->get();
+            $data = $pcare->whereBetween('tglDaftar', [date('Y-m-d', strtotime($request->tgl_awal)), date('Y-m-d', strtotime($request->tgl_akhir))])->get();
         } else {
-            $pcare = $pcare->where('tglDaftar', date('Y-m-d'))->get();
+            $data = $pcare->where('tglDaftar', date('Y-m-d'))->get();
         }
         if ($request->datatable) {
-            return DataTables::of($pcare)->make(true);
+            return DataTables::of($data)->make(true);
         } else {
-            return response()->json($pcare);
+            return response()->json($data);
         }
     }
-    function create(Request $request)
+    public function create(Request $request)
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -66,7 +71,7 @@ class PcarePendaftaranController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
-    function delete(Request $request)
+    public function delete(Request $request)
     {
         $key = ['no_rawat' => $request->no_rawat];
         $pendaftaran = PcarePendaftaran::where($key);
