@@ -557,7 +557,6 @@
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
                     // setMappingDokterPcare()
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
-                    loadingAjax();
                     periksaPendaftaran.removeClass('d-none');
                     const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
                     setMappingPoliPcare(kdPoli)

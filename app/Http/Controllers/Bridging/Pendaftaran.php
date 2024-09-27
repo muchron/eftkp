@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Bridging;
 
 use AamDsam\Bpjs\PCare;
-use App\Traits\PcareConfig;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Exception\BadResponseException;
+use App\Traits\PcareConfig;
+use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
 class Pendaftaran extends Controller
 {
@@ -18,7 +18,7 @@ class Pendaftaran extends Controller
     {
         $this->bpjs = new Pcare\Pendaftaran($this->config());
     }
-    function get(Request $request)
+    public function get(Request $request)
     {
         $row = $request->start ? $request->start : 0;
         $limit = $request->length ? $request->length : 0;
@@ -26,19 +26,19 @@ class Pendaftaran extends Controller
         return $bpjs->tanggalDaftar(date('d-m-Y'))->index($row, $limit);
     }
 
-    function getByTanggal($tgl = '', $start = 0, $limit = 15)
+    public function getByTanggal($tgl = '', $start = 0, $limit = 15)
     {
         $bpjs = $this->bpjs;
         $tgl = $tgl ? $tgl : date('d-m-Y');
         return $bpjs->tanggalDaftar($tgl)->index($start, $limit);
     }
-    function getUrut($noUrut)
+    public function getUrut($noUrut)
     {
         $tanggal = date('d-m-Y');
         $bpjs = $this->bpjs;
         return $bpjs->nomorUrut($noUrut)->tanggalDaftar($tanggal)->index();
     }
-    function delete(Request $request)
+    public function delete(Request $request)
     {
         $bpjs = $this->bpjs;
         $bpjs->peserta($request->noKartu)
@@ -51,7 +51,7 @@ class Pendaftaran extends Controller
             return response()->json($e->errorInfo);
         }
     }
-    function post(Request $request)
+    public function post(Request $request)
     {
 
         $bpjs = $this->bpjs;
@@ -62,20 +62,20 @@ class Pendaftaran extends Controller
             "kdPoli" => $request->kd_poli_pcare,
             "keluhan" => $request->keluhan,
             "kunjSakit" => true,
-            "sistole" => (int)$request->sistole,
-            "diastole" => (int)$request->diastole,
-            "beratBadan" => (int)$request->berat,
-            "tinggiBadan" => (int)$request->tinggi,
-            "respRate" => (int)$request->respirasi,
-            "lingkarPerut" => (int)$request->lingkar_perut,
-            "heartRate" => (int)$request->nadi,
+            "sistole" => (int) $request->sistole,
+            "diastole" => (int) $request->diastole,
+            "beratBadan" => (int) $request->berat,
+            "tinggiBadan" => (int) $request->tinggi,
+            "respRate" => (int) $request->respirasi,
+            "lingkarPerut" => (int) $request->lingkar_perut,
+            "heartRate" => (int) $request->nadi,
             "rujukBalik" => 0,
             "kdTkp" => $request->kdTkp,
         ];
         try {
             return $bpjs->store($data);
-        } catch (QueryException $e) {
-            return response()->json($e->errorInfo);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
         }
     }
 }
