@@ -555,13 +555,13 @@
                     formRegistrasiPoli.find('input[name=noUrut]').val(noUrut);
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    // setMappingDokterPcare()
+                    setMappingDokterPcare()
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
                     periksaPendaftaran.removeClass('d-none');
                     const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    // setMappingDokterPcare();
+                    setMappingDokterPcare();
                 } else {
                     periksaPendaftaran.addClass('d-none');
                 }

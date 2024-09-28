@@ -315,7 +315,7 @@
                         title: 'Pasien',
                         data: 'pasien.no_rkm_medis',
                         render: (data, type, row, meta) => {
-                            return `${data} - ${row.pasien.nm_pasien}`;
+                            return `${row.pasien.nm_pasien}`;
                         }
                     },
                     {
@@ -346,27 +346,6 @@
                             return data;
                         }
                     },
-                    {
-                        title: 'Kategori',
-                        data: 'kat_rujuk',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        }
-                    },
-                    {
-                        title: 'Ambulance',
-                        data: 'ambulance',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        }
-                    },
-                    {
-                        title: 'Keterangan',
-                        data: 'keterangan',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        }
-                    }
                 ]
 
             });
