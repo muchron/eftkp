@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Bridging;
 
 use AamDsam\Bpjs\PCare;
-use Barryvdh\DomPDF\Facade\Pdf;
-use App\Traits\PcareConfig;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Traits\PcareConfig;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
 class Kunjungan extends Controller
 {
@@ -81,7 +80,7 @@ class Kunjungan extends Controller
                     'khusus' => [
                         'kdKhusus' => $request->kdKhusus,
                         'kdSubSpesialis' => $request->kdKhususSub,
-                        'catatan' => $request->catatanKhusus
+                        'catatan' => $request->catatanKhusus,
                     ],
                 ];
                 $data['kdTacc'] = $request->kdTacc ? $request->kdTacc : '0';
@@ -104,7 +103,7 @@ class Kunjungan extends Controller
             return $e->errorInfo;
         }
     }
-    function put(Request $request)
+    public function put(Request $request)
     {
 
         $data = [
@@ -158,7 +157,7 @@ class Kunjungan extends Controller
                     'khusus' => [
                         'kdKhusus' => $request->kdKhusus,
                         'kdSubSpesialis' => $request->kdKhususSub,
-                        'catatan' => $request->catatanKhusus
+                        'catatan' => $request->catatanKhusus,
                     ],
                 ];
                 $data['kdTacc'] = 0;
@@ -181,7 +180,7 @@ class Kunjungan extends Controller
         }
     }
 
-    function delete($noKunjungan)
+    public function delete($noKunjungan)
     {
         try {
             $bpjs = $this->bpjs;
@@ -190,7 +189,7 @@ class Kunjungan extends Controller
             return $e->errorInfo;
         }
     }
-    function getRujukan($noKunjungan)
+    public function getRujukan($noKunjungan)
     {
         $bpjs = $this->bpjs;
         $rujukan = $bpjs->rujukan($noKunjungan)->index();

@@ -7,17 +7,17 @@ class Kunjungan extends PcareService
     /**
      * @var string
      */
-    protected $feature = 'kunjungan/V1';
+    protected $feature = 'kunjungan';
 
     public function rujukan($nomorKunjungan)
     {
-        $this->feature .= "/rujukan/{$nomorKunjungan}";
+        $this->feature .= "/V1/rujukan/{$nomorKunjungan}";
         return $this;
     }
 
     public function riwayat($nomorKartu)
     {
-        $this->feature .= "/peserta/{$nomorKartu}";
+        $this->feature .= "/V1/peserta/{$nomorKartu}";
         return $this;
     }
 }
