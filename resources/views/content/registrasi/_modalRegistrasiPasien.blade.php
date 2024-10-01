@@ -555,13 +555,13 @@
                     formRegistrasiPoli.find('input[name=noUrut]').val(noUrut);
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    setMappingDokterPcare()
+                    setMappingDokterPcare(kd_dokter.val())
                 } else if (response.penjab.png_jawab.includes('BPJS')) {
                     periksaPendaftaran.removeClass('d-none');
                     const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    setMappingDokterPcare();
+                    setMappingDokterPcare(kd_dokte.val())
                 } else {
                     periksaPendaftaran.addClass('d-none');
                 }
@@ -596,32 +596,22 @@
             })
         }
 
-        function setMappingDokterPcare() {
+        function setMappingDokterPcare(kdDokter) {
             loadingAjax('Sedang mengambil data dokter Pcare')
-            $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
-                const dokter = respDokter.response.list
-                const kdDokterPcare = dokter.map((dr, index) => {
-                    if (index == 0) {
-                        return dr.kdDokter;
-                    }
-                }).join('')
-
-                $.get(`${url}/mapping/pcare/dokter`, {
-                    kdDokterPcare: kdDokterPcare
-                }).done((resDokter) => {
-                    let mappingDokterPcare;
-                    if (Object.keys(resDokter).length) {
-                        mappingDokterPcare = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
-                    } else {
-                        mappingDokterPcare = new Option(`-`, `-`, true, true);
-                    }
-                    formRegistrasiPoli.find('select[name=kd_dokter]').append(mappingDokterPcare).trigger('change');
-                    formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
-                    loadingAjax().close();
-                }).fail((error) => {
-                    alertErrorBpjs(error)
-                })
-
+            $.get(`${url}/mapping/pcare/dokter`, {
+                kdDokter: kdDokter
+            }).done((resDokter) => {
+                let mappingDokterPcare;
+                if (Object.keys(resDokter).length) {
+                    mappingDokterPcare = new Option(`${resDokter.kd_dokter} - ${resDokter.nm_dokter_pcare}`, `${resDokter.kd_dokter}`, true, true);
+                } else {
+                    mappingDokterPcare = new Option(`-`, `-`, true, true);
+                }
+                formRegistrasiPoli.find('select[name=kd_dokter]').append(mappingDokterPcare).trigger('change');
+                formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                loadingAjax().close();
+            }).fail((error) => {
+                alertErrorBpjs(error)
             })
         }
     </script>
