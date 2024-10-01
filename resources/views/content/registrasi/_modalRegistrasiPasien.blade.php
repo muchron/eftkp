@@ -608,7 +608,7 @@
                     mappingDokterPcare = new Option(`-`, `-`, true, true);
                 }
                 formRegistrasiPoli.find('select[name=kd_dokter]').append(mappingDokterPcare).trigger('change');
-                formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(kdDokterPcare);
+                formRegistrasiPoli.find('input[name=kd_dokter_pcare]').val(resDokter.kd_dokter_pcare);
                 loadingAjax().close();
             }).fail((error) => {
                 alertErrorBpjs(error)
