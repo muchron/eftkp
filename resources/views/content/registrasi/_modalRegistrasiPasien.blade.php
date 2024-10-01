@@ -561,7 +561,7 @@
                     const kdPoli = formRegistrasiPoli.find('select[name=kd_poli]').val();
                     setMappingPoliPcare(kdPoli)
                     selectMappingDokterPcare(kd_dokter, modalRegistrasi)
-                    setMappingDokterPcare(kd_dokte.val())
+                    setMappingDokterPcare(kd_dokter.val())
                 } else {
                     periksaPendaftaran.addClass('d-none');
                 }
