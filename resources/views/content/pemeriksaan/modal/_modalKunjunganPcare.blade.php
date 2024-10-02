@@ -1,4 +1,5 @@
-<div class="modal modal-blur fade" id="modalKunjunganPcare" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+<div class="modal modal-blur fade" id="modalKunjunganPcare" tabindex="-1" aria-modal="false" role="dialog"
+     data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
@@ -19,13 +20,16 @@
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                                 <label class="form-label">No. Rawat</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="no_rawat" readonly>
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                       type="text" class="form-control" name="no_rawat" readonly>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Pasien</label>
                                 <div class="input-group mb-2">
-                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="no_rkm_medis" readonly>
-                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control w-50" name="nm_pasien" readonly>
+                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                           type="text" class="form-control" name="no_rkm_medis" readonly>
+                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                           type="text" class="form-control w-50" name="nm_pasien" readonly>
 
                                 </div>
                             </div>
@@ -33,7 +37,8 @@
                                 <label class="form-label">Poli Tujuan</label>
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" name="kd_poli_pcare" readonly>
-                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control w-50" name="nm_poli_pcare" readonly>
+                                    <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                           type="text" class="form-control w-50" name="nm_poli_pcare" readonly>
                                 </div>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
@@ -42,7 +47,8 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <label class="form-label">No. Kunjungan</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="noKunjungan" readonly>
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                       type="text" class="form-control" name="noKunjungan" readonly>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label for="form-label">Jenis Kunjungan</label>
@@ -76,13 +82,16 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <label class="form-label">Keluhan</label>
-                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="keluhan" readonly>
+                                <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                       type="text" class="form-control" name="keluhan" readonly>
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12">
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tensi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="tensi" readonly>
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -93,7 +102,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="suhu_tubuh" readonly>
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -104,7 +115,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="tinggi" readonly>
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -115,7 +128,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="berat" readonly>
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -126,9 +141,11 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="respirasi" readonly>
                                         <span class="input-group-text">
-                                            x/mnt
+                                            /mnt
                                         </span>
                                     </div>
                                 </div>
@@ -137,9 +154,11 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="nadi" readonly>
                                         <span class="input-group-text">
-                                            x/mnt
+                                            /mnt
                                         </span>
                                     </div>
                                 </div>
@@ -148,7 +167,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" readonly>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="lingkar_perut" readonly>
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -159,17 +180,29 @@
                     </fieldset>
                     <fieldset class="form-fieldset">
                         <div class="row gy-2">
-                            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
                                 <div class="row gy-2">
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Tgl Kunjungan</label>
-                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglKunjungan" name="tglKunjungan" value="{{ date('d-m-Y') }}" readonly>
+                                        <input class="form-control filterTangal" placeholder="Select a date"
+                                               id="tglKunjungan" name="tglKunjungan" value="{{ date('d-m-Y') }}"
+                                               readonly>
                                     </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Tgl Pulang</label>
-                                        <input class="form-control filterTangal" placeholder="Select a date" id="tglPulang" name="tglPulang" value="{{ date('d-m-Y') }}" readonly>
+                                        <input class="form-control filterTangal" placeholder="Select a date"
+                                               id="tglPulang" name="tglPulang" value="{{ date('d-m-Y') }}" readonly>
                                     </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Dokter</label>
+                                        <div class="input-group">
+                                            <input autocomplete="off" type="text" class="form-control"
+                                                   name="kd_dokter_pcare" readonly="">
+                                            <input autocomplete="off" type="text" class="form-control w-50"
+                                                   name="nm_dokter" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Kesadaran</label>
                                         <select class="form-select" name="kesadaran">
                                             <option value="01">Compos Mentis</option>
@@ -178,25 +211,70 @@
                                             <option value="04">Coma</option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                                        <label class="form-label">Terapi Obat</label>
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control" name="rtl">
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Prognosa</label>
                                         <select class="form-select" name="kdPrognosa" id="kdPrognosa">
                                             <option value="01" selected>Sanam (Sembuh)</option>
                                             <option value="02">Bonam (Baik)</option>
                                             <option value="03">Malam (Buruk/Jelek)</option>
-                                            <option value="04">Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)</option>
-                                            <option value="05">Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)</option>
+                                            <option value="04">Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung
+                                                Sembuh/Baik)
+                                            </option>
+                                            <option value="05">Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung
+                                                Sembuh/Baik)
+                                            </option>
                                         </select>
                                     </div>
-                                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                                        <label class="form-label">Terapi Non-obat</label>
-                                        <input autocomplete="off" onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control" name="instruksi">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="form-label">Terapi Obat</label>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control" name="rtl">
                                     </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="form-label">Terapi Non-obat</label>
+                                        <input autocomplete="off" onfocus="return removeZero(this)"
+                                               onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text"
+                                               class="form-control" name="instruksi">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
+                                <div class="row gy-2">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Diagnosa 1</label>
+                                        <div class="input-group">
+                                            <input autocomplete="off" type="text" class="form-control"
+                                                   name="kdDiagnosa1" readonly="">
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa1"
+                                                   readonly style="width:60%">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Diagnosa 2</label>
+                                        <div class="input-group">
+                                            <input autocomplete="off" type="text" class="form-control"
+                                                   name="kdDiagnosa2" readonly="">
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa2"
+                                                   readonly style="width:60%">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Diagnosa 3</label>
+                                        <div class="input-group">
+                                            <input autocomplete="off" type="text" class="form-control"
+                                                   name="kdDiagnosa3" readonly="">
+                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa3"
+                                                   readonly style="width:60%">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <label class="form-label">Anamnesa</label>
+                                        <input autocomplete="off" type="text" class="form-control" name="anamnesa"
+                                               id="anamnesa" value="-" onblur="isEmpty(this)"
+                                               onfocus="return removeZero(this)">
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                                         <label class="form-label">Status Pulang</label>
                                         <select class="form-select" name="sttsPulang" id="sttsPulang">
                                             <option value="3" selected>Berobat Jalan</option>
@@ -204,46 +282,28 @@
                                             <option value="6">Rujuk Horizontal (Belum Tersedia)</option>
                                         </select>
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12">
                                 <div class="row gy-2">
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Dokter</label>
-                                        <div class="input-group">
-                                            <input autocomplete="off" type="text" class="form-control" name="kd_dokter_pcare" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control w-50" name="nm_dokter" readonly>
-                                        </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Alergi Makanan</label>
+                                        <select class="form-select" style="width: 100%;" name="alergiMakan"
+                                                id="alergiMakan"></select>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Anamnesa</label>
-                                        <input autocomplete="off" type="text" class="form-control" name="anamnesa" id="anamnesa" value="-" onblur="isEmpty(this)" onfocus="return removeZero(this)">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Alergi Udara</label>
+                                        <select class="form-select" style="width: 100%;" name="alergiUdara"
+                                                id="alergiUdara"></select>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Diagnosa 1</label>
-                                        <div class="input-group">
-                                            <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa1" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa1" readonly style="width:60%">
-                                        </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <label class="form-label">Alergi Obat</label>
+                                        <select class="form-select" style="width: 100%;" name="alergiObat"
+                                                id="alergiObat"></select>
                                     </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Diagnosa 2</label>
-                                        <div class="input-group">
-                                            <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa2" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa2" readonly style="width:60%">
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                                        <label class="form-label">Diagnosa 3</label>
-                                        <div class="input-group">
-                                            <input autocomplete="off" type="text" class="form-control" name="kdDiagnosa3" readonly="">
-                                            <input autocomplete="off" type="text" class="form-control" name="diagnosa3" readonly style="width:60%">
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
+
 
                         </div>
                     </fieldset>
@@ -256,27 +316,35 @@
                             </div>
                             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
                                 <label class="form-label" for="tglEstRujukan">Tgl. Estimasi Rujukan</label>
-                                <input class="form-control filterTangal" placeholder="Select a date" id="tglEstRujukan" name="tglEstRujukan" value="{{ date('d-m-Y') }}">
+                                <input class="form-control filterTangal" placeholder="Select a date" id="tglEstRujukan"
+                                       name="tglEstRujukan" value="{{ date('d-m-Y') }}">
                             </div>
                             <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
                                 <label class="form-label" for="ppkRujukan">PPK Rujukan</label>
                                 <div class="input-group">
                                     <input class="form-control" id="kdPpkRujukan" name="kdPpkRujukan" value="">
                                     <input class="form-control w-50" id="ppkRujukan" name="ppkRujukan" value="">
-                                    <button class="btn btn-outline-secondary" type="button" id="btnPpkRujukan" name="btnPpkRujukan"><i class="ti ti-search"></i></button>
+                                    <button class="btn btn-outline-secondary" type="button" id="btnPpkRujukan"
+                                            name="btnPpkRujukan"><i class="ti ti-search"></i></button>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                                 <div class="row gy-2" id="formRujukanSpesialis">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanSpesialis" data-target="formRujukanSpesialis" value="spesialis">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan"
+                                                   id="rujukanSpesialis" data-target="formRujukanSpesialis"
+                                                   value="spesialis">
                                             <span class="form-check-label">Spesialis/Subspesialis</span>
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="spesialis" name="spesialis" readonly>
-                                            <input type="text" class="form-control" id="subSpesialis" name="subSpesialis" readonly>
-                                            <button class="btn btn-outline-secondary" type="button" id="btnSubSpesialis" onclick="renderReferensiSpesialis()"><i class="ti ti-search"></i></button>
+                                            <input type="text" class="form-control" id="spesialis" name="spesialis"
+                                                   readonly>
+                                            <input type="text" class="form-control" id="subSpesialis"
+                                                   name="subSpesialis" readonly>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnSubSpesialis"
+                                                    onclick="renderReferensiSpesialis()"><i class="ti ti-search"></i>
+                                            </button>
                                         </div>
                                         <input type="hidden" id="kdSpesialis" name="kdSpesialis">
                                         <input type="hidden" id="kdSubSpesialis" name="kdSubSpesialis">
@@ -286,9 +354,12 @@
                                             Sarana
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="kdSarana" name="kdSarana" readonly>
-                                            <input type="text" class="form-control w-50" id="sarana" name="sarana" readonly>
-                                            <button class="btn btn-outline-secondary" type="button" id="btnSarana"><i class="ti ti-search"></i></button>
+                                            <input type="text" class="form-control" id="kdSarana" name="kdSarana"
+                                                   readonly>
+                                            <input type="text" class="form-control w-50" id="sarana" name="sarana"
+                                                   readonly>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnSarana"><i
+                                                        class="ti ti-search"></i></button>
                                         </div>
                                     </div>
                                     <div id="taccNonSpesialis" class="d-none">
@@ -297,9 +368,13 @@
                                                 TACC
                                             </label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="kdTacc" name="kdTacc" readonly>
-                                                <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc" readonly>
-                                                <button class="btn btn-outline-secondary" type="button" id="btnTacc" onclick="renderReferensiTacc('subspesialis')"><i class="ti ti-search"></i></button>
+                                                <input type="text" class="form-control" id="kdTacc" name="kdTacc"
+                                                       readonly>
+                                                <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc"
+                                                       readonly>
+                                                <button class="btn btn-outline-secondary" type="button" id="btnTacc"
+                                                        onclick="renderReferensiTacc('subspesialis')"><i
+                                                            class="ti ti-search"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
@@ -307,7 +382,8 @@
                                                 Alasan TACC
                                             </label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="alasanTacc" name="alasanTacc" readonly>
+                                                <input type="text" class="form-control" id="alasanTacc"
+                                                       name="alasanTacc" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -318,13 +394,15 @@
                                 <div class="row gy-2" id="formRujukanKhusus">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanKhusus" data-target="formRujukanKhusus" value="khusus">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan"
+                                                   id="rujukanKhusus" data-target="formRujukanKhusus" value="khusus">
                                             <span class="form-check-label">Khusus</span>
                                         </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdKhusus" name="kdKhusus">
                                             <input type="text" class="form-control w-50" id="khusus" name="khusus">
-                                            <button class="btn btn-outline-secondary" type="button" id="btnKhusus"><i class="ti ti-search"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnKhusus"><i
+                                                        class="ti ti-search"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -333,8 +411,10 @@
                                         </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdKhususSub" name="kdKhususSub">
-                                            <input type="text" class="form-control w-50" id="khususSub" name="khususSub">
-                                            <button class="btn btn-outline-secondary" type="button" id="btnKhususSub"><i class="ti ti-search"></i></button>
+                                            <input type="text" class="form-control w-50" id="khususSub"
+                                                   name="khususSub">
+                                            <button class="btn btn-outline-secondary" type="button" id="btnKhususSub"><i
+                                                        class="ti ti-search"></i></button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -342,7 +422,8 @@
                                             Catatan
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="catatanKhusus" name="catatanKhusus">
+                                            <input type="text" class="form-control" id="catatanKhusus"
+                                                   name="catatanKhusus">
                                         </div>
                                     </div>
                                 </div>
@@ -351,13 +432,17 @@
                                 <div class="row gy-2" id="formRujukanInternal">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-check">
-                                            <input class="form-check-input" type="radio" name="jenisRujukan" id="rujukanInternal" data-target="formRujukanInternal" value="internal">
+                                            <input class="form-check-input" type="radio" name="jenisRujukan"
+                                                   id="rujukanInternal" data-target="formRujukanInternal"
+                                                   value="internal">
                                             <span class="form-check-label">Internal</span>
                                         </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdInternal" name="kdInternal">
                                             <input type="text" class="form-control w-50" id="internal" name="internal">
-                                            <button class="btn btn-outline-secondary" type="button" id="btnInternal" onclick="renderReferensiPoliFktp()"><i class="ti ti-search"></i></button>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnInternal"
+                                                    onclick="renderReferensiPoliFktp()"><i class="ti ti-search"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -366,8 +451,11 @@
                                         </label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" id="kdTacc" name="kdTacc" readonly>
-                                            <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc" readonly>
-                                            <button class="btn btn-outline-secondary" type="button" id="btnTacc" onclick="renderReferensiTacc()"><i class="ti ti-search"></i></button>
+                                            <input type="text" class="form-control w-50" id="nmTacc" name="nmTacc"
+                                                   readonly>
+                                            <button class="btn btn-outline-secondary" type="button" id="btnTacc"
+                                                    onclick="renderReferensiTacc()"><i class="ti ti-search"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -375,7 +463,8 @@
                                             Alasan TACC
                                         </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="alasanTacc" name="alasanTacc" readonly>
+                                            <input type="text" class="form-control" id="alasanTacc" name="alasanTacc"
+                                                   readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -385,7 +474,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSimpanKunjungan" onclick="createKunjungan()"><i class="ti ti-device-floppy"></i> Simpan</button>
+                <button type="button" class="btn btn-success" id="btnSimpanKunjungan" onclick="createKunjungan()"><i
+                            class="ti ti-device-floppy"></i> Simpan
+                </button>
             </div>
         </div>
     </div>
@@ -398,6 +489,11 @@
         var formRujukanInternal = $('#formRujukanInternal')
         var formRujukanKhusus = $('#formRujukanKhusus')
         const modalKunjunganPcare = $('#modalKunjunganPcare')
+
+        const selectAlergiMakan = formKunjunganPcare.find('#alergiMakan')
+        const selectAlergiUdara = formKunjunganPcare.find('#alergiUdara')
+        const selectAlergiObat = formKunjunganPcare.find('#alergiObat')
+
 
         function getKunjunganRujuk(noKunjungan) {
             const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
@@ -436,6 +532,48 @@
             const riwayat = $.get(`${url}/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
             return riwayat;
         }
+
+        function setAlergiMakan() {
+            $.get(`${url}/bridging/pcare/alergi/01`, (res) => {
+                if (res.metaData.code === 200) {
+                    selectAlergiMakan.empty()
+                    res.response.list.forEach((item) => {
+                        selectAlergiMakan.append(`<option value="${item.kdAlergi}">${item.kdAlergi} - ${item.nmAlergi}</option>`)
+                    })
+                }
+            })
+        }
+
+        function setAlergiUdara() {
+            $.get(`${url}/bridging/pcare/alergi/02`, (res) => {
+                if (res.metaData.code === 200) {
+                    selectAlergiUdara.empty()
+                    res.response.list.forEach((item) => {
+                        selectAlergiUdara.append(`<option value="${item.kdAlergi}">${item.kdAlergi} - ${item.nmAlergi}</option>`)
+                    })
+                }
+            })
+        }
+
+        function setAlergiObat() {
+            $.get(`${url}/bridging/pcare/alergi/03`, (res) => {
+                if (res.metaData.code === 200) {
+                    selectAlergiObat.empty()
+                    res.response.list.forEach((item) => {
+                        selectAlergiObat.append(`<option value="${item.kdAlergi}">${item.kdAlergi} - ${item.nmAlergi}</option>`)
+                    })
+                }
+            })
+        }
+
+
+
+        modalKunjunganPcare.on('shown.bs.modal', () => {
+            setAlergiMakan();
+            setAlergiUdara();
+            setAlergiObat();
+        });
+
         modalKunjunganPcare.on('hidden.bs.modal', () => {
             // formKunjunganPcare.find('input[name=rtl]').val(textResep)
             formRujukanLanjut.addClass('d-none');
@@ -476,7 +614,7 @@
             })
         }
 
-        function showModalKunjunganPcare(data) {
+        function setTerapiResep() {
             const no_resep = $('#modalCppt').find('input[name=no_resep]').val()
             if (no_resep.length > 0) {
                 $.get(`${url}/farmasi/resep/get`, {
@@ -500,11 +638,18 @@
             } else {
                 formKunjunganPcare.find('input[name=rtl]').val('-')
             }
+        }
+
+        function showModalKunjunganPcare(data) {
+
+            setTerapiResep()
+
             formRujukanKhusus.find(['input', 'button']).prop('disabled', 'disabled')
             formRujukanLanjut.find('input').prop('disabled', 'disabled')
             formRujukanLanjut.find('button').prop('disabled', 'disabled')
             formRujukanLanjut.find('#rujukanLanjut').prop('disabled', false)
             formKunjunganPcare.find('#tglKunjungan').val(data.tgl_registrasi)
+
 
             const filteredData = Object.fromEntries(
                 Object.entries(data).filter(([key, value]) => key !== "")
@@ -524,6 +669,8 @@
                     select.find(`option:contains("${data[key]}")`).attr('selected', 'selected')
                 }
             })
+
+            formKunjunganPcare.find('input[name=anamnesa]').val(data.pemeriksaan)
 
             getRegDetail(data.no_rawat).done((response) => {
                 const {
@@ -791,7 +938,8 @@
                                 })
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
-                            };
+                            }
+                            ;
 
                         }).fail((request) => {
                             alertErrorAjax(request)

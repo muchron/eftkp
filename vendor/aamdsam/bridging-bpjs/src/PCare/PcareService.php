@@ -90,7 +90,7 @@ class PcareService
     public function __construct($configurations = [])
     {
         $this->clients = new Client([
-            'verify' => false
+            'verify' => false,
         ]);
 
         foreach ($configurations as $key => $val) {
@@ -125,13 +125,13 @@ class PcareService
                 $string = $response;
             }
 
-            $response =  json_decode($string, true);
+            $response = json_decode($string, true);
             $responseMessage = $message ? $message : '';
             return [
                 "response" => $response['response'],
                 'metaData' => [
-                    "message"  => $failMessage . $responseMessage,
-                    "code" => 500
+                    "message" => $failMessage . $responseMessage,
+                    "code" => 500,
                 ],
             ];
         }
@@ -192,6 +192,10 @@ class PcareService
 
     public function destroy($keyword = null, $parameters = [])
     {
+
+		if($this->feature === 'kunjungan/V1'){
+			$this->feature = 'kunjungan';
+		}
         $response = $this->delete($this->feature, $keyword, $parameters);
         return $this->responseDecoded($response);
     }
@@ -199,9 +203,9 @@ class PcareService
     protected function setHeaders()
     {
         $this->headers = [
-            'X-cons-id'       => $this->cons_id,
-            'X-Timestamp'     => $this->timestamp,
-            'X-Signature'     => $this->signature,
+            'X-cons-id' => $this->cons_id,
+            'X-Timestamp' => $this->timestamp,
+            'X-Signature' => $this->signature,
             'X-Authorization' => $this->authorization,
             'user_key' => $this->user_key,
         ];
@@ -223,7 +227,7 @@ class PcareService
         $data = "{$this->cons_id}&{$this->timestamp}";
         $signature = hash_hmac('sha256', $data, $this->secret_key, true);
         $encodedSignature = base64_encode($signature);
-        $this->key_decrypt = "$this->cons_id$this->secret_key$this->timestamp";
+        $this->key_decrypt = $this->cons_id . $this->secret_key.$this->timestamp;
         $this->signature = $encodedSignature;
         return $this;
     }
@@ -280,7 +284,7 @@ class PcareService
                 'GET',
                 "{$this->base_url}/{$this->service_name}{$feature}{$params}",
                 [
-                    'headers' => $this->headers
+                    'headers' => $this->headers,
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -305,7 +309,7 @@ class PcareService
                 "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
-                    'body'    => json_encode($data),
+                    'body' => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
@@ -325,7 +329,7 @@ class PcareService
                 "{$this->base_url}/{$this->service_name}/{$feature}",
                 [
                     'headers' => $this->headers,
-                    'body'    => json_encode($data),
+                    'body' => json_encode($data),
                 ]
             )->getBody()->getContents();
         } catch (\Exception $e) {
