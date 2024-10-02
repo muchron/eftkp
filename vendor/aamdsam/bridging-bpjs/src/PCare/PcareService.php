@@ -119,18 +119,25 @@ class PcareService
                 $failMessage = explode('response:', $response)[0];
                 $responseString = explode('response:', $response)[1];
 
-                $string = explode(',"metaData":', $responseString)[0] . "}";
-                $message = explode(',"metaData":', $responseString)[1] . "\"}";
+                if (is_array($responseString)) {
+                    $string = explode(',"metaData":', $responseString)[0] . "}";
+                    $message = explode(',"metaData":', $responseString)[1] . "\"}";
+
+                } else {
+                    $string = $responseString;
+                    $message = $responseString;
+
+                }
             } else {
                 $string = $response;
             }
 
-            $response = json_decode($string, true);
+            $response = json_decode($string, true) ?? ['response' => $string];
             $responseMessage = $message ? $message : '';
             return [
                 "response" => $response['response'],
                 'metaData' => [
-                    "message" => $failMessage . $responseMessage,
+                    "message" => $responseMessage,
                     "code" => 500,
                 ],
             ];
@@ -193,9 +200,9 @@ class PcareService
     public function destroy($keyword = null, $parameters = [])
     {
 
-		if($this->feature === 'kunjungan/V1'){
-			$this->feature = 'kunjungan';
-		}
+        if ($this->feature === 'kunjungan/V1') {
+            $this->feature = 'kunjungan';
+        }
         $response = $this->delete($this->feature, $keyword, $parameters);
         return $this->responseDecoded($response);
     }
@@ -227,7 +234,7 @@ class PcareService
         $data = "{$this->cons_id}&{$this->timestamp}";
         $signature = hash_hmac('sha256', $data, $this->secret_key, true);
         $encodedSignature = base64_encode($signature);
-        $this->key_decrypt = $this->cons_id . $this->secret_key.$this->timestamp;
+        $this->key_decrypt = $this->cons_id . $this->secret_key . $this->timestamp;
         $this->signature = $encodedSignature;
         return $this;
     }
