@@ -298,24 +298,16 @@ function alertErrorAjax(request) {
     );
 }
 
-function alertErrorBpjs(error) {
-    const { metaData, response } = error;
-    const message = `${metaData.message}`;
-    const isArrayResponse = Array.isArray(response);
-    let responseMessage = ''
-    if (isArrayResponse) {
-        responseMessage = response.map((item) =>
-            `${item.field} : ${item.message}`
-        );
-    } else {
-        responseMessage = `${response.field} : ${response.message}`;
-    }
+function alertErrorBpjs({ metaData, response }) {
+    const message = metaData.message;
+    const errors = Array.isArray(response) ? response.map(
+        ({ field, message }) => `${field} : ${message}`
+    ).join('<br>') : response ?? '';
     return Swal.fire({
         title: 'Pesan dari BPJS',
-        html: `<strong class="text-danger">${responseMessage}</strong><br/>
-        <small>${message}</small>`,
+        html: `<small>${metaData.code} ${message}</small> <br/><strong class="text-danger">${errors}</strong>`,
         icon: 'error',
-    })
+    });
 }
 
 function alertSessionExpired(requestStatus) {

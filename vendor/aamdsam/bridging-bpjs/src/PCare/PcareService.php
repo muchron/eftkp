@@ -109,38 +109,42 @@ class PcareService
         return $this;
     }
 
+    protected function failedResponse($response)
+    {
+        $failedResponse = explode('response:', $response);
+        if (is_array($failedResponse) && count($failedResponse) > 1) {
+            $responseString = $failedResponse[1];
+            if (strpos($responseString, ',"metaData":') !== false) {
+                $string = explode(',"metaData":', $responseString)[0] . "}";
+                $message = "FAILED";
+            } else {
+                $string = preg_replace('/,"metaData".*/', '', $responseString);
+                $message = "FAILED";
+
+            }
+        } else {
+            $string = $response;
+            $message = "FAILED";
+        }
+
+        $response = json_decode($string, true) ?? ['response' => $string];
+        $responseMessage = $message ?? '';
+
+        return [
+            "response" => $response['response'],
+            'metaData' => [
+                "message" => $responseMessage,
+                "code" => 500,
+            ],
+        ];
+
+    }
+
     public function responseDecoded($response)
     {
-        // ubah ke array
         $responseArray = json_decode($response, true);
         if (!is_array($responseArray)) {
-            $failedResponse = explode('response:', $response);
-            if (is_array($failedResponse)) {
-                $failMessage = explode('response:', $response)[0];
-                $responseString = explode('response:', $response)[1];
-
-                if (is_array($responseString)) {
-                    $string = explode(',"metaData":', $responseString)[0] . "}";
-                    $message = explode(',"metaData":', $responseString)[1] . "\"}";
-
-                } else {
-                    $string = $responseString;
-                    $message = $responseString;
-
-                }
-            } else {
-                $string = $response;
-            }
-
-            $response = json_decode($string, true) ?? ['response' => $string];
-            $responseMessage = $message ? $message : '';
-            return [
-                "response" => $response['response'],
-                'metaData' => [
-                    "message" => $responseMessage,
-                    "code" => 500,
-                ],
-            ];
+            return $this->failedResponse($response);
         }
 
         if (!isset($responseArray["response"]) || $responseArray['metaData']['code'] == 401) {

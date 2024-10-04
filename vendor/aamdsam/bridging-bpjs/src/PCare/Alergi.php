@@ -11,8 +11,12 @@ class Alergi extends PcareService
      */
     protected $feature = 'alergi/jenis';
 
-
-    function jenis($keyword)
+    public function jenis($keyword)
+    {
+        $this->feature .= "/{$keyword}";
+        return $this;
+    }
+    public function prognosa($keyword)
     {
         $this->feature .= "/{$keyword}";
         return $this;

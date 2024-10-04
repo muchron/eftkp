@@ -288,23 +288,21 @@
                                 <div class="row gy-2">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-label">Alergi Makanan</label>
-                                        <select class="form-select" style="width: 100%;" name="alergiMakan"
+                                        <select class="form-select form-select-2" style="width: 100%;" name="alergiMakan" data-dropdown-parent="#modalKunjunganPcare"
                                             id="alergiMakan"></select>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-label">Alergi Udara</label>
-                                        <select class="form-select" style="width: 100%;" name="alergiUdara"
+                                        <select class="form-select form-select-2" style="width: 100%;" name="alergiUdara" data-dropdown-parent="#modalKunjunganPcare"
                                             id="alergiUdara"></select>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                         <label class="form-label">Alergi Obat</label>
-                                        <select class="form-select" style="width: 100%;" name="alergiObat"
+                                        <select class="form-select form-select-2" style="width: 100%;" name="alergiObat" data-dropdown-parent="#modalKunjunganPcare"
                                             id="alergiObat"></select>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </fieldset>
                     <fieldset class="form-fieldset d-none" id="formRujukanLanjut">
@@ -565,14 +563,6 @@
                 }
             })
         }
-
-
-
-        modalKunjunganPcare.on('shown.bs.modal', () => {
-            setAlergiMakan();
-            setAlergiUdara();
-            setAlergiObat();
-        });
 
         modalKunjunganPcare.on('hidden.bs.modal', () => {
             // formKunjunganPcare.find('input[name=rtl]').val(textResep)
@@ -909,6 +899,7 @@
                 data['kdTacc'] = formRujukanSpesialis.find('#kdTacc').val();
             }
             loadingAjax('Tunggu sebentar...');
+
             $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Bridging;
 
 use AamDsam\Bpjs\PCare;
-use App\Traits\PcareConfig;
 use App\Http\Controllers\Controller;
+use App\Traits\PcareConfig;
 
 class Alergi extends Controller
 {
@@ -20,5 +20,10 @@ class Alergi extends Controller
     {
         $bpjs = $this->bpjs;
         return $bpjs->jenis($keyword)->index();
+    }
+    public function prognosa($keyword)
+    {
+        $bpjs = $this->bpjs;
+        return $bpjs->prognosa($keyword)->index();
     }
 }
