@@ -565,9 +565,9 @@
         }
 
         modalKunjunganPcare.on('hidden.bs.modal', () => {
-            // formKunjunganPcare.find('input[name=rtl]').val(textResep)
             formRujukanLanjut.addClass('d-none');
             formKunjunganPcare.trigger('reset');
+            formKunjunganPcare.find('input[name=rtl]').val('-')
         })
 
         function checkDiagnosaRujuk(kdDiagnosa) {
