@@ -214,6 +214,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/prosedur/pasien/update', [ProsedurPasienController::class, 'update']);
 
     // Barang/obat
+    Route::get('/farmasi/obat', [DataBarangController::class, 'index']);
+
     Route::get('/barang/get', [DataBarangController::class, 'get']);
 
     // Resep Obat
@@ -355,6 +357,8 @@ Route::middleware('auth')->group(function () {
     Route::get('mapping/pcare/poliklinik', [MappingPoliklinikPcareController::class, 'get']);
     Route::get('mapping/pcare/dokter', [MapingDokterController::class, 'get']);
     Route::get('mapping/pcare/obat', [MappingObatPcareController::class, 'get']);
+    Route::post('mapping/pcare/obat', [MappingObatPcareController::class, 'create']);
+    Route::post('mapping/pcare/obat/delete/{kdBarang}', [MappingObatPcareController::class, 'delete']);
 
     // SETTING
 
@@ -429,7 +433,7 @@ Route::middleware('auth')->group(function () {
 
     // OBAT
     Route::post('/bridging/pcare/obat', [Bridging\Obat::class, 'create']);
-    Route::get('/bridging/pcare/obat/{keyword}', [Bridging\Obat::class, 'get']);
+    Route::get('/bridging/pcare/obat/{keyword?}', [Bridging\Obat::class, 'get']);
 
     //    Diagnosa
     Route::get('/bridging/pcare/diagnosa/{diagnosa}', [Bridging\Diagnosa::class, 'get']);

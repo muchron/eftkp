@@ -12,19 +12,34 @@ class DataBarang extends Model
     protected $guarded = [];
     public $timestamps;
 
-    function satuan()
+    public function satuan()
     {
         return $this->belongsTo(Satuan::class, 'kode_sat', 'kode_sat');
     }
-    function satuanBesar()
+    public function satuanBesar()
     {
         return $this->belongsTo(SatuanBesar::class, 'kode_satbesar', 'kode_sat');
     }
-    function jenis()
+    public function jenis()
     {
         return $this->belongsTo(Jenis::class, 'kdjns', 'kdjns');
     }
-    function mappingObat()
+
+    public function golongan()
+    {
+        return $this->belongsTo(GolonganBarang::class, 'kode_golongan', 'kode');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriBarang::class, 'kode_kategori', 'kode');
+    }
+
+    public function industri()
+    {
+        return $this->belongsTo(IndustriFarmasi::class, 'kode_industri', 'kode_industri');
+    }
+    public function mapping()
     {
         return $this->belongsTo(MappingObatPcare::class, 'kode_brng', 'kode_brng');
     }
