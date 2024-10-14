@@ -565,7 +565,7 @@
         }
 
         modalKunjunganPcare.on('hidden.bs.modal', () => {
-            // formKunjunganPcare.find('input[name=rtl]').val(textResep)
+            formKunjunganPcare.find('input[name=rtl]').val('-')
             formRujukanLanjut.addClass('d-none');
             formKunjunganPcare.trigger('reset');
         })
@@ -790,12 +790,13 @@
                             html: `Pasien ini masih memiliki rujukan aktif <br/> hingga <b class="text-danger">${splitTanggal(rujuk)}</b>, buat rujukan lagi ?`,
                             icon: 'info',
                             showCancelButton: true,
+                            showConfirmButton: true,
                             confirmButtonColor: "#3085d6",
                             cancelButtonColor: "#d33",
                             confirmButtonText: "Iya, Yakin",
                             cancelButtonText: "Tidak, Batalkan"
                         }).then((result) => {
-                            if (result.isConfirmed) {
+                            if (result.isConfirmed && result.isDismissed) {
                                 formRujukanLanjut.removeClass('d-none');
                                 formRujukanLanjut.find('#tglEstRujukan').removeAttr('disabled');
                                 formRujukanLanjut.find('#kdPpkRujukan').removeAttr('disabled');
