@@ -940,6 +940,8 @@
                 } else {
                     alertErrorBpjs(response)
                 }
+            }).fail((error) => {
+                alertErrorAjax(error)
             })
 
 
