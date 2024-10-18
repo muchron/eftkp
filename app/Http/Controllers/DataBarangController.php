@@ -21,12 +21,12 @@ class DataBarangController extends Controller
             $barang = $barang
                 ->where('nama_brng', 'like', $request->barang . "%")
                 ->whereHas('jenis', function ($query) {
-                    return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
+                    return $query->where('nama', 'not like', 'logistik');
                 })->orderBy('nama_brng', 'ASC')
                 ->get();
         } else {
             $barang = $barang->whereHas('jenis', function ($query) {
-                return $query->where('nama', 'not like', '%ALKES%')->where('nama', 'not like', 'logistik');
+                return $query->where('nama', 'not like', 'logistik');
             })->limit(10)->orderBy('nama_brng', 'ASC')->get();
         }
 
