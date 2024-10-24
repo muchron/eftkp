@@ -124,6 +124,9 @@
                     $.post(`${url}/surat/sakit/delete/${no_surat}`).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadSuratSakit(tglAwal, tglAkhir)
+                            setNoSuratSakit().done((response) => {
+                                formSuratSakit.find('input[name=no_surat]').val(response)
+                            })
                         })
                     })
                 }

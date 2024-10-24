@@ -51,7 +51,11 @@
                             $('#modalPasien').modal('show')
                             $.get(`${url}/setting/ppk`).done((kode) => {
                                 loadingAjax().close();
-                                if (kode.toUpperCase() !== result.response.kdProviderPst.kdProvider)
+                                const {
+                                    kdProviderPst,
+                                    kdProviderGigi
+                                } = result.response
+                                if (kode.toUpperCase() !== kdProviderPst.kdProvider || kode.toUpperCase !== kdProviderGigi.kdProvider)
                                     Swal.fire({
                                         title: "Peringatan ?",
                                         html: "Pasien tidak terdaftar sebagai peserta Anda, tetap lanjutkan ?",

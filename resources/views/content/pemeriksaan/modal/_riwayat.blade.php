@@ -75,37 +75,37 @@
             getResep({
                 no_rawat: no_rawat,
             }).done((reseps) => {
-                    if (reseps.length) {
-                        Swal.fire({
-                            title: "Terdapat resep pada pemeriksaan ini",
-                            html: "apakah anda akan menggunakan resep yang sama ?",
-                            icon: 'info',
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Iya, Salin",
-                            cancelButtonText: "Tidak"
-                        }).then((result) => {
-                                const no_rawat = inptNoRawat.val();
-                                if (result.isConfirmed) {
-                                    let no_resep = inptNoResep.val();
-                                    if (!no_resep) {
-                                        createResepObat(no_rawat, 'ralan', nip).done((response) => {
-                                            setButtonResep(response.no_resep);
-                                        }).fail((request) => {
-                                            alertErrorAjax(request);
-                                        }).done((response) => {
-                                            createCopyResep(response.no_resep, reseps)
-                                        });
-                                    } else {
-                                        createCopyResep(no_resep, reseps)
-                                    }
-                                }
+                if (reseps.length) {
+                    Swal.fire({
+                        title: "Terdapat resep pada pemeriksaan ini",
+                        html: "apakah anda akan menggunakan resep yang sama ?",
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Iya, Salin",
+                        cancelButtonText: "Tidak"
+                    }).then((result) => {
+                        const no_rawat = inptNoRawat.val();
+                        if (result.isConfirmed) {
+                            let no_resep = inptNoResep.val();
+                            if (!no_resep) {
+                                createResepObat(no_rawat, 'ralan', nip).done((response) => {
+                                    setButtonResep(response.no_resep);
+                                    createCopyResep(response.no_resep, reseps)
+                                    inptNoResep.val(response.no_resep)
+                                }).fail((request) => {
+                                    alertErrorAjax(request);
+                                })
+                            } else {
+                                createCopyResep(no_resep, reseps).done((response) => {
+                                    inptNoResep.val(response.no_resep)
+                                })
                             }
-                        );
-                    }
+                        }
+                    });
                 }
-            );
+            });
         }
 
         function createCopyResep(no_resep, data) {
@@ -141,16 +141,14 @@
                 createResepRacikan(dataResepRacik).done((responseRacik) => {
                     const detail = dataResepRacik.map((item) => {
                         const detail = item.detail.map((subitem) =>
-                            (
-                                {
-                                    no_resep: no_resep,
-                                    kandungan: subitem.kandungan ? subitem.kandungan : 0,
-                                    kode_brng: subitem.kode_brng,
-                                    no_racik: subitem.no_racik,
-                                    p1: subitem.p1,
-                                    p2: subitem.p2,
-                                }
-                            )
+                            ({
+                                no_resep: no_resep,
+                                kandungan: subitem.kandungan ? subitem.kandungan : 0,
+                                kode_brng: subitem.kode_brng,
+                                no_racik: subitem.no_racik,
+                                p1: subitem.p1,
+                                p2: subitem.p2,
+                            })
                         )
                         createDetailRacikan(no_resep, item.no_racik, detail).done((responseDetail) => {
                             setResepRacikan(no_resep);
@@ -311,7 +309,7 @@
 
         }
 
-        $('#listRiwayat').on('show.bs.collapse', function (e) {
+        $('#listRiwayat').on('show.bs.collapse', function(e) {
             const id = e.target.id;
             const no_rawat = $(`#${id}`).data('id');
             const body = $(`#${id}`).find('.accordion-body')

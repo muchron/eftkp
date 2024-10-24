@@ -40,6 +40,7 @@
 
         function setResepDokter(no_resep) {
             getResepDokter(no_resep).done((reseps) => {
+                $('input[name=no_resep]').val(no_resep)
                 bodyResepUmum.empty()
                 if (reseps.length) {
                     tabelResepUmum.removeClass('d-none')
@@ -122,7 +123,7 @@
             const jml = colJml.html().split(" ")[0];
             const aturan = colAturan.html();
             colAksi.empty();
-            colJml.html('').append(`<input type="text" class="form-control" name="jml" id="jmlObat${id}" value="${jml}"/>`)
+            colJml.html('').append(`<input type="hidden" name="kode_brng" id="kdObat${id}Val" value="${kd_obat}"/><input type="text" class="form-control" name="jml" id="jmlObat${id}" value="${jml}"/>`)
             colAturan.html('').append(`<input type="text" class="form-control" name="aturan" id="aturan${id}" value="${aturan}"/>`)
             colAksi.append(`
                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="simpanUbah(${id}, '${kd_obat}')"><i class="ti ti-pencil"></i> Ubah</button>
@@ -196,13 +197,13 @@
                         return item == null || item == '';
                     }).length
 
-
                     if (isEmpty) {
                         const errorMsg = {
                             status: 422,
                             statusText: 'Pastikan tidak ada kolom yang kosong'
                         }
                         alertErrorAjax(errorMsg)
+                        console.log(obat);
                         return false;
                     }
                     dataObat.push(obat)

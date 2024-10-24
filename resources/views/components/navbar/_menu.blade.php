@@ -59,15 +59,15 @@
          <div class="dropdown-menu" data-bs-popper="static">
              <div class="dropdown-menu-columns">
                  <div class="dropdown-menu-column">
+                     <a href="{{ url('farmasi/obat') }}" class="dropdown-item">
+                         Obat
+                     </a>
                      <a href="{{ url('farmasi/racik/template') }}" class="dropdown-item {{ Request::is('template') ? 'active' : '' }}">
                          Template Racikan
                      </a>
                      <a href="{{ url('farmasi/resep') }}" class="dropdown-item">
                          Resep Obat
                      </a>
-                     {{-- <a href="{{ url('farmasi/obat') }}" class="dropdown-item">
-                         Obat
-                     </a> --}}
                  </div>
              </div>
          </div>

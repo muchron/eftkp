@@ -85,7 +85,7 @@
             const lamaSakit = setLamaSakit(awal, akhir);
             formSuratSakit.find('input[name=lama]').val(lamaSakit)
 
-            setNoSuratSakit(awal).done((response)=>{
+            setNoSuratSakit(awal).done((response) => {
                 formSuratSakit.find('input[name=no_surat]').val(response)
             })
 
