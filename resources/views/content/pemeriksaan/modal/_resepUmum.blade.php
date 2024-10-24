@@ -40,6 +40,7 @@
 
         function setResepDokter(no_resep) {
             getResepDokter(no_resep).done((reseps) => {
+                $('input[name=no_resep]').val(no_resep)
                 bodyResepUmum.empty()
                 if (reseps.length) {
                     tabelResepUmum.removeClass('d-none')
