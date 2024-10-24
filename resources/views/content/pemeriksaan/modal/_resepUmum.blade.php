@@ -202,6 +202,7 @@
                             statusText: 'Pastikan tidak ada kolom yang kosong'
                         }
                         alertErrorAjax(errorMsg)
+                        console.log(obat);
                         return false;
                     }
                     dataObat.push(obat)
