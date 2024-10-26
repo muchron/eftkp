@@ -115,7 +115,7 @@ class PcareService
         if (is_array($failedResponse) && count($failedResponse) > 1) {
             $responseString = $failedResponse[1];
             if (strpos($responseString, ',"metaData":') !== false) {
-                $string = explode(',"metaData":', $responseString)[0] . "}";
+                $string = preg_replace('/,"response:".*/', '', $responseString) . "\"}";
                 $message = "FAILED";
             } else {
                 $string = preg_replace('/,"metaData".*/', '', $responseString);

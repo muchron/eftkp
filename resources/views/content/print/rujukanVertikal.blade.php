@@ -78,25 +78,25 @@
             <p style="margin:10px">Atas bantuannya, diucapkan terimakasih</p>
             <table>
                 <tr>
-                    <td>Tgl Renc. Kunjungan</td>
-                    <td>:</td>
-                    <td>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</td>
-                </tr>
-                <tr>
-                    <td>Surat rujukan berlaku 1[satu] kali kunjungan, berlaku sampai dengan</td>
-                    <td>:</td>
-                    <td>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</td>
-                </tr>
-                <tr>
-                    <td>Jadwal</td>
-                    <td>:</td>
-                    <td>{{ $data['detail']['jadwal'] }}</td>
+                    <td width="400px">
+                        <p>
+                            Tgl Renc. Kunjungan : <strong>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</strong>
+                        </p>
+                        <p>
+                            Jadwal : <strong>{{ $data['detail']['jadwal'] }}</strong>
+                        </p>
+                        <p>
+                            Surat rujukan berlaku satu kali kunjungan, berlaku sampai : <strong>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</strong>
+                        </p>
+
+                    </td>
+                    <td>
+                        <p style="margin-bottom: 70px">Salam Sejawat, {{ Carbon\Carbon::now()->translatedFormat('d F Y H:i:s') }}</p>
+                        <p class="mt-5"><b><u>{{ $data['nmDokter'] }}</u></b></p>
+                    </td>
                 </tr>
             </table>
-            <div class="text-end">
-                <p class="mb-5">Salam Sejawat, {{ Carbon\Carbon::now()->translatedFormat('d F Y H:i:s') }}</p>
-                <p class="mt-5"><b><u>{{ $data['nmDokter'] }}</u></b></p>
-            </div>
+
             Info Denda : {{ $data['detail']['infoDenda'] }}
         </div>
     </div>

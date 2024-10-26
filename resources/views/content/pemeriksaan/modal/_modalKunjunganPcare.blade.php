@@ -916,7 +916,6 @@
                             loadTbPcarePendaftaran(tglAwal, tglAkhir)
                         }
 
-                        $('#modalCppt').modal('hide');
                         $.post(`${url}/pcare/kunjungan`, data).done((response) => {
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
@@ -933,6 +932,7 @@
                             } else if (data['kdStatusPulang'] == 3 || data['kdStatusPulang'] == 9) {
                                 setStatusLayan(data['no_rawat'], 'Sudah');
                             };
+                            $('#modalCppt').modal('hide');
 
                         }).fail((request) => {
                             alertErrorAjax(request)
@@ -1002,13 +1002,14 @@
                                 });
                             })
                         } else {
-                            const statusCode = response.metaData.code;
-                            const statusText = response.metaData.message.split('response:')[1];
-                            const errorMsg = {
-                                status: statusCode,
-                                statusText: statusText,
-                            }
-                            alertErrorAjax(errorMsg)
+                            // const statusCode = response.metaData.code;
+                            // const statusText = response.metaData.message.split('response:')[1];
+                            // const errorMsg = {
+                            //     status: statusCode,
+                            //     statusText: statusText,
+                            // }
+                            // alertErrorAjax(errorMsg)
+                            alertErrorBpjs(response)
                         }
                     }).fail((request) => {
                         alertErrorAjax(request)

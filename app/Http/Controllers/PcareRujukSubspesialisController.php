@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\Track;
-use App\Models\Setting;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
-use App\Models\PcareRujukSubspesialis;
-use Illuminate\Database\QueryException;
 use App\Models\EfktpPcareRujukSubspesialis;
+use App\Models\PcareRujukSubspesialis;
+use App\Models\Setting;
+use App\Traits\Track;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
 class PcareRujukSubspesialisController extends Controller
 {
     use Track;
-    function create(Request $request)
+    public function create(Request $request)
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -91,7 +91,7 @@ class PcareRujukSubspesialisController extends Controller
         }
     }
 
-    function update(Request $request)
+    public function update(Request $request)
     {
         $data = [
             'no_rawat' => $request->no_rawat,
@@ -152,7 +152,7 @@ class PcareRujukSubspesialisController extends Controller
                         'kdKC' => $request->kdKC,
                         'nmKC' => $request->nmKC,
                         'tglAkhirRujuk' => $request->tglAkhirRujuk,
-                        'jadwal' => $request->jadwal ?  $request->jadwal : '-',
+                        'jadwal' => $request->jadwal ? $request->jadwal : '-',
                         'infoDenda' => $request->infoDenda ? $request->indoDenda : '-',
                         'catatanRujuk' => $request->catatanRujuk,
                     ];
@@ -173,29 +173,28 @@ class PcareRujukSubspesialisController extends Controller
         }
     }
 
-    function print(Request $request)
+    public function print(Request $request)
     {
         $key = [
-            'noKunjungan' => $request->noKunjungan
+            'noKunjungan' => $request->noKunjungan,
         ];
         $pcare = PcareRujukSubspesialis::where($key)->with('detail', 'pasien', 'regPeriksa')->first()->toArray();
         $setting = Setting::first();
 
-
         if ($request->size == '8') {
             $pdf = PDF::loadView('content.print.rujukanVertikal8', ['data' => $pcare, 'setting' => $setting]);
-            $pdf->setPaper([0, 0, $request->size * 28.3465, 500])->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+            $pdf->setPaper([0, 0, $request->size * 28.3465, 600])->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         } else if ($request->size == 'a4') {
             $pdf = PDF::loadView('content.print.rujukanVertikalA4', ['data' => $pcare, 'setting' => $setting]);
-            $pdf->setPaper('a4', 'landscape')->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+            $pdf->setPaper('a4', 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         } else {
             $pdf = PDF::loadView('content.print.rujukanVertikal', ['data' => $pcare, 'setting' => $setting]);
-            $pdf->setPaper('a5', 'landscape')->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+            $pdf->setPaper('a5', 'landscape')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         }
         return $pdf->stream($pcare['noKunjungan']);
     }
 
-    function delete($noKunjungan)
+    public function delete($noKunjungan)
     {
 
         $kunjungan = PcareRujukSubspesialis::where('noKunjungan', $noKunjungan);
@@ -220,7 +219,7 @@ class PcareRujukSubspesialisController extends Controller
         }
     }
 
-    function getAll($no_rkm_medis)
+    public function getAll($no_rkm_medis)
     {
         $kunjungan = PcareRujukSubspesialis::where('no_rkm_medis', $no_rkm_medis)->with('detail')->orderBy('tglEstRujuk', 'ASC')->get();
         return response()->json($kunjungan);

@@ -7,8 +7,8 @@
             <h6 style="margin-bottom:0px;margin-top:0px;font-size:10px">Divisi Regional : {{ $data['detail']['nmKR'] }}</h6>
             <h6 style="margin-bottom:0px;margin-top:0px;font-size:10px">Kantor Cabang : {{ $data['detail']['nmKC'] }}</h6>
         </div>
-        <img style="position: absolute;top:95px;right:40px" src="data:image/png;base64,{{ DNS1D::getBarcodePNG($data['noKunjungan'], 'C39E') }}" height="35" width="200" />
-        <h6 style="text-align:center;">Rujukan FKTP</h6>
+        <img style="position: absolute;top:80px;right:40px" src="data:image/png;base64,{{ DNS1D::getBarcodePNG($data['noKunjungan'], 'C39E') }}" height="35" width="200" />
+        <h6 style="text-align:center;font-size:10px">Rujukan FKTP</h6>
         <div style="border:1px solid; padding:10px;margin-top:55px;margin-bottom:10px">
             <table>
                 <tr>
@@ -69,23 +69,21 @@
         <p style="margin:10px">Atas bantuannya, diucapkan terimakasih</p>
         <table width="100%">
             <tr>
-                <td width="38%">Tgl Renc. Kunjungan</td>
-                <td width="5%">:</td>
-                <td>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</td>
-            </tr>
-            <tr>
-            <tr>
-                <td>Surat rujukan berlaku 1[satu] kali kunjungan, berlaku sampai dengan</td>
-                <td>:</td>
-                <td>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Jadwal</td>
-                <td>:</td>
-                <td>{{ $data['detail']['jadwal'] }}</td>
+                <td>
+                    <p>
+                        Tgl Renc. Kunjungan : <strong>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</strong>
+                    </p>
+                    <p>
+                        Jadwal : <strong>{{ $data['detail']['jadwal'] }}</strong>
+                    </p>
+                    <p>
+                        Surat rujukan berlaku satu kali kunjungan, berlaku sampai : <strong>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</strong>
+                    </p>
+
+                </td>
             </tr>
         </table>
+
         <p class="mt-1">Info Denda : {{ $data['detail']['infoDenda'] }}</p>
         <div style="margin-top:20px;text-align: center;left:0px;font-size:12px;">
             <p style="margin-bottom:50">Salam Sejawat,{{ date('d/m/Y H:i:s') }}</p>
