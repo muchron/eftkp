@@ -83,7 +83,7 @@
                     <td>{{ date('d-m-Y', strtotime($data['tglEstRujuk'])) }}</td>
                 </tr>
                 <tr>
-                    <td>Tgl Akhir Rujukan</td>
+                    <td>Surat rujukan berlaku 1[satu] kali kunjungan, berlaku sampai dengan</td>
                     <td>:</td>
                     <td>{{ date('d-m-Y', strtotime($data['detail']['tglAkhirRujuk'])) }}</td>
                 </tr>
