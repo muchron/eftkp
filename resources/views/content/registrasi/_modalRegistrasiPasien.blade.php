@@ -39,12 +39,12 @@
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="kd_dokter" class="form-label">Dokter</label>
-                                        <select class="form-select" name="kd_dokter" id="kd_dokter" style="width: 100%"></select>
+                                        <select class="form-select" name="kd_dokter" id="kd_dokter" data-parent="#modalRegistrasi" style="width: 100%"></select>
                                         <input type="hidden" name="kd_dokter_pcare">
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="kd_poli" class="form-label">Poliklinik/Unit</label>
-                                        <select class="form-select" name="kd_poli" id="kd_poli" style="width: 100%"></select>
+                                        <select class="form-select" name="kd_poli" id="kd_poli" data-parent="#modalRegistrasi" style="width: 100%"></select>
                                         <input type="hidden" name="kd_poli_pcare">
                                     </div>
                                 </div>
