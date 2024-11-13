@@ -674,6 +674,9 @@ function selectDokter(element, parrent) {
 
 }
 function selectMappingDokterPcare(element, parrent) {
+
+    console.log('PARRENT===', parrent);
+
     return element.select2({
         dropdownParent: parrent,
         delay: 2,
