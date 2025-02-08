@@ -48,7 +48,9 @@ class SuratSehatController extends Controller
     function setNoSurat(Request $request)
     {
         $tgl_surat = $request->tgl_surat ? $request->tgl_surat :  date('Y-m-d');
-        $surat = SuratSehat::select('no_surat')->where('tanggalsurat', $tgl_surat)->orderBy('no_surat', 'DESC')->first();
+        $surat = SuratSehat::select('no_surat')
+        ->where('tanggalsurat', date('Y-m-d', strtotime($tgl_surat)))
+        ->orderBy('no_surat', 'DESC')->first();
         $strTanggal = date('Ymd', strtotime($tgl_surat));
         if (!$surat) {
             $no = '001';

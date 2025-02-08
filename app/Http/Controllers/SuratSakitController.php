@@ -46,8 +46,10 @@ class SuratSakitController extends Controller
     }
     public function setNoSurat(Request $request)
     {
-        $tgl_surat = isset($request->tgl_surat) ? $request->tgl_surat : date('Y-m-d');
-        $surat = SuratSakit::select('no_surat')->where('tanggalawal', $tgl_surat)->orderBy('no_surat', 'DESC')->first();
+        $tgl_surat = $request->tgl_surat ? $request->tgl_surat : date('Y-m-d');
+        $surat = SuratSakit::select('no_surat')
+        ->where('tanggalawal', date('Y-m-d', strtotime($tgl_surat)))
+        ->orderBy('no_surat', 'DESC')->first();
 
         $strTanggal = Carbon::parse($tgl_surat)->translatedFormat('Ymd');
         if (!$surat) {
