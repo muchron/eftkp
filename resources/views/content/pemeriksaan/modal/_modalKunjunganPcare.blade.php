@@ -606,30 +606,48 @@
 
         function setTerapiResep() {
             const resep = $('#modalCppt').find('textarea[name=rtl]').val()
+            const no_resep = $('#modalCppt').find('input[name=no_resep]').val()
             formKunjunganPcare.find('input[name=rtl]').val(resep)
 
-            // if (no_resep.length > 0) {
-            //     $.get(`${url}/farmasi/resep/get`, {
-            //         no_resep: no_resep
-            //     }).done((response) => {
-            //         let textResep = '';
-            //         textResep = response.resep_dokter.map((rd) => {
-            //             return `${rd.obat.nama_brng} ${rd.jml}`
-            //         }).join(', ')
+            if (no_resep.length > 0) {
+                $.get(`${url}/farmasi/resep/get`, {
+                    no_resep: no_resep
+                }).done((response) => {
+                    // console.log('RESPONSE ===', response);
+                    const {
+                        resep_dokter,
+                        resep_racikan
+                    } = response
 
-            //         if (response.resep_racikan.length) {
-            //             textResep += ', ';
-            //             textResep += response.resep_racikan.map((rr) => {
-            //                 return rr.detail.map((detail) => {
-            //                     return `${detail.obat.nama_brng} ${detail.jml}`
-            //                 })
-            //             }).join(', ')
-            //         }
-            //         formKunjunganPcare.find('input[name=rtl]').val(textResep)
-            //     })
-            // } else {
-            //     formKunjunganPcare.find('input[name=rtl]').val('-')
-            // }
+                    resep_dokter.forEach((item) => {
+                        console.log(item);
+                        
+
+                    })
+                    // let textResep = '';
+                    // textResep = response.resep_dokter.map((rd) => {
+                    //     return `${rd.aturan_pakai.match(/\d/g)}`
+                    // }).join(', ')
+
+
+
+
+                    // console.log('TEXT RESEP ===', textResep);
+
+
+                    // if (response.resep_racikan.length) {
+                    //     textResep += ', ';
+                    //     textResep += response.resep_racikan.map((rr) => {
+                    //         return rr.detail.map((detail) => {
+                    //             return `${detail.obat.nama_brng} ${detail.jml}`
+                    //         })
+                    //     }).join(', ')
+                    // }
+                    // formKunjunganPcare.find('input[name=rtl]').val(textResep)
+                })
+            } else {
+                // formKunjunganPcare.find('input[name=rtl]').val('-')
+            }
         }
 
         function showModalKunjunganPcare(data) {

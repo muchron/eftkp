@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
-                    <table class="table table-sm table-striped table-hover nowrap" id="tabelBarangObat" width="100%">
+                    <table class="table table-striped table-hover nowrap" id="tabelBarangObat" width="100%">
                     </table>
                 </div>
             </div>
@@ -159,7 +159,8 @@
                                 </div>
                                 <div class="input-group d-none" id="${mappingObatPcareElementId}">
                                     <select class="form-select form-select-2" id="selectMappingObatPcare${row.kode_brng}" style="width: 80%;" data-dropdown-parent="body"></select>
-                                    <button class="btn btn-primary" type="button" id="btnCariObat${row.kode_brng}" onclick="createObatPcareMapping('${row.kode_brng}')"><i class="ti ti-device-floppy"></i></button>
+                                    <button class="btn btn-primary btn-sm" type="button" id="btnCariObat${row.kode_brng}" onclick="createObatPcareMapping('${row.kode_brng}')"><i class="ti ti-device-floppy"></i></button>
+                                    <button class="btn btn-danger btn-sm" type="button" id="btnCancelObat${row.kode_brng}" onclick="cancelObatPcareMapping('${row.kode_brng}')"><i class="ti ti-x"></i></button>
                                 </div>
                             `;
                         }
@@ -218,13 +219,22 @@
             }
         }
 
+        function cancelObatPcareMapping(kode_brng) {
+            const select = $(`#selectMappingObatPcare${kode_brng}`);
+            if (select.data('select2')) {
+                select.select2('destroy');
+                $(`#mappingObatPcare${kode_brng}`).addClass('d-none');
+                $(`#btnObat${kode_brng}`).removeClass('d-none');
+            }
+        }
+
         function getObatPcare(kode_brng) {
             const select = $(`#selectMappingObatPcare${kode_brng}`);
             select.select2({
                 width: 'resolve',
                 ajax: {
                     url: (params) => {
-                        const keyword = params.term || '';
+                        const keyword = params.term || 'A';
                         return `${url}/bridging/pcare/obat/${keyword}`;
                     },
                     dataType: 'json',
@@ -234,7 +244,7 @@
                             results: data.response.list.map(function(item) {
                                 return {
                                     id: item.kdObat,
-                                    text: item.nmObat
+                                    text: `${item.nmObat}`
                                 };
                             })
                         };

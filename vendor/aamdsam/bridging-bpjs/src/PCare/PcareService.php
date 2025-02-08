@@ -112,10 +112,11 @@ class PcareService
     protected function failedResponse($response)
     {
         $failedResponse = explode('response:', $response);
+
         if (is_array($failedResponse) && count($failedResponse) > 1) {
             $responseString = $failedResponse[1];
             if (strpos($responseString, ',"metaData":') !== false) {
-                $string = preg_replace('/,"response:".*/', '', $responseString) . "\"}";
+                $string = explode(',"metaData":', $responseString)[1] . "\"}";
                 $message = "FAILED";
             } else {
                 $string = preg_replace('/,"metaData".*/', '', $responseString);
@@ -142,8 +143,11 @@ class PcareService
 
     public function responseDecoded($response)
     {
+
         $responseArray = json_decode($response, true);
+
         if (!is_array($responseArray)) {
+
             return $this->failedResponse($response);
         }
 
