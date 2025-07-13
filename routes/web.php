@@ -331,7 +331,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/rujuk/keluar/nomor', [RujukController::class, 'setNoRujuk']);
     Route::get('/rujuk/keluar/keterangan', [RujukController::class, 'getKeterangan']);
     Route::get('/rujuk/keluar/faskes', [RujukController::class, 'getFaskesRujuk']);
-    Route::get('/rujuk/keluar/print/{noRujukan}', [RujukController::class, 'print']);
+    Route::get('/rujuk/keluar/print', [RujukController::class, 'print']);
 
     Route::get('/pcare/pendaftaran', [PcarePendaftaranController::class, 'index']);
     Route::post('/pcare/pendaftaran', [PcarePendaftaranController::class, 'create']);

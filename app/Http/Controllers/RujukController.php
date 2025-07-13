@@ -6,6 +6,7 @@ use App\Models\Rujuk;
 use App\Models\Setting;
 use App\Traits\Track;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -188,15 +189,22 @@ class RujukController extends Controller
 
         return response()->json($faskes);
     }
-    public function print($noRujukan)
+    public function print(Request $request)
     {
-        $key = [
-            'no_rujuk' => $noRujukan,
-        ];
-        $data = $this->rujuk->where($key)->first()->toArray();
-        $setting = Setting::first()->toArray();
-        $pdf = PDF::loadView('content.print.rujukEksternal', ['data' => $data, 'setting' => $setting]);
-        $pdf->setPaper('a5', 'portrait')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
-        return $pdf->stream($noRujukan);
+        if ($request->has('no_rawat')) {
+            $key = ['no_rawat' => $request->no_rawat];
+        }
+
+        try {
+            $data = $this->rujuk->where($key)
+                ->first();
+            $setting = Setting::first()->toArray();
+            $pdf = PDF::loadView('content.print.rujukEksternal', ['data' => $data->toArray(), 'setting' => $setting]);
+            $pdf->setPaper('a5', 'portrait')->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
+            return $pdf->stream("surat-rujukan-keluar-{$data->pasien->nm_pasien}.pdf");
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
     }
 }

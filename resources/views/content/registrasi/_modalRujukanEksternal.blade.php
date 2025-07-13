@@ -39,11 +39,11 @@
                                         </div>
                                         <div class="col-xl-6 col-md-6 col-sm-12">
                                             <label for="kd_dokter">Dokter Perujuk</label>
-                                            <select class="form-select" name="kd_dokter" id="kd_dokter" style="width:100%"></select>
+                                            <select class="form-select" name="kd_dokter" id="kd_dokter" style="width:100%" data-dropdown-parent="#modalRujukanEksternal"></select>
                                         </div>
                                         <div class="col-xl-6 col-md-6 col-sm-12">
                                             <label for="keterangan_diagnosa">Ket. Diagnosa</label>
-                                            <select class="form-select" name="keterangan_diagnosa" id="keterangan_diagnosa" data-tags="true" style="width:100%"></select>
+                                            <select class="form-select" name="keterangan_diagnosa" id="keterangan_diagnosa" data-tags="true" style="width:100%" data-dropdown-parent="#modalRujukanEksternal"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -77,6 +77,9 @@
                                             <select class="form-select" name="keterangan" id="keterangan" style="width:100%">
 
                                             </select>
+                                        </div>
+                                        <div class="col-xl-12 col-md-12 col-sm-12">
+                                            <button type="button" class="btn btn-success" id="btnSimpanRujukan" onclick="simpanRujukanEksternal()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +115,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSimpanRujukan" onclick="simpanRujukanEksternal()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
             </div>
         </div>
@@ -212,7 +215,6 @@
         }
 
         selectEksternal('keterangan').select2({
-            dropdownParent: modalRujukanEksternal,
             tags: true,
             delay: 1,
             scrollAfterSelect: true,
@@ -242,7 +244,6 @@
         })
 
         selectEksternal('rujuk_ke').select2({
-            dropdownParent: modalRujukanEksternal,
             tags: true,
             delay: 1,
             scrollAfterSelect: true,
@@ -293,7 +294,7 @@
                         data: 'no_rawat',
                         render: (data, type, row, meta) => {
 
-                            return `<button class="btn btn-sm btn-primary" onclick="printRujukEksternal('${row.no_rujuk}')"><i class="ti ti-printer"></i></button>
+                            return `<button class="btn btn-sm btn-primary" onclick="printRujukEksternal('${data}')"><i class="ti ti-printer"></i></button>
                             <button class="btn btn-sm btn-danger" onclick="deleteRujukEksternal('${data}')"><i class="ti ti-trash"></i></button>`;
                         }
                     },
@@ -434,7 +435,7 @@
 
         }
 
-        function printRujukEksternal(no_rujuk) {
+        function printRujukEksternal(no_rawat) {
             modalPrintRujukEksternal.modal('show');
             Swal.fire({
                 title: "Tunggu",
@@ -450,7 +451,7 @@
                 }
 
             })
-            modalPrintRujukEksternal.find("#print").removeAttr('src').attr('src', `${url}/rujuk/keluar/print/${no_rujuk}`)
+            modalPrintRujukEksternal.find("#print").removeAttr('src').attr('src', `${url}/rujuk/keluar/print?no_rawat=${no_rawat}`)
         }
         modalPrintRujukEksternal.on('hidden.bs.modal', () => {
             modalPrintRujukEksternal.find("#print").removeAttr('src');
