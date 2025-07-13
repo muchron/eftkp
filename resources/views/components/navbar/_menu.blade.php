@@ -60,7 +60,7 @@
              <div class="dropdown-menu-columns">
                  <div class="dropdown-menu-column">
                      <a href="{{ url('farmasi/obat') }}" class="dropdown-item">
-                         Obat
+                         Obat & BHP
                      </a>
                      <a href="{{ url('farmasi/racik/template') }}" class="dropdown-item {{ Request::is('template') ? 'active' : '' }}">
                          Template Racikan

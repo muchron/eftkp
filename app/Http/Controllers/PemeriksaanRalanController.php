@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PcareKunjungan;
 use App\Models\PemeriksaanRalan;
-use App\Models\RegPeriksa;
 use App\Traits\Track;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -13,12 +11,12 @@ class PemeriksaanRalanController extends Controller
 {
     use Track;
     public $pemeriksaan;
-    function __construct()
+    public function __construct()
     {
         $this->pemeriksaan = new PemeriksaanRalan();
     }
 
-    function show(Request $req)
+    public function show(Request $req)
     {
         $pemeriksaan = $this->pemeriksaan->with(['diagnosa', 'prosedur', 'pegawai', 'regPeriksa.poliklinik', 'rujukInternal.dokter', 'rujukInternal.poliklinik']);
         if ($req->nip) {
@@ -28,15 +26,15 @@ class PemeriksaanRalanController extends Controller
         }
         return response()->json($result);
     }
-    function get(Request $req)
+    public function get(Request $req)
     {
         $pemeriksaan = $this->pemeriksaan->where('no_rawat', $req->no_rawat)
             ->with(['diagnosa', 'prosedur', 'pegawai', 'regPeriksa.poliklinik'])
             ->first();
-        return $pemeriksaan;
+        return response()->json($pemeriksaan);
     }
 
-    function create(Request $req)
+    public function create(Request $req)
     {
         $data = [
             'no_rawat' => $req->no_rawat,
@@ -79,7 +77,7 @@ class PemeriksaanRalanController extends Controller
         }
     }
 
-    function update(Request $req)
+    public function update(Request $req)
     {
         $data = [
             'keluhan' => $req->keluhan,
@@ -102,7 +100,7 @@ class PemeriksaanRalanController extends Controller
         ];
         $keys = [
             'no_rawat' => $req->no_rawat,
-            'nip' => $req->nip
+            'nip' => $req->nip,
         ];
         try {
             $pemeriksaan = $this->pemeriksaan->where($keys)->update($data);

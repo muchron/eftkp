@@ -178,6 +178,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/skrining/jatuh/print', [EfktpTindakanResikoJatuhController::class, 'print']);
 
     // Pemeriksaan
+    Route::get('/pemeriksaan/ralan', [PemeriksaanRalanController::class, 'get']);
     Route::get('/pemeriksaan/ralan/get', [PemeriksaanRalanController::class, 'get']);
     Route::get('/pemeriksaan/ralan/show', [PemeriksaanRalanController::class, 'show']);
     Route::post('/pemeriksaan/ralan/create', [PemeriksaanRalanController::class, 'create']);
