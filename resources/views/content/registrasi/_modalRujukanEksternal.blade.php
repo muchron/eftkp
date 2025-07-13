@@ -74,7 +74,7 @@
                                         </div>
                                         <div class="col-xl-12 col-md-12 col-sm-12">
                                             <label for="keterangan">Keterangan</label>
-                                            <select class="form-select" name="keterangan" id="keterangan" style="width:100%">
+                                            <select class="form-select" name="keterangan" id="keterangan" style="width:100%" data-dropdown-parent="#modalRujukanEksternal">
 
                                             </select>
                                         </div>
