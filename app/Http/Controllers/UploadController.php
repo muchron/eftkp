@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FormatNoRawat;
 use App\Models\EfktpKategoriBerkasPenunjang;
 use App\Models\EfktpUploadPenunjang;
 use App\Traits\Track;
@@ -10,6 +11,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Str;
 
 class UploadController extends Controller
 {
@@ -29,25 +31,30 @@ class UploadController extends Controller
 			return response()->json('Belum memilih kategori berkas', 500);
 		}
 		try {
+			$values = [];
+			$stored = [];
 			foreach ($request->file('file') as $key => $value) {
 				$fileType = $value->getClientOriginalExtension();
-
-				if ($fileType === 'pdf') {
-					$destination = storage_path("app/public/penunjang/pdf");
+				if ($fileType === 'pdf' || $fileType === 'PDF') {
+					$destination = "penunjang/pdf";
 				} else {
-					$destination = storage_path("app/public/penunjang/images");
+					$destination = "penunjang/images";
 				}
 
-				$image = $this->formatNoRawat($request->no_rawat, '_') . '_' . uniqid() . '_' . time() . '.' . $fileType;
-				$value->move($destination, $image);
-				$data = [
-					'file' => $image,
+				$fileName = Str::uuid() . '.' . $fileType;
+				$values[] = [
+					'file' => $fileName,
 					'id_kategori' => $request->kategori,
 					'no_rawat' => $request->no_rawat,
 					'nik' => session()->get('pegawai')->nik,
 				];
-				$this->create($data);
+
+				Storage::disk('public')->putFileAs($destination, $value, $fileName);
+
 			}
+
+			$this->create($values);
+
 			return response()->json('SUKSES', 201);
 		} catch (\Exception $e) {
 			return response()->json($e->getMessage(), 500);
@@ -85,7 +92,7 @@ class UploadController extends Controller
 		}
 		return response()->json(['message' => 'SUKSES']);
 	}
-	function formatNoRawat($no_rawat, $replaceWith = ''): String
+	function formatNoRawat($no_rawat, $replaceWith = ''): string
 	{
 		$no_rawat = str_replace('/', $replaceWith, $no_rawat);
 		return $no_rawat;

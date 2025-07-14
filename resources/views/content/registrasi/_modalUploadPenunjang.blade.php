@@ -174,7 +174,7 @@
                 const berkas = response.map((item, index) => {
                     const filetype = item.file.split('.').pop()
                     let content = '';
-                    if (filetype !== 'pdf') {
+                    if (filetype !== 'pdf' && filetype !== 'PDF') {
                         content = ` <a class="d-block" data-magnify="gallery" data-src="" data-caption="${item.kategori.kategori} ${item.created_at}" data-group="a" href="{{ asset('public/storage/penunjang/images/') }}/${item.file}">
                                             <img style="width: 100%;height: 200px;object-fit:cover" src="{{ asset('public/storage/penunjang/images') }}/${item.file}" class="card-img-top">
                                          </a>`;
