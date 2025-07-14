@@ -33,6 +33,7 @@ class UploadController extends Controller
 		try {
 			$values = [];
 			$stored = [];
+
 			foreach ($request->file('file') as $key => $value) {
 				$fileType = $value->getClientOriginalExtension();
 				if ($fileType === 'pdf' || $fileType === 'PDF') {
@@ -42,19 +43,15 @@ class UploadController extends Controller
 				}
 
 				$fileName = Str::uuid() . '.' . $fileType;
-				$values[] = [
+				$data = [
 					'file' => $fileName,
 					'id_kategori' => $request->kategori,
 					'no_rawat' => $request->no_rawat,
 					'nik' => session()->get('pegawai')->nik,
 				];
-
 				Storage::disk('public')->putFileAs($destination, $value, $fileName);
-
+				$this->create($data);
 			}
-
-			$this->create($values);
-
 			return response()->json('SUKSES', 201);
 		} catch (\Exception $e) {
 			return response()->json($e->getMessage(), 500);
