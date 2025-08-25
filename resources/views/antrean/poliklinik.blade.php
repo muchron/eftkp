@@ -7,18 +7,14 @@
                 <div class="card border rounded-4" style="height: 100px">
                     <div class="card-body">
                         <div style="display: flex">
-                            {{-- <div class="col-lg-1"> --}}
                             <div>
                                 <img src="{{ $data->logo }}" alt="logo" width="70px">
                             </div>
-                            {{-- </div> --}}
-                            {{-- <div class="col"> --}}
                             <div class="ms-3">
                                 <h1 class="m-0" style="font-size: 300%">{{ $data->nama_instansi }}</h1>
                                 <p class="m-0" style="font-size: 120%">{{ $data->alamat_instansi }}, {{ $data->kabupaten }}, {{ $data->propinsi }}</p>
                                 <p class="m-0" style="font-size: 120%">{{ $data->email }}, {{ $data->kontak }}, {{ $data->propinsi }}</p>
                             </div>
-                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>
@@ -58,10 +54,11 @@
                 </div>
             </div>
         </div>
+
     </div>
 @endsection
 @push('script')
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
+    {{-- <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script> --}}
     <script>
         $(document).ready(() => {
             $.get(`${url}/setting/antrean/video`).done((response) => {
@@ -105,10 +102,12 @@
                         $('#penjab').html(response.penjab.png_jawab)
 
                         const speech = response.pasien.nm_pasien.split(', ');
-                        responsiveVoice.speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`, 'Indonesian Female', {
-                            rate: 0.9,
-                            volume: 50,
-                        });
+                        // responsiveVoice.speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`, 'Indonesian Female', {
+                        //     rate: 0.9,
+                        //     volume: 50,
+                        // });
+
+                        speak(`${speech[0].toLowerCase()}. ${response.poliklinik.nm_poli}`)
                         setStatusLayan(response.no_rawat, 'Dirawat')
                         setInterval(blinkText($('#nama')), 2000);
                         setInterval(blinkText($('#nomor')), 2000);
@@ -137,6 +136,32 @@
         function blinkText(element) {
             element.fadeOut(500)
             element.fadeIn(500)
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const u = new SpeechSynthesisUtterance(text);
+
+                // tunggu voices ready
+                speechSynthesis.onvoiceschanged = () => {
+                    let voices = speechSynthesis.getVoices();
+                    console.log("Available voices:", voices);
+
+                    let indoVoice = voices.find(v => v.lang === 'id-ID');
+                    if (indoVoice) {
+                        u.voice = indoVoice;
+                    }
+                    u.lang = "id-ID";
+                    u.rate = 0.9;
+                    u.pitch = 1;
+                    u.volume = 1;
+
+                    speechSynthesis.speak(u);
+                };
+            } else {
+                alert("Browser tidak mendukung Web Speech API.");
+                console.error("Browser tidak mendukung Web Speech API.");
+            }
         }
     </script>
 @endpush
