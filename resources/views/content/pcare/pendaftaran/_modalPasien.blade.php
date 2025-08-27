@@ -458,6 +458,7 @@
             const umur = hitungUmur(splitTanggal(tglLahir.val()))
             const textTglLahir = `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
 
+
             switchTab('tabs1');
             renderTbPasien();
             resetSelect();
@@ -466,6 +467,7 @@
             })
             inputUmur.val(textTglLahir)
 
+            $('#switchPendaftaranPcare').prop('checked', false);
             if (inputNoPeserta.val() === '-') {
                 const optPj = new Option('---', '-', true, true)
                 formPasien.find('select[name=kd_pj]').append(optPj).trigger('change')
@@ -473,6 +475,7 @@
         })
 
         modalPasien.on('hidden.bs.modal', (e) => {
+            $('#switchPendaftaranPcare').prop('checked', false);
             resetSelect();
         })
 

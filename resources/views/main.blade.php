@@ -8,12 +8,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <x-title />
     <!-- CSS files -->
-    <link href="{{ asset('/public/css/tabler.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/public/css/demo.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{ asset('public/img/icon-app.svg') }}">
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('/public/css/tabler-icon/tabler-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/tabler-icon/tabler-icons.min.css') }}">
 
     <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
@@ -240,8 +240,26 @@
 </head>
 
 <body class="layout-fluid">
+
     <script src="{{ asset('public/js/demo-theme.min.js') }}"></script>
+
     <div class="page-wrapper">
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div class="toast text-bg-success border-0 shadow-lg" id="toast-simple" role="alert" aria-live="assertive" aria-atomic="true"
+                data-bs-autohide="true" data-bs-toggle="toast">
+                <div class="toast-body d-flex justify-content-between">
+                    <span class="me-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        Hello, world! This is a toast message.
+                    </span>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
         @yield('contents')
     </div>
     <div class="offcanvas offcanvas-end offcanvas-dark w-25" tabindex="-1" id="otherMenu" aria-labelledby="otherMenuLabel" aria-modal="true" role="dialog">
@@ -260,6 +278,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
     <script>
+        window.showToast = function(message, type = 'success', delay = 3000) {
+            const toastEl = document.getElementById('toast-simple');
+            let iconSVG = '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>';
+            switch (type) {
+                case 'error':
+                    type = 'danger';
+                    iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>`;
+                    break;
+                case 'warning':
+                    type = 'warning';
+                    iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-exclamation-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>`;
+                    break;
+                default:
+                    type = 'success';
+                    iconSvg = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>`
+                    break;
+            }
+
+
+            toastEl.className = `toast text-bg-${type} border-0 shadow-lg`;
+            toastEl.setAttribute('data-bs-delay', delay);
+            toastEl.querySelector('.toast-body span').innerHTML = `${iconSVG} <span class="ms-2">${message}</span>`;
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
         //Script main
         let tanggal = "{{ date('d-m-Y') }}"
         let url = "{{ url('') }}"
@@ -355,9 +399,9 @@
                 stts: status,
                 no_rawat: no_rawat
             }).done(() => {
-                if ($('#tabelRegistrasi').length > 0) {
-                    loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-                }
+                // if ($('#tabelRegistrasi').length > 0) {
+                //     loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
+                // }
             }).fail((error, status, code) => {
                 if (error.status !== 500) {
                     const errorMessage = {

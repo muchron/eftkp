@@ -31,19 +31,20 @@ class ResepDokterRacikanController extends Controller
 
     function create(Request $request)
     {
-		if(!$request->data){
-			return false;
-		}
+        if (! $request->data) {
+            return false;
+        }
         $countData = count($request->data);
         try {
             for ($i = 0; $i < $countData; $i++) {
                 $response[] = ResepDokterRacikan::create([
-	                'no_resep' => $request->data[$i]['no_resep'],
-	                'no_racik' => $request->data[$i]['no_racik'],
-	                'jml_dr' => $request->data[$i]['jml_dr'],
-					'kd_racik' => $request->data[$i]['kd_racik'],
-	                'keterangan' => $request->data[$i]['keterangan'],
-	                'aturan_pakai' => $request->data[$i]['aturan_pakai'],
+                    'no_resep' => $request->data[$i]['no_resep'],
+                    'no_racik' => $request->data[$i]['no_racik'],
+                    'nama_racik' => $request->data[$i]['nama_racik'],
+                    'jml_dr' => $request->data[$i]['jml_dr'],
+                    'kd_racik' => $request->data[$i]['kd_racik'],
+                    'keterangan' => $request->data[$i]['keterangan'],
+                    'aturan_pakai' => $request->data[$i]['aturan_pakai'],
                 ]);
 
             }

@@ -134,10 +134,10 @@
                                     jml: 0,
                                 }
                             })
-                                createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
-                                    setResepRacikan(val.no_resep);
-                                    tulisPlan(noResep)
-                                })
+                            createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
+                                setResepRacikan(val.no_resep);
+                                tulisPlan(noResep)
+                            })
 
                         } else {
                             setResepRacikan(noResep)

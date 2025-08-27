@@ -216,6 +216,7 @@
         </div>
     </div>
 </div>
+
 @push('script')
     <script>
         let modalRegistrasi = $('#modalRegistrasi')
@@ -421,18 +422,16 @@
                 })
             }
             $.post(`${url}/registrasi`, data).done((response) => {
-                alertSuccessAjax('Berhasil melakukan registrasi').then(() => {
-                    if (tabelRegistrasi.length) {
-                        loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
-                    }
-                    if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && checkPendaftaranPcare) {
-                        createBridgingPendaftaranPcare(data)
-                    } else {
-                        modalRegistrasi.modal('hide');
-                        modalPasien.modal('hide');
-                    }
-
-                })
+                showToast('Berhasil melakukan registrasi')
+                if (tabelRegistrasi.length) {
+                    loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
+                }
+                if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && checkPendaftaranPcare) {
+                    createBridgingPendaftaranPcare(data)
+                } else {
+                    modalRegistrasi.modal('hide');
+                    modalPasien.modal('hide');
+                }
             }).fail((error, status, code) => {
                 if (error.status !== 500) {
                     const errorMessage = {

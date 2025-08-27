@@ -6,7 +6,7 @@
         <h1 class="navbar-brand d-none-navbar-horizontal pe-0 pe-md-3">
             <img src="data:image/png;base64,{{ base64_encode($data->logo) }}" alt="" width="30px">
             <a href="{{ url('/') }}" style="text-decoration: none" class="text-brand">
-                {{ $data->nama_instansi }}
+                {{ substr($data->nama_instansi, 0, 20) }}{{ strlen($data->nama_instansi) > 20 ? '...' : '' }}
             </a>
         </h1>
 

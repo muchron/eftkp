@@ -56,37 +56,25 @@ class RegPeriksaController extends Controller
             $regPeriksa = $regPeriksa->where('kd_poli', $kd_poli);
         }
 
-        if (!$regPeriksa->first()) {
+        if (! $regPeriksa->first()) {
             $no = 1;
         } else {
             $urut = $regPeriksa->first();
-            $no = (int)$urut->no_reg + 1;
+            $no = (int) $urut->no_reg + 1;
         }
         $no_reg = sprintf('%03d', $no);
         return $no_reg;
     }
 
-    function setNoRawat(Request $request): string
+    function setNoRawat(Request $request)
     {
-        $tgl_registrasi = $request->tgl_registrasi ? date('Y-m-d', strtotime($request->tgl_registrasi)) : date('Y-m-d');
-        $regPeriksa = $this->regPeriksa->select('no_rawat')
-            ->where('tgl_registrasi', $tgl_registrasi)
-            ->orderBy('no_rawat', 'DESC')->first();
-        if (!$regPeriksa) {
-            $no = '000001';
-        } else {
-            $no = explode('/', $regPeriksa->no_rawat)[3];
-            $no = (int)$no + 1;
-        }
-        $no_reg = sprintf('%06d', $no);
-        $tglRawat = date('Y/m/d', strtotime($tgl_registrasi));
-        return "{$tglRawat}/{$no_reg}";
+        return \App\Services\RegPeriksaServices::setNoRawat($this->regPeriksa, $request->tgl_registrasi);
     }
 
     function setStatusPoli(Request $request): string
     {
         $poli = RegPeriksa::where(['no_rkm_medis' => $request->no_rkm_medis, 'kd_poli' => $request->kd_poli])->first();
-        if (!$poli) {
+        if (! $poli) {
             return 'Baru';
         }
         return 'Lama';
@@ -107,7 +95,9 @@ class RegPeriksaController extends Controller
         try {
             $poli = RegPeriksa::where('no_rawat', $request->no_rawat)->update($data);
             if ($poli) {
-                $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
+                if (! $request->stts == 'Dirawat') {
+                    $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
+                }
             }
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
@@ -263,7 +253,7 @@ class RegPeriksaController extends Controller
         return response()->json($regPeriksa);
     }
 
-    function getGrafik(Request $request): Object
+    function getGrafik(Request $request): object
     {
         $regPeriksa = $this->regPeriksa->with($this->relation);
 
@@ -318,11 +308,11 @@ class RegPeriksaController extends Controller
 
         if ($request->width == '4') {
             $pdf = PDF::loadView('content.print.buktiRegister4', ['data' => $regPeriksa, 'setting' => $setting]);
-            $pdf->setPaper(array(0, 0, ($request->width * 28.3465), 200))->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+            $pdf->setPaper(array(0, 0, ($request->width * 28.3465), 200))->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         } else {
             $pdf = PDF::loadView('content.print.buktiRegister', ['data' => $regPeriksa, 'setting' => $setting]);
-            $pdf->setPaper(array(0, 0, (8 * 28.3465), 300))->setOptions(['defaultFont' =>    'sherif', 'isRemoteEnabled' => true]);
+            $pdf->setPaper(array(0, 0, (8 * 28.3465), 300))->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         }
-        return $pdf->stream('Bukti-Registrasi-' . date('Ymd') . $regPeriksa->no_rkm_medis . '.pdf');
+        return $pdf->stream('Bukti-Registrasi-'.date('Ymd').$regPeriksa->no_rkm_medis.'.pdf');
     }
 }

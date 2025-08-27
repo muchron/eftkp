@@ -1,5 +1,3 @@
-
-
 <div id="table-default" class="table-responsive">
     <table class="table table-sm table-striped table-hover nowrap" id="tabelRegistrasi" width="100%">
     </table>
@@ -101,10 +99,10 @@
                             let action = '';
                             if (row.stts === 'Belum') {
                                 btnStatusLayanan = 'btn-primary'
-                                action = `setPanggil('${data}')`
+                                action = `setPanggil('${data}', this)`
                             } else if (row.stts === 'Berkas Diterima' || row.stts === 'Dirawat') {
                                 btnStatusLayanan = 'btn-purple'
-                                action = `setBelum('${data}')`
+                                action = `setBelum('${data}', this)`
                                 row.stts = 'Diperiksa';
                             } else if (row.stts === 'Batal') {
                                 btnStatusLayanan = 'btn-danger'
@@ -258,15 +256,19 @@
             }
         }
 
-        function setPanggil(no_rawat) {
+        function setPanggil(no_rawat, element) {
             setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir)
+                if (element) {
+                    $(element).removeClass('btn-primary').addClass('btn-purple').text('DIPERIKSA').attr('onclick', `setBelum('${no_rawat}', this)`);
+                }
             });
         }
 
-        function setBelum(no_rawat) {
+        function setBelum(no_rawat, element) {
             setStatusLayan(no_rawat, 'Belum').done((response) => {
-                loadTabelRegistrasi(tglAwal, tglAkhir)
+                if (element) {
+                    $(element).removeClass('btn-purple').addClass('btn-primary').text('BELUM').attr('onclick', `setPanggil('${no_rawat}', this)`);
+                }
             });
         }
     </script>

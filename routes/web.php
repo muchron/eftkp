@@ -56,6 +56,7 @@ use App\Http\Controllers\SukuBangsaController;
 use App\Http\Controllers\SuratSakitController;
 use App\Http\Controllers\SuratSehatController;
 use App\Http\Controllers\UploadController;
+use App\Http\Responses\CustomResponseJson;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -79,11 +80,20 @@ Route::get('/antrean/poliklinik', function () {
     $settings = Setting::select()->get();
 
     foreach ($settings as $setting) {
-        $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
-        $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
+        $setting->logo = 'data:image/jpeg;base64,'.base64_encode($setting->logo);
+        $setting->wallpaper = 'data:image/jpeg;base64,'.base64_encode($setting->wallpaper);
     }
     return view('antrean.poliklinik', ['data' => $setting]);
 });
+Route::get('/setting/antrean/video', function () {
+    $data = Storage::get('public/video.json');
+    if ($data) {
+        return response()->json(json_decode($data));
+    }
+});
+
+// set status layanan
+Route::post('/registrasi/update/status', [RegPeriksaController::class, 'setStatusLayanan']);
 
 Route::get('/setting/ppk', [SettingController::class, 'getKodePPK']);
 
@@ -155,7 +165,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/registrasi/set/norawat', [RegPeriksaController::class, 'setNoRawat']);
     Route::post('/registrasi', [RegPeriksaController::class, 'create']);
     Route::post('/registrasi/update', [RegPeriksaController::class, 'update']);
-    Route::post('/registrasi/update/status', [RegPeriksaController::class, 'setStatusLayanan']);
+
 
     Route::get('/registrasi', function () {
         return view('content.registrasi');
@@ -380,12 +390,7 @@ Route::middleware('auth')->group(function () {
         return response()->json($data);
     });
 
-    Route::get('/setting/antrean/video', function () {
-        $data = Storage::get('public/video.json');
-        if ($data) {
-            return response()->json(json_decode($data));
-        }
-    });
+
 
     // EFKTP
     Route::post('pasien/alergi', [EfktpPcareAlergiController::class, 'create']);

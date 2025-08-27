@@ -9,6 +9,7 @@ use App\Models\KamarInap;
 use App\Models\PemeriksaanRalan;
 use Awobaz\Compoships\Compoships;
 use App\Models\PcareRujukSubspesialis;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ class RegPeriksa extends Model
     protected $table = 'reg_periksa';
     protected $guarded = [];
     public $timestamps = false;
-    protected $hidden  = ['laravel_through_key'];
+    protected $hidden = ['laravel_through_key'];
 
     function pasien()
     {
@@ -81,5 +82,11 @@ class RegPeriksa extends Model
     function kamarInap()
     {
         return $this->hasOne(KamarInap::class, 'no_rawat', 'no_rawat');
+    }
+
+    public function scopeMaxByTanggal($query, string|null $tanggal)
+    {
+        $tanggal = $tanggal ? $tanggal : now()->format('Y-m-d');
+        $query->where('tgl_registrasi', $tanggal)->orderBy('no_rawat', 'DESC');
     }
 }
