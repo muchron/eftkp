@@ -90,7 +90,7 @@
                     <td>
                         <input class="form-control text-end" id="hargaObatRacikan${rowCount}" data-id="${rowCount}" data-harga-obat="" name="harga[]" readonly>
                     </td>
-                    <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]" data-jml="" oninput="hitungDosisByJumlah(${rowCount})"></td>
+                    <td><input class="form-control" id="jml${rowCount}" data-id="${rowCount}" name="jml[]" data-jml="" oninput="hitungDosisByJumlah(${rowCount}, this)"></td>
                     <td>  
                         <input class="form-control text-end" id="subTotalRacikan${rowCount}" data-id="${rowCount}" data-subTotalRacikan="" name="subTotalRacikan[]" readonly>
                     </td>
@@ -154,25 +154,30 @@
 
         }
 
-        function hitungDosisByJumlah(id) {
-            const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val();
-            const kapasitas = $(`#kapasitas${id}`).val();
-            const jml = $(`#jml${id}`).data('jml');
+        function hitungDosisByJumlah(id, element) {
+            const jml_dr = $('#modalDetailRacikan').find('input[name=jml_dr]').val().replace(',', '.');
+            const kapasitas = $(`#kapasitas${id}`).val().replace(',', '.');
+            let jml = $(`#jml${id}`).val().replace(',', '.'); // ambil dari value textbox
 
-            if (parseInt(jml) > parseInt(jml_dr)) {
+            if (parseFloat(jml) > parseFloat(jml_dr)) {
                 Swal.fire(
                     'Ada yang salah !',
                     'Jumlah obat tidak boleh lebih besar dari jumlah racikan',
                     'warning'
                 ).then(() => {
-                    $(`#jml${id}`).val(0);
+                    $(`#jml${id}`).val(jml_dr);
                 });
             } else {
-                const dosis = (parseFloat(kapasitas) * parseFloat(jml).toFixed(1)) / parseFloat(jml_dr)
+                const dosis = (parseFloat(kapasitas) * parseFloat(jml)) / parseFloat(jml_dr);
+
                 $(`#dosis${id}`).val(formatFloat(dosis)).data('dosis', dosis);
-                hitungSubTotalObatRacikan(id)
-                setTotalRacikan()
-                $(`#jml${id}`).val(formatFloat(jml)).data('jml', jml);
+                hitungSubTotalObatRacikan(id);
+                setTotalRacikan();
+
+                // simpan kembali dengan koma (agar tetap nyaman dibaca user)
+                $(`#jml${id}`).val(element.value);
+                $(`#jml${id}`).data('jml', jml);
+
                 $(`#p1${id}`).val(1);
                 $(`#p2${id}`).val(1);
             }
