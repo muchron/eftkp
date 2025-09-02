@@ -27,7 +27,7 @@ class UploadController extends Controller
 	function upload(Request $request): JsonResponse
 	{
 		$create = array();
-		if (!$request->kategori) {
+		if (! $request->kategori) {
 			return response()->json('Belum memilih kategori berkas', 500);
 		}
 		try {
@@ -42,7 +42,7 @@ class UploadController extends Controller
 					$destination = "penunjang/images";
 				}
 
-				$fileName = Str::uuid() . '.' . $fileType;
+				$fileName = Str::uuid().'.'.$fileType;
 				$data = [
 					'file' => $fileName,
 					'id_kategori' => $request->kategori,
@@ -78,9 +78,9 @@ class UploadController extends Controller
 
 				$fileType = explode('.', $kategori->file);
 				if ($fileType[1] === 'pdf') {
-					Storage::delete("public/penunjang/pdf/" . $kategori->file);
+					Storage::delete("public/penunjang/pdf/".$kategori->file);
 				} else {
-					Storage::delete("public/penunjang/images/" . $kategori->file);
+					Storage::delete("public/penunjang/images/".$kategori->file);
 				}
 				$delete = $kategoris->delete();
 			}

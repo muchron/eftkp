@@ -1,14 +1,15 @@
-<div class="table-responsive mb-2" style="height:180px;overflow-y:auto">
+<div class="table-responsive mb-2" style="height:350px;overflow-y:auto">
     <input type="hidden" id="no_resep" name="no_resep">
-    <table class="table d-none table-sm mb-2" id="tabelResepRacikan">
+    <table class="table d-none table-sm mb-2 table-bordered" id="tabelResepRacikan">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>No</th>
                 <th>Nama Racikan</th>
                 <th width="10%">Jumlah</th>
                 <th>Metode</th>
                 <th>Aturan Pakai</th>
-                <th></th>
+                <th>Subtotal</th>
+                <th width="10%"></th>
             </tr>
         </thead>
         <tbody>
@@ -25,45 +26,60 @@
         var btnSimpanRacikan = $('#btnSimpanRacikan')
 
         function setResepRacikan(no_resep) {
+            const tabelResepRacikan = $('#tabelResepRacikan tbody')
             getResepRacikan(no_resep).done((response) => {
-                $('#tabelResepRacikan').find('tbody').empty();
+                tabelResepRacikan.empty();
                 if (response.length) {
                     $('#tabelResepRacikan').removeClass('d-none');
                     btnTambahRacikan.removeClass('d-none')
                     btnSimpanRacikan.removeClass('d-none')
-                    response.map((racikan, index) => {
+                    const rowRacikan = response.map((racikan, index) => {
                         let obat = '';
                         let detailObat = '';
                         if (racikan.detail.length) {
                             obat = racikan.detail.map((isian) => {
-                                return `<span class="badge badge-outline text-purple" style="font-size:10px">${isian.obat.nama_brng} (${isian.kandungan} mg)</span>`
-                            })
+                                return `<span class="badge badge-outline text-purple m-1" style="font-size:10px">${isian.obat.nama_brng} (${isian.kandungan} mg)</span>`
+                            }).join('')
                             detailObat = `<tr>
                                     <td></td>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         ${obat}
                                     </td>
                                 </tr>`;
                         }
-                        const row = `<tr>
+                        const subTotalRacikan = racikan.detail.reduce((acc, curr) => {
+                            return acc + (curr.jml * curr.obat.ralan);
+                        }, 0);
+
+                        return `<tr class="rowRacikan">
                                 <td class="racik">${racikan.no_racik}</td>
                                 <td>${racikan.nama_racik}</td>
                                 <td>${racikan.jml_dr}</td>
                                 <td>${racikan.metode.nm_racik}</td>
                                 <td>${racikan.aturan_pakai}</td>
+                                <td class="text-end subTotalRacikanObat" data-subtotal="${subTotalRacikan}">${formatCurrency(subTotalRacikan)}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editRacikan('${racikan.no_racik}', '${no_resep}')"><i class="ti ti-pencil"></i> Edit</button>
-                                    <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusRacikan('${racikan.no_racik}', '${no_resep}')"><i class="ti ti-trash-x"></i> Hapus</button>
+                                    <button type="button" class="btn btn-sm btn-outline-yellow" onclick="editRacikan('${racikan.no_racik}', '${no_resep}')" title="Edit Racikan"><i class="ti ti-pencil"></i></button>
+                                    <button type="button" class="ms-1 btn btn-sm btn-outline-danger" onclick="hapusRacikan('${racikan.no_racik}', '${no_resep}')" title="Hapus Racikan"><i class="ti ti-trash-x"></i></button>
                                 </td>
                             </tr>
                             ${detailObat}`
-
-                        $('#tabelResepRacikan tbody').append(row);
                     })
+                    tabelResepRacikan.html(rowRacikan);
 
+                    // hitung total dari subTotalRacikanObat
+                    const totalRacikan = tabelResepRacikan.find('tr.rowRacikan').toArray().reduce((total, row) => {
+                        const subTotalRow = $(row).find('td.subTotalRacikanObat').attr('data-subtotal');
+                        return total + parseFloat(subTotalRow)
+                    }, 0);
+
+                    tabelResepRacikan.append(`<tr id="rowTotalRacikan"><td colspan="5" class="text-end"> Total</td><td class="text-end">${formatCurrency(totalRacikan)}</td><td></td></tr>`);
                 }
             })
         }
+
+
+
 
         function getResepRacikan(no_resep, no_racik = '') {
             const racikan = $.get(`${url}/resep/racikan/get`, {
@@ -215,18 +231,24 @@
             const tabel = $('#tabelResepRacikan').find('tbody')
             const rowCount = tabel.find('tr').find('.racik').length;
             const modalCppt = $('#modalCppt');
-            const addRow = `<tr id="rowRacikan${rowCount}">
-    <td id="colNoRacik${rowCount}" class="racik">
-        <input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount + 1}" />
-        ${rowCount + 1} </td>
-    <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"> </select></td>
-    <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}"/></td>
-    <td><select class="form-control" name="metode[]"id="metode${rowCount}"style="width:100%"> </select></td>
-        <td> <input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}" /> </td>
-        <td> <i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data - id = "row${rowCount}" onclick = "hapusBarisRacikan('${rowCount}')"> </i></td >
-        </tr>`;
+            const rowTotalRacikan = $('#rowTotalRacikan');
+            tabel.detach(rowTotalRacikan);
+            const addRow = `
+                <tr id="rowRacikan${rowCount}">
+                    <td id="colNoRacik${rowCount}" class="racik">
+                        <input type="hidden" name="no_racik[]" id="noRacik${rowCount}" value="${rowCount + 1}" />
+                        ${rowCount + 1} </td>
+                    <td><select class="form-control" name="nm_racik[]" id="nmRacik${rowCount}" data-id="${rowCount}" style="width:100%"> </select></td>
+                    <td><input class="form-control" type="text" name="jml_dr[]" id="jmlDr${rowCount}"/></td>
+                    <td><select class="form-control" name="metode[]"id="metode${rowCount}"style="width:100%"></select></td>
+                    <td><input class="form-control" type="text" name="aturan[]" id="aturan${rowCount}"/></td>
+                    <td class="text-end subTotalRacikanObat" data-subtotal="" id="subTotalRacikan${rowCount}"></td>
+                    <td>
+                        <i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data-id = "row${rowCount}" onclick = "hapusBarisRacikan('${rowCount}')"></i>
+                    </td>
+                </tr>`;
 
-            tabel.append(addRow);
+            tabel.append(addRow).append(rowTotalRacikan);
             const racikan = $(`#nmRacik${rowCount}`);
             const metode = $(`#metode${rowCount}`);
             selectTemplate(racikan, modalCppt);

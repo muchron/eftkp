@@ -85,10 +85,12 @@
                     formData.append('kategori', kategori.val());
                     formData.append('no_rawat', modalUpload.find('input[name=no_rawat]').val());
                 }).on('complete', function(file) {
+                    const inputNoRawat = modalUpload.find('input[name=no_rawat]')
+                    // modalUpload.find('input[name=no_rawat]')
                     if (file.status === 'success') {
                         toast('Berhasil Upload Berkas')
                         this.removeFile(file);
-                        rendercontainerBerkas(modalUpload.find('input[name=no_rawat]').val())
+                        rendercontainerBerkas(inputNoRawat.val())
 
                     }
                 }).on('error', function(file, error) {

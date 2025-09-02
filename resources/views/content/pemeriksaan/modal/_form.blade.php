@@ -319,19 +319,17 @@
                         cancelButtonText: "Tidak"
                     }).then((result) => {
                         if (!result.isConfirmed) {
-
-                            alertSuccessAjax().then(() => {
-                                $('#modalCppt').modal('hide');
-                                if (username === data['nip']) {
-                                    const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
-                                    setStatusLayan(data['no_rawat'], stts);
-                                }
-                                if (tabelPcarePendaftaran.length) {
-                                    loadTbPcarePendaftaran(tglAwal, tglAkhir);
-                                } else if (tabelRegistrasi.length) {
-                                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
-                                }
-                            })
+                            showToast('Berhasil')
+                            $('#modalCppt').modal('hide');
+                            if (username === data['nip']) {
+                                const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
+                                setStatusLayan(data['no_rawat'], stts);
+                            }
+                            if (tabelPcarePendaftaran.length) {
+                                loadTbPcarePendaftaran(tglAwal, tglAkhir);
+                            } else if (tabelRegistrasi.length) {
+                                loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
+                            }
                             return false;
                         }
                         getPendaftaranPcare(data['no_rawat'])
@@ -344,14 +342,14 @@
                     });
 
                 } else {
-                    alertSuccessAjax().then(() => {
-                        $('#modalCppt').modal('hide');
-                        if (username === data['nip']) {
-                            const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
-                            setStatusLayan(data['no_rawat'], stts);
-                        }
-                        loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
-                    })
+                    showToast('Berhasil')
+                    $('#modalCppt').modal('hide');
+                    if (username === data['nip']) {
+                        const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
+                        setStatusLayan(data['no_rawat'], stts);
+                    }
+                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+
                 }
 
             }).fail((request) => {
@@ -415,7 +413,7 @@
                         cancelButtonText: "Tidak"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            console.log('Pendaftaran Pcare')
+                            showToast('Pasien belum terdaftar di Pcare')
                         }
                     })
                 }

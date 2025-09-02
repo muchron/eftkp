@@ -462,6 +462,29 @@
             })
         }
     </script>
+    {{-- currency formater --}}
+    <script>
+        const currencyFormatter = new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        });
+
+        const floatFormatter = new Intl.NumberFormat('id-ID', {
+            style: 'decimal',
+            minimumFractionDigits: 0,
+
+        });
+
+        function formatCurrency(value) {
+            return currencyFormatter.format(value);
+        }
+
+        function formatFloat(value) {
+            const float = parseFloat(value).toFixed(1);
+            return floatFormatter.format(float);
+        }
+    </script>
     @stack('script')
 </body>
 
