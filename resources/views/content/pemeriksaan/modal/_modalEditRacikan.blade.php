@@ -117,7 +117,7 @@
 
         function hitungSubTotalObatRacikan(index) {
             const harga = $(`#hargaObatRacikan${index}`).attr('data-harga-obat')
-            const jml = $(`#jml${index}`).data('jml');
+            const jml = $(`#jml${index}`).val().replace(',', '.');
             const subTotal = parseFloat(harga) * parseFloat(jml).toFixed(1);
 
 
