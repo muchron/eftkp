@@ -11,14 +11,14 @@
     <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="{{ asset('public/img/icon-app.svg') }}">
-    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="{{ asset('public/css/datatable/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/datatable/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('public/css/tabler-icon/tabler-icons.min.css') }}">
 
     <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{{ asset('public/css/jquery.contextMenu.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/css/font-awesome/all.min.css') }}" />
+    <script type="text/javascript" src="{{ asset('public/js/sweetalert/sweetalert2@11.js') }}"></script>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -28,7 +28,7 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .ti {
@@ -132,7 +132,7 @@
         }
 
         .separator {
-            font-size: 12px;
+            font-size: 11px;
             color: #6e6e6e;
             display: flex;
             align-items: center;
@@ -172,11 +172,11 @@
 
         @media (min-width: 1440px) {
             .table {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .table .btn-sm {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .form-label {
@@ -194,7 +194,7 @@
             }
 
             .datepicker {
-                font-size: 12px;
+                font-size: 11px;
             }
         }
 
@@ -265,18 +265,21 @@
     <div class="offcanvas offcanvas-end offcanvas-dark w-25" tabindex="-1" id="otherMenu" aria-labelledby="otherMenuLabel" aria-modal="true" role="dialog">
         @include('components.offcanvas')
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="{{ asset('public/js/jQuery/jquery.min.js') }}"></script>
+    {{-- Datatable --}}
+    <script src="{{ asset('public/js/dataTable/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/js/dataTable/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('public/js/dataTable/dataTables.fixedColumns.min.js') }}"></script>
+    {{-- Datepicker --}}
+    <script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
+    {{-- Select2 --}}
     <script src="{{ asset('public/js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
     <script src="{{ asset('public/js/utility.js') }}" defer></script>
     <script src="{{ asset('public/libs/tinymce/tinymce.js') }}" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+    <script src="{{ asset('public/js/contextMenu/jquery.contextMenu.min.js') }}"></script>
+    <script src="{{ asset('public/js/contextMenu/jquery.ui.position.js') }}"></script>
     <script>
         window.showToast = function(message, type = 'success', delay = 3000) {
             const toastEl = document.getElementById('toast-simple');

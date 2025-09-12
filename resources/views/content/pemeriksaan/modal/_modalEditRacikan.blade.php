@@ -111,8 +111,8 @@
                 $(`#jml${rowCount}`).val(formatFloat(jml_dr)).data('jml', jml_dr)
                 $(`#hargaObatRacikan${rowCount}`).val(formatCurrency(data.ralan)).attr('data-harga-obat', data.ralan)
             })
-            const rowTotalRacikan = $('#rowTotalRacikan')
-            bodyObatRacikan.detach(rowTotalRacikan).append(rowTotalRacikan)
+            const rowTotalDetailRacikan = $('#rowTotalDetailRacikan')
+            bodyObatRacikan.detach(rowTotalDetailRacikan).append(rowTotalDetailRacikan)
         })
 
         function hitungSubTotalObatRacikan(index) {
@@ -147,6 +147,7 @@
                 const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
                 hitungSubTotalObatRacikan(id)
                 setTotalRacikan()
+
                 $(`#p1${id}`).val(1);
                 $(`#p2${id}`).val(1);
                 $(`#jml${id}`).val(formatFloat(jml_obat)).data('jml', jml_obat);
@@ -203,6 +204,8 @@
 
         function setRacikanDetail(no_racik, no_resep) {
             getDetailRacikan(no_racik, no_resep).done((response) => {
+                console.log('RESPONSE DETAIL RACIKAN ===', response);
+
                 bodyObatRacikan.empty();
                 if (response.length) {
                     const detail = response.map((item, index) => {
@@ -253,17 +256,18 @@
                             $(`#hargaObatRacikan${index}`).val(formatCurrency(data.ralan)).attr('data-harga-obat', data.ralan)
                         })
                     })
-                    const rowTotalRacikan = `
-                            <tr id="rowTotalRacikan">
+                    $('#nextIdDetail').val(detail.length + 1)
+
+                }
+                const rowTotalDetailRacikan = `
+                            <tr id="rowTotalDetailRacikan">
                                 <td colspan="6" class="text-end"><strong>Total Racikan</strong></td>
                                 <td class="text-end"><strong id="totalRacikan">${hitungTotalRacikan()}</strong></td>
                                 <td></td>
                             </tr>
                         `
-                    bodyObatRacikan.append(rowTotalRacikan)
-                    $('#nextIdDetail').val(detail.length + 1)
+                bodyObatRacikan.append(rowTotalDetailRacikan)
 
-                }
             })
         }
 
@@ -279,6 +283,8 @@
         }
 
         function setTotalRacikan() {
+            console.log('hitung total racikan', hitungTotalRacikan());
+
             $('#totalRacikan').text(hitungTotalRacikan())
         }
 
@@ -333,7 +339,7 @@
                     const p1 = $(`#p1${index}`).val();
                     const p2 = $(`#p2${index}`).val();
                     const kandungan = $(`#dosis${index}`).val().replace(',', '.');
-                    const jml = $(`#jml${index}`).data('jml').toFixed(1);
+                    const jml = $(`#jml${index}`).val().replace(',', '.');
                     const obatRacikan = {
                         no_resep: noResep,
                         no_racik: noRacik,

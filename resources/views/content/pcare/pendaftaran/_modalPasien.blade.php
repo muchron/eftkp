@@ -236,9 +236,9 @@
                             <div class="tab-pane" id="pane2">
                                 <div class="row">
                                     <div class="col">
-                                        {{--                                        <div class="table-responsive"> --}}
-                                        <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
-                                        {{--                                        </div> --}}
+                                        <div class="table-responsive">
+                                            <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -246,10 +246,31 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" id="btnResetPasien" onclick="resetFormRegistrasi()"><i class="ti ti-reload me-2"></i>Baru</button>
-                <button type="button" class="btn btn-success" id="btnSimpanPasien" onclick="createPasienBaru()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+            <div class="modal-footer d-flex justify-content-between align-items-center">
+                {{-- <div class="row">
+                    <div class="col">
+                        <label for="lengthTbPasien">Baris</label>
+                        <select class="form-select w-auto" id="lengthTbPasien" data-dropdown-parent="#modalPasien">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                        </select>
+                    </div>
+
+                </div> --}}
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-warning" id="btnResetPasien" onclick="resetFormRegistrasi()">
+                        <i class="ti ti-reload me-2"></i>Baru
+                    </button>
+                    <button type="button" class="btn btn-success" id="btnSimpanPasien" onclick="createPasienBaru()">
+                        <i class="ti ti-device-floppy me-2"></i>Simpan
+                    </button>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -273,6 +294,17 @@
         let tglLahir = formPasien.find('input[name=tgl_lahir]');
         let tabFormPasien = $('#pane1');
         let tabTablePasien = $('#pane2');
+        const lengthTbPasien = $('#lengthTbPasien')
+
+        lengthTbPasien.select2();
+
+        lengthTbPasien.on('select2:select', function(e) {
+            const length = e.params.data.id;
+            renderTbPasien({
+                length: length,
+            });
+
+        })
 
         function switchTab(tabId) {
             $('.nav-link').removeClass('active');
@@ -582,7 +614,7 @@
             })
         })
 
-        function renderTbPasien(tglRegistrasi = '') {
+        function renderTbPasien(...args) {
             const tbReferensi = new DataTable('#tbPasien', {
                 responsive: true,
                 // autoWidth: true,
@@ -590,7 +622,8 @@
                 serverSide: true,
                 destroy: true,
                 processing: true,
-                scrollY: '50vh',
+                // scrollY: '50vh',
+                pageLength: 50,
                 // scrollX: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
@@ -609,7 +642,8 @@
                     url: `${url}/pasien`,
                     data: {
                         datatable: true,
-                        tglRegistrasi: tglRegistrasi,
+                        tglRegistrasi: args['tgl_registrasi'] ? args['tgl_registrasi'] : '',
+                        length: args['length'] ? args['length'] : 10
                     }
                 },
                 createdRow: (row, data, index) => {

@@ -75,6 +75,7 @@
             getResep({
                 no_rawat: no_rawat,
             }).done((reseps) => {
+                console.log('RESPONSE ===', reseps)
                 if (reseps.length) {
                     Swal.fire({
                         title: "Terdapat resep pada pemeriksaan ini",
@@ -98,9 +99,10 @@
                                     alertErrorAjax(request);
                                 })
                             } else {
-                                createCopyResep(no_resep, reseps).done((response) => {
-                                    inptNoResep.val(response.no_resep)
-                                })
+                                createCopyResep(no_resep, reseps)
+                                // createCopyResep(no_resep, reseps).done((response) => {
+                                // })
+                                // inptNoResep.val(response.no_resep)
                             }
                         }
                     });
@@ -121,6 +123,7 @@
                     return {
                         no_resep: no_resep,
                         no_racik: item.no_racik,
+                        nama_racik: item.nama_racik,
                         jml_dr: item.jml_dr,
                         aturan_pakai: item.aturan_pakai,
                         kd_racik: item.kd_racik,
@@ -133,7 +136,7 @@
                     dataObat
                 }).done((response) => {
                     setResepDokter(no_resep);
-                    alertSuccessAjax('Resep umum berhasil ditambah');
+                    showToast('Resep umum berhasil ditambah');
                 }).fail((error) => {
                     alertErrorAjax(error);
                 });
@@ -145,6 +148,7 @@
                                 no_resep: no_resep,
                                 kandungan: subitem.kandungan ? subitem.kandungan : 0,
                                 kode_brng: subitem.kode_brng,
+                                jml: subitem.jml,
                                 no_racik: subitem.no_racik,
                                 p1: subitem.p1,
                                 p2: subitem.p2,
@@ -152,7 +156,7 @@
                         )
                         createDetailRacikan(no_resep, item.no_racik, detail).done((responseDetail) => {
                             setResepRacikan(no_resep);
-                            alertSuccessAjax('Resep racikan berhasil ditambah');
+                            showToast('Resep racikan berhasil ditambah');
                         }).fail((error) => {
                             alertErrorAjax(error);
                         });

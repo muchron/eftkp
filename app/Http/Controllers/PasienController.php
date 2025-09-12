@@ -13,11 +13,12 @@ use Illuminate\Database\QueryException;
 class PasienController extends Controller
 {
     use Track;
-	protected $setNoRkmMedis;
+    protected $setNoRkmMedis;
 
-	public function __construct(){
-		$this->setNoRkmMedis = new setNoRkmMedisController();
-	}
+    public function __construct()
+    {
+        $this->setNoRkmMedis = new setNoRkmMedisController();
+    }
 
     function getByNoka($noKartu)
     {
@@ -30,31 +31,30 @@ class PasienController extends Controller
     function getRiwayat(Request $request)
     {
         $riwayat = Pasien::where(['no_rkm_medis' => $request->no_rkm_medis])
-	        ->with(['regPeriksa' => function ($query) {
-            return $query->whereIn('stts', ['Sudah', 'Dirujuk'])
-                ->with(['diagnosa.penyakit', 'prosedur.icd9'])
-                ->with(['gigi.hasil'])
-                ->orderBy('tgl_registrasi', 'DESC');
-        }])->first();
+            ->with(['regPeriksa' => function ($query) {
+                return $query->whereIn('stts', ['Sudah', 'Dirujuk'])
+                    ->with(['diagnosa.penyakit', 'prosedur.icd9'])
+                    ->with(['gigi.hasil'])
+                    ->orderBy('tgl_registrasi', 'DESC');
+            }])->first();
         return response()->json($riwayat);
     }
     function get(Request $request)
     {
-        $pasien = Pasien::where('no_rkm_medis', '!=', '-')->with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
+        $pasien = Pasien::where('no_rkm_medis', '!=', '-')
+            ->with(['kel', 'kec', 'kab', 'prop', 'sukuBangsa', 'penjab', 'regPeriksa', 'cacatFisik', 'bahasaPasien', 'perusahaanPasien']);
         if ($request->no_rkm_medis) {
             $pasien = $pasien->where('no_rkm_medis', $request->no_rkm_medis)->first();
         }
         if ($request->datatable) {
-            // $pasien = $pasien->orderBy('no_rkm_medis', 'ASC');
             return DataTables::of($pasien)
                 ->filter(function ($query) use ($request) {
-
                     if ($request->has('search') && $request->get('search')['value']) {
-                        return $query->where('nm_pasien', 'like', '%' . $request->get('search')['value'] . '%')
-                            ->orWhere('no_rkm_medis', 'like' , "{$request->get('search')['value']}%")
+                        return $query->where('nm_pasien', 'like', '%'.$request->get('search')['value'].'%')
+                            ->orWhere('no_rkm_medis', 'like', "{$request->get('search')['value']}%")
                             ->orWhere('no_peserta', $request->get('search')['value'])
                             ->orWhereHas('penjab', function ($query) use ($request) {
-                                return $query->where('png_jawab', 'like', '%'. $request->get('search')['value']. '%');
+                                return $query->where('png_jawab', 'like', '%'.$request->get('search')['value'].'%');
                             });
                     }
                 })->make(true);
@@ -116,12 +116,12 @@ class PasienController extends Controller
             $pasien = Pasien::create($data);
             if ($pasien) {
                 $this->insertSql(new Pasien(), $data);
-				$this->setNoRkmMedis->create($request);
+                $this->setNoRkmMedis->create($request);
             }
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
-            return response()->json('SUKSES', 200);
+        return response()->json('SUKSES', 200);
     }
     function update(Request $request)
     {
@@ -177,7 +177,7 @@ class PasienController extends Controller
     }
     function updateUmur(Request $request)
     {
-        $key  = ['no_rkm_medis', $request->no_rkm_medis];
+        $key = ['no_rkm_medis', $request->no_rkm_medis];
         $umur = ['umur' => $request->umur];
         try {
             $pasien = Pasien::where($key)->update($umur);

@@ -127,4 +127,8 @@ class ResepObatController extends Controller
             return response()->json($e->errorInfo, 500);
         }
     }
+
+    public function copyResep($no_resep, Request $request){
+        
+    } 
 }
