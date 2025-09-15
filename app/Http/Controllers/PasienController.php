@@ -53,6 +53,7 @@ class PasienController extends Controller
                         return $query->where('nm_pasien', 'like', '%'.$request->get('search')['value'].'%')
                             ->orWhere('no_rkm_medis', 'like', "{$request->get('search')['value']}%")
                             ->orWhere('no_peserta', $request->get('search')['value'])
+                            ->orWhere('no_ktp', 'like', $request->get('search')['value'].'%')
                             ->orWhereHas('penjab', function ($query) use ($request) {
                                 return $query->where('png_jawab', 'like', '%'.$request->get('search')['value'].'%');
                             });

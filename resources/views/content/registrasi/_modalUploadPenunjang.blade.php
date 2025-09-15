@@ -53,8 +53,8 @@
     </div>
 </div>
 @push('script')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('public/css/dropzone5.9.2/dropzone.min.css') }}">
+    <script src="{{ asset('public/js/dropzone5.9.2/dropzone.min.js') }}" type="text/javascript"></script>
 
     <link rel="stylesheet" href="{{ asset('public/css/magnify/jquery.magnify.css') }}">
     <script src="{{ asset('public/js/magnify/jquery.magnify.min.js') }}"></script>

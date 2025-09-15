@@ -90,6 +90,10 @@
                         .attr('data-no_rkm_medis', data.no_rkm_medis)
                         .attr('data-noPeserta', data.pasien?.no_peserta);
                 },
+                columnDefs: [{
+                    orderable: false,
+                    targets: [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                }],
                 columns: [{
                         title: '',
                         data: 'no_rawat',
