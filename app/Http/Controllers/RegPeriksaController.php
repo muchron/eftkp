@@ -185,7 +185,8 @@ class RegPeriksaController extends Controller
             'almt_pj' => $request->alamatpj,
             'stts' => 'Belum',
             'stts_daftar' => $request->status,
-            'biaya_reg' => $this->poliklinik->getTarifPoliklinik($request->kd_poli),
+            // 'biaya_reg' => $this->poliklinik->getTarifPoliklinik($request->kd_poli),
+            'biaya_reg' => 0,
             'status_lanjut' => 'Ralan',
             'status_bayar' => 'Belum Bayar',
             'status_poli' => $this->setStatusPoli(new \Illuminate\Http\Request([
@@ -202,17 +203,17 @@ class RegPeriksaController extends Controller
             'kd_pj' => 'required',
         ]);
 
-        $regPeriksa = RegPeriksa::where([
-            'no_rkm_medis' => $data['no_rkm_medis'],
-            'kd_dokter' => $data['kd_dokter'],
-            'kd_poli' => $data['kd_poli'],
-            'tgl_registrasi' => $data['tgl_registrasi'],
-        ])->first();
+        // $regPeriksa = RegPeriksa::where([
+        //     'no_rkm_medis' => $data['no_rkm_medis'],
+        //     'kd_dokter' => $data['kd_dokter'],
+        //     'kd_poli' => $data['kd_poli'],
+        //     'tgl_registrasi' => $data['tgl_registrasi'],
+        // ])->first();
 
 
-        if ($regPeriksa) {
-            return response()->json("Pasien sudah terdaftar di Poli yang sama dengan dokter yang sama", 409);
-        }
+        // if ($regPeriksa) {
+        //     return response()->json("Pasien sudah terdaftar di Poli yang sama dengan dokter yang sama", 409);
+        // }
 
         try {
             $regPeriksa = RegPeriksa::create($data);
