@@ -236,7 +236,7 @@
                             <div class="tab-pane" id="pane2">
                                 <div class="row">
                                     <div class="col">
-                                        <div class="table-responsive">
+                                        <div class="table-responsive" style="height: 70vh;">
                                             <table class="table table-sm table-striped table-hover nowrap" id="tbPasien" style="width: 100%"></table>
                                         </div>
                                     </div>
@@ -294,17 +294,17 @@
         let tglLahir = formPasien.find('input[name=tgl_lahir]');
         let tabFormPasien = $('#pane1');
         let tabTablePasien = $('#pane2');
-        const lengthTbPasien = $('#lengthTbPasien')
+        // const lengthTbPasien = $('#lengthTbPasien')
 
-        lengthTbPasien.select2();
+        // lengthTbPasien.select2();
 
-        lengthTbPasien.on('select2:select', function(e) {
-            const length = e.params.data.id;
-            renderTbPasien({
-                length: length,
-            });
+        // lengthTbPasien.on('select2:select', function(e) {
+        //     const length = e.params.data.id;
+        //     renderTbPasien({
+        //         length: length,
+        //     });
 
-        })
+        // })
 
         function switchTab(tabId) {
             $('.nav-link').removeClass('active');
@@ -622,9 +622,10 @@
                 serverSide: true,
                 destroy: true,
                 processing: true,
-                // scrollY: '50vh',
+                fixedHeader: true,
+                scrollY: '50vh',
                 pageLength: 50,
-                // scrollX: true,
+                scrollX: true,
                 columnDefs: [{
                         name: "no_rkm_medis",
                         targets: 0
@@ -635,7 +636,7 @@
                     },
                     {
                         orderable: false,
-                        targets: 8
+                        targets: [2, 3, 4, 5, 6, 7, 8]
                     },
                 ],
                 ajax: {
@@ -643,7 +644,7 @@
                     data: {
                         datatable: true,
                         tglRegistrasi: args['tgl_registrasi'] ? args['tgl_registrasi'] : '',
-                        length: args['length'] ? args['length'] : 10
+                        // length: args['length'] ? args['length'] : 10
                     }
                 },
                 createdRow: (row, data, index) => {
@@ -700,6 +701,14 @@
 
                     },
                     {
+                        title: 'NIK',
+                        data: 'no_ktp',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        }
+
+                    },
+                    {
                         title: 'PJ',
                         data: 'namakeluarga',
                         render: (data, type, row, meta) => {
@@ -724,7 +733,7 @@
                         title: 'Alamat',
                         data: 'alamat',
                         render: (data, type, row, meta) => {
-                            return `${data}, ${row.kel.nm_kel}`;
+                            return `${data}`;
                         }
 
                     },

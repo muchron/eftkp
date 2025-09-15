@@ -348,7 +348,7 @@
                         const stts = data['stts'] != 'Sudah' ? 'Sudah' : data['stts'];
                         setStatusLayan(data['no_rawat'], stts);
                     }
-                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, dokterLocal.kd_dokter)
+                    loadTabelRegistrasi(tglAwal, tglAkhir, statusLocal, selectFilterDokter.val())
 
                 }
 
