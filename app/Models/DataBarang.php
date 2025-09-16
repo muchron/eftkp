@@ -43,4 +43,8 @@ class DataBarang extends Model
     {
         return $this->belongsTo(MappingObatPcare::class, 'kode_brng', 'kode_brng');
     }
+    public function gudangBarang()
+    {
+        return $this->hasMany(GudangBarang::class, 'kode_brng', 'kode_brng');
+    }
 }

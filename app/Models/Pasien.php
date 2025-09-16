@@ -9,16 +9,17 @@ use App\Models\Kecamatan;
 use App\Models\Kelurahan;
 use App\Models\RegPeriksa;
 use App\Models\EfktpPcareAlergi;
+use Awobaz\Compoships\Compoships;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pasien extends Model
 {
-    use HasFactory;
+    use HasFactory, Compoships;
     protected $table = 'pasien';
     protected $guarded = [];
     public $timestamps = false;
-    protected $hidden  = ['laravel_through_key'];
+    protected $hidden = ['laravel_through_key'];
 
     function regPeriksa()
     {

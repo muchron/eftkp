@@ -3,52 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\SetAkunRalan;
+use App\Models\TindakanDokter;
+use App\Traits\ResponseHandlerTrait;
 use DB;
+use Exception;
 use Illuminate\Http\Request;
 
 class TindakanDokterController extends Controller
 {
+    use ResponseHandlerTrait;
     function create(Request $request)
     {
         $data = $request->all();
 
-        // $setAkunRalan = SetAkunRalan::first();
+        try {
+            $tindakan = (new \App\Action\TindakanDokterAction())->handle($data);
+            return $this->success($tindakan['data']);
 
-        $setAkunRalan = DB::table('set_akun_ralan')
-            ->first();
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
 
-
-        return response()->json([
-            'status' => 'success',
-            'akun' => $setAkunRalan,
-            'data' => $data
-        ]);
+        }
     }
 
-    function getRekeningMapping()
+    function get(Request $request)
     {
-        $rekening = DB::table('set_akun_ralan')
-            ->first();
-        return [
-            'Suspen_Piutang_Tindakan_Ralan' => $rekening->Suspen_Piutang_Tindakan_Ralan,
-            'Tindakan_Ralan' => $rekening->Tindakan_Ralan,
-            'Beban_Jasa_Medik_Dokter_Tindakan_Ralan' => $rekening->Beban_Jasa_Medik_Dokter_Tindakan_Ralan,
-            'Utang_Jasa_Medik_Dokter_Tindakan_Ralan' => $rekening->Utang_Jasa_Medik_Dokter_Tindakan_Ralan,
-            'Beban_KSO_Tindakan_Ralan' => $rekening->Beban_KSO_Tindakan_Ralan,
-            'Utang_KSO_Tindakan_Ralan' => $rekening->Utang_KSO_Tindakan_Ralan,
-            'Beban_Jasa_Sarana_Tindakan_Ralan' => $rekening->Beban_Jasa_Sarana_Tindakan_Ralan,
-            'Utang_Jasa_Sarana_Tindakan_Ralan' => $rekening->Utang_Jasa_Sarana_Tindakan_Ralan,
-            'Beban_Jasa_Menejemen_Tindakan_Ralan' => $rekening->Beban_Jasa_Menejemen_Tindakan_Ralan,
-            'Utang_Jasa_Menejemen_Tindakan_Ralan' => $rekening->Utang_Jasa_Menejemen_Tindakan_Ralan,
-            'HPP_BHP_Tindakan_Ralan' => $rekening->HPP_BHP_Tindakan_Ralan,
-            'Persediaan_BHP_Tindakan_Ralan' => $rekening->Persediaan_BHP_Tindakan_Ralan,
-        ];
-
+        $data = TindakanDokter::with(['tindakan', 'dokter', 'pasien', 'regPeriksa'])
+            ->where('no_rawat', $request->no_rawat)->get();
+        return $this->success($data);
     }
 
-    function createTampJurnal(array $rekening, int $totals)
-    {
-        DB::table('tampjurnal')->delete();
-    }
+
+
+
+
 
 }

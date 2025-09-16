@@ -125,8 +125,10 @@
                 </td>
                 <td><input class="form-control form-control-sm" name="aturan_pakai[]" id="aturan${rowCount}"/></td>
                 <td class="text-end subTotal${rowCount}"></td>
-                <td></td>
-                <td><i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data-id="row${rowCount}" onclick="hapusBarisObat('${rowCount}')"></i></td>
+                <td>
+                    <i class="ti ti-device-floppy text-success" style="font-size:20px" data-id="row${rowCount}" onclick="createResepDokter()"></i>
+                    <i class="ti ti-square-rounded-x text-danger" style="font-size:20px" data-id="row${rowCount}" onclick="hapusBarisObat('${rowCount}')"></i>
+                </td>
             </tr>`;
             // tambah baris diatas row subTotal
             const rowTotalObatUmum = bodyResepUmum.find('#rowTotalObatUmum')
@@ -225,6 +227,50 @@
                 $('#formCpptRajal textarea[name=rtl]').val(textPlan)
             })
         }
+
+        function createResepDokter() {
+            const rowCount = $('#tabelResepUmum').find('tr').length
+            const noResep = $(`#no_resep`).val();
+            let dataObat = [];
+            for (let index = 1; index < rowCount; index++) {
+                const findInput = $(`#row${index}`).find('input');
+                if (findInput.length) {
+                    const kodeBrng = $(`#kdObat${index}Val`).val();
+                    const jml = $(`#jmlObat${index}`).val();
+                    const aturanPakai = $(`#aturan${index}`).val();
+                    const obat = {
+                        'no_resep': noResep,
+                        'kode_brng': $(`#kdObat${index}Val`).val(),
+                        'jml': $(`#jmlObat${index}`).val(),
+                        'aturan_pakai': $(`#aturan${index}`).val(),
+                    }
+
+                    const isEmpty = Object.values(obat).filter((item) => {
+                        return item == null || item == '';
+                    }).length
+
+                    if (isEmpty) {
+                        const errorMsg = {
+                            status: 422,
+                            statusText: 'Pastikan tidak ada kolom yang kosong'
+                        }
+                        alertErrorAjax(errorMsg)
+                        return false;
+                    }
+                    dataObat.push(obat)
+                }
+            }
+
+            $.post(`${url}/resep/dokter/create`, {
+                dataObat
+            }).done((response) => {
+                const no_rawat = $('#formCpptRajal input[name=no_rawat]').val()
+                $('#btnCetakResep').attr('onclick', `cetakResep('${no_rawat}')`)
+                tulisPlan(noResep)
+                setResepDokter(noResep)
+            })
+        }
+
         $('#btnSimpanResep').on('click', (e) => {
             e.preventDefault();
             const rowCount = $('#tabelResepUmum').find('tr').length

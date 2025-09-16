@@ -17,7 +17,7 @@ class DataBarangController extends Controller
     {
         $barang = DataBarang::
             // where('status', '1')
-            with(['satuan', 'satuanBesar', 'jenis', 'golongan', 'industri', 'kategori', 'mapping']);
+            with(['satuan', 'satuanBesar', 'jenis', 'golongan', 'industri', 'kategori', 'mapping', 'gudangBarang.lokasi']);
         if ($request) {
             $barang = $barang
                 ->where('nama_brng', 'like', '%'.$request->barang."%")

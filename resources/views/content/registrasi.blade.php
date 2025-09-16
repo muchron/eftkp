@@ -57,6 +57,11 @@
         let selectStatusLayan = formFilterRegistrasi.find('select[name="stts"'); //get data from selection filter stts
         let selectDokterPoli = formFilterRegistrasi.find('select[name="dokter"'); //get data from selection filter stts
 
+
+        selectDokterPoli.on('select2:unselect', function(e) {
+            console.log('LOERERERER');
+        });
+
         function ubahRegistrasi(no_rawat) {
             modalRegistrasi.modal('show');
             getRegDetail(no_rawat).done((response) => {

@@ -6,17 +6,45 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row gy-2">
-                    <div class="col-xl-6 col-lg-6">
-                        @include('content.pemeriksaan.modal._form')
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+                            <li class="nav-item">
+                                <a href="#tabs-cppt" class="nav-link active"
+                                    data-bs-toggle="tab">CPPT</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#tabs-tindakan" class="nav-link"
+                                    data-bs-toggle="tab">Tindakan Dokter</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-xl-6 col-lg-6">
-                        @include('content.pemeriksaan.modal._riwayat')
-                    </div>
-                    <div class="col-xl-6 col-lg-6">
-                        @include('content.pemeriksaan.modal._tabResep')
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade" id="tabs-cppt">
+                                <div>
+                                    <div class="row gy-2">
+                                        <div class="col-xl-6 col-lg-6">
+                                            @include('content.pemeriksaan.modal._form')
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6">
+                                            @include('content.pemeriksaan.modal._riwayat')
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6">
+                                            @include('content.pemeriksaan.modal._tabResep')
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-tindakan">
+                                <div>
+                                    @include('content.pemeriksaan.modal._tindakanPemeriksaan')
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
@@ -42,6 +70,8 @@
     <script>
         var tabObat = $('#tabObat');
         const modalCppt = $('#modalCppt');
+        const targetTabsCppt = modalCppt.find('a[href="#tabs-cppt"]');
+        const targetTabsTindakan = modalCppt.find('a[href="#tabs-tindakan"]');
 
         modalCppt.on('hidden.bs.modal', (e) => {
             $('.modal-backdrop').remove();
@@ -52,6 +82,7 @@
 
         modalCppt.on('shown.bs.modal', (e) => {
             switcTab(tabObat)
+            targetTabsCppt.tab('show');
         })
 
         function showCpptRalan(no_rawat) {
@@ -175,4 +206,5 @@
             });
         }
     </script>
+    @stack('scriptTindakan')
 @endpush

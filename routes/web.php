@@ -324,6 +324,10 @@ Route::middleware('auth')->group(function () {
     Route::post('pemeriksaan/ranap/update', [PemeriksaanRanapController::class, 'update']);
     Route::post('pemeriksaan/ranap/delete', [PemeriksaanRanapController::class, 'delete']);
 
+    // TINDAKAN DOKTER
+    Route::post('pemeriksaan/tindakan-dokter', [\App\Http\Controllers\TindakanDokterController::class, 'create']);
+    Route::get('pemeriksaan/tindakan-dokter/get', [\App\Http\Controllers\TindakanDokterController::class, 'get']);
+
     //RESUME MEDIS
     Route::get('resume/medis', [\App\Http\Controllers\ResumeMedisController::class, 'get']);
     Route::post('resume/medis', [\App\Http\Controllers\ResumeMedisController::class, 'create']);
@@ -445,4 +449,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/bridging/pcare/diagnosa/{diagnosa}', [Bridging\Diagnosa::class, 'get']);
 });
 
+Route::get('/test/{no_resep}', [ResepObatController::class, 'copyResep']);
+
 require 'Extras/web.php';
+require 'Extras/jenis_perawatan.php';

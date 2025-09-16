@@ -599,39 +599,59 @@ function selectPenjab(element, parrent) {
     return select2;
 }
 function selectDataBarang(element, parrent) {
-    const select2 = element.select2({
+    return element.select2({
         dropdownParent: parrent,
-        delay: 2,
+        delay: 250, // biar lebih optimal
         scrollAfterSelect: true,
         ajax: {
             url: `${url}/barang/get`,
             dataType: 'JSON',
-
-            data: (params) => {
-                const query = {
-                    barang: params.term
-                }
-                return query
-            },
+            data: (params) => ({
+                barang: params.term
+            }),
             processResults: (data) => {
                 return {
                     results: data.map((item) => {
-                        const items = {
+                        return {
                             id: item.kode_brng,
-                            text: `${item.nama_brng}`,
-                            detail: item
+                            text: item.nama_brng, // tetap untuk value utama
+                            detail: item // semua detail barang masuk
                         }
-                        return items;
                     })
                 }
             }
+        },
+        templateResult: (data) => {
+            if (data.loading) {
+                return data.text;
+            }
+            let stokAP = '';
+            if (data.detail && Array.isArray(data.detail.gudang_barang)) {
+                const ap = data.detail.gudang_barang.find(g => g.kd_bangsal === 'AP');
+                stokAP = ap ? ap.stok : 0;
+            }
+
+            return $(`
+            <div class="select2-result-repository clearfix">
+                <div class="select2-result-repository__meta">
+                    <div class="select2-result-repository__title fw-bold">${data.text}</div>
+                    <div class="select2-result-repository__description text-muted">
+                        <small>Stok : ${stokAP} ${data.detail.satuan.satuan}</small>
+                    </div>
+                </div>
+            </div>
+        `);
 
         },
-        cache: true
+        templateSelection: (data) => {
+            if (!data.id) return data.text;
 
-    });
+            const ap = data.detail?.gudang_barang?.find(g => g.kd_bangsal === 'AP');
+            const stokAP = ap ? ap.stok : 0;
 
-    return select2;
+            return `${data.text} (${stokAP})`;
+        },
+    })
 }
 
 function selectDokter(element, parrent) {
@@ -643,7 +663,7 @@ function selectDokter(element, parrent) {
         tags: true,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: `${url}/dokter/get`,
+            url: `${url} /dokter/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -682,7 +702,7 @@ function selectMappingDokterPcare(element, parrent) {
         tags: false,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: `${url}/mapping/pcare/dokter`,
+            url: `${url} /mapping/pcare / dokter`,
             dataType: 'JSON',
 
             data: (params) => {

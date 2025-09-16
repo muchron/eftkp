@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Action\GenerateNoResep;
+use App\Models\ResepDokter;
+use App\Models\ResepDokterRacikan;
 use App\Models\ResepObat;
 use App\Models\Setting;
 use App\Traits\Track;
@@ -128,7 +130,29 @@ class ResepObatController extends Controller
         }
     }
 
-    public function copyResep($no_resep, Request $request){
+    public function isExist($no_rawat){
+        ResepObat::where('no_rawat', $no_rawat)->first();
+    }
+
+    public function copyResep($no_resep, Request $request)
+    {
+        return $isExist = $this->isExist($request->no_rawat);
         
-    } 
+        $resepObat = ResepDokter::where('no_resep', $no_resep)->get();
+        $resepRacikan = ResepDokterRacikan::where('no_resep', $no_resep)
+            ->with('detail')
+            ->get();
+
+            $dataUmum = collect($resepObat)->map(function($item) {
+               return [
+                'no_resep' => 'ssss',
+                'kode_brng' => $item->kode_brng,
+                'jml' => $item->jml,
+                'aturan_pakai' => $item->aturan_pakai
+               ];
+            });
+        
+
+        return [$dataUmum, $resepRacikan];
+    }
 }

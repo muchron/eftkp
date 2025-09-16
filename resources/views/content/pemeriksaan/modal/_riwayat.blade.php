@@ -111,6 +111,8 @@
         }
 
         function createCopyResep(no_resep, data) {
+            console.log('DATA ===', data);
+
             data.forEach((resep) => {
                 const dataObat = resep.resep_dokter.map((item) => ({
                     no_resep: no_resep,
@@ -118,6 +120,8 @@
                     jml: item.jml,
                     aturan_pakai: item.aturan_pakai,
                 }));
+
+                console.log('dataObat', dataObat);
 
                 const dataResepRacik = resep.resep_racikan.map((item) => {
                     return {
