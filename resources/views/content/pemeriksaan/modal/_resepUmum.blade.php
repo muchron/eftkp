@@ -26,14 +26,14 @@
         var bodyResepUmum = tabelResepUmum.find('tbody')
 
         function getResepDokter(no_resep) {
-            const resepDokter = $.get(`${url}/resep/dokter/get`, {
+            const resepDokter = $.get(`/efktp/resep/dokter/get`, {
                 no_resep: no_resep
             })
             return resepDokter;
         }
 
         function deleteResepDokter(no_resep, kode_brng) {
-            const resepDokter = $.post(`${url}/resep/dokter/delete`, {
+            const resepDokter = $.post(`/efktp/resep/dokter/delete`, {
                 no_resep: no_resep,
                 kode_brng: kode_brng,
             })
@@ -261,7 +261,7 @@
                 }
             }
 
-            $.post(`${url}/resep/dokter/create`, {
+            $.post(`/efktp/resep/dokter/create`, {
                 dataObat
             }).done((response) => {
                 const no_rawat = $('#formCpptRajal input[name=no_rawat]').val()
@@ -305,7 +305,7 @@
                 }
             }
 
-            $.post(`${url}/resep/dokter/create`, {
+            $.post(`/efktp/resep/dokter/create`, {
                 dataObat
             }).done((response) => {
                 const no_rawat = $('#formCpptRajal input[name=no_rawat]').val()

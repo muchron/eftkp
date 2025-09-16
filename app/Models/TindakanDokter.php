@@ -12,6 +12,8 @@ class TindakanDokter extends Model
 
     protected $table = 'rawat_jl_dr';
     protected $guarded = [];
+    public $timestamps = false;
+
 
     function tindakan()
     {

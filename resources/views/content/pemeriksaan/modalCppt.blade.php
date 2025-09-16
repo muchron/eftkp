@@ -78,6 +78,7 @@
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
+            $('.tindakan-check').prop('checked', false);
         })
 
         modalCppt.on('shown.bs.modal', (e) => {

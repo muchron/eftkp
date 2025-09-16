@@ -17,16 +17,16 @@
                                 <form action="pcare/kunjungan/get" method="post" id="formFilterTanggal">
                                     <div class="input-group">
                                         <input class="form-control filterTangal" placeholder="Select a date"
-                                               id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                                            id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
                                         <span class="input-group-text">
                                             s.d
                                         </span>
                                         <input class="form-control filterTangal" placeholder="Select a date"
-                                               id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
+                                            id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
                                         <button class="btn w-5 btn-secondary" type="submit" onclick="">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="10" height="10"
-                                                 viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor"
-                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                viewBox="-5 -5 24 30" stroke-width="1" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                                 <path d="M21 21l-6 -6"></path>
@@ -96,12 +96,12 @@
                     targets: 8
                 }],
                 columns: [{
-                    title: 'No. Kunjungan',
-                    data: 'noKunjungan',
-                    render: (data, type, row, meta) => {
-                        return data;
+                        title: 'No. Kunjungan',
+                        data: 'noKunjungan',
+                        render: (data, type, row, meta) => {
+                            return data;
+                        },
                     },
-                },
                     {
                         title: 'Tgl Daftar',
                         data: 'tglDaftar',
@@ -178,8 +178,7 @@
         function printKunjungan(noKunjungan) {
             $.post(`kunjungan/print`, {
                 noKunjungan: noKunjungan,
-            }).done((response) => {
-            })
+            }).done((response) => {})
         }
 
         function deleteRujukSubspesialis(noKunjungan, no_rawat) {
@@ -195,7 +194,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     loadingAjax();
-                    $.post(`${url}/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
+                    $.post(`/efktp/bridging/pcare/kunjungan/delete/${noKunjungan}`).done((resDelete) => {
                         if (resDelete.metaData.code === 200) {
                             alertSuccessAjax(`${resDelete.response}`).then(() => {
                                 $.post(`kunjungan/delete/${noKunjungan}`).fail((request) => {
@@ -235,7 +234,7 @@
 
             })
             modalPrintKunjungan.find('#noKunjungan').val(noKunjungan)
-            modalPrintKunjungan.find('#print').attr('src', `${url}/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}`);
+            modalPrintKunjungan.find('#print').attr('src', `/efktp/pcare/kunjungan/rujuk/subspesialis/print?noKunjungan=${noKunjungan}`);
             modalPrintKunjungan.modal('show');
         }
 

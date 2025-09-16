@@ -76,7 +76,7 @@
         }
 
         function dataGrafikDiagnosa(tgl1 = '', tgl2 = '') {
-            $.get(`${url}/diagnosa/pasien/grafik`, {
+            $.get(`/efktp/diagnosa/pasien/grafik`, {
                 tglDiagnosa1: tgl1,
                 tglDiagnosa2: tgl2,
             }).done((response) => {

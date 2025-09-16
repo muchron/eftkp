@@ -289,7 +289,7 @@
         }
 
         function getDetailRacikan(no_racik, no_resep) {
-            const getDetail = $.get(`${url}/resep/racikan/detail/get`, {
+            const getDetail = $.get(`/efktp/resep/racikan/detail/get`, {
                 no_racik: no_racik,
                 no_resep: no_resep,
             })
@@ -297,7 +297,7 @@
         }
 
         function createDetailRacikan(no_resep, no_racik, data) {
-            const detailRacikan = $.post(`${url}/resep/racikan/detail/create`, {
+            const detailRacikan = $.post(`/efktp/resep/racikan/detail/create`, {
                 no_resep: no_resep,
                 no_racik: no_racik,
                 data: data,
@@ -370,7 +370,7 @@
                 // $('#modalDetailRacikan').modal('hide')
                 setResepRacikan(noResep)
                 tulisPlan(noResep)
-                $.get(`${url}/resep/racikan/template/get`, {
+                $.get(`/efktp/resep/racikan/template/get`, {
                     nm_racik: nm_racik
                 }).done((response) => {
                     if (!Object.values(response).length) {
@@ -385,7 +385,7 @@
                             cancelButtonText: "Tidak"
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $.post(`${url}/resep/racikan/template/create`, {
+                                $.post(`/efktp/resep/racikan/template/create`, {
                                     kd_dokter: kd_dokter,
                                     nm_racik: nm_racik,
                                     obat: dataObat,

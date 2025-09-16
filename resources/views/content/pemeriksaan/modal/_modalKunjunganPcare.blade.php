@@ -494,45 +494,45 @@
 
 
         function getKunjunganRujuk(noKunjungan) {
-            const getKunjungan = $.get(`${url}/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
+            const getKunjungan = $.get(`/efktp/bridging/pcare/kunjungan/rujukan/${noKunjungan}`);
             return getKunjungan;
         }
 
         function getKunjunganUmum(data) {
-            const kunjungan = $.get(`${url}/pcare/kunjungan/get`,
+            const kunjungan = $.get(`/efktp/pcare/kunjungan/get`,
                 data
             )
             return kunjungan;
         }
 
         function updateKunjunganUmum(data) {
-            const kunjungan = $.post(`${url}/pcare/kunjungan/update`,
+            const kunjungan = $.post(`/efktp/pcare/kunjungan/update`,
                 data
             )
             return kunjungan;
         }
 
         function createRujukSubSpesialis(data) {
-            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis`,
+            const create = $.post(`/efktp/pcare/kunjungan/rujuk/subspesialis`,
                 data
             )
             return create;
         }
 
         function updateRujukSubSpesialis(data) {
-            const create = $.post(`${url}/pcare/kunjungan/rujuk/subspesialis/update`,
+            const create = $.post(`/efktp/pcare/kunjungan/rujuk/subspesialis/update`,
                 data
             )
             return create;
         }
 
         function getRiwayatRujukSpesialis(no_rkm_medis) {
-            const riwayat = $.get(`${url}/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
+            const riwayat = $.get(`/efktp/pcare/kunjungan/rujuk/subspesialis/riwayat/${no_rkm_medis}`);
             return riwayat;
         }
 
         function setAlergiMakan() {
-            $.get(`${url}/bridging/pcare/alergi/01`, (res) => {
+            $.get(`/efktp/bridging/pcare/alergi/01`, (res) => {
                 if (res.metaData.code === 200) {
                     selectAlergiMakan.empty()
                     res.response.list.forEach((item) => {
@@ -543,7 +543,7 @@
         }
 
         function setAlergiUdara() {
-            $.get(`${url}/bridging/pcare/alergi/02`, (res) => {
+            $.get(`/efktp/bridging/pcare/alergi/02`, (res) => {
                 if (res.metaData.code === 200) {
                     selectAlergiUdara.empty()
                     res.response.list.forEach((item) => {
@@ -554,7 +554,7 @@
         }
 
         function setAlergiObat() {
-            $.get(`${url}/bridging/pcare/alergi/03`, (res) => {
+            $.get(`/efktp/bridging/pcare/alergi/03`, (res) => {
                 if (res.metaData.code === 200) {
                     selectAlergiObat.empty()
                     res.response.list.forEach((item) => {
@@ -573,7 +573,7 @@
         function checkDiagnosaRujuk(kdDiagnosa) {
             const taccNonSpesialis = formKunjunganPcare.find('#taccNonSpesialis')
             $.ajax({
-                url: `${url}/bridging/pcare/diagnosa/${kdDiagnosa}`,
+                url: `/efktp/bridging/pcare/diagnosa/${kdDiagnosa}`,
                 method: 'GET',
                 beforeSend: () => {
                     loadingAjax('Memeriksa diagnosa rujukan')
@@ -610,7 +610,7 @@
             formKunjunganPcare.find('input[name=rtl]').val(resep)
 
             if (no_resep.length > 0) {
-                $.get(`${url}/farmasi/resep/get`, {
+                $.get(`/efktp/farmasi/resep/get`, {
                     no_resep: no_resep
                 }).done((response) => {
                     // console.log('RESPONSE ===', response);
@@ -621,7 +621,7 @@
 
                     resep_dokter.forEach((item) => {
                         console.log(item);
-                        
+
 
                     })
                     // let textResep = '';
@@ -778,7 +778,7 @@
         }
 
         function gerReferensiDiagnosa(kdDiagnosa) {
-            return $.get(`${url}/bridging/pcare/diagnosa/${kdDiagnosa}`)
+            return $.get(`/efktp/bridging/pcare/diagnosa/${kdDiagnosa}`)
         }
 
         $('#sttsPulang').on('change', (e) => {
@@ -921,7 +921,7 @@
             }
             loadingAjax('Tunggu sebentar...');
 
-            $.post(`${url}/bridging/pcare/kunjungan/post`, data).done((response) => {
+            $.post(`/efktp/bridging/pcare/kunjungan/post`, data).done((response) => {
                 if (response.metaData.code == 201 && response.metaData.message) {
                     const noKunjungan = response.response.map((res) => {
                         return res.message;
@@ -934,7 +934,7 @@
                             loadTbPcarePendaftaran(tglAwal, tglAkhir)
                         }
 
-                        $.post(`${url}/pcare/kunjungan`, data).done((response) => {
+                        $.post(`/efktp/pcare/kunjungan`, data).done((response) => {
                             if (data['kdStatusPulang'] == 4 || data['kdStatusPulang'] == 6) {
                                 data['nmSubSpesialis'] = formRujukanSpesialis.find('input[name=subSpesialis]').val();
                                 data['kdSubSpesialis'] = formRujukanSpesialis.find('input[name=kdSubSpesialis]').val();
@@ -997,7 +997,7 @@
                     }
 
                     loadingAjax('Mengubah data kunjungan...');
-                    $.post(`${url}/bridging/pcare/kunjungan/update`, data).done((response) => {
+                    $.post(`/efktp/bridging/pcare/kunjungan/update`, data).done((response) => {
                         if (response.metaData.code == 200) {
                             // UPDATE KUNJUNGAN UMUM LOCAL
                             updateKunjunganUmum(data).done((resKunjungan) => {

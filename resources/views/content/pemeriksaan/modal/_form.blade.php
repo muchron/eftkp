@@ -235,7 +235,7 @@
         let username = "{{ session()->get('pegawai')->nik }}"
 
         function insertDiagnosaPasien(no_rawat, kd_diagnosa, status) {
-            const insert = $.post(`${url}/diagnosa/pasien/create`, {
+            const insert = $.post(`/efktp/diagnosa/pasien/create`, {
                 no_rawat: no_rawat,
                 kd_penyakit: kd_diagnosa,
                 status: status,
@@ -248,7 +248,7 @@
         $('#selecInstruksi').select2({
             dropdownParent: $('#modalCppt'),
             ajax: {
-                url: `${url}/penyakit/get`,
+                url: `/efktp/penyakit/get`,
                 dataType: 'JSON',
                 data: (params) => {
                     const query = {
@@ -299,7 +299,7 @@
                 return val;
             })
             data['alergi'] = alergi.join(', ');
-            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
+            $.post(`/efktp/pemeriksaan/ralan/create`, data).done((response) => {
                 setAlergiMakan();
                 setAlergiUdara();
                 setAlergiObat();
@@ -368,7 +368,7 @@
                 tags: true,
                 scrollAfterSelect: true,
                 ajax: {
-                    url: `${url}/pasien/alergi`,
+                    url: `/efktp/pasien/alergi`,
                     dataType: 'JSON',
 
                     data: (params) => {
@@ -398,7 +398,7 @@
         }
 
         function getPendaftaranPcare(no_rawat) {
-            $.get(`${url}/pcare/pendaftaran/get`, {
+            $.get(`/efktp/pcare/pendaftaran/get`, {
                 no_rawat: no_rawat
             }).done((resposne) => {
                 if (!Object.keys(resposne).length) {

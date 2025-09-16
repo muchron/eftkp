@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('public/css/font-awesome/all.min.css') }}" />
     <script type="text/javascript" src="{{ asset('public/js/sweetalert/sweetalert2@11.js') }}"></script>
     <style>
-        @import url('https://rsms.me/inter/inter.css');
+        /* @import url('https://rsms.me/inter/inter.css'); */
 
         :root {
             --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
@@ -398,7 +398,7 @@
         }
 
         function setStatusLayan(no_rawat, status) {
-            return $.post(`${url}/registrasi/update/status`, {
+            return $.post(`/efktp/registrasi/update/status`, {
                 stts: status,
                 no_rawat: no_rawat
             }).done(() => {
@@ -421,19 +421,19 @@
         }
 
         function getRegDetail(no_rawat) {
-            const registrasi = $.get(`${url}/registrasi/get/detail`, {
+            const registrasi = $.get(`/efktp/registrasi/get/detail`, {
                 no_rawat: no_rawat,
             })
             return registrasi;
         }
 
         function getRegPeriksa(...params) {
-            const registrasi = $.get(`${url}/registrasi/get`, params)
+            const registrasi = $.get(`/efktp/registrasi/get`, params)
             return registrasi;
         }
 
         function createAlergi(data) {
-            const alergi = $.post(`${url}/pasien/alergi`, {
+            const alergi = $.post(`/efktp/pasien/alergi`, {
                 no_rkm_medis: data.no_rkm_medis,
                 alergi: data.alergi
             });
@@ -441,7 +441,7 @@
         }
 
         function getPemeriksaanRalan(no_rawat, nip = '') {
-            return $.get(`${url}/pemeriksaan/ralan/show`, {
+            return $.get(`/efktp/pemeriksaan/ralan/show`, {
                 no_rawat: no_rawat,
                 nip: nip
             })
@@ -449,7 +449,7 @@
 
         function riwayatIcare(no_peserta) {
             loadingAjax();
-            $.get(`${url}/icare`, {
+            $.get(`/efktp/icare`, {
                 no_peserta: no_peserta,
             }).done((response) => {
                 if (response.metaData.code === 200) {

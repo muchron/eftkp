@@ -68,7 +68,7 @@
                 cardPasienLab.find('#tgl_lahir').val(`${splitTanggal(pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
             })
 
-            $.get(`${url}/lab/periksa/get`, {
+            $.get(`/efktp/lab/periksa/get`, {
                 no_rawat: no_rawat,
                 tgl: tgl
             }).done((response) => {
@@ -131,7 +131,7 @@
         }
 
         function getPeriksaLab(no_rawat) {
-            return $.get(`${url}/lab/periksa/get`, {
+            return $.get(`/efktp/lab/periksa/get`, {
                 no_rawat: no_rawat,
             }).fail((error) => {
                 alertErrorAjax(error)

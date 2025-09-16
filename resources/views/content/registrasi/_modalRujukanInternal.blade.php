@@ -98,11 +98,11 @@
             renderTbRujuk(tglAwalRujuk, tglAkhirRujuk);
         })
 
-        function simpanRujukanInternal(){
+        function simpanRujukanInternal() {
             const data = getDataForm('formRujukanInternalPoli', ['input', 'select']);
-            $.post(`${url}/rujuk/internal/poli`, data).done((response) => {
+            $.post(`/efktp/rujuk/internal/poli`, data).done((response) => {
                 if (response) {
-                    alertSuccessAjax().then(()=>{
+                    alertSuccessAjax().then(() => {
                         renderTbRujuk(tglAwalRujuk, tglAkhirRujuk);
                     })
                 }
@@ -118,9 +118,9 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY : '25vh',
+                scrollY: '25vh',
                 ajax: {
-                    url: `${url}/rujuk/internal/poli`,
+                    url: `/efktp/rujuk/internal/poli`,
                     data: {
                         dataTable: true,
                         tglAwal: tglAwal,
@@ -131,7 +131,7 @@
                     $(row).addClass('rows-rujuk').attr('data-id', data.no_rawat);
                     if (data.pemeriksaan) {
                         $(row).addClass('bg-green-lt')
-                    }else if(!isObjectEmpty(data.pemeriksaan_awal)) {
+                    } else if (!isObjectEmpty(data.pemeriksaan_awal)) {
                         $(row).addClass('bg-yellow-lt')
                     }
                 },
@@ -207,7 +207,7 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/rujuk/internal/poli/delete`, {
+                    $.post(`/efktp/rujuk/internal/poli/delete`, {
                         no_rawat: no_rawat,
                     }).done((response) => {
                         alertSuccessAjax('Hapus data rujukan')
@@ -220,7 +220,7 @@
         }
 
         function modalCpptRujuk(no_rawat, kd_dokter) {
-            $.get(`${url}/rujuk/internal/poli/show`, {
+            $.get(`/efktp/rujuk/internal/poli/show`, {
                 no_rawat: no_rawat
             }).done((response) => {
                 const regPeriksa = response.reg_periksa;

@@ -96,7 +96,7 @@
                 if (penjab.png_jawab.includes('BPJS')) {
                     periksaPendaftaran.removeClass('d-none')
                     periksaPendaftaran.find('input').prop('disabled', false)
-                    $.get(`${url}/mapping/pcare/poliklinik`, {
+                    $.get(`/efktp/mapping/pcare/poliklinik`, {
                         kdPoli: poliklinik.kd_poli
                     }).done((response) => {
                         formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.kd_poli_pcare)
@@ -137,7 +137,7 @@
                 confirmButtonText: 'Ya, Ubah Data!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/registrasi/update`, {
+                    $.post(`/efktp/registrasi/update`, {
                         no_rawat: data['no_rawat'],
                         kd_pj: data['kd_pj'],
                         kd_dokter: data['kd_dokter'],

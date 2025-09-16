@@ -38,18 +38,18 @@
         var limit = $('#filterIndex').find('input[name="limit"]').val();
 
         function getNokaPasien(noKartu) {
-            const pasien = $.get(`${url}/pasien/get/nokartu/${noKartu}`)
+            const pasien = $.get(`/efktp/pasien/get/nokartu/${noKartu}`)
             return pasien;
         }
 
         function createPasienBpjs(noKartu, noUrut = '') {
             loadingAjax('Mengambil data pasien BPJS');
-            $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((result) => {
+            $.get(`/efktp/bridging/pcare/peserta/${noKartu}`).done((result) => {
                 if (result.metaData.code === 200) {
-                    $.get(`${url}/pasien/get/nokartu/${noKartu}`).done((response) => {
+                    $.get(`/efktp/pasien/get/nokartu/${noKartu}`).done((response) => {
                         if (!isObjectEmpty(response)) {
                             $('#modalPasien').modal('show')
-                            $.get(`${url}/setting/ppk`).done((kode) => {
+                            $.get(`/efktp/setting/ppk`).done((kode) => {
                                 loadingAjax().close();
                                 const {
                                     kdProviderPst,
@@ -90,7 +90,7 @@
                             formPasien.find('input[name=noUrut]').addClass('is-valid').val(noUrut)
                             formPasien.find('input[name=no_peserta]').addClass('is-valid').val(noKartu)
 
-                            $.get(`${url}/penjab`, {
+                            $.get(`/efktp/penjab`, {
                                 nama: 'BPJS',
                             }).done((response) => {
                                 const bpjs = new Option(`${response.kd_pj} - ${response.png_jawab}`, `${response.kd_pj}`, true, true);
@@ -153,7 +153,7 @@
 
                 },
                 ajax: {
-                    url: `${url}/bridging/pcare/pendaftaran`,
+                    url: `/efktp/bridging/pcare/pendaftaran`,
                     dataSrc: 'response.list',
                     data: (q) => {
                         q.start = customStart;
@@ -243,7 +243,7 @@
             const noUrut = $('#filterNoUrut').find('input[name="noUrut"]').val();
             const tbPendaftaranPcare = $('#tbPendaftaranPcare')
             if (noUrut) {
-                $.get(`${url}/bridging/pcare/pendaftaran/nourut/${noUrut}`).done((response) => {
+                $.get(`/efktp/bridging/pcare/pendaftaran/nourut/${noUrut}`).done((response) => {
                     if (response.response) {
                         data = response.response;
                         tbPendaftaranPcare.empty();

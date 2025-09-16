@@ -34,7 +34,7 @@
                 scrollY: '25vh',
                 scrollX: true,
                 ajax: {
-                    url: `${url}/surat/sakit`,
+                    url: `/efktp/surat/sakit`,
                     data: {
                         dataTable: true,
                         tgl_pertama: tglAwal,
@@ -101,7 +101,7 @@
                         data: 'no_surat',
                         render: (data, type, row, meta) => {
                             return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteSuratSakit('${data}')"><i class="ti ti-trash"></i></button>
-                            <a href="${url}/surat/sakit/print/${data}" class="btn btn-sm btn-success" target="_blank"><i class="ti ti-printer"></i></a>
+                            <a href="efktp/surat/sakit/print/${data}" class="btn btn-sm btn-success" target="_blank"><i class="ti ti-printer"></i></a>
                             `;
                         },
                     },
@@ -121,7 +121,7 @@
                 confirmButtonText: 'Ya, Hapus!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/surat/sakit/delete/${no_surat}`).done((response) => {
+                    $.post(`/efktp/surat/sakit/delete/${no_surat}`).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadSuratSakit(tglAwal, tglAkhir)
                             setNoSuratSakit().done((response) => {

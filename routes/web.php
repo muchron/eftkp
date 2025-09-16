@@ -327,6 +327,7 @@ Route::middleware('auth')->group(function () {
     // TINDAKAN DOKTER
     Route::post('pemeriksaan/tindakan-dokter', [\App\Http\Controllers\TindakanDokterController::class, 'create']);
     Route::get('pemeriksaan/tindakan-dokter/get', [\App\Http\Controllers\TindakanDokterController::class, 'get']);
+    Route::delete('pemeriksaan/tindakan-dokter/delete', [\App\Http\Controllers\TindakanDokterController::class, 'delete']);
 
     //RESUME MEDIS
     Route::get('resume/medis', [\App\Http\Controllers\ResumeMedisController::class, 'get']);

@@ -55,7 +55,7 @@
         })
 
         function getCpptRanap(no_rawat, tgl_perawatan = '', jam_rawat = '') {
-            const pemeriksaan = $.get(`${url}/pemeriksaan/ranap`, {
+            const pemeriksaan = $.get(`/efktp/pemeriksaan/ranap`, {
                 no_rawat: no_rawat,
                 tgl_perawatan: tgl_perawatan,
                 jam_rawat: jam_rawat,
@@ -86,7 +86,7 @@
                 scrollY: '50vh',
                 scrollX: true,
                 ajax: {
-                    url: `${url}/kamar/inap/get`,
+                    url: `/efktp/kamar/inap/get`,
                     data: {
                         dataTable: true,
                         tglAwal: tglAwal,

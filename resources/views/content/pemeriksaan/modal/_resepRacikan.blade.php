@@ -82,7 +82,7 @@
 
 
         function getResepRacikan(no_resep, no_racik = '') {
-            const racikan = $.get(`${url}/resep/racikan/get`, {
+            const racikan = $.get(`/efktp/resep/racikan/get`, {
                 no_resep: no_resep,
                 no_racik: no_racik,
             })
@@ -135,7 +135,7 @@
             }
             createResepRacikan(dataRacikan).done((response) => {
                 dataRacikan.map((val) => {
-                    $.get(`${url}/resep/racikan/template/get`, {
+                    $.get(`/efktp/resep/racikan/template/get`, {
                         nm_racik: val.nama_racik
                     }).done((resRacikan) => {
                         if (Object.values(resRacikan).length) {
@@ -200,7 +200,7 @@
                 modalDetailRacikan.find('input[name="aturan_pakai"]').val(racik.aturan_pakai)
                 modalDetailRacikan.modal('show')
                 setRacikanDetail(no_racik, no_resep)
-                $.get(`${url}/metode/racik/get`).done((metodes) => {
+                $.get(`/efktp/metode/racik/get`).done((metodes) => {
                     selectMetodeRacik.empty()
                     const metode = metodes.map((items) => {
                         return `<option value = "${items.kd_racik}"
@@ -213,14 +213,14 @@
         }
 
         function createResepRacikan(data) {
-            const racikan = $.post(`${url}/resep/racikan/create`, {
+            const racikan = $.post(`/efktp/resep/racikan/create`, {
                 data
             })
             return racikan;
         }
 
         function deleteResepRacikan(no_racik, no_resep) {
-            const racikan = $.post(`${url}/resep/racikan/delete`, {
+            const racikan = $.post(`/efktp/resep/racikan/delete`, {
                 no_racik: no_racik,
                 no_resep: no_resep
             })
@@ -274,7 +274,7 @@
                 delay: 1,
                 tags: true,
                 ajax: {
-                    url: `${url}/metode/racik/get`,
+                    url: `/efktp/metode/racik/get`,
                     dataType: 'JSON',
 
                     data: (params) => {
@@ -308,7 +308,7 @@
                 delay: 2,
                 tags: true,
                 ajax: {
-                    url: `${url}/resep/racikan/template/search`,
+                    url: `/efktp/resep/racikan/template/search`,
                     dataType: 'JSON',
 
                     data: (params) => {

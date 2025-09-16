@@ -21,7 +21,7 @@
                 searching: false,
                 info: false,
                 ajax: {
-                    url: `${url}/pemeriksaan/gigi/riwayat`,
+                    url: `/efktp/pemeriksaan/gigi/riwayat`,
                     data: {
                         dataTable: true,
                         no_rkm_medis: no_rkm_medis,

@@ -17,7 +17,7 @@ class TindakanDokterController extends Controller
         $data = $request->all();
 
         try {
-            $tindakan = (new \App\Action\TindakanDokterAction())->handle($data);
+            $tindakan = (new \App\Action\TindakanDokterAction())->handleCreate($data);
             return $this->success($tindakan['data']);
 
         } catch (Exception $e) {
@@ -26,6 +26,20 @@ class TindakanDokterController extends Controller
                 'message' => $e->getMessage(),
             ], 500);
 
+        }
+    }
+
+    function delete(Request $request)
+    {
+        $data = $request->all();
+        try {
+            $tindakan = (new \App\Action\TindakanDokterAction())->handleDelete($data);
+            return $this->success($tindakan);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 

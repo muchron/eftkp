@@ -55,7 +55,7 @@
                 scrollY: '60vh',
                 scrollX: true,
                 ajax: {
-                    url: `${url}/barang/get`,
+                    url: `/efktp/barang/get`,
                     type: 'get',
                     data: {
                         dataTable: true,
@@ -186,7 +186,7 @@
                 inputMapping.removeClass('d-none');
                 btnObat.addClass('d-none');
 
-                $.get(`${url}/bridging/pcare/obat/${keyword}`).done((data) => {
+                $.get(`/efktp/bridging/pcare/obat/${keyword}`).done((data) => {
                     const {
                         metaData,
                         response
@@ -235,7 +235,7 @@
                 ajax: {
                     url: (params) => {
                         const keyword = params.term || 'A';
-                        return `${url}/bridging/pcare/obat/${keyword}`;
+                        return `/efktp/bridging/pcare/obat/${keyword}`;
                     },
                     dataType: 'json',
                     delay: 200,
@@ -267,7 +267,7 @@
             const kodeObat = selectedObat[0].id;
             const namaObat = selectedObat[0].text;
 
-            $.post(`${url}/mapping/pcare/obat`, {
+            $.post(`/efktp/mapping/pcare/obat`, {
                 kode_brng: kodeBrng,
                 kode: kodeObat,
                 nama: namaObat
@@ -299,7 +299,7 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/mapping/pcare/obat/delete/${kodeBrng}`, {
+                    $.post(`/efktp/mapping/pcare/obat/delete/${kodeBrng}`, {
                         _token: "{{ csrf_token() }}"
                     }).done((response) => {
                         toast('Menghapus data mapping obat Pcare ')

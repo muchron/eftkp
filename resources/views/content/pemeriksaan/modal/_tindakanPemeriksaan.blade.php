@@ -43,18 +43,21 @@
                         <table class="table table-sm table-bordered" id="tabelTindakanDilakukan">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Tgl. Perawatan</th>
                                     <th>Jam</th>
                                     <th>Perawatan</th>
                                     <th>Dokter</th>
                                     <th>Biaya</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
 
                             </tbody>
                         </table>
+                        <button type="button" class="btn btn-danger" onclick="deleteTindakanDokter()">
+                            <i class="ti ti-trash"></i>Hapus
+                        </button>
                     </div>
                 </div>
             </div>
@@ -219,6 +222,7 @@
                 tindakan: selectedData
             }).done((response) => {
                 getTindakanDilakukan(no_rawat)
+                toast('Berhasil menambahkan tindakan')
 
             })
         }
@@ -229,8 +233,9 @@
             }).done((response) => {
                 const tbody = modalCppt.find('#tabelTindakanDilakukan tbody');
                 tbody.empty();
-                response.data.forEach(item => {
+                response.data.forEach((item, index) => {
                     const row = `<tr>
+                        <td><input type="checkbox" class="form-check-input tindakan-hasil" name="kode_tindakan[]" id="tindakan${index}" value="${item.kd_jenis_prw}" data-tgl="${item.tgl_perawatan}" data-jam="${item.jam_rawat}" data-rawat="${item.no_rawat}"/></td>
                         <td>${splitTanggal(item.tgl_perawatan)}</td>
                         <td>${item.jam_rawat}</td>
                         <td>${item.tindakan.nm_perawatan}</td>
@@ -243,6 +248,58 @@
                     tbody.append(row);
                 });
             })
+        }
+
+        function deleteTindakanDokter() {
+            const no_rawat = formTindakanDokter.find('#no_rawat').val();
+            const kd_dokter = formTindakanDokter.find('#kd_dokter').val();
+            const nm_pasien = formTindakanDokter.find('#nm_pasien').val();
+            const no_rkm_medis = formTindakanDokter.find('#no_rkm_medis').val();
+
+
+            Swal.fire({
+                title: 'Yakin ?',
+                html: `Anda akan menghapus data tindakan ini ?`,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#3085d6',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const checkedTindakan = $('.tindakan-hasil:checked').map(function() {
+                        const $this = $(this);
+                        return {
+                            kd_jenis_prw: $this.val(),
+                            no_rawat: $this.data('rawat'),
+                            jam_rawat: $this.data('jam'),
+                            tgl_perawatan: $this.data('tgl'),
+                        };
+                    }).get();
+
+                    $.ajax({
+                        url: `/efktp/pemeriksaan/tindakan-dokter/delete`,
+                        method: 'DELETE',
+                        data: {
+                            no_rawat: no_rawat,
+                            no_rawat: no_rawat,
+                            kd_dokter: kd_dokter,
+                            nm_pasien: nm_pasien,
+                            no_rkm_medis: no_rkm_medis,
+                            tindakan: checkedTindakan
+
+                        }
+                    }).done((response) => {
+                        getTindakanDilakukan(no_rawat)
+                        toast('Berhasil Hapus Tindakan')
+                    })
+                }
+            })
+
+
+
         }
     </script>
 @endpush

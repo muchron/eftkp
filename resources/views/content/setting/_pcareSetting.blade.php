@@ -53,7 +53,7 @@
 
         function setSettingPcare() {
             const data = getDataForm('formSettingPcare', 'input');
-            $.post(`${url}/setting/pcare`, {
+            $.post(`/efktp/setting/pcare`, {
                 user: data.user,
                 password: data.password,
                 userIcare: data.userIcare,
@@ -67,7 +67,7 @@
         }
 
         function getSettingPcare() {
-            $.get(`${url}/setting/pcare`).done((response) => {
+            $.get(`/efktp/setting/pcare`).done((response) => {
                 const {
                     data
                 } = response

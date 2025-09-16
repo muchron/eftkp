@@ -73,7 +73,7 @@
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {
-                    url: `${url}/resep/racikan/template/get`,
+                    url: `/efktp/resep/racikan/template/get`,
                     data: {
                         datatable: true,
                     },
@@ -120,7 +120,7 @@
 
             $(`#edit${id}`).removeAttr('onclick').removeClass('btn-outline-warning').addClass('btn-warning').attr('onclick', `closeEdit(${id})`)
 
-            $.get(`${url}/resep/racikan/template/get`, {
+            $.get(`/efktp/resep/racikan/template/get`, {
                 id: id
             }).done((response) => {
                 listObat.empty();
@@ -185,7 +185,7 @@
                     nama_brng: element.html
                 })
             })
-            $.post(`${url}/resep/racikan/template/update`, {
+            $.post(`/efktp/resep/racikan/template/update`, {
                 id: id,
                 kd_dokter: kd_dokter,
                 nm_racik: nm_racik,
@@ -215,7 +215,7 @@
                 cancelButtonText: "Tidak"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/resep/racikan/template/delete`, {
+                    $.post(`/efktp/resep/racikan/template/delete`, {
                         id: id
                     }).done((response) => {
                         alertSuccessAjax('Template racikan dihapus').then(() => {

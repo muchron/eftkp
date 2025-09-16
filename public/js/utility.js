@@ -374,7 +374,7 @@ function dateDiff(date1, date2) {
 }
 
 function getSukuBangsa(suku) {
-    return bangsa = $.get(`${url}/suku`, {
+    return bangsa = $.get(`/efktp/suku`, {
         suku: suku,
     });
 }
@@ -386,7 +386,7 @@ function selectSukuBangsa(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/suku`,
+            url: `/efktp/suku`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -428,7 +428,7 @@ function selectAlergi(element, parent) {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/pasien/alergi`,
+            url: `/efktp/pasien/alergi`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -458,7 +458,7 @@ function selectAlergi(element, parent) {
 }
 
 function getBahasa(bahasa) {
-    return bahasa = $.get(`${url}/bahasa`, {
+    return bahasa = $.get(`/efktp/bahasa`, {
         bahasa: bahasa,
     });
 }
@@ -481,7 +481,7 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/bahasa`,
+            url: `/efktp/bahasa`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -516,7 +516,7 @@ function selectBahasaPasien(element, parrent, initVal = '-') {
 }
 
 function getCacatFisik(cacat) {
-    return bahasa = $.get(`${url}/cacat`, {
+    return bahasa = $.get(`/efktp/cacat`, {
         cacat: cacat,
     });
 }
@@ -529,7 +529,7 @@ function selectCacatFisik(element, parrent, initVal = '-') {
         tags: true,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/cacat`,
+            url: `/efktp/cacat`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -569,7 +569,7 @@ function selectPenjab(element, parrent) {
         tags: false,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/penjab`,
+            url: `/efktp/penjab`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -604,7 +604,7 @@ function selectDataBarang(element, parrent) {
         delay: 250, // biar lebih optimal
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/barang/get`,
+            url: `/efktp/barang/get`,
             dataType: 'JSON',
             data: (params) => ({
                 barang: params.term
@@ -663,7 +663,7 @@ function selectDokter(element, parrent) {
         tags: true,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: `${url} /dokter/get`,
+            url: `efktp /dokter/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -702,7 +702,7 @@ function selectMappingDokterPcare(element, parrent) {
         tags: false,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: `${url} /mapping/pcare / dokter`,
+            url: `efktp /mapping/pcare / dokter`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -739,7 +739,7 @@ function selectKelurahan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: `${url}/kelurahan`,
+            url: `/efktp/kelurahan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -776,7 +776,7 @@ function selectKecamatan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: `${url}/kecamatan`,
+            url: `/efktp/kecamatan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -813,7 +813,7 @@ function selectKabupaten(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: `${url}/kabupaten`,
+            url: `/efktp/kabupaten`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -850,7 +850,7 @@ function selectPropinsi(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: `${url}/propinsi`,
+            url: `/efktp/propinsi`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -887,7 +887,7 @@ function selectPerusahaan(element, parrent) {
         scrollAfterSelect: true,
         tags: true,
         ajax: {
-            url: `${url}/perusahaan`,
+            url: `/efktp/perusahaan`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -923,7 +923,7 @@ function selectPoliklinik(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/poliklinik`,
+            url: `/efktp/poliklinik`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -958,7 +958,7 @@ function selectPegawai(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/pegawai`,
+            url: `/efktp/pegawai`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -994,7 +994,7 @@ function selectPenyakit(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/penyakit/get`,
+            url: `/efktp/penyakit/get`,
             dataType: 'JSON',
 
             data: (params) => {
@@ -1030,7 +1030,7 @@ function selectTindakan(element, parrent) {
         delay: 2,
         scrollAfterSelect: true,
         ajax: {
-            url: `${url}/tindakan/get`,
+            url: `/efktp/tindakan/get`,
             dataType: 'JSON',
 
             data: (params) => {

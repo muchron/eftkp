@@ -2,11 +2,16 @@
 
 namespace App\Action;
 
+use App\Models\JenisPerawatan;
+use App\Models\Jurnal;
+use App\Models\JurnalDetail;
+use App\Models\TindakanDokter;
 use DB;
+use Exception;
 
 class TindakanDokterAction
 {
-    public function handle(array $data)
+    public function handleCreate(array $data)
     {
         $tindakan = [];
         try {
@@ -21,7 +26,28 @@ class TindakanDokterAction
         }
         return $tindakan;
     }
-    function getRekeningMapping()
+
+    public function handleDelete(array $data)
+    {
+        $tindakan = [];
+
+        DB::transaction(function () use ($data, &$tindakan) {
+            try {
+                $tindakan = $this->deleteTindakanDokter($data);
+                $this->createTampJurnal($this->getRekeningMapping(), $tindakan, true);
+                $this->writeOnJurnal($data, true);
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                throw new \Exception($e->getMessage());
+            }
+        });
+        return $tindakan;
+    }
+
+
+
+    private function getRekeningMapping()
     {
         $rekening = DB::table('set_akun_ralan')
             ->first();
@@ -84,10 +110,21 @@ class TindakanDokterAction
         return ['data' => $data, 'totals' => $totals];
     }
 
-    private function createTampJurnal($rekening, $totals)
+    /**
+     * Membuat tabel tampil jurnal berdasarkan rekening dan total pendapatan, beban dokter, beban KSO, material, BHP, dan Menejemen
+     *
+     * @param object $rekening Rekening yang digunakan
+     * @param array $totals Total pendapatan, beban dokter, beban KSO, material, BHP, dan Menejemen
+     * @param boolean $reverse Tukar posisi debit dan kredit
+     */
+    private function createTampJurnal($rekening, $totals, $reverse = false)
     {
         DB::table('tampjurnal')->delete();
-        $insertJurnal = function ($kd, $nm, $debet, $kredit) {
+
+        $insertJurnal = function ($kd, $nm, $debet, $kredit) use ($reverse) {
+            if ($reverse) {
+                [$debet, $kredit] = [$kredit, $debet]; // tukar posisi
+            }
 
             DB::table('tampjurnal')->insert([
                 'kd_rek' => $kd,
@@ -96,6 +133,7 @@ class TindakanDokterAction
                 'kredit' => $kredit,
             ]);
         };
+
         if ($totals['ttlpendapatan'] > 0) {
             $insertJurnal($rekening->Suspen_Piutang_Tindakan_Ralan, 'Suspen Piutang Tindakan Ralan', $totals['ttlpendapatan'], 0);
             $insertJurnal($rekening->Tindakan_Ralan, 'Pendapatan Tindakan Rawat Inap', 0, $totals['ttlpendapatan']);
@@ -137,15 +175,29 @@ class TindakanDokterAction
         return $no_jurnal;
     }
 
-    private function writeOnJurnal(array $data)
+    /**
+     * Write on journal table
+     *
+     * This function will write the data given on journal table.
+     * The data will contain the no bukti, no rkm medis, nama pasien, and the amount of the action.
+     *
+     * If the action is revert, the keterangan field on journal table will be different.
+     *
+     * @param array $data The data to be written on journal table
+     * @param bool $isRevert Whether the action is revert or not
+     */
+    private function writeOnJurnal(array $data, bool $isRevert = false)
     {
+
+        $keterangan = $isRevert ? 'PEMBATALAN TINDAKAN RAWAT JALAN ' : 'TINDAKAN RAWAT JALAN ';
+
         $dataJurnal = [
             'no_jurnal' => $this->generateNoJurnal(),
             'tgl_jurnal' => date('Y-m-d'),
             'jam_jurnal' => date('H:i:s'),
             'no_bukti' => $data['no_rawat'],
             'jenis' => 'U',
-            'keterangan' => 'TINDAKAN RAWAT JALAN '.$data['no_rkm_medis'].' '.$data['nm_pasien'].' DI POST OLEH  '.session()->get('pegawai')->nama,
+            'keterangan' => $keterangan.$data['no_rkm_medis'].' '.$data['nm_pasien'].' DI POST OLEH  '.session()->get('pegawai')->nama,
         ];
         DB::table('jurnal')->insert($dataJurnal);
         $this->createDetailJurnal($dataJurnal['no_jurnal']);
@@ -172,6 +224,42 @@ class TindakanDokterAction
             DB::table('detailjurnal')->insert($data);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
+        }
+    }
+
+    protected function deleteTindakanDokter(array $data)
+    {
+        try {
+
+            $totals = [
+                'ttldokter' => 0,
+                'ttlkso' => 0,
+                'ttlpendapatan' => 0,
+                'ttlmaterial' => 0,
+                'ttlbhp' => 0,
+                'ttlmenejemen' => 0,
+            ];
+            foreach ($data['tindakan'] as $item) {
+                $tindakan = TindakanDokter::where([
+                    'no_rawat' => $data['no_rawat'],
+                    'kd_dokter' => $data['kd_dokter'],
+                    'kd_jenis_prw' => $item['kd_jenis_prw'],
+                ]);
+
+                $row = $tindakan->first();
+                $totals['ttldokter'] += floatval($row->tarif_tindakandr);
+                $totals['ttlkso'] += floatval($row->kso);
+                $totals['ttlpendapatan'] += floatval($row->biaya_rawat);
+                $totals['ttlmaterial'] += floatval($row->material);
+                $totals['ttlbhp'] += floatval($row->bhp);
+                $totals['ttlmenejemen'] += floatval($row->menejemen);
+                $tindakan->delete();
+            }
+
+            return $totals;
+
+        } catch (Exception $e) {
+            throw new Exception("Error Processing Request ".$e->getMessage(), 1);
         }
     }
 

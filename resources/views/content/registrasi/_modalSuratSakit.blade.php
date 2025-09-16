@@ -63,7 +63,7 @@
 
         function suratSakit(no_rawat) {
 
-            $.get(`${url}/registrasi/get/detail`, {
+            $.get(`/efktp/registrasi/get/detail`, {
                 no_rawat: no_rawat
             }).done((response) => {
                 const diagnosa = response.diagnosa.map((dx) => {
@@ -117,7 +117,7 @@
 
             })
             modalCetakSuratSakit.modal('show');
-            modalCetakSuratSakit.find('#print').removeAttr('src').attr('src', `${url}/surat/sehat/print/${no_surat}`)
+            modalCetakSuratSakit.find('#print').removeAttr('src').attr('src', `/efktp/surat/sehat/print/${no_surat}`)
         }
     </script>
 @endpush

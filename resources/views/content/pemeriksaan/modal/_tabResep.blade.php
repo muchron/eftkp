@@ -36,7 +36,7 @@
 @push('script')
     <script>
         function createResepObat(no_rawat, status, kd_dokter) {
-            const resep = $.post(`${url}/resep/create`, {
+            const resep = $.post(`/efktp/resep/create`, {
                 no_rawat: no_rawat,
                 kd_dokter: kd_dokter,
                 status: status,
@@ -46,13 +46,13 @@
         }
 
         function getResep(data) {
-            const resep = $.get(`${url}/resep/get`, data)
+            const resep = $.get(`/efktp/resep/get`, data)
             return resep
         }
 
 
         function deleteResep(no_rawat) {
-            const resepDokter = $.post(`${url}/resep/delete`, {
+            const resepDokter = $.post(`/efktp/resep/delete`, {
                 no_rawat: no_rawat
             })
             return resepDokter;

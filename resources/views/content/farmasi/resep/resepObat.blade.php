@@ -51,7 +51,7 @@
                 scrollY: '50vh',
                 scrollX: true,
                 ajax: {
-                    url: `${url}/resep/get`,
+                    url: `/efktp/resep/get`,
                     data: {
                         dataTable: true,
                         tgl_awal: tgl_awal,
@@ -163,7 +163,7 @@
         }
 
         function showDetailResep(no_resep) {
-            $.get(`${url}/farmasi/resep/get`, {
+            $.get(`/efktp/farmasi/resep/get`, {
                 no_resep: no_resep
             }).done((response) => {
                 if (response.resep_dokter.length || response.resep_racikan.length) {
@@ -191,7 +191,7 @@
         }
 
         function setPenyerahanResep(no_resep) {
-            $.post(`${url}/farmasi/resep/set/penyerahan`, {
+            $.post(`/efktp/farmasi/resep/set/penyerahan`, {
                 no_resep: no_resep
             }).done((response) => {
                 toast('Obat telah selesai');

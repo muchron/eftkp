@@ -334,19 +334,19 @@
 
 
         function isExistPasien(data) {
-            $.get(`${url}/pasien/exist`, data)
+            $.get(`/efktp/pasien/exist`, data)
         }
 
         function createPasienBaru() {
             const data = getDataForm('formPasien', ['input', 'select']);
             loadingAjax();
-            $.post(`${url}/pasien`, data).done((response) => {
+            $.post(`/efktp/pasien`, data).done((response) => {
                 if (response) {
                     alertSuccessAjax('Berhasil').then(() => {
                         renderTbPasien();
                         document.getElementById('formPasien').reset();
                         if (data.checkNoRm) {
-                            $.get(`${url}/set/norm`).done((response) => {
+                            $.get(`/efktp/set/norm`).done((response) => {
                                 formPasien.find('input[name=no_rkm_medis]').val(response)
                             })
                         }
@@ -368,7 +368,7 @@
         function regPoliBpjs(data) {
             loadingAjax('Sedang menyiapkan data pendaftaran di Pcare');
             const selectKdPj = formRegistrasiPoli.find('select[name=kd_pj]');
-            $.get(`${url}/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
+            $.get(`/efktp/bridging/pcare/pendaftaran/nourut/${data.noUrut}`).done((pendaftaran) => {
                 if (pendaftaran.metaData.code == 200) {
                     loadingAjax().close();
                     const response = pendaftaran.response;
@@ -398,7 +398,7 @@
                     formRegistrasiPoli.find('input[name=umurdaftar]').val(setUmurDaftar(splitTanggal(response.peserta.tglLahir)))
 
                     // SET PENJAB
-                    $.get(`${url}/penjab`, {
+                    $.get(`/efktp/penjab`, {
                         nama: 'BPJS',
                     }).done((response) => {
                         selectPenjab(selectKdPj, modalRegistrasi);
@@ -415,7 +415,7 @@
                         formRegistrasiPoli.find('input[name=no_reg]').val(response)
                     });
                     // // SET POLIKLINIK
-                    // $.get(`${url}/mapping/pcare/poliklinik`, {
+                    // $.get(`/efktp/mapping/pcare/poliklinik`, {
                     //     kdPoliPcare: response.poli.kdPoli
                     // }).done((resultPoli) => {
 
@@ -428,7 +428,7 @@
                     // })
 
                     // // GET DOKTER
-                    // $.get(`${url}/bridging/pcare/dokter`).done((respDokter) => {
+                    // $.get(`/efktp/bridging/pcare/dokter`).done((respDokter) => {
                     //     const dokter = respDokter.response.list
                     //     const kdDokterPcare = dokter.map((dr, index) => {
                     //         if (index == 0) {
@@ -436,7 +436,7 @@
                     //         }
                     //     }).join('')
 
-                    //     $.get(`${url}/mapping/pcare/dokter`, {
+                    //     $.get(`/efktp/mapping/pcare/dokter`, {
                     //         kdDokterPcare: kdDokterPcare
                     //     }).done((resDokter) => {
                     //         loadingAjax().close();
@@ -494,7 +494,7 @@
             switchTab('tabs1');
             renderTbPasien();
             resetSelect();
-            $.get(`${url}/set/norm`).done((response) => {
+            $.get(`/efktp/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response)
             })
             inputUmur.val(textTglLahir)
@@ -531,7 +531,7 @@
             const isChecked = $(e.currentTarget).is(':checked');
             const noRkmMedis = formPasien.find('input[name=no_rkm_medis]');
             if (isChecked) {
-                $.get(`${url}/set/norm`).done((response) => {
+                $.get(`/efktp/set/norm`).done((response) => {
                     noRkmMedis.attr('disabled', true);
                     noRkmMedis.val(response)
                 })
@@ -542,7 +542,7 @@
 
         sukuBangsa.on('select2:select', (e) => {
             const selectedSuku = e.currentTarget.value;
-            $.post(`${url}/suku`, {
+            $.post(`/efktp/suku`, {
                 suku: selectedSuku,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -555,7 +555,7 @@
 
         bahasaPasien.on('select2:select', (e) => {
             const selectBahasa = e.currentTarget.value;
-            $.post(`${url}/bahasa`, {
+            $.post(`/efktp/bahasa`, {
                 bahasa: selectBahasa,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -567,7 +567,7 @@
         })
         kelurahan.on('select2:select', (e) => {
             const nmKelurahan = e.currentTarget.value.toUpperCase();
-            $.post(`${url}/kelurahan`, {
+            $.post(`/efktp/kelurahan`, {
                 kelurahan: nmKelurahan,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -579,7 +579,7 @@
         })
         kecamatan.on('select2:select', (e) => {
             const nmKecamatan = e.currentTarget.value.toUpperCase();
-            $.post(`${url}/kecamatan`, {
+            $.post(`/efktp/kecamatan`, {
                 kecamatan: nmKecamatan,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -591,7 +591,7 @@
         })
         kabupaten.on('select2:select', (e) => {
             const nmKabupaten = e.currentTarget.value.toUpperCase();
-            $.post(`${url}/kabupaten`, {
+            $.post(`/efktp/kabupaten`, {
                 kabupaten: nmKabupaten,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -603,7 +603,7 @@
         })
         propinsi.on('select2:select', (e) => {
             const nmPropinsi = e.currentTarget.value.toUpperCase();
-            $.post(`${url}/propinsi`, {
+            $.post(`/efktp/propinsi`, {
                 propinsi: nmPropinsi,
             }).done((response) => {
                 if (response.message == 'SUKSES') {
@@ -640,7 +640,7 @@
                     },
                 ],
                 ajax: {
-                    url: `${url}/pasien`,
+                    url: `/efktp/pasien`,
                     data: {
                         datatable: true,
                         tglRegistrasi: args['tgl_registrasi'] ? args['tgl_registrasi'] : '',
@@ -745,7 +745,7 @@
             resetSelect();
             formPasien.find('input[name=checkNoRm]').attr('disabled', false);
             $('#formPasien').trigger('reset');
-            $.get(`${url}/set/norm`).done((response) => {
+            $.get(`/efktp/set/norm`).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(response)
                 formPasien.find('input').removeClass('is-valid')
                 formPasien.find('select').removeClass('is-valid')
@@ -753,7 +753,7 @@
         }
 
         function editPasien(no_rkm_medis) {
-            $.get(`${url}/pasien`, {
+            $.get(`/efktp/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {
                 formPasien.find('input[name=no_rkm_medis]').val(no_rkm_medis);
@@ -815,11 +815,11 @@
 
             const noKartu = findBy == 'noKartu' ? formPasien.find('#no_peserta').val() : formPasien.find('#no_ktp').val();
             loadingAjax();
-            $.get(`${url}/bridging/pcare/peserta/${noKartu}`).done((response) => {
+            $.get(`/efktp/bridging/pcare/peserta/${noKartu}`).done((response) => {
                 if (response.metaData.code == 200) {
                     loadingAjax().close();
                     const result = response.response;
-                    $.get(`${url}/setting/ppk`).done((kode) => {
+                    $.get(`/efktp/setting/ppk`).done((kode) => {
                         if (kode !== result.kdProviderPst.kdProvider) {
                             Swal.fire({
                                 title: "Peringatan ?",

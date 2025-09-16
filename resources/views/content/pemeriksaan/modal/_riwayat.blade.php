@@ -136,7 +136,7 @@
                     }
                 });
 
-                $.post(`${url}/resep/dokter/create`, {
+                $.post(`/efktp/resep/dokter/create`, {
                     dataObat
                 }).done((response) => {
                     setResepDokter(no_resep);
@@ -196,7 +196,7 @@
                                             prioritas: dx.prioritas,
                                         }
                                     })
-                                    $.post(`${url}/diagnosa/pasien/update`, {
+                                    $.post(`/efktp/diagnosa/pasien/update`, {
                                         data: diagnosa
                                     }).fail((request) => {
                                         alertErrorAjax(request)
@@ -225,7 +225,7 @@
                             }
                         })
                         // copy diagnosa
-                        $.post(`${url}/diagnosa/pasien/create`, {
+                        $.post(`/efktp/diagnosa/pasien/create`, {
                             data: diagnosa
                         }).fail((request) => {
                             alertErrorAjax(request)
@@ -260,7 +260,7 @@
                                         }
                                     });
 
-                                    $.post(`${url}/prosedur/pasien/update`, {
+                                    $.post(`/efktp/prosedur/pasien/update`, {
                                         data: tindakan
                                     }).fail((request) => {
                                         alertErrorAjax(request)
@@ -284,7 +284,7 @@
                             }
                         });
 
-                        $.post(`${url}/prosedur/pasien/create`, {
+                        $.post(`/efktp/prosedur/pasien/create`, {
                             data: tindakan
                         }).fail((request) => {
                             alertErrorAjax(request)
@@ -432,7 +432,7 @@
 
         function setRiwayat(no_rkm_medis) {
             $('#listRiwayat').empty()
-            $.get(`${url}/pasien/riwayat`, {
+            $.get(`/efktp/pasien/riwayat`, {
                 no_rkm_medis: no_rkm_medis
             }).done((response) => {
                 const regPeriksa = response.reg_periksa.map((regPeriksa, index) => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pasien;
 use App\Traits\Track;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -189,7 +190,7 @@ class RegPeriksaController extends Controller
             'biaya_reg' => 0,
             'status_lanjut' => 'Ralan',
             'status_bayar' => 'Belum Bayar',
-            'status_poli' => $this->setStatusPoli(new \Illuminate\Http\Request([
+            'status_poli' => $this->setStatusPoli(new Request([
                 'no_rkm_medis' => $request->no_rkm_medis,
                 'kd_poli' => $request->kd_poli,
             ])),
@@ -218,11 +219,9 @@ class RegPeriksaController extends Controller
         try {
             $regPeriksa = RegPeriksa::create($data);
             $this->insertSql(new RegPeriksa(), $data);
-            $pasien = new PasienController();
-            $pasien->updateUmur(new \Illuminate\Http\Request([
-                'no_rkm_medis' => $request->no_rkm_medis,
-                'umur' => $request->umur,
-            ]));
+
+            Pasien::where('no_rkm_medis', $request->no_rkm_medis)
+                ->update(['umur' => $request->umur]);
             return response()->json('SUKSES');
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);

@@ -28,7 +28,7 @@
 
 
         function filterCpptRanap() {
-            $.get(`${url}/pemeriksaan/ranap`, {
+            $.get(`/efktp/pemeriksaan/ranap`, {
                 no_rawat: formCpptRanap.find('input[name="no_rawat"]').val(),
                 tglCppt1: tglCppt1.val(),
                 tglCppt2: tglCppt2.val(),
@@ -175,7 +175,7 @@
 
         function setRiwayat(no_rkm_medis) {
             $('#listRiwayat').empty()
-            $.get(`${url}/pasien/riwayat`, {
+            $.get(`/efktp/pasien/riwayat`, {
                 no_rkm_medis: no_rkm_medis
             }).done((response) => {
                 const regPeriksa = response.reg_periksa.map((regPeriksa, index) => {
@@ -213,7 +213,7 @@
                 cancelButtonText: "Tidak, Batalkan"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`${url}/pemeriksaan/ranap/delete`, {
+                    $.post(`/efktp/pemeriksaan/ranap/delete`, {
                         no_rawat: params[0],
                         tgl_perawatan: params[1],
                         jam_rawat: params[2],

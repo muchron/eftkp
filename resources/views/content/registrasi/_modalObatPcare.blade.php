@@ -21,7 +21,7 @@
 
         function obatPcare(noKunjungan, no_resep) {
             modalObatPcare.modal('show');
-            $.get(`${url}/resep/get`, {
+            $.get(`/efktp/resep/get`, {
                 no_resep: no_resep
             }).done((response) => {
                 if (response.resep_dokter.length) {
@@ -40,7 +40,7 @@
                         };
                     });
                     console.log('OBAT ===', obatDokter);
-                    $.post(`${url}/bridging/pcare/obat`, {
+                    $.post(`/efktp/bridging/pcare/obat`, {
                         data: obatDokter
                     }).done((response) => {
                         console.log('RESPONSE ==', response);

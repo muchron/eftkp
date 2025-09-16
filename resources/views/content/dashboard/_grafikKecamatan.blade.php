@@ -73,14 +73,14 @@
         }
 
         function dataGrafikKecamatan(tgl1 = '', tgl2 = '') {
-            $.get(`${url}/registrasi/kecamatan`, {
+            $.get(`/efktp/registrasi/kecamatan`, {
                 tgl1: tgl1,
                 tgl2: tgl2,
             }).done((response) => {
                 const data = {
                     'list': Object.values(response),
                     'display': Object.keys(response),
-                    'label': Object.keys(response).map((label)=> label.substring(0,3)),
+                    'label': Object.keys(response).map((label) => label.substring(0, 3)),
                 }
                 renderGrafikKecamatan(data);
             })

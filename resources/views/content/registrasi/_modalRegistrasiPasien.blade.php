@@ -283,7 +283,7 @@
         }
 
         function setNoRawat(tgl_registrasi = '') {
-            return $.get(`${url}/registrasi/set/norawat`, {
+            return $.get(`/efktp/registrasi/set/norawat`, {
                 tgl_registrasi: tgl_registrasi
             })
         }
@@ -299,11 +299,11 @@
         })
 
         function createPendaftaranPcare(data) {
-            $.post(`${url}/bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
+            $.post(`/efktp/bridging/pcare/pendaftaran`, data).done((resPendaftaran) => {
 
                 if (resPendaftaran.metaData.code === 201 && resPendaftaran.metaData.message === 'CREATED') {
                     data['noUrut'] = resPendaftaran.response.message;
-                    $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
+                    $.post(`/efktp/pcare/pendaftaran`, data).fail((error) => {
                         alertErrorAjax(error)
                     })
                     alertSuccessAjax("Berhasil mendaftarkan pasien di PCare").then(() => {
@@ -317,7 +317,7 @@
                     });
                 } else {
                     alertErrorBpjs(resPendaftaran).then((result) => {
-                        $.post(`${url}/registrasi/delete`, {
+                        $.post(`/efktp/registrasi/delete`, {
                             no_rawat: data.no_rawat
                         }).done((response) => {
                             toast('Menghapus data pasien dari registrasi ')
@@ -349,12 +349,12 @@
             data['instruksi'] = '-'
             data['kesadaran'] = 'Compos Mentis'
             data['pemeriksaan'] = '-'
-            $.post(`${url}/pemeriksaan/ralan/create`, data).done((response) => {
+            $.post(`/efktp/pemeriksaan/ralan/create`, data).done((response) => {
                 if (!data.bridging) {
                     loadingAjax('Memeriksa kepesertaan pasien');
                     checkPesertaPcare(data)
                 } else {
-                    $.post(`${url}/pcare/pendaftaran`, data).fail((error) => {
+                    $.post(`/efktp/pcare/pendaftaran`, data).fail((error) => {
                         alertErrorAjax(error)
                     }).done(() => {
                         alertSuccessAjax('Berhasil menyimpan data pendaftaran').then(() => {
@@ -379,7 +379,7 @@
 
         function checkPesertaPcare(data) {
             $.get(`./bridging/pcare/peserta/${data.no_peserta}`).done((result) => {
-                $.get(`${url}/setting/ppk`).done((kode) => {
+                $.get(`/efktp/setting/ppk`).done((kode) => {
                     data['kdProviderPeserta'] = result.response.kdProviderPst.kdProvider;
                     if (kode !== data['kdProviderPeserta']) {
                         Swal.fire({
@@ -421,7 +421,7 @@
                     icon: 'warning',
                 })
             }
-            $.post(`${url}/registrasi`, data).done((response) => {
+            $.post(`/efktp/registrasi`, data).done((response) => {
                 showToast('Berhasil melakukan registrasi')
                 if (tabelRegistrasi.length) {
                     loadTabelRegistrasi(tglAwal, tglAkhir, selectStatusLayan.val(), selectDokterPoli.val())
@@ -493,7 +493,7 @@
         })
 
         function setNoReg(data = {}) {
-            const setNoReg = $.get(`${url}/registrasi/set/noreg`, {
+            const setNoReg = $.get(`/efktp/registrasi/set/noreg`, {
                 tgl_registrasi: data.tgl_registrasi,
                 kd_poli: data.kd_poli,
                 kd_dokter: data.kd_dokter,
@@ -503,7 +503,7 @@
         }
 
         function registrasiPoli(no_rkm_medis = '', noUrut = '') {
-            $.get(`${url}/pasien`, {
+            $.get(`/efktp/pasien`, {
                 no_rkm_medis: no_rkm_medis,
             }).done((response) => {
                 formRegistrasiPoli.find('input').prop('disabled', false)
@@ -576,7 +576,7 @@
         }
 
         selectPoliklinikReg.on('select2:select', (e) => {
-            $.get(`${url}/mapping/pcare/poliklinik`, {
+            $.get(`/efktp/mapping/pcare/poliklinik`, {
                 kdPoli: e.currentTarget.value
             }).done((response) => {
                 formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(response.kd_poli_pcare)
@@ -585,7 +585,7 @@
         })
 
         function setMappingPoliPcare(kdPoli) {
-            $.get(`${url}/mapping/pcare/poliklinik`, {
+            $.get(`/efktp/mapping/pcare/poliklinik`, {
                 kdPoli: kdPoli,
             }).done((resultPoli) => {
                 formRegistrasiPoli.find('input[name=kd_poli_pcare]').val(resultPoli.kd_poli_pcare)
@@ -597,7 +597,7 @@
 
         function setMappingDokterPcare(kdDokter) {
             loadingAjax('Sedang mengambil data dokter Pcare')
-            $.get(`${url}/mapping/pcare/dokter`, {
+            $.get(`/efktp/mapping/pcare/dokter`, {
                 kdDokter: kdDokter
             }).done((resDokter) => {
                 let mappingDokterPcare;
