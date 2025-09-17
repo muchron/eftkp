@@ -241,9 +241,6 @@
                         <td>${item.tindakan.nm_perawatan}</td>
                         <td>${item.dokter.nm_dokter}</td>
                         <td class="text-end">${formatCurrency(item.biaya_rawat)}</td>
-                        <td></td>
-                        
-                        
                     </tr>`;
                     tbody.append(row);
                 });

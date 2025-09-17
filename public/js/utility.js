@@ -663,7 +663,7 @@ function selectDokter(element, parrent) {
         tags: true,
         placeholder: 'Pilin dokter',
         ajax: {
-            url: `efktp /dokter/get`,
+            url: `efktp/dokter/get`,
             dataType: 'JSON',
 
             data: (params) => {
