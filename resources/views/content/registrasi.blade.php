@@ -158,14 +158,14 @@
                         umurdaftar: data['umurdaftar'],
                         umur: data['umur'],
                     }).done((response) => {
-                        alertSuccessAjax().then(() => {
-                            loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-                            const isCheckedPendaftaranPcare = switchPendaftaranPcare.is(':checked');
-                            if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && isCheckedPendaftaranPcare) {
-                                createBridgingPendaftaranPcare(data)
-                            }
-                            modalRegistrasi.modal('hide')
-                        })
+                        showToast('Berhasil Mengubah Data Registrasi', 'success', 5000)
+                        loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
+                        const isCheckedPendaftaranPcare = switchPendaftaranPcare.is(':checked');
+                        if ((data.no_peserta !== '-' || data.no_peserta.length > 1) && isCheckedPendaftaranPcare) {
+                            createBridgingPendaftaranPcare(data)
+                        }
+                        modalRegistrasi.modal('hide')
+
                     }).fail((error, status, code) => {
                         if (error.status !== 500) {
                             const errorMessage = {

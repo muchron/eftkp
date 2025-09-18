@@ -321,7 +321,7 @@
                         $.post(`/efktp/registrasi/delete`, {
                             no_rawat: data.no_rawat
                         }).done((response) => {
-                            toast('Menghapus data pasien dari registrasi ')
+                            showToast('Menghapus data pasien dari registrasi ')
                             if (tabelRegistrasi.length) {
                                 loadTabelRegistrasi()
                             } else if (tabelPcarePendaftaran.length) {

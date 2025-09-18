@@ -108,7 +108,8 @@
                 const data = e.params.data.detail
                 $(`#kapasitas${rowCount}`).val(data.kapasitas)
                 $(`#dosis${rowCount}`).val(formatFloat(data.kapasitas)).data('dosis', data.kapasitas)
-                $(`#jml${rowCount}`).val(formatFloat(jml_dr)).data('jml', jml_dr)
+                $(`#jml${rowCount}`).val(formatFloat(jml_dr)).data('jml', jml_dr).trigger('change')
+
                 $(`#hargaObatRacikan${rowCount}`).val(formatCurrency(data.ralan)).attr('data-harga-obat', data.ralan)
             })
             const rowTotalDetailRacikan = $('#rowTotalDetailRacikan')
@@ -118,6 +119,7 @@
         function hitungSubTotalObatRacikan(index) {
             const harga = $(`#hargaObatRacikan${index}`).attr('data-harga-obat')
             const jml = $(`#jml${index}`).val().replace(',', '.');
+
             const subTotal = parseFloat(harga) * parseFloat(jml).toFixed(1);
 
 
@@ -145,13 +147,14 @@
                 });
             } else {
                 const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
-                hitungSubTotalObatRacikan(id)
-                setTotalRacikan()
 
                 $(`#p1${id}`).val(1);
                 $(`#p2${id}`).val(1);
                 $(`#jml${id}`).val(formatFloat(jml_obat)).data('jml', jml_obat);
             }
+            hitungSubTotalObatRacikan(id)
+            setTotalRacikan()
+
 
         }
 
@@ -167,13 +170,13 @@
                     'warning'
                 ).then(() => {
                     $(`#jml${id}`).val(jml_dr);
+
                 });
             } else {
                 const dosis = (parseFloat(kapasitas) * parseFloat(jml)) / parseFloat(jml_dr);
 
                 $(`#dosis${id}`).val(formatFloat(dosis)).data('dosis', dosis);
-                hitungSubTotalObatRacikan(id);
-                setTotalRacikan();
+
 
                 // simpan kembali dengan koma (agar tetap nyaman dibaca user)
                 $(`#jml${id}`).val(element.value);
@@ -182,6 +185,8 @@
                 $(`#p1${id}`).val(1);
                 $(`#p2${id}`).val(1);
             }
+            hitungSubTotalObatRacikan(id);
+            setTotalRacikan();
         }
 
         function hitungPembagi(id) {
@@ -196,9 +201,9 @@
                 const jml_obat = (parseFloat(dosis) * parseFloat(jml_dr)) / parseFloat(kapasitas)
                 $(`#dosis${id}`).val(formatFloat(dosis)).data('dosis', dosis);
                 $(`#jml${id}`).val(formatFloat(jml_obat)).data('jml', jml_obat);
-                hitungSubTotalObatRacikan(id)
-                setTotalRacikan()
             }
+            hitungSubTotalObatRacikan(id)
+            setTotalRacikan()
 
         }
 
@@ -252,7 +257,7 @@
                             const data = e.params.data.detail
                             $(`#kapasitas${index}`).val(data.kapasitas)
                             $(`#dosis${index}`).val(data.kapasitas)
-                            $(`#jml${index}`).val(formatFloat(jml_dr)).data('jml', jml_dr)
+                            $(`#jml${index}`).val(formatFloat(jml_dr)).data('jml', jml_dr).trigger('change')
                             $(`#hargaObatRacikan${index}`).val(formatCurrency(data.ralan)).attr('data-harga-obat', data.ralan)
                         })
                     })

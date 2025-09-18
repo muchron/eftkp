@@ -373,9 +373,6 @@
                     };
                 })
                 .filter(Boolean);
-
-            console.log('selected DATA', selectedData);
-
             $.post('/efktp/pemeriksaan/tindakan-dokter', {
                 no_rawat,
                 kd_dokter,
@@ -384,7 +381,8 @@
                 tindakan: selectedData
             }).done((response) => {
                 getTindakanDilakukan(no_rawat);
-                toast('Berhasil menambahkan tindakan');
+                showToast('Berhasil menambahkan tindakan');
+                $('.tindakan-check').prop('checked', false);
             });
         }
 
@@ -452,7 +450,7 @@
                         }
                     }).done((response) => {
                         getTindakanDilakukan(no_rawat)
-                        toast('Berhasil Hapus Tindakan')
+                        showToast('Berhasil Hapus Tindakan')
                     })
                 }
             })

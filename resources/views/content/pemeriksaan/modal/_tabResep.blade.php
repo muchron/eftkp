@@ -111,7 +111,7 @@
                         btnSimpanRacikan.addClass('d-none')
                         tabelResepRacikan.find('tbody').empty();
                         btnCetakResep.addClass('d-none')
-                        toast('Berhasil menghapus resep')
+                        showToast('Berhasil menghapus resep')
                     }).fail((request) => {
                         alertErrorAjax(request)
                     })
