@@ -77,12 +77,20 @@
                 formRegistrasiPoli.find('input[name="no_rawat"]').val(response.no_rawat)
                 formRegistrasiPoli.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
                 formRegistrasiPoli.find('input[name="nm_pasien"]').val(pasien.nm_pasien)
-                formRegistrasiPoli.find('input[name="umurdaftar"]').val(`${response.umurdaftar} ${response.sttsumur}`)
+
+                formRegistrasiPoli.find('input[name="umurdaftar"]').val(`${setUmurDaftar(pasien.tgl_lahir)}`)
                 formRegistrasiPoli.find('input[name="no_peserta"]').val(pasien.no_peserta)
                 formRegistrasiPoli.find('input[name=keluarga]').val(response.hubunganpj)
                 formRegistrasiPoli.find('input[name=namakeluarga]').val(response.p_jawab)
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.almt_pj)
                 formRegistrasiPoli.find('input[name=tgl_registrasi]').val(splitTanggal(response.tgl_registrasi))
+
+                const umurPasien = hitungUmurDaftar(pasien.tgl_lahir, response.tgl_registrasi)
+                const formatUmur = formatUmurDaftar(umurPasien)
+
+                formRegistrasiPoli.find('input[name=tgl_lahir]').val(pasien.tgl_lahir)
+                formRegistrasiPoli.find('input[name=umur]').val(formatUmur)
+
                 formRegistrasiPoli.find('input[name=status]').val(response.stts_daftar)
                 formRegistrasiPoli.find('input[name=no_peserta]').prop('disabled', false)
                 modalRegistrasi.find('.modal-title').html('Ubah Data Registrasi')
@@ -140,12 +148,15 @@
                 if (result.isConfirmed) {
                     $.post(`/efktp/registrasi/update`, {
                         no_rawat: data['no_rawat'],
+                        no_rkm_medis: data['no_rkm_medis'],
                         kd_pj: data['kd_pj'],
                         kd_dokter: data['kd_dokter'],
                         no_reg: data['no_reg'],
                         kd_poli: data['kd_poli'],
                         tgl_registrasi: data['tgl_registrasi'],
-                        jam_reg: data['jam_reg']
+                        jam_reg: data['jam_reg'],
+                        umurdaftar: data['umurdaftar'],
+                        umur: data['umur'],
                     }).done((response) => {
                         alertSuccessAjax().then(() => {
                             loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())

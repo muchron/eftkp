@@ -25,13 +25,24 @@ class RegPeriksaController extends Controller
         $this->regPeriksa = new RegPeriksa();
         $this->poliklinik = new PoliklinikController();
         $this->relation = [
-            'dokter', 'pasien' => function ($q) {
+            'dokter',
+            'pasien' => function ($q) {
                 return $q->with(['kel', 'kec', 'kab', 'prop']);
-            }, 'penjab', 'pemeriksaanRalan', 'diagnosa' => function ($query) {
+            },
+            'penjab',
+            'pemeriksaanRalan',
+            'diagnosa' => function ($query) {
                 return $query->orderBy('prioritas', 'ASC')->with('penyakit');
-            }, 'prosedur' => function ($query) {
+            },
+            'prosedur' => function ($query) {
                 return $query->orderBy('prioritas', 'ASC')->with('icd9');
-            }, 'poliklinik.maping', 'dokter.maping', 'pcarePendaftaran', 'pasien.alergi', 'pcareRujukSubspesialis', 'pasien.cacatFisik',
+            },
+            'poliklinik.maping',
+            'dokter.maping',
+            'pcarePendaftaran',
+            'pasien.alergi',
+            'pcareRujukSubspesialis',
+            'pasien.cacatFisik',
             'kamarInap' => function ($q) {
                 return $q->where('stts_pulang', '!=', 'Pindah Kamar')
                     ->with('kamar.bangsal');
@@ -57,7 +68,7 @@ class RegPeriksaController extends Controller
             $regPeriksa = $regPeriksa->where('kd_poli', $kd_poli);
         }
 
-        if (! $regPeriksa->first()) {
+        if (!$regPeriksa->first()) {
             $no = 1;
         } else {
             $urut = $regPeriksa->first();
@@ -75,7 +86,7 @@ class RegPeriksaController extends Controller
     function setStatusPoli(Request $request): string
     {
         $poli = RegPeriksa::where(['no_rkm_medis' => $request->no_rkm_medis, 'kd_poli' => $request->kd_poli])->first();
-        if (! $poli) {
+        if (!$poli) {
             return 'Baru';
         }
         return 'Lama';
@@ -96,7 +107,7 @@ class RegPeriksaController extends Controller
         try {
             $poli = RegPeriksa::where('no_rawat', $request->no_rawat)->update($data);
             if ($poli) {
-                if (! $request->stts == 'Dirawat') {
+                if (!$request->stts == 'Dirawat') {
                     $this->updateSql(new RegPeriksa(), $data, ['no_rawat' => $request->no_rawat]);
                 }
             }
@@ -157,6 +168,8 @@ class RegPeriksaController extends Controller
         try {
             $regPeriksa = $this->regPeriksa->where('no_rawat', $request->no_rawat)->update($data);
             if ($regPeriksa) {
+                Pasien::where('no_rkm_medis', $request->no_rkm_medis)
+                    ->update(['umur' => $request->umur]);
                 $this->updateSql(new RegPeriksa(), $data, [
                     'no_rawat' => $request->no_rawat,
                 ]);
@@ -233,9 +246,11 @@ class RegPeriksaController extends Controller
         $panggil = RegPeriksa::where('tgl_registrasi', date('Y-m-d'))
             ->where('stts', 'Berkas Diterima')
             ->with($this->relation)
-            ->with(['pcarePendaftaran' => function ($q) {
-                return $q->select(['no_rawat', 'noUrut']);
-            }])
+            ->with([
+                'pcarePendaftaran' => function ($q) {
+                    return $q->select(['no_rawat', 'noUrut']);
+                }
+            ])
             ->first();
         return response()->json($panggil);
     }
@@ -300,10 +315,16 @@ class RegPeriksaController extends Controller
     {
         $regPeriksa = RegPeriksa::select(['tgl_registrasi', 'jam_reg', 'kd_poli', 'kd_dokter', 'no_rkm_medis', 'no_reg', 'no_rawat', 'umurdaftar', 'sttsumur', 'kd_pj'])
             ->where('no_rawat', $request->no_rawat)
-            ->with(['pasien' => function ($q) {
-                return $q->select(['nm_pasien', 'alamat', 'kd_kel', 'no_rkm_medis', 'alamatpj', 'jk', 'tgl_lahir', 'no_peserta'])
-                    ->with(['kel', 'kec', 'kab']);
-            }, 'poliklinik', 'dokter', 'penjab', 'pcarePendaftaran'])->first();
+            ->with([
+                'pasien' => function ($q) {
+                    return $q->select(['nm_pasien', 'alamat', 'kd_kel', 'no_rkm_medis', 'alamatpj', 'jk', 'tgl_lahir', 'no_peserta'])
+                        ->with(['kel', 'kec', 'kab']);
+                },
+                'poliklinik',
+                'dokter',
+                'penjab',
+                'pcarePendaftaran'
+            ])->first();
         $setting = Setting::first();
 
         if ($request->width == '4') {
@@ -313,6 +334,6 @@ class RegPeriksaController extends Controller
             $pdf = PDF::loadView('content.print.buktiRegister', ['data' => $regPeriksa, 'setting' => $setting]);
             $pdf->setPaper(array(0, 0, (8 * 28.3465), 300))->setOptions(['defaultFont' => 'sherif', 'isRemoteEnabled' => true]);
         }
-        return $pdf->stream('Bukti-Registrasi-'.date('Ymd').$regPeriksa->no_rkm_medis.'.pdf');
+        return $pdf->stream('Bukti-Registrasi-' . date('Ymd') . $regPeriksa->no_rkm_medis . '.pdf');
     }
 }
