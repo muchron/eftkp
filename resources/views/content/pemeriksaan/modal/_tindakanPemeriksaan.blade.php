@@ -65,7 +65,21 @@
         </div>
     </form>
 </div>
+@push('style')
+    <style>
+        #tabel-tindakan {
+            table-layout: fixed;
+            width: 100%;
+            white-space: nowrap;
+        }
 
+        #tabel-tindakan th,
+        #tabel-tindakan td {
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+@endpush
 @push('scriptTindakan')
     <script>
         const tabsTindakan = modalCppt.find('#tabs-tindakan');
@@ -92,16 +106,20 @@
         let selectedRows = []; // array id yang dicentang (urut sesuai centang)
         let selectedDataCache = {}; // cache data lengkap per id
         let lastRequestStart = 0; // simpan start dari request terakhir
+        let diskonValues = {
+            persen: {}, // {kd_jenis_prw: value}
+            rupiah: {} // {kd_jenis_prw: value}
+        };
 
         function tableTindakanDokter() {
             // simpan referensi table ke variable supaya bisa dipakai di event handler
             const table = new DataTable('#tabelTindakanDokter', {
                 responsive: true,
                 serverSide: true,
-                fixedHeader: true,
-                scrollY: '40vh',
                 processing: true,
                 destroy: true,
+                autoWidth: false,
+                lengthChange: false,
                 ajax: {
                     url: '/efktp/jenis-perawatan/table',
                     type: 'GET',
@@ -136,6 +154,13 @@
                             // bukan halaman pertama => jangan tampilkan item yg sudah dipindah ke halaman 1
                             return json.data.filter(d => !selectedRows.includes(d.kd_jenis_prw));
                         }
+                    },
+                    complete: function() {
+                        var w = $('#tabelTindakanDokter').width();
+                        console.log(w);
+
+                        $('#tabelTindakanDokter tbody').width(w - 5); // -- - THIS IS THE FIX
+                        $('#tabelTindakanDokter').width(w + 5);
                     }
                 },
 
@@ -161,7 +186,7 @@
                     },
                     {
                         data: 'kd_jenis_prw',
-                        title: 'Kode'
+                        title: 'Kode',
                     },
                     {
                         data: 'nm_perawatan',
@@ -178,8 +203,50 @@
                             return formatCurrency(data);
                         }
                     },
+                    {
+                        data: '',
+                        title: 'Diskon (%)',
+                        width: '10%',
+                        render: function(data, type, row, meta) {
+                            const checked = selectedRows.includes(row.kd_jenis_prw);
+                            const disabled = checked ? '' : 'disabled';
+                            const val = diskonValues.persen[row.kd_jenis_prw] ?? "0";
 
-                ]
+                            return `<input class="form-control w-100 diskonPersen" 
+                 type="number" 
+                 name="diskonPersen[${row.kd_jenis_prw}]" 
+                 value="${val}" ${disabled} 
+                 data-id="${row.kd_jenis_prw}"
+                 data-tarif="${row.total_byrdr}">`;
+                        }
+                    },
+                    {
+                        data: '',
+                        title: 'Diskon (Rp.)',
+                        width: '10%',
+                        render: function(data, type, row, meta) {
+                            const checked = selectedRows.includes(row.kd_jenis_prw);
+                            const disabled = checked ? '' : 'disabled';
+                            const rawVal = diskonValues.rupiah[row.kd_jenis_prw] ?? "0";
+                            const formattedVal = rawVal === "0" ? "0" : formatRupiah(rawVal.toString());
+
+                            return `<input class="form-control w-100 diskonRupiah" 
+                 type="text" 
+                 name="diskonRupiah[${row.kd_jenis_prw}]" 
+                 value="${formattedVal}" ${disabled} 
+                 data-id="${row.kd_jenis_prw}"
+                 data-tarif="${row.total_byrdr}">`;
+                        }
+                    }
+
+
+                ],
+                initComplete: function(setting, json) {
+                    const api = this.api();
+                    console.log('API ===', api);
+
+                    api.columns.adjust().draw();
+                }
             });
 
             // delegated handler untuk checkbox (satu handler untuk seluruh table)
@@ -204,8 +271,88 @@
                 // pindah ke halaman pertama, lalu redraw (false supaya tidak kehilangan state paging)
                 table.page(0).draw(false);
             });
+
+
             return table;
         }
+
+        function formatRupiah(angka) {
+            return angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Checkbox → aktifkan / nonaktifkan input
+        $(document).on("change", ".tindakan-check", function() {
+            const id = $(this).data("id");
+            const isChecked = $(this).is(":checked");
+
+            $(`.diskonPersen[data-id="${id}"], .diskonRupiah[data-id="${id}"]`)
+                .prop("disabled", !isChecked);
+        });
+
+        // Fokus → kosongkan kalau 0
+        $(document).on("focus", ".diskonRupiah, .diskonPersen", function() {
+            if ($(this).val() === "0") $(this).val("");
+        });
+
+        $(document).on("blur", ".diskonPersen", function() {
+            let val = $(this).val().replace(/[^0-9,]/g, "").replace(",", ".");
+            let num = parseFloat(val);
+
+            if (isNaN(num) || num === 0) {
+                $(this).val("0");
+            } else {
+                // tampilkan dengan koma sebagai desimal
+                // let str = num.toString().replace(".", ",");
+                $(this).val(num.toString());
+            }
+        });
+
+
+
+        // Blur rupiah → kembalikan ke 0 kalau kosong, kalau ada format titik
+        $(document).on("blur", ".diskonRupiah", function() {
+            let val = $(this).val().replace(/[^0-9]/g, "");
+            $(this).val(val === "" || val === "0" ? "0" : formatRupiah(val));
+        });
+
+        // Input rupiah → update persen + cache
+        $(document).on("input", ".diskonRupiah", function() {
+            const id = $(this).data("id");
+            const tarif = parseFloat($(this).data("tarif")) || 0;
+            let val = $(this).val().replace(/[^0-9]/g, "");
+
+            const rupiah = parseFloat(val) || 0;
+            const persen = tarif > 0 ? ((rupiah / tarif) * 100).toFixed(2) : 0;
+
+            // tampilkan kembali dengan format ribuan
+            $(this).val(rupiah > 0 ? formatRupiah(rupiah.toString()) : "0");
+
+            // update field persen di baris yang sama
+            $(this).closest("tr").find(".diskonPersen").val(persen);
+
+            // simpan ke cache
+            diskonValues.rupiah[id] = rupiah;
+            diskonValues.persen[id] = persen;
+        });
+
+        // Input persen → update rupiah + cache
+        $(document).on("input", ".diskonPersen", function() {
+            const id = $(this).data("id");
+            const tarif = parseFloat($(this).data("tarif")) || 0;
+            let persen = parseFloat($(this).val()) || 0;
+
+            const rupiah = Math.round((persen / 100) * tarif);
+
+            // update field rupiah di baris yang sama dengan format ribuan
+            $(this).closest("tr").find(".diskonRupiah")
+                .val(rupiah > 0 ? formatRupiah(rupiah.toString()) : "0");
+
+            // simpan ke cache
+            diskonValues.persen[id] = persen;
+            diskonValues.rupiah[id] = rupiah;
+        });
+
+
 
         function createTindakanDokter() {
             const no_rawat = formTindakanDokter.find('#no_rawat').val();
@@ -213,19 +360,34 @@
             const nm_pasien = formTindakanDokter.find('#nm_pasien').val();
             const no_rkm_medis = formTindakanDokter.find('#no_rkm_medis').val();
 
-            const selectedData = selectedRows.map(id => selectedDataCache[id]).filter(Boolean);
+
+            const selectedData = selectedRows
+                .map(id => {
+                    const d = selectedDataCache[id];
+                    if (!d) return null;
+
+                    return {
+                        ...d,
+                        diskonPersen: diskonValues.persen[id] ?? "0",
+                        diskonRupiah: diskonValues.rupiah[id] ?? "0"
+                    };
+                })
+                .filter(Boolean);
+
+            console.log('selected DATA', selectedData);
+
             $.post('/efktp/pemeriksaan/tindakan-dokter', {
-                no_rawat: no_rawat,
-                kd_dokter: kd_dokter,
-                nm_pasien: nm_pasien,
-                no_rkm_medis: no_rkm_medis,
+                no_rawat,
+                kd_dokter,
+                nm_pasien,
+                no_rkm_medis,
                 tindakan: selectedData
             }).done((response) => {
-                getTindakanDilakukan(no_rawat)
-                toast('Berhasil menambahkan tindakan')
-
-            })
+                getTindakanDilakukan(no_rawat);
+                toast('Berhasil menambahkan tindakan');
+            });
         }
+
 
         function getTindakanDilakukan(no_rawat) {
             $.get(`/efktp/pemeriksaan/tindakan-dokter/get`, {

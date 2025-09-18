@@ -19,10 +19,10 @@ class TindakanDokterAction
 
                 $tindakan = $this->createTindakanDokter($data['no_rawat'], $data['kd_dokter'], $data['tindakan']);
                 $this->createTampJurnal($this->getRekeningMapping(), $tindakan['totals']);
-                $this->writeOnJurnal($data);
+                return $this->writeOnJurnal($data);
             });
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
         return $tindakan;
     }
@@ -37,9 +37,9 @@ class TindakanDokterAction
                 $this->createTampJurnal($this->getRekeningMapping(), $tindakan, true);
                 $this->writeOnJurnal($data, true);
 
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 DB::rollBack();
-                throw new \Exception($e->getMessage());
+                throw new Exception($e->getMessage());
             }
         });
         return $tindakan;
@@ -79,15 +79,22 @@ class TindakanDokterAction
             'ttlmenejemen' => 0,
         ];
 
-
         $data = collect($data)->map(function ($item) use ($no_rawat, $kd_dokter, &$totals) {
+
+            $pendapatan = floatval($item['total_byrdr']);
+
+            if ($item['diskonRupiah'] > 0) {
+                $pendapatan = floatval($item['total_byrdr'] - $item['diskonRupiah']);
+            }
 
             $totals['ttldokter'] += floatval($item['tarif_tindakandr']);
             $totals['ttlkso'] += floatval($item['kso']);
-            $totals['ttlpendapatan'] += floatval($item['total_byrdr']);
+            $totals['ttlpendapatan'] += floatval($pendapatan);
             $totals['ttlmaterial'] += floatval($item['material']);
             $totals['ttlbhp'] += floatval($item['bhp']);
             $totals['ttlmenejemen'] += floatval($item['menejemen']);
+
+
 
             return [
                 'no_rawat' => $no_rawat,
@@ -101,7 +108,7 @@ class TindakanDokterAction
                 'kso' => $item['kso'],
                 'menejemen' => $item['menejemen'],
                 'stts_bayar' => 'Belum',
-                'biaya_rawat' => $item['total_byrdr'],
+                'biaya_rawat' => $pendapatan,
             ];
         })->toArray();
 
@@ -171,7 +178,7 @@ class TindakanDokterAction
         $date = date('Y-m-d');
         $count = DB::table('jurnal')->whereDate('tgl_jurnal', $date)->count();
         $count += 1;
-        $no_jurnal = 'JR'.date('Ymd').str_pad($count, 6, '0', STR_PAD_LEFT);
+        $no_jurnal = 'JR' . date('Ymd') . str_pad($count, 6, '0', STR_PAD_LEFT);
         return $no_jurnal;
     }
 
@@ -197,7 +204,7 @@ class TindakanDokterAction
             'jam_jurnal' => date('H:i:s'),
             'no_bukti' => $data['no_rawat'],
             'jenis' => 'U',
-            'keterangan' => $keterangan.$data['no_rkm_medis'].' '.$data['nm_pasien'].' DI POST OLEH  '.session()->get('pegawai')->nama,
+            'keterangan' => $keterangan . $data['no_rkm_medis'] . ' ' . $data['nm_pasien'] . ' DI POST OLEH  ' . session()->get('pegawai')->nama,
         ];
         DB::table('jurnal')->insert($dataJurnal);
         $this->createDetailJurnal($dataJurnal['no_jurnal']);
@@ -259,7 +266,7 @@ class TindakanDokterAction
             return $totals;
 
         } catch (Exception $e) {
-            throw new Exception("Error Processing Request ".$e->getMessage(), 1);
+            throw new Exception("Error Processing Request " . $e->getMessage(), 1);
         }
     }
 

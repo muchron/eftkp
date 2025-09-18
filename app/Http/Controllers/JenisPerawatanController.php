@@ -26,6 +26,7 @@ class JenisPerawatanController extends Controller
             $data = $data->where('kd_poli', $request->kd_poli);
         }
         return datatables()->of($data)
+
             ->addColumn('_checked', function ($row) {
                 return false;
             })
