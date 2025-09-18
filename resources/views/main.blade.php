@@ -276,7 +276,7 @@
     <script src="{{ asset('public/js/select2/select2.min.js') }}"></script>
     <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
     <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
-    <script src="{{ asset('public/js/utility.js') }}" defer></script>
+    <script src="{{ asset('/public/js/utility.js') }}" defer></script>
     <script src="{{ asset('public/libs/tinymce/tinymce.js') }}" defer></script>
     <script src="{{ asset('public/js/contextMenu/jquery.contextMenu.min.js') }}"></script>
     <script src="{{ asset('public/js/contextMenu/jquery.ui.position.js') }}"></script>
