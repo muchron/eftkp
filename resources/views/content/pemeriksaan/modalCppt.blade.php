@@ -94,11 +94,15 @@
                     dokter,
                     poliklinik
                 } = response;
+                const umurDaftar = hitungUmurDaftar(pasien.tgl_lahir, response.tgl_registrasi)
+
+
+                formCpptRajal.find('input[name=tgl_reg]').val(formatTanggal(response.tgl_registrasi))
                 formCpptRajal.find('input[name=no_rawat]').val(no_rawat)
                 formCpptRajal.find('input[name=stts]').val(response.stts)
                 formCpptRajal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
-                formCpptRajal.find('input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${response.umurdaftar} ${response.sttsumur}`)
+                formCpptRajal.find('input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${formatUmurDaftar(umurDaftar)}`)
                 formCpptRajal.find('input[name=keluarga]').val(`${pasien.keluarga} : ${pasien.namakeluarga}`)
                 formCpptRajal.find('input[name=nip]').val(`${response.kd_dokter}`)
                 formCpptRajal.find('input[name=nm_dokter]').val(`${dokter.nm_dokter}`)

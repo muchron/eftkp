@@ -77,6 +77,7 @@
                 formRegistrasiPoli.find('input[name="no_rawat"]').val(response.no_rawat)
                 formRegistrasiPoli.find('input[name="no_rkm_medis"]').val(response.no_rkm_medis)
                 formRegistrasiPoli.find('input[name="nm_pasien"]').val(pasien.nm_pasien)
+                formRegistrasiPoli.find('input[name="umurdaftar"]').val(`${response.umurdaftar} ${response.sttsumur}`)
                 formRegistrasiPoli.find('input[name="no_peserta"]').val(pasien.no_peserta)
                 formRegistrasiPoli.find('input[name=keluarga]').val(response.hubunganpj)
                 formRegistrasiPoli.find('input[name=namakeluarga]').val(response.p_jawab)

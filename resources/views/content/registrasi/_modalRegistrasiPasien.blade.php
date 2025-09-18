@@ -58,6 +58,7 @@
                                             <input type="text" class="form-control w-50" name="nm_pasien" id="nm_pasien" value="" readonly />
                                             <input type="text" class="form-control" name="umurdaftar" id="umurdaftar" value="" readonly />
                                             <input type="hidden" name="umur" id="umur" value="" />
+                                            <input type="hidden" name="tgl_lahir" id="tgl_lahir" value="" />
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-md-12 col-sm-12">
@@ -572,6 +573,10 @@
 
         function setUmur(tgl_lahir) {
             const umur = hitungUmur(tgl_lahir);
+            return `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
+        }
+
+        function formatUmurDaftar(umur) {
             return `${umur.split(';')[0]} Th ${umur.split(';')[1]} Bl ${umur.split(';')[2]} Hr`
         }
 
