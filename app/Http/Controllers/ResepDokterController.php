@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ResepDokter;
 use App\Traits\Track;
+use DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -20,16 +21,21 @@ class ResepDokterController extends Controller
 
     public function create(Request $request)
     {
-        $data = count($request->dataObat);
-
+        // return $request->dataObat;
+        // return ['key' => array_keys($request->dataObat), 'val' => array_values($request->dataObat)];
         try {
-            for ($i = 0; $i < $data; $i++) {
-                $response[] = ResepDokter::create($request->dataObat[$i]);
-            }
-            return response()->json([$response, $i], 200);
+            DB::transaction(function () use ($request) {
+                $resep = ResepDokter::insert($request->dataObat);
+                if ($resep) {
+                    $this->insertSql(new ResepDokter(), collect($request->dataObat)->map(function ($item) {
+                        return $item;
+                    }));
+                }
+            });
         } catch (QueryException $e) {
             return response()->json($e->errorInfo, 500);
         }
+        return response()->json('SUKSES', 200);
     }
     public function delete(Request $request)
     {

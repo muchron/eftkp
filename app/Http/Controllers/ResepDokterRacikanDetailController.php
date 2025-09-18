@@ -21,8 +21,8 @@ class ResepDokterRacikanDetailController extends Controller
     function get(Request $request)
     {
         $keys = [
-            'no_resep' =>  $request->no_resep,
-            'no_racik' =>  $request->no_racik,
+            'no_resep' => $request->no_resep,
+            'no_racik' => $request->no_racik,
         ];
 
         $resepDetail = ResepDokterRacikanDetail::where($keys)->with('obat.satuan', 'obat.jenis')->get();
@@ -32,7 +32,7 @@ class ResepDokterRacikanDetailController extends Controller
     public function create(Request $request)
     {
         $countData = count($request->data);
-       $keys = [
+        $keys = [
             'no_resep' => $request->no_resep,
             'no_racik' => $request->no_racik
         ];
@@ -44,9 +44,9 @@ class ResepDokterRacikanDetailController extends Controller
         }
         try {
             for ($i = 0; $i < $countData; $i++) {
-                $resep[] = ResepDokterRacikanDetail::create($request->data[$i]);
+                $resep = ResepDokterRacikanDetail::create($request->data[$i]);
                 if ($resep) {
-                    $sql[] = $this->insertSql($this->mdRacikanDetail, $request->data[$i]);
+                    $this->insertSql($this->mdRacikanDetail, $request->data[$i]);
                 }
             }
             return response()->json('SUKSES');
@@ -63,8 +63,16 @@ class ResepDokterRacikanDetailController extends Controller
         if ($request->obat) {
             $keys['kode_brng'] = $request->obat;
         }
-        $delete = ResepDokterRacikanDetail::where($keys)->delete();
-        $this->deleteSql($this->mdRacikanDetail, $keys);
+
+        try {
+
+            $delete = ResepDokterRacikanDetail::where($keys)->delete();
+            if ($delete) {
+                $this->deleteSql($this->mdRacikanDetail, $keys);
+            }
+        } catch (QueryException $e) {
+            return response()->json($e->errorInfo, 500);
+        }
         return response()->json('SUKSES');
     }
 }

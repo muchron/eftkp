@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\SetAkunRalan;
 use App\Models\TindakanDokter;
 use App\Traits\ResponseHandlerTrait;
+use App\Traits\Track;
 use DB;
 use Exception;
 use Illuminate\Http\Request;
 
 class TindakanDokterController extends Controller
 {
-    use ResponseHandlerTrait;
+    use ResponseHandlerTrait, Track;
     function create(Request $request)
     {
         $data = $request->all();
 
         try {
             $tindakan = (new \App\Action\TindakanDokterAction())->handleCreate($data);
-            return $this->success($tindakan['data']);
 
         } catch (Exception $e) {
             return response()->json([
@@ -27,6 +27,7 @@ class TindakanDokterController extends Controller
             ], 500);
 
         }
+        return $this->success($tindakan['data']);
     }
 
     function delete(Request $request)

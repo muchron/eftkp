@@ -7,13 +7,51 @@ use App\Models\TrackSql;
 trait Track
 {
 
+    // public static function insertSql($table, $values)
+    // {
+    // $table = $table->getTable();
+    // $values = self::stringValues($values);
+    // $str = "INSERT INTO $table ($values[key]) VALUES ($values[val])";
+    // return static::createTrack($str);
+
+    // }
+
     public static function insertSql($table, $values)
     {
         $table = $table->getTable();
-        $values = self::stringValues($values);
-        $str = "INSERT INTO $table ($values[key]) VALUES ($values[val])";
+
+        // cek apakah array of rows (multi insert) atau single row
+        $isMulti = isset($values[0]) && is_array($values[0]);
+
+        if ($isMulti) {
+            // multi insert
+            $keys = implode(", ", array_keys($values[0]));
+
+            $valuesArr = [];
+            foreach ($values as $row) {
+                $vals = array_map(function ($v) {
+                    return is_numeric($v) ? $v : "'".addslashes($v)."'";
+                }, array_values($row));
+                $valuesArr[] = "(".implode(", ", $vals).")";
+            }
+
+            $valStr = implode(", ", $valuesArr);
+            $str = "INSERT INTO $table ($keys) VALUES $valStr";
+        } else {
+            // single insert
+            $keys = implode(", ", array_keys($values));
+
+            $vals = array_map(function ($v) {
+                return is_numeric($v) ? $v : "'".addslashes($v)."'";
+            }, array_values($values));
+
+            $valStr = implode(", ", $vals);
+            $str = "INSERT INTO $table ($keys) VALUES ($valStr)";
+        }
+
         return static::createTrack($str);
     }
+
 
     public static function stringValues($values)
     {
@@ -50,7 +88,7 @@ trait Track
                 $and = '';
             }
             $keyClasue = array_keys($clause, $cls, true);
-            $stringClause .= "$keyClasue[0]" . '=' . "'$cls'" . $and;
+            $stringClause .= "$keyClasue[0]".'='."'$cls'".$and;
         }
 
         return $stringClause;
@@ -72,7 +110,7 @@ trait Track
         }
         $stringKeys = implode(",", $keys);
         $stringClause = self::stringClause($clause);
-        $str =  "UPDATE $table SET $stringKeys WHERE $stringClause";
+        $str = "UPDATE $table SET $stringKeys WHERE $stringClause";
         return static::createTrack($str);
     }
 

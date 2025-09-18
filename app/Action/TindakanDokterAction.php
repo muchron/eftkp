@@ -6,11 +6,13 @@ use App\Models\JenisPerawatan;
 use App\Models\Jurnal;
 use App\Models\JurnalDetail;
 use App\Models\TindakanDokter;
+use App\Traits\Track;
 use DB;
 use Exception;
 
 class TindakanDokterAction
 {
+    use Track;
     public function handleCreate(array $data)
     {
         $tindakan = [];
@@ -113,6 +115,9 @@ class TindakanDokterAction
         })->toArray();
 
         $create = DB::table('rawat_jl_dr')->insert($data);
+        if ($create) {
+            $this->insertSql(new TindakanDokter(), $data);
+        }
 
         return ['data' => $data, 'totals' => $totals];
     }
@@ -178,7 +183,7 @@ class TindakanDokterAction
         $date = date('Y-m-d');
         $count = DB::table('jurnal')->whereDate('tgl_jurnal', $date)->count();
         $count += 1;
-        $no_jurnal = 'JR' . date('Ymd') . str_pad($count, 6, '0', STR_PAD_LEFT);
+        $no_jurnal = 'JR'.date('Ymd').str_pad($count, 6, '0', STR_PAD_LEFT);
         return $no_jurnal;
     }
 
@@ -204,7 +209,7 @@ class TindakanDokterAction
             'jam_jurnal' => date('H:i:s'),
             'no_bukti' => $data['no_rawat'],
             'jenis' => 'U',
-            'keterangan' => $keterangan . $data['no_rkm_medis'] . ' ' . $data['nm_pasien'] . ' DI POST OLEH  ' . session()->get('pegawai')->nama,
+            'keterangan' => $keterangan.$data['no_rkm_medis'].' '.$data['nm_pasien'].' DI POST OLEH  '.session()->get('pegawai')->nama,
         ];
         DB::table('jurnal')->insert($dataJurnal);
         $this->createDetailJurnal($dataJurnal['no_jurnal']);
@@ -260,13 +265,21 @@ class TindakanDokterAction
                 $totals['ttlmaterial'] += floatval($row->material);
                 $totals['ttlbhp'] += floatval($row->bhp);
                 $totals['ttlmenejemen'] += floatval($row->menejemen);
-                $tindakan->delete();
+                $delete = $tindakan->delete();
+
+                if ($delete) {
+                    $this->deleteSql(new TindakanDokter(), [
+                        'no_rawat' => $row->no_rawat,
+                        'kd_dokter' => $row->kd_dokter,
+                        'kd_jenis_prw' => $row->kd_jenis_prw,
+                    ]);
+                }
             }
 
             return $totals;
 
         } catch (Exception $e) {
-            throw new Exception("Error Processing Request " . $e->getMessage(), 1);
+            throw new Exception("Error Processing Request ".$e->getMessage(), 1);
         }
     }
 
