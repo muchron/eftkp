@@ -7,7 +7,7 @@
                 <input value="" type="hidden" name="stts" readonly>
             </div>
         </div>
-        <div class="col-md-6 col-xl-6 col-lg-6">
+        <div class="col-md-6 col-xl-5 col-lg-5">
             <div class="mb-1">
                 <label class="form-label">Pasien</label>
                 <div class="input-group mb-2">
@@ -16,13 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3 col-lg-3">
-            <div class="mb-1">
-                <label class="form-label">Tgl. Lahir / Umur</label>
-                <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="tgl_lahir" readonly>
-            </div>
-        </div>
-        <div class="col-md-6 col-xl-4 col-lg-4">
+        <div class="col-md-6 col-xl-4 col-lg-3">
             <div class="mb-1">
                 <label class="form-label">Pembiayaan</label>
                 <div class="input-group mb-2">
@@ -31,18 +25,26 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3 col-lg-3">
+        <div class="col-md-6 col-xl-4 col-lg-4">
             <div class="mb-1">
-                <label class="form-label">Poliklinik</label>
-                <input value="-" type="text" class="form-control" name="nm_poli" readonly>
-                <input value="-" type="hidden" name="kd_poli_pcare" readonly>
+                <label class="form-label">Tgl. Lahir / Umur</label>
+                <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="tgl_lahir" readonly>
             </div>
         </div>
-        <div class="col-md-6 col-xl-5 col-lg-5">
+        <div class="col-md-6 col-xl-4 col-lg-4">
+            <div class="mb-1">
+                <label class="form-label">Alamat</label>
+                <input value="-" onfocus="return removeZero(this)" onblur="isEmpty(this)" type="text" class="form-control" name="alamat" readonly>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-4 col-lg-4">
             <div class="mb-1">
                 <label class="form-label">Alergi</label>
                 <select class="form-control" name="alergi" multiple="multiple" id="alergi" style="width:100%"></select>
             </div>
+        </div>
+        <div class="col-md-6 col-xl-3 col-lg-3">
+
         </div>
     </div>
     <fieldset class="form-fieldset">
@@ -51,9 +53,11 @@
                 <div class="mb-1">
                     <label class="form-label">Dokter</label>
                     <div class="input-group mb-2">
-                        <input class="form-control" name="nip" id="nip" readonly>
+                        <input class="form-control w-25" name="nip" id="nip" readonly>
                         <input class="form-control w-50" name="nm_dokter" readonly>
+                        <input value="-" type="text" class="form-control w-25" name="nm_poli" readonly>
                     </div>
+                    <input value="-" type="hidden" name="kd_poli_pcare" readonly>
                 </div>
             </div>
             <div class="col-xl-12">

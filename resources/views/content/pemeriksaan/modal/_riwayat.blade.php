@@ -372,6 +372,18 @@
                                 <div class="card-body card-text">
                                     <div class="row gy-2">
                                         <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>No. Rawat </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${result.no_rawat}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                                            <strong>Tgl Periksa </strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                                             : ${formatTanggal(result.tgl_perawatan)} ${result.jam_rawat}
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3">
                                             <strong>Petugas/Dokter </strong>
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
@@ -416,10 +428,10 @@
     
                                     </div>
                                     <button class="btn btn-sm btn-primary mt-3" type="button" onclick="salinCppt('${result.no_rawat}', '${result.nip}')">
-                                        <i class="ti ti-copy me-2"></i> Copy CPPT
+                                        <i class="ti ti-copy me-1"></i> Copy CPPT
                                     </button>
                                     <button class="btn btn-sm btn-success mt-3" type="button" onclick="modalUploadPenunjang('${result.no_rawat}')">
-                                        <i class="ti ti-checklist me-2"></i> Lihat Berkas
+                                        <i class="ti ti-eye me-1"></i> Berkas Upload
                                     </button>
                                 </div>
                             </div>`

@@ -6,41 +6,35 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
-                            <li class="nav-item">
-                                <a href="#tabs-cppt" class="nav-link active"
-                                    data-bs-toggle="tab">CPPT</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#tabs-tindakan" class="nav-link"
-                                    data-bs-toggle="tab">Tindakan Dokter</a>
-                            </li>
-                        </ul>
+                <ul class="nav nav-tabs " data-bs-toggle="tabs">
+                    <li class="nav-item">
+                        <a href="#tabs-cppt" class="nav-link active"
+                            data-bs-toggle="tab">CPPT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tabs-tindakan" class="nav-link"
+                            data-bs-toggle="tab">Tindakan Dokter</a>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3">
+                    <div class="tab-pane fade" id="tabs-cppt">
+                        <div>
+                            <div class="row gy-2">
+                                <div class="col-xl-6 col-lg-6 col-sm-12 col-md-6">
+                                    @include('content.pemeriksaan.modal._form')
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-12 col-md-6">
+                                    @include('content.pemeriksaan.modal._riwayat')
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-sm-12 col-md-6">
+                                    @include('content.pemeriksaan.modal._tabResep')
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="tab-content">
-                            <div class="tab-pane fade" id="tabs-cppt">
-                                <div>
-                                    <div class="row gy-2">
-                                        <div class="col-xl-6 col-lg-6">
-                                            @include('content.pemeriksaan.modal._form')
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            @include('content.pemeriksaan.modal._riwayat')
-                                        </div>
-                                        <div class="col-xl-6 col-lg-6">
-                                            @include('content.pemeriksaan.modal._tabResep')
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="tabs-tindakan">
-                                <div>
-                                    @include('content.pemeriksaan.modal._tindakanPemeriksaan')
-                                </div>
-                            </div>
+                    <div class="tab-pane fade" id="tabs-tindakan">
+                        <div>
+                            @include('content.pemeriksaan.modal._tindakanPemeriksaan')
                         </div>
                     </div>
                 </div>
@@ -96,14 +90,16 @@
                 } = response;
                 const umurDaftar = hitungUmurDaftar(pasien.tgl_lahir, response.tgl_registrasi)
 
+                const alamat = `${pasien.alamat}, ${pasien.kel.nm_kel}, ${pasien.kec.nm_kec}`
 
                 formCpptRajal.find('input[name=tgl_reg]').val(formatTanggal(response.tgl_registrasi))
                 formCpptRajal.find('input[name=no_rawat]').val(no_rawat)
                 formCpptRajal.find('input[name=stts]').val(response.stts)
                 formCpptRajal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
-                formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk == 'L' ? 'Laki-laki' : 'Perempuan'}`)
+                formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk}`)
                 formCpptRajal.find('input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${formatUmurDaftar(umurDaftar)}`)
                 formCpptRajal.find('input[name=keluarga]').val(`${pasien.keluarga} : ${pasien.namakeluarga}`)
+                formCpptRajal.find('input[name=alamat]').val(`${alamat}`)
                 formCpptRajal.find('input[name=nip]').val(`${response.kd_dokter}`)
                 formCpptRajal.find('input[name=nm_dokter]').val(`${dokter.nm_dokter}`)
                 formCpptRajal.find('input[name=pembiayaan]').val(setTextPenjab(response.penjab.png_jawab, false))
