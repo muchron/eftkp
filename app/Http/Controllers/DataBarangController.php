@@ -15,12 +15,11 @@ class DataBarangController extends Controller
     }
     public function get(Request $request)
     {
-        $barang = DataBarang::
-            // where('status', '1')
-            with(['satuan', 'satuanBesar', 'jenis', 'golongan', 'industri', 'kategori', 'mapping', 'gudangBarang.lokasi']);
+        $barang = DataBarang::where('status', '1')
+            ->with(['satuan', 'satuanBesar', 'jenis', 'golongan', 'industri', 'kategori', 'mapping', 'gudangBarang.lokasi']);
         if ($request) {
             $barang = $barang
-                ->where('nama_brng', 'like', '%'.$request->barang."%")
+                ->where('nama_brng', 'like', '%' . $request->barang . "%")
                 ->whereHas('jenis', function ($query) {
                     return $query->where('nama', 'not like', 'logistik');
                 })->orderBy('nama_brng', 'ASC')
