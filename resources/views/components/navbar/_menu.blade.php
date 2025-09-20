@@ -131,13 +131,13 @@
          <div class="dropdown-menu" data-bs-popper="static">
              <div class="dropdown-menu-columns">
                  <div class="dropdown-menu-column">
-                     <a href="{{ url('antrean/poliklinik') }}" class="dropdown-item">
+                     <a href="{{ url('antrean/poliklinik') }}" target="_blank" class="dropdown-item">
                          Poliklinik
                      </a>
-                     <a href="{{ url('antrean/poliklinik/v2') }}" class="dropdown-item ">
+                     <a href="{{ url('antrean/poliklinik/v2') }}" target="_blank" class="dropdown-item ">
                          Poliklinik v2
                      </a>
-                     <a href="{{ url('antrean/farmasi') }}" class="dropdown-item">
+                     <a href="{{ url('antrean/farmasi') }}" target="_blank" class="dropdown-item">
                          Farmasi
                      </a>
                  </div>
