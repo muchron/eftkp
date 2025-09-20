@@ -119,8 +119,8 @@
              </span>
          </a>
      </li>
-     <li class="nav-item {{ Request::is('antrean') ? 'active' : '' }}">
-         <a class="nav-link" href="{{ url('antrean/poliklinik') }}" target="_blank">
+     <li class="nav-item {{ Request::is('antrean') ? 'active' : '' }} dropdown">
+         <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true">
              <span class="nav-link-icon d-md-none d-lg-inline-block mt-1">
                  <i class="ti ti-screen-share fw-2"></i>
              </span>
@@ -128,5 +128,23 @@
                  Antrean
              </span>
          </a>
+         <div class="dropdown-menu" data-bs-popper="static">
+             <div class="dropdown-menu-columns">
+                 <div class="dropdown-menu-column">
+                     <a href="{{ url('antrean/poliklinik') }}" class="dropdown-item">
+                         Poliklinik
+                     </a>
+                     <a href="{{ url('antrean/poliklinik/v2') }}" class="dropdown-item ">
+                         Poliklinik v2
+                     </a>
+                     <a href="{{ url('antrean/farmasi') }}" class="dropdown-item">
+                         Farmasi
+                     </a>
+                 </div>
+             </div>
+         </div>
      </li>
+
+
+
  </ul>

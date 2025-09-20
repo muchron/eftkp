@@ -66,11 +66,14 @@
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
+                // autoWidth: true,
                 stateSave: true,
-                serverSide: false,
+                serverSide: true,
                 destroy: true,
                 processing: true,
+                fixedHeader: true,
                 scrollY: '50vh',
+                pageLength: 50,
                 scrollX: true,
                 ajax: {
                     url: 'registrasi/get',

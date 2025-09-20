@@ -454,3 +454,4 @@ Route::get('/test/{no_resep}', [ResepObatController::class, 'copyResep']);
 
 require 'Extras/web.php';
 require 'Extras/jenis_perawatan.php';
+require 'Extras/antrean.php';
