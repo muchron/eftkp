@@ -107,10 +107,14 @@
                             if (row.stts === 'Belum') {
                                 btnStatusLayanan = 'btn-primary'
                                 action = `setPanggil('${data}', this)`
-                            } else if (row.stts === 'Berkas Diterima' || row.stts === 'Dirawat') {
+                            } else if (row.stts === 'Berkas Diterima') {
                                 btnStatusLayanan = 'btn-purple'
                                 action = `setBelum('${data}', this)`
-                                row.stts = 'Diperiksa';
+                                row.stts = 'PANGGIL';
+                            } else if (row.stts === 'Dirawat') {
+                                btnStatusLayanan = 'btn-cyan'
+                                action = `setBelum('${data}', this)`
+                                row.stts = 'DIPERIKSA';
                             } else if (row.stts === 'Batal') {
                                 btnStatusLayanan = 'btn-danger'
                             } else if (row.stts === 'Sudah') {
@@ -123,7 +127,7 @@
                                 }
                             }
 
-                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" >${row.stts.toUpperCase()}</a>`
+                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" id="btnStatusLayanan${formatNoRawat(row.no_rawat)}">${row.stts.toUpperCase()}</a>`
 
 
                             return button;
@@ -235,7 +239,9 @@
             })
         }
 
-
+        function formatNoRawat(no_rawat) {
+            return no_rawat.replace(/\//g, "");
+        }
 
         function symbolGigi(hasil, size = '') {
             switch (hasil) {
@@ -264,11 +270,7 @@
         }
 
         function setPanggil(no_rawat, element) {
-            setStatusLayan(no_rawat, 'Berkas Diterima').done((response) => {
-                if (element) {
-                    $(element).removeClass('btn-primary').addClass('btn-purple').text('DIPERIKSA').attr('onclick', `setBelum('${no_rawat}', this)`);
-                }
-            });
+            setStatusLayan(no_rawat, 'Berkas Diterima')
         }
 
         function setBelum(no_rawat, element) {

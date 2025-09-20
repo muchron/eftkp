@@ -63,7 +63,11 @@ class ResepObatController extends Controller
             $resepObat = ResepObat::whereBetween('tgl_peresepan', [
                 date('Y-m-d', strtotime($request->tgl_awal)),
                 date('Y-m-d', strtotime($request->tgl_akhir)),
-            ])->get();
+            ])->whereHas('regPeriksa', function ($query) {
+                return $query->where('stts', 'Sudah');
+            })
+                ->with('regPeriksa')
+                ->get();
         } else {
             $resepObat = ResepObat::where('tgl_peresepan', now())->get();
         }
@@ -103,9 +107,14 @@ class ResepObatController extends Controller
     public function print(Request $request)
     {
         $data = $this->get($request);
-        $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with(['regPeriksa.pasien' => function ($query) {
-            return $query->with(['kel', 'kec', 'kab', 'prop']);
-        }, 'resepDokter.obat', 'resepRacikan.detail.obat.satuan', 'dokter'])->first();
+        $resepObat = ResepObat::where(['no_rawat' => $request->no_rawat])->with([
+            'regPeriksa.pasien' => function ($query) {
+                return $query->with(['kel', 'kec', 'kab', 'prop']);
+            },
+            'resepDokter.obat',
+            'resepRacikan.detail.obat.satuan',
+            'dokter'
+        ])->first();
         $setting = Setting::first();
         $pdf = PDF::loadView('content.print.resep', ['data' => $resepObat, 'setting' => $setting])
             ->setPaper(array(0, 0, 283, 567.00))
@@ -130,28 +139,29 @@ class ResepObatController extends Controller
         }
     }
 
-    public function isExist($no_rawat){
+    public function isExist($no_rawat)
+    {
         ResepObat::where('no_rawat', $no_rawat)->first();
     }
 
     public function copyResep($no_resep, Request $request)
     {
         return $isExist = $this->isExist($request->no_rawat);
-        
+
         $resepObat = ResepDokter::where('no_resep', $no_resep)->get();
         $resepRacikan = ResepDokterRacikan::where('no_resep', $no_resep)
             ->with('detail')
             ->get();
 
-            $dataUmum = collect($resepObat)->map(function($item) {
-               return [
+        $dataUmum = collect($resepObat)->map(function ($item) {
+            return [
                 'no_resep' => 'ssss',
                 'kode_brng' => $item->kode_brng,
                 'jml' => $item->jml,
                 'aturan_pakai' => $item->aturan_pakai
-               ];
-            });
-        
+            ];
+        });
+
 
         return [$dataUmum, $resepRacikan];
     }

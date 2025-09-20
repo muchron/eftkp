@@ -36,9 +36,13 @@
         const tglAkhirResep = localStorage.getItem('tglAkhirResep');
 
         $(document).ready(() => {
-            tbResepObat(tglAwalResep, tglAkhirResep);
             tglAwalResep ? $('#tgl_awal').val(tglAwalResep) : '';
             tglAkhirResep ? $('#tgl_akhir').val(tglAkhirResep) : '';
+            tbResepObat(tglAwalResep, tglAkhirResep);
+
+            setInterval(() => {
+                tbResepObat(tglAwalResep, tglAkhirResep);
+            }, 10000);
         })
 
         function tbResepObat(tgl_awal = '', tgl_akhir = '') {
@@ -70,8 +74,9 @@
                                 colorBtn = `btn-danger`
                                 display = ``
                             }
-                            return `<button class="btn btn-sm ${colorBtn} me-2" onclick="showDetailResep('${data}')"><i class="ti ti-search me-2"></i>Lihat</button>
-                            <button class="btn btn-sm btn-primary ${display}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send me-2"></i>Selesai</button>`;
+                            return `<button class="btn btn-sm ${colorBtn}" onclick="showDetailResep('${data}')"><i class="ti ti-search"></i>Lihat</button>
+                            <button class="btn btn-sm btn-success ${display}" onclick="panggilResepPasien('${data}')"><i class="ti ti-phone"></i>Panggil</button>
+                            <button class="btn btn-sm btn-primary ${display}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send"></i>Selesai</button>`;
                         },
                     },
                     {
@@ -137,7 +142,10 @@
                             return `${isAvaliableDate(data)} ${isAvailableTime(row.jam_penyerahan)}`;
                         },
                     },
-                ]
+                ],
+                initComplete: () => {
+                    showToast('Memuat hasil resep obat');
+                }
             })
         }
         $('#btnFilterTanggal').on('click', (e) => {
