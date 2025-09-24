@@ -62,7 +62,6 @@
         });
 
         function suratSakit(no_rawat) {
-
             $.get(`/efktp/registrasi/get/detail`, {
                 no_rawat: no_rawat
             }).done((response) => {
