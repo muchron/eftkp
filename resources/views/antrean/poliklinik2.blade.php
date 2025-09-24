@@ -128,11 +128,7 @@
                 $.get(`/efktp/registrasi/get`, {
                     stts: 'Dirawat'
                 }).done((response) => {
-                    console.log('RESPONSE Dirawat', response);
-
                     Object.values(response).map(element => {
-                        console.log('ELEMENT', element);
-
                         $(`#nomorAntrean${element.kd_poli}`).html(element.no_reg ? element.no_reg : '-');
                     });
                 });
@@ -167,24 +163,6 @@
             }
         }
 
-        function jam() {
-            setTime = setInterval(() => {
-                var dateString = new Date().toLocaleString("id-ID", {
-                    timeZone: "Asia/Jakarta"
-                });
-                var formattedString = dateString.replace(",", "-");
-                var splitarray = new Array();
-                splitarray = formattedString.split(" ");
-                var splitarraytime = new Array();
-                splitarraytime = splitarray[1].split(".");
-                const jamHitung = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2]; // time
-                $('#jam').html(jamHitung)
-            }, 1000);
-            console.log('set time', setTime);
-
-
-            return setTime;
-        }
 
         function blinkText(element) {
             element.toggleClass('text-success')

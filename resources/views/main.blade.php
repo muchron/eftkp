@@ -343,7 +343,7 @@
         }));
         $(document).ready(() => {
             var tanggal = "{{ date('d-m-Y') }}";
-
+            jam();
             var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
             var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
@@ -402,9 +402,22 @@
                 stts: status,
                 no_rawat: no_rawat
             }).done(() => {
-                // if ($('#tabelRegistrasi').length > 0) {
-                //     loadTabelRegistrasi(tglAwal, tglAkhir, selectFilterStts.val(), selectFilterDokter.val())
-                // }
+                const btn = $(`#btnStatusLayanan${formatNoRawat(no_rawat)}`)
+                    .removeAttr('class');
+                if (status === 'Belum') {
+                    btn.addClass('btn btn-sm btn-primary').text('BELUM').
+                    attr('onclick', `setPanggil('${no_rawat}', this)`);
+                } else if (status === 'Berkas Diterima') {
+                    btn.addClass('btn btn-sm btn-purple').text('PANGGIL').
+                    attr('onclick', `setBelum('${no_rawat}', this)`);
+                } else if (status === 'Batal') {
+                    btn.addClass('btn btn-sm btn-danger').text('BATAL')
+                } else if (status === 'Sudah') {
+                    btn.addClass('btn btn-sm btn-success').text('SUDAH')
+                } else if (status === 'Dirawat') {
+                    btn.addClass('btn btn-sm btn-cyan').text('DIRAWAT').
+                    attr('onclick', `setBelum('${no_rawat}', this)`);
+                }
             }).fail((error, status, code) => {
                 if (error.status !== 500) {
                     const errorMessage = {
@@ -486,6 +499,22 @@
         function formatFloat(value) {
             const float = parseFloat(value).toFixed(1);
             return floatFormatter.format(float);
+        }
+
+        function jam() {
+            setTime = setInterval(() => {
+                var dateString = new Date().toLocaleString("id-ID", {
+                    timeZone: "Asia/Jakarta"
+                });
+                var formattedString = dateString.replace(",", "-");
+                var splitarray = new Array();
+                splitarray = formattedString.split(" ");
+                var splitarraytime = new Array();
+                splitarraytime = splitarray[1].split(".");
+                const jamHitung = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2]; // time
+                $('#jam').html(jamHitung)
+            }, 1000);
+            return setTime;
         }
     </script>
     @stack('script')

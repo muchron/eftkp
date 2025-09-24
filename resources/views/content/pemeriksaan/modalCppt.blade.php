@@ -127,15 +127,19 @@
                     selectAlergi(inputAlergi, formCpptRajal)
                 }
 
+                if (response.kd_dokter === "{{ session()->get('pegawai')->nik }}") {
+                    setStatusLayan(no_rawat, 'Dirawat')
+                }
+
                 getResep({
                     no_rawat: no_rawat
                 }).done((response) => {
                     if (Object.keys(response).length) {
                         setButtonResep(response.no_resep)
+                        renderResepObat(no_rawat)
                     }
                 })
 
-                renderResepObat(no_rawat)
 
                 if (pemeriksaan_ralan) {
                     Object.keys(pemeriksaan_ralan).map((key, index) => {

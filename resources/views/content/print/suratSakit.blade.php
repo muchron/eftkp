@@ -21,14 +21,14 @@
         <p>Yang bertanda tangan di bawah ini, menerangkan bahwa : </p>
         <table class="table" width="100%">
             <tr>
-                <td width="20%">Nama Pasien</td>
+                <td width="30%">Nama Pasien</td>
                 <td width="2%">:</td>
                 <td>{{ $data['nm_pasien'] }}</td>
             </tr>
             <tr>
-                <td>Umur</td>
+                <td>Tgl. Lahir/Umur</td>
                 <td>:</td>
-                <td>{{ $data['umur'] }}</td>
+                <td>{{ $data['tgl_lahir'] }} / {{ $data['umur'] }}</td>
             </tr>
             <tr>
                 <td>Jenis Kelamin</td>

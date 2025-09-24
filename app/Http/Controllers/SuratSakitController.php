@@ -18,25 +18,31 @@ class SuratSakitController extends Controller
     public function get(Request $request)
     {
         $suratSakit = SuratSakit::where('tanggalawal', date('Y-m-d'))
-            ->with(['regPeriksa' => function ($q) {
-                return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa');
-            }])
+            ->with([
+                'regPeriksa' => function ($q) {
+                    return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa');
+                }
+            ])
             ->get();
         if ($request->tgl_pertama && $request->tgl_kedua) {
             $suratSakit = SuratSakit::whereBetween('tanggalawal', [
                 date('Y-m-d', strtotime($request->tgl_pertama)),
                 date('Y-m-d', strtotime($request->tgl_kedua)),
             ])
-                ->with(['regPeriksa' => function ($q) {
-                    return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa');
-                }])
+                ->with([
+                    'regPeriksa' => function ($q) {
+                        return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa');
+                    }
+                ])
                 ->get();
         }
 
         if ($request->no_rawat) {
-            $suratSakit = SuratSakit::where('no_rawat', $request->no_rawat)->with(['regPeriksa' => function ($q) {
-                return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa', 'prosedur');
-            }])->first();
+            $suratSakit = SuratSakit::where('no_rawat', $request->no_rawat)->with([
+                'regPeriksa' => function ($q) {
+                    return $q->with('pasien', 'pemeriksaanRalan', 'diagnosa', 'prosedur');
+                }
+            ])->first();
         }
         if ($request->dataTable) {
             return DataTables::of($suratSakit)->make(true);
@@ -48,8 +54,8 @@ class SuratSakitController extends Controller
     {
         $tgl_surat = $request->tgl_surat ? $request->tgl_surat : date('Y-m-d');
         $surat = SuratSakit::select('no_surat')
-        ->where('tanggalawal', date('Y-m-d', strtotime($tgl_surat)))
-        ->orderBy('no_surat', 'DESC')->first();
+            ->where('tanggalawal', date('Y-m-d', strtotime($tgl_surat)))
+            ->orderBy('no_surat', 'DESC')->first();
 
         $strTanggal = Carbon::parse($tgl_surat)->translatedFormat('Ymd');
         if (!$surat) {
@@ -98,9 +104,13 @@ class SuratSakitController extends Controller
 
     public function print($noSurat)
     {
-        $surat = SuratSakit::with(['regPeriksa' => function ($q) {
-            return $q->with(['dokter', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'pasien.perusahaanPasien']);
-        }, 'pemeriksaanRalan', 'diagnosa.penyakit'])->where('no_surat', $noSurat)->first();
+        $surat = SuratSakit::with([
+            'regPeriksa' => function ($q) {
+                return $q->with(['dokter', 'pasien.kel', 'pasien.kec', 'pasien.kab', 'pasien.perusahaanPasien']);
+            },
+            'pemeriksaanRalan',
+            'diagnosa.penyakit'
+        ])->where('no_surat', $noSurat)->first();
         $setting = Setting::first();
 
         if ($surat->diagnosa) {
@@ -114,7 +124,8 @@ class SuratSakitController extends Controller
         $data = [
             'no_surat' => $surat->no_surat,
             'nm_pasien' => $surat->regPeriksa->pasien->nm_pasien,
-            'umur' => "{$surat->regPeriksa->umurdaftar} {$surat->regPeriksa->sttsumur}",
+            'tgl_lahir' => Carbon::parse($surat->regPeriksa->pasien->tgl_lahir)->translatedFormat('d F Y'),
+            'umur' => Carbon::parse($surat->regPeriksa->pasien->tgl_lahir)->diff($surat->regPeriksa->tgl_registrasi)->format('%y Th %m Bl %d Hr'),
             'jk' => $surat->regPeriksa->pasien->jk == 'L' ? 'Laki-laki' : 'Perempuan',
             'pekerjaan' => $surat->regPeriksa->pasien->pekerjaan,
             'instansi' => $surat->regPeriksa->pasien->perusahaanPasien->nama_perusahaan,

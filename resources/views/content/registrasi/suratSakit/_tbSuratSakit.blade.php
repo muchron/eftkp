@@ -101,7 +101,7 @@
                         data: 'no_surat',
                         render: (data, type, row, meta) => {
                             return `<button type="button" class="btn btn-sm btn-danger" onclick="deleteSuratSakit('${data}')"><i class="ti ti-trash"></i></button>
-                            <a href="efktp/surat/sakit/print/${data}" class="btn btn-sm btn-success" target="_blank"><i class="ti ti-printer"></i></a>
+                            <a href="/efktp/surat/sakit/print/${data}" class="btn btn-sm btn-success" target="_blank"><i class="ti ti-printer"></i></a>
                             `;
                         },
                     },
