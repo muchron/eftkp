@@ -1,4 +1,4 @@
-<div class="modal modal-blur fade" id="modalCppt" tabindex="-1" aria-modal="true" role="dialog">
+<div class="modal modal-blur fade" id="modalCppt" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true">
     <div class="modal-dialog modalCppt modal-fullscreen modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">

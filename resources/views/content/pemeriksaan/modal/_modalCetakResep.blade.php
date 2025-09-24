@@ -28,7 +28,8 @@
             })
             modalCetakResep.find('#print').on('load', (e) => {
                 if (e.currentTarget.src) {
-                    showToast('Berhasil');
+                    // Swal.fire('');
+                    toast('Berhasil');
                 }
 
             })
