@@ -145,6 +145,10 @@
                     if (Object.keys(response).length) {
                         setButtonResep(response.no_resep)
                         renderResepObat(no_rawat)
+                    } else {
+                        setButtonResep()
+                        tabelResepUmum.find('tbody').empty()
+                        tabelResepRacikan.find('tbody').empty()
                     }
                 })
 

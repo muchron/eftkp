@@ -59,7 +59,7 @@
 
 
         selectDokterPoli.on('select2:unselect', function(e) {
-            console.log('LOERERERER');
+            // console.log('LOERERERER');
         });
 
         function ubahRegistrasi(no_rawat) {
