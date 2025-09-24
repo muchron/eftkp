@@ -27,9 +27,11 @@
         </div>
     </div>
     <div class="card-footer p-2">
-        <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">
+        <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
+
+        {{-- <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">
             <i class="ti ti-device-floppy"></i> Simpan Resep
-        </button>
+        </button> --}}
 
         <button type="button" class="btn btn-sm btn-info d-none" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak Resep</button>
 
@@ -64,7 +66,28 @@
 
         function tambahResep(no_rawat) {
 
-            createResepDokter()
+            // createResepDokter()
+
+
+            tabelResepUmum.removeClass('d-none')
+            tabelResepRacikan.removeClass('d-none')
+            btnSimpanObat.removeClass('d-none')
+            btnSimpanRacikan.removeClass('d-none')
+            btnCetakResep.removeClass('d-none')
+            btnTambahObat.removeClass('d-none')
+            btnTambahRacikan.removeClass('d-none')
+
+            // tambahBarisObat(tabelResepUmum);
+            const dokter = $('#nip').val()
+            createResepObat(no_rawat, 'ralan', dokter).done((response) => {
+                $('#no_resep').val(response.no_resep)
+                btnTambahResep.removeClass('btn-primary').addClass('btn-danger');
+                btnTambahResep.attr('onclick', `hapusResep('${no_rawat}')`)
+                btnTambahResep.text('Hapus Resep')
+            }).fail((request) => {
+                alertErrorAjax(request)
+            })
+
 
             // tabelResepUmum.removeClass('d-none')
             // tabelResepRacikan.removeClass('d-none')

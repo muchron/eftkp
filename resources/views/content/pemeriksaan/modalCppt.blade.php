@@ -68,7 +68,7 @@
         const targetTabsTindakan = modalCppt.find('a[href="#tabs-tindakan"]');
 
         modalCppt.on('hidden.bs.modal', (e) => {
-            $('.modal-backdrop').remove();
+            // $('.modal-backdrop').remove();
             $(e.currentTarget).find('#formCpptRajal').find('input, textarea').val('-')
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
@@ -77,7 +77,15 @@
 
         modalCppt.on('shown.bs.modal', (e) => {
             switcTab(tabObat)
-            targetTabsCppt.tab('show');
+
+            if (!targetTabsCppt.hasClass('active')) {
+                targetTabsCppt.tab('show');
+            }
+            // targetTabsCppt.tab('show');
+            // hidden tab
+
+            // switcTab(tabObat)
+            // targetTabsCppt.tab('show');
         })
 
         function showCpptRalan(no_rawat) {
