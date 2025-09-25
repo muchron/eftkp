@@ -516,6 +516,32 @@
             }, 1000);
             return setTime;
         }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const u = new SpeechSynthesisUtterance(text);
+
+                // tunggu voices ready
+                // speechSynthesis.onvoiceschanged = () => {
+                let voices = speechSynthesis.getVoices();
+                console.log("Available voices:", voices);
+
+                let indoVoice = voices.find(v => v.lang === 'id-ID');
+                if (indoVoice) {
+                    u.voice = indoVoice;
+                }
+                u.lang = "id-ID";
+                u.rate = 0.9;
+                u.pitch = 1;
+                u.volume = 1;
+
+                speechSynthesis.speak(u);
+                // };
+            } else {
+                alert("Browser tidak mendukung Web Speech API.");
+                console.error("Browser tidak mendukung Web Speech API.");
+            }
+        }
     </script>
     @stack('script')
 </body>

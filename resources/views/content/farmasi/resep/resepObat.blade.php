@@ -32,17 +32,17 @@
 @endsection
 @push('script')
     <script>
-        const tglAwalResep = localStorage.getItem('tglAwalResep');
-        const tglAkhirResep = localStorage.getItem('tglAkhirResep');
+        // const tglAwalResep = localStorage.getItem('tglAwalResep');
+        // const tglAkhirResep = localStorage.getItem('tglAkhirResep');
 
         $(document).ready(() => {
-            tglAwalResep ? $('#tgl_awal').val(tglAwalResep) : '';
-            tglAkhirResep ? $('#tgl_akhir').val(tglAkhirResep) : '';
+            const tglAwalResep = $('#tgl_awal').val();
+            const tglAkhirResep = $('#tgl_akhir').val();
             tbResepObat(tglAwalResep, tglAkhirResep);
 
             setInterval(() => {
                 tbResepObat(tglAwalResep, tglAkhirResep);
-            }, 10000);
+            }, 30000);
         })
 
         function tbResepObat(tgl_awal = '', tgl_akhir = '') {
@@ -66,6 +66,10 @@
                         title: '',
                         data: 'no_resep',
                         render: (data, type, row, meta) => {
+
+                            let colorBtn, displayPanggil = '',
+                                displaySelesai = '';
+
                             if (isAvailableTime(row.jam_penyerahan)) {
                                 colorBtn = `btn-success`
                                 display = `d-none`
@@ -74,9 +78,15 @@
                                 colorBtn = `btn-danger`
                                 display = ``
                             }
+
+                            if (row.jam === '00:00:00') {
+                                displayPanggil = 'd-none';
+                                displaySelesai = 'd-none';
+                            }
+
                             return `<button class="btn btn-sm ${colorBtn}" onclick="showDetailResep('${data}')"><i class="ti ti-search"></i>Lihat</button>
-                            <button class="btn btn-sm btn-success ${display}" onclick="panggilResepPasien('${data}')"><i class="ti ti-phone"></i>Panggil</button>
-                            <button class="btn btn-sm btn-primary ${display}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send"></i>Selesai</button>`;
+                            <button class="btn btn-sm btn-success ${display} ${displayPanggil}" onclick="panggilResepPasien('${data}', '${row.reg_periksa.pasien.nm_pasien}')"><i class="ti ti-phone"></i>Panggil</button>
+                            <button class="btn btn-sm btn-primary ${display} ${displaySelesai}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send"></i>Selesai</button>`;
                         },
                     },
                     {
@@ -202,8 +212,25 @@
             $.post(`/efktp/farmasi/resep/set/penyerahan`, {
                 no_resep: no_resep
             }).done((response) => {
+                localStorage.removeItem('no_resep');
+                localStorage.removeItem('nm_pasien');
+                localStorage.setItem('panggil', 'done')
                 toast('Obat telah selesai');
+                tgl_awal = $('#tgl_awal').val();
+                tgl_akhir = $('#tgl_akhir').val();
                 tbResepObat(tgl_awal, tgl_akhir);
+            })
+        }
+
+        function panggilResepPasien(no_resep, nm_pasien) {
+            localStorage.setItem('no_resep', no_resep);
+            localStorage.setItem('nm_pasien', nm_pasien);
+            localStorage.setItem('panggil', 'yes')
+            $.get(`/efktp/resep/get`, {
+                no_resep: no_resep
+            }).done((response) => {
+                localStorage.setItem('resepPoliklinik', response.reg_periksa.poliklinik.nm_poli);
+                localStorage.setItem('resepDokter', response.reg_periksa.dokter.nm_dokter);
             })
         }
     </script>

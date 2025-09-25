@@ -11,6 +11,7 @@ use App\Traits\Track;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class ResepObatController extends Controller
@@ -69,12 +70,13 @@ class ResepObatController extends Controller
                 ->with('regPeriksa')
                 ->get();
         } else {
-            $resepObat = ResepObat::where('tgl_peresepan', now())->get();
+            $resepObat = ResepObat::where('tgl_peresepan', date('Y-m-d'))->get();
         }
 
         if ($request->dataTable) {
             return DataTables::of($resepObat)->make(true);
         }
+
         return response()->json($resepObat);
     }
 
