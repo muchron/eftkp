@@ -1,5 +1,7 @@
-<div class="modal modal-blur fade" id="modalRegistrasi" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document" style="width:860px;max-width:100%">
+<div class="modal modal-blur fade" id="modalRegistrasi" tabindex="-1" aria-modal="false" role="dialog"
+     data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document"
+         style="width:860px;max-width:100%">
         <div class="modal-content rounded-3">
             <div class="modal-header">
                 <h5 class="modal-title m-0">Registrasi</h5>
@@ -14,37 +16,44 @@
                                     <div class="col-xl-5 col-md-12 col-sm-12">
                                         <label class="form-label required">No. Reg</label>
                                         <div class="input-group">
-                                            <input type="text" name="no_reg" id="no_reg" class="form-control" onfocus="return removeZero(this)" onblur="isEmpty(this)" disabled="">
+                                            <input type="text" name="no_reg" id="no_reg" class="form-control"
+                                                   onfocus="return removeZero(this)" onblur="isEmpty(this)" disabled="">
                                             <span class="input-group-text">
-                                                <input class="form-check-input m-0" type="checkbox" checked="" id="checkNoReg" name="checkNoReg">
+                                                <input class="form-check-input m-0" type="checkbox" checked=""
+                                                       id="checkNoReg" name="checkNoReg">
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-xl-7 col-md-12 col-sm-12">
                                         <label for="no_rawat" class="form-label">No. Rawat</label>
-                                        <input type="text" class="form-control" name="no_rawat" id="no_rawat" />
+                                        <input type="text" class="form-control" name="no_rawat" id="no_rawat"/>
                                     </div>
                                     <div class="col-xl-6 col-md-12 col-sm-12">
                                         <label for="tgl_registrasi" class="form-label">Tgl Registrasi</label>
-                                        <input type="text" class="form-control filterTangal" name="tgl_registrasi" id="tgl_registrasi" value="{{ date('d-m-Y') }}" />
+                                        <input type="text" class="form-control filterTangal" name="tgl_registrasi"
+                                               id="tgl_registrasi" value="{{ date('d-m-Y') }}"/>
                                     </div>
                                     <div class="col-xl-6 col-md-12 col-sm-12">
                                         <label for="jam_reg" class="form-label">Jam</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control jam" name="jam_reg" id="jam_reg" value="{{ date('H:i:s') }}" readonly />
+                                            <input type="text" class="form-control jam" name="jam_reg" id="jam_reg"
+                                                   value="{{ date('H:i:s') }}" readonly/>
                                             <span class="input-group-text">
-                                                <input class="form-check-input m-0 checkJam" type="checkbox" checked="" id="" name="checkjam">
+                                                <input class="form-check-input m-0 checkJam" type="checkbox" checked=""
+                                                       id="" name="checkjam">
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="kd_dokter" class="form-label">Dokter</label>
-                                        <select class="form-select" name="kd_dokter" id="kd_dokter" data-parent="#modalRegistrasi" style="width: 100%"></select>
+                                        <select class="form-select" name="kd_dokter" id="kd_dokter"
+                                                data-parent="#modalRegistrasi" style="width: 100%"></select>
                                         <input type="hidden" name="kd_dokter_pcare">
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="kd_poli" class="form-label">Poliklinik/Unit</label>
-                                        <select class="form-select" name="kd_poli" id="kd_poli" data-parent="#modalRegistrasi" style="width: 100%"></select>
+                                        <select class="form-select" name="kd_poli" id="kd_poli"
+                                                data-parent="#modalRegistrasi" style="width: 100%"></select>
                                         <input type="hidden" name="kd_poli_pcare">
                                     </div>
                                 </div>
@@ -54,34 +63,41 @@
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="no_rkm_medis">No. RM</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="no_rkm_medis" id="no_rkm_medis" value="" readonly />
-                                            <input type="text" class="form-control w-50" name="nm_pasien" id="nm_pasien" value="" readonly />
-                                            <input type="text" class="form-control" name="umurdaftar" id="umurdaftar" value="" readonly />
-                                            <input type="hidden" name="umur" id="umur" value="" />
-                                            <input type="hidden" name="tgl_lahir" id="tgl_lahir" value="" />
+                                            <input type="text" class="form-control" name="no_rkm_medis"
+                                                   id="no_rkm_medis" value="" readonly/>
+                                            <input type="text" class="form-control w-50" name="nm_pasien" id="nm_pasien"
+                                                   value="" readonly/>
+                                            <input type="text" class="form-control" name="umurdaftar" id="umurdaftar"
+                                                   value="" readonly/>
+                                            <input type="hidden" name="umur" id="umur" value=""/>
+                                            <input type="hidden" name="tgl_lahir" id="tgl_lahir" value=""/>
                                         </div>
                                     </div>
                                     <div class="col-xl-6 col-md-12 col-sm-12">
                                         <label for="namakeluarga">KK/Penanggung</label>
-                                        <input type="text" class="form-control" name="namakeluarga" id="namakeluarga" value="" />
+                                        <input type="text" class="form-control" name="p_jawab" id="p_jawab"
+                                               value=""/>
                                     </div>
                                     <div class="col-xl-6 col-md-12 col-sm-12">
                                         <label for="keluarga">Hubungan</label>
-                                        <input type="text" class="form-control" name="keluarga" id="keluarga" value="" />
+                                        <input type="text" class="form-control" name="hubunganpj" id="hubunganpj"
+                                               value=""/>
                                     </div>
                                     <div class="col-xl-8 col-md-12 col-sm-12">
                                         <label for="alamatpj">Alamat P.J.</label>
-                                        <input type="text" class="form-control" name="alamatpj" id="alamatpj" value="" />
+                                        <input type="text" class="form-control" name="alamatpj" id="alamatpj" value=""/>
                                     </div>
                                     <div class="col-xl-4 col-md-12 col-sm-12">
                                         <label for="alamatpj">Status</label>
-                                        <input type="text" class="form-control" name="status" id="status" value="" />
+                                        <input type="text" class="form-control" name="status" id="status" value=""/>
                                     </div>
                                     <div class="col-xl-12 col-md-12 col-sm-12">
                                         <label for="kd_pj">Asuransi/Pembiayaan</label>
                                         <div class="input-group">
-                                            <select type="text" class="form-control" name="kd_pj" id="kd_pj" value="-" style="width:50%"></select>
-                                            <input type="text" class="form-control w-50" name="no_peserta" id="no_peserta" value="-" />
+                                            <select type="text" class="form-control" name="kd_pj" id="kd_pj" value="-"
+                                                    style="width:50%"></select>
+                                            <input type="text" class="form-control w-50" name="no_peserta"
+                                                   id="no_peserta" value="-"/>
                                         </div>
                                     </div>
                                 </div>
@@ -100,8 +116,10 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Poli Tujuan</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="kd_poli_pcare" id="kd_poli_pcare" readonly>
-                                    <input type="text" class="form-control w-50" name="nm_poli_pcare" id="nm_poli_pcare" readonly>
+                                    <input type="text" class="form-control" name="kd_poli_pcare" id="kd_poli_pcare"
+                                           readonly>
+                                    <input type="text" class="form-control w-50" name="nm_poli_pcare" id="nm_poli_pcare"
+                                           readonly>
                                 </div>
                                 <input type="hidden" name="kd_poli_rs">
                                 <input type="hidden" name="bridging">
@@ -110,7 +128,8 @@
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label for="form-label">TKP</label>
                                 <div class="input-group">
-                                    <select class="form-select form-select-2" name="kdTkp" style="width: 100%" data-dropdown-parent='#modalRegistrasi'>
+                                    <select class="form-select form-select-2" name="kdTkp" style="width: 100%"
+                                            data-dropdown-parent='#modalRegistrasi'>
                                         <option value="10">10 - RJTP</option>
                                         <option value="20">20 - RITP</option>
                                         <option value="50">50 - Promotif</option>
@@ -119,21 +138,25 @@
                             </div>
                             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Kunjungan</label>
-                                <input type="text" class="form-control" name="kunjunganSakit" value="Kunjungan Sakit" readonly>
+                                <input type="text" class="form-control" name="kunjunganSakit" value="Kunjungan Sakit"
+                                       readonly>
                             </div>
                             <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12">
                                 <label class="form-label">Keluhan</label>
-                                <input type="text" class="form-control" name="keluhan" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="-">
+                                <input type="text" class="form-control" name="keluhan" onfocus="return removeZero(this)"
+                                       onblur="isEmpty(this)" value="-">
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                                 <div class="mb-1">
                                     <label class="form-label">Tensi</label>
                                     <div class="input-group input-group-flat">
-                                        <input type="text" class="form-control text-end" name="sistole" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
+                                        <input type="text" class="form-control text-end" name="sistole"
+                                               onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                                         <span class="input-group-text" style="width:10px;padding:2px;">
                                             /
                                         </span>
-                                        <input type="text" class="form-control text-end" name="diastole" onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
+                                        <input type="text" class="form-control text-end" name="diastole"
+                                               onfocus="return removeZero(this)" onblur="isEmpty(this)" value="0">
                                         <span class="input-group-text">
                                             mmHg
                                         </span>
@@ -144,7 +167,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Suhu</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="suhu_tubuh" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="suhu_tubuh" value="0">
                                         <span class="input-group-text">
                                             °C
                                         </span>
@@ -155,7 +180,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Tinggi</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="tinggi" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="tinggi" value="0">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -166,7 +193,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Berat</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="berat" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="berat" value="0">
                                         <span class="input-group-text">
                                             Kg
                                         </span>
@@ -177,7 +206,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Respirasi</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="respirasi" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="respirasi" value="0">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -188,7 +219,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Nadi (/mnt)</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="nadi" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="nadi" value="0">
                                         <span class="input-group-text">
                                             x/mnt
                                         </span>
@@ -199,7 +232,9 @@
                                 <div class="mb-1">
                                     <label class="form-label">Lingkar Perut</label>
                                     <div class="input-group input-group-flat">
-                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)" onkeypress="return hanyaAngka(this)" type="text" class="form-control text-end" name="lingkar_perut" value="0">
+                                        <input onfocus="return removeZero(this)" onblur="isEmpty(this)"
+                                               oninput="return hanyaAngka(this)" type="text"
+                                               class="form-control text-end" name="lingkar_perut" value="0">
                                         <span class="input-group-text">
                                             cm
                                         </span>
@@ -211,8 +246,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar</button>
-                <button type="button" class="btn btn-success" id="btnSimpanReg" onclick="createRegPeriksa()"><i class="ti ti-device-floppy me-2"></i>Simpan</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-2"></i>Keluar
+                </button>
+                <button type="button" class="btn btn-success" id="btnSimpanReg" onclick="createRegPeriksa()"><i
+                            class="ti ti-device-floppy me-2"></i>Simpan
+                </button>
             </div>
         </div>
     </div>
@@ -247,7 +285,6 @@
                 periksaPendaftaran.addClass('d-none');
                 selectDokter(kd_dokter, modalRegistrasi)
             }
-
 
 
         })
@@ -513,10 +550,12 @@
                 } else {
                     formRegistrasiPoli.find('input[name=status]').val("Baru")
                 }
+
+                console.log('RESPINSE ===', response)
                 formRegistrasiPoli.find('input[name=nm_pasien]').val(response.nm_pasien)
                 formRegistrasiPoli.find('input[name=no_rkm_medis]').val(no_rkm_medis)
-                formRegistrasiPoli.find('input[name=keluarga]').val(response.keluarga)
-                formRegistrasiPoli.find('input[name=namakeluarga]').val(response.namakeluarga)
+                formRegistrasiPoli.find('input[name=hubunganpj]').val(response.keluarga)
+                formRegistrasiPoli.find('input[name=p_jawab]').val(response.namakeluarga)
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.alamatpj)
                 formRegistrasiPoli.find('input[name=no_peserta]').val(response.penjab.png_jawab.includes('BPJS') ? response.no_peserta : '-')
                 formRegistrasiPoli.find('input[name=tgl_lahir]').val(response.tgl_lahir);

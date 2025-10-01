@@ -8,22 +8,25 @@ use App\Traits\PcareConfig;
 
 class Alergi extends Controller
 {
-    use PcareConfig;
+	use PcareConfig;
 
-    public $bpjs;
-    public function __construct()
-    {
-        $this->bpjs = new Pcare\Alergi($this->config());
-    }
+	public $bpjs;
 
-    public function get($keyword)
-    {
-        $bpjs = $this->bpjs;
-        return $bpjs->jenis($keyword)->index();
-    }
-    public function prognosa($keyword)
-    {
-        $bpjs = $this->bpjs;
-        return $bpjs->prognosa($keyword)->index();
-    }
+	public function __construct()
+	{
+		echo 'dsdsdsd';
+		$this->bpjs = new Pcare\Alergi($this->config());
+	}
+
+	public function get($keyword)
+	{
+		$bpjs = $this->bpjs;
+		return $bpjs->jenis($keyword)->index();
+	}
+
+	public function prognosa($keyword)
+	{
+		$bpjs = $this->bpjs;
+		return $bpjs->prognosa($keyword)->index();
+	}
 }

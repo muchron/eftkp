@@ -12,10 +12,12 @@
                         </div>
                     </div>
                     <div class="card-footer justify-content-between d-flex">
-                        <select class="form-select form-select-sm me-2" id="selectDokterTemplate" style="width:30% !important">
+                        <select class="form-select form-select-sm me-2" id="selectDokterTemplate"
+                                style="width:30% !important">
 
                         </select>
-                        <button type="button" class="btn btn-primary" id="btnCreateTemplateRacikan" onclick="createTemplateRacikan()">
+                        <button type="button" class="btn btn-primary" id="btnCreateTemplateRacikan"
+                                onclick="createTemplateRacikan()">
                             <i class="ti ti-plus me-2"></i> Buat Template
                         </button>
                     </div>
@@ -24,7 +26,7 @@
             <div class="col-lg-4 col-md-12 col-sm-12 d-none" id="cardTemplate">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h3 class="card-title">Form Ubah Template</h3>
+                        <h3 class="card-title">Form Template Racikan</h3>
                         <button type="button" class="btn-close" onclick="closeEdit()"></button>
                     </div>
                     <div class="card-body">
@@ -32,7 +34,7 @@
                             <div class="mb-2">
                                 <input type="hidden" class="form-label" id="id" name="id">
                                 <label for="nm_racikan" class="form-label">Nama Racikan</label>
-                                <input type="text" class="form-control" id="nm_racik" name="nm_racik">
+                                <input type="text" class="form-control" id="nm_racik" name="nm_racik" value="">
                             </div>
                             <div class="mb-2">
                                 <label for="nm_racikan" class="form-label">Dokter</label>
@@ -43,10 +45,14 @@
                                 <div id="listObat">
 
                                 </div>
-                                <button type="button" class="btn btn-sm btn-primary mt-2" id="btnTambahObat"><i class="ti ti-plus me-2"></i> Tambah Obat</button>
+                                <button type="button" class="btn btn-sm btn-primary mt-2" id="btnTambahObat"><i
+                                            class="ti ti-plus me-2"></i> Tambah Obat
+                                </button>
                             </div>
                             <div class="mb-2">
-                                <button type="button" class="btn btn-success" style="width:100%" id="btnSimpanTemplate"><i class="ti ti-device-floppy ms-2"></i> Simpan</button>
+                                <button type="button" class="btn btn-success" style="width:100%" id="btnSimpanTemplate">
+                                    <i class="ti ti-device-floppy ms-2"></i> Simpan
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -96,7 +102,6 @@
         function createTemplateRacikan() {
             cardTemplate.removeClass('d-none');
             cardListTemplate.removeClass('col-lg-12').addClass('col-lg-8');
-            formTemplateResep.find('input[name=nm_racik]').val('-');
             dokter.val(null).trigger('change');
             listObat.empty();
             selectDokter(dokter, '');
@@ -123,19 +128,19 @@
                     },
                 },
                 columns: [{
-                        title: 'Racikan',
-                        data: 'nm_racik',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        },
-
-                    }, {
-                        title: 'Dokter',
-                        data: 'dokter.nm_dokter',
-                        render: (data, type, row, meta) => {
-                            return data;
-                        },
+                    title: 'Racikan',
+                    data: 'nm_racik',
+                    render: (data, type, row, meta) => {
+                        return data;
                     },
+
+                }, {
+                    title: 'Dokter',
+                    data: 'dokter.nm_dokter',
+                    render: (data, type, row, meta) => {
+                        return data;
+                    },
+                },
                     {
                         title: 'Isi/Obat',
                         data: 'detail',
@@ -207,7 +212,7 @@
         btnTambahObat.on('click', (e) => {
             const index = formTemplateResep.find('select[name=kode_brng]').length;
             const select = `<div class="row gy-2 mb-2" id="rowObat${index}">
-                <div class="col-11">
+                          <div class="col-11">
                                 <select class="form-select mb-2" id="obat${index}" style="width:100%" name="kode_brng"></select>
                             </div>
                             <div class="col-1">

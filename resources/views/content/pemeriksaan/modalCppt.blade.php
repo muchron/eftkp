@@ -9,11 +9,15 @@
                 <ul class="nav nav-tabs " data-bs-toggle="tabs">
                     <li class="nav-item">
                         <a href="#tabs-cppt" class="nav-link active"
-                            data-bs-toggle="tab">CPPT</a>
+                           data-bs-toggle="tab">CPPT</a>
                     </li>
                     <li class="nav-item">
                         <a href="#tabs-tindakan" class="nav-link"
-                            data-bs-toggle="tab">Tindakan Dokter</a>
+                           data-bs-toggle="tab">Tindakan Dokter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tabsHasilUsg" class="nav-link"
+                           data-bs-toggle="tab">Hasil USG</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-3">
@@ -37,12 +41,24 @@
                             @include('content.pemeriksaan.modal._tindakanPemeriksaan')
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="tabsHasilUsg">
+                        <div>
+                            @include('content.pemeriksaan.modal._hasilUsg')
+                        </div>
+                    </div>
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()"><i class="ti ti-device-floppy me-1"></i> Simpan</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="ti ti-x me-1"></i>Keluar</button>
+                <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()" id="btnSimpanCppt">
+                    <i class="ti ti-device-floppy me-1"></i> Simpan
+                </button>
+                <button type="button" class="btn btn-success d-none" onclick="" id="btnSimpanHasilUsg">
+                    <i class="ti ti-device-floppy me-1"></i> Simpan Hasil USG
+                </button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="ti ti-x me-1"></i>Keluar
+                </button>
             </div>
         </div>
     </div>
@@ -75,11 +91,17 @@
             $('.tindakan-check').prop('checked', false);
         })
 
+        targetTabsCppt.on('shown.bs.tab', (e) => {
+            $('#btnSimpanCppt').removeClass('d-none')
+            $('#btnSimpanHasilUsg').addClass('d-none')
+        })
+
         modalCppt.on('shown.bs.modal', (e) => {
             switcTab(tabObat)
 
             if (!targetTabsCppt.hasClass('active')) {
                 targetTabsCppt.tab('show');
+
             }
             // targetTabsCppt.tab('show');
             // hidden tab
@@ -89,6 +111,7 @@
         })
 
         function showCpptRalan(no_rawat) {
+
             getRegDetail(no_rawat).done((response) => {
                 const {
                     pasien,
@@ -97,11 +120,11 @@
                     poliklinik
                 } = response;
                 const umurDaftar = hitungUmurDaftar(pasien.tgl_lahir, response.tgl_registrasi)
-
                 const alamat = `${pasien.alamat}, ${pasien.kel.nm_kel}, ${pasien.kec.nm_kec}`
 
                 formCpptRajal.find('input[name=tgl_reg]').val(formatTanggal(response.tgl_registrasi))
                 formCpptRajal.find('input[name=no_rawat]').val(no_rawat)
+                formCpptRajal.find('input[name=png_jawab').val(response?.p_jawab)
                 formCpptRajal.find('input[name=stts]').val(response.stts)
                 formCpptRajal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk}`)

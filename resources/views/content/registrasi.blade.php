@@ -11,12 +11,15 @@
                     <div class="row d-none-sm d-none-md gy-2">
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                             <div class="input-group">
-                                <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                                <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal"
+                                       name="tglAwal" value="{{ date('d-m-Y') }}">
                                 <span class="input-group-text">
                                     s.d
                                 </span>
-                                <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
-                                <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i class="ti ti-search"></i> </button>
+                                <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir"
+                                       name="tglAkhir" value="{{ date('d-m-Y') }}">
+                                <button class="btn w-5 btn-secondary" type="button" id="btnFilterRegistrasi"><i
+                                            class="ti ti-search"></i></button>
                             </div>
                         </div>
                         <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12">
@@ -32,7 +35,9 @@
                             </select>
                         </div>
                         <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
-                            <button type="button" class="btn btn-primary w-100" data-bs-target='#modalPasien' data-bs-toggle="modal"><i class="ti ti-users me-2"></i>Pasien</button>
+                            <button type="button" class="btn btn-primary w-100" data-bs-target='#modalPasien'
+                                    data-bs-toggle="modal"><i class="ti ti-users me-2"></i>Pasien
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -58,7 +63,7 @@
         let selectDokterPoli = formFilterRegistrasi.find('select[name="dokter"'); //get data from selection filter stts
 
 
-        selectDokterPoli.on('select2:unselect', function(e) {
+        selectDokterPoli.on('select2:unselect', function (e) {
             // console.log('LOERERERER');
         });
 
@@ -80,8 +85,9 @@
 
                 formRegistrasiPoli.find('input[name="umurdaftar"]').val(`${setUmurDaftar(pasien.tgl_lahir)}`)
                 formRegistrasiPoli.find('input[name="no_peserta"]').val(pasien.no_peserta)
-                formRegistrasiPoli.find('input[name=keluarga]').val(response.hubunganpj)
-                formRegistrasiPoli.find('input[name=namakeluarga]').val(response.p_jawab)
+                formRegistrasiPoli.find('input[name=hubunganpj]').val(response.hubunganpj)
+                formRegistrasiPoli.find('input[name=p_jawab]').val(response.p_jawab)
+
                 formRegistrasiPoli.find('input[name=alamatpj]').val(response.almt_pj)
                 formRegistrasiPoli.find('input[name=tgl_registrasi]').val(splitTanggal(response.tgl_registrasi))
 
