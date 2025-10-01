@@ -40,9 +40,9 @@ class EfktpTemplateRacikanDetailController extends Controller
             if ($delete) {
                 $this->deleteSql(new EfktpTemplateRacikanDetail(), ['id_racik' => $request->id]);
             }
-            return response()->json('SUKSES');
         } catch (QueryException $e) {
-            throw $e->errorInfo;
+            return response()->json($e->errorInfo, 500);
         }
+        return response()->json('SUKSES');
     }
 }

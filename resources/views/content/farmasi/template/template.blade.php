@@ -11,12 +11,21 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card-footer justify-content-between d-flex">
+                        <select class="form-select form-select-sm me-2" id="selectDokterTemplate" style="width:30% !important">
+
+                        </select>
+                        <button type="button" class="btn btn-primary" id="btnCreateTemplateRacikan" onclick="createTemplateRacikan()">
+                            <i class="ti ti-plus me-2"></i> Buat Template
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12 col-sm-12 d-none" id="cardTemplate">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-flex justify-content-between">
                         <h3 class="card-title">Form Ubah Template</h3>
+                        <button type="button" class="btn-close" onclick="closeEdit()"></button>
                     </div>
                     <div class="card-body">
                         <form action="" id="formTemplateResep">
@@ -41,6 +50,7 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -48,33 +58,67 @@
 @endsection
 @push('script')
     <script>
-        $(document).ready(() => {
-            tbTemplateRacikan()
-
-        })
-
         const cardTemplate = $('#cardTemplate');
         const cardListTemplate = $('#cardListTemplate');
         const selectObat = $('.obat')
-        const dokter = $('#kd_dokter')
         const formTemplateResep = $('#formTemplateResep')
         const listObat = $('#listObat')
         const btnTambahObat = $('#btnTambahObat')
         const btnSimpanTemplate = $('#btnSimpanTemplate')
+        const dokter = formTemplateResep.find('select[name=kd_dokter]')
 
-        function tbTemplateRacikan() {
+        const selectDokterTemplate = $('#selectDokterTemplate');
+
+        $(document).ready(() => {
+            tbTemplateRacikan()
+            selectDokter(selectDokterTemplate, '#cardListTemplate');
+
+        })
+
+        function clearBtnEditOnTable() {
+
+            $('.btn-edit-template').each((index, element) => {
+                if (element.id != `edit${id}`) {
+                    $(element).removeAttr('onclick').removeClass('btn-warning').addClass('btn-outline-warning').attr('onclick', `editTemplate(${element.id.replace('edit', '')})`)
+                }
+            })
+        }
+
+        selectDokterTemplate.on('select2:select', (e) => {
+            const kd_dokter = e.params.data.id;
+            tbTemplateRacikan(kd_dokter);
+        })
+
+        selectDokterTemplate.on('select2:unselect', (e) => {
+            tbTemplateRacikan();
+        })
+
+        function createTemplateRacikan() {
+            cardTemplate.removeClass('d-none');
+            cardListTemplate.removeClass('col-lg-12').addClass('col-lg-8');
+            formTemplateResep.find('input[name=nm_racik]').val('-');
+            dokter.val(null).trigger('change');
+            listObat.empty();
+            selectDokter(dokter, '');
+            clearBtnEditOnTable();
+
+
+        }
+
+        function tbTemplateRacikan(kd_dokter = '') {
             const tbTemplate = new DataTable('#tbTemplateRacikan', {
                 responsive: true,
                 stateSave: true,
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '70vh',
+                scrollY: '54vh',
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {
                     url: `/efktp/resep/racikan/template/get`,
                     data: {
+                        kd_dokter: kd_dokter,
                         datatable: true,
                     },
                 },
@@ -106,7 +150,7 @@
                         title: '',
                         data: 'id',
                         render: (data, type, row, meta) => {
-                            return `<a href="javascript:void(0)" onclick="editTemplate(${data})" class="btn btn-outline-warning btn-sm" id="edit${data}"><i class="ti ti-pencil"></i> Edit</a>
+                            return `<a href="javascript:void(0)" onclick="editTemplate(${data})" class="btn btn-outline-warning btn-sm btn-edit-template" id="edit${data}"><i class="ti ti-pencil"></i> Edit</a>
                          <a href="javascript:void(0)" onclick="hapusTemplate(${data})" class="ms-2 btn btn-outline-danger btn-sm"><i class="ti ti-trash"></i> Hapus</a>`
                         },
                     }
@@ -117,6 +161,7 @@
         function editTemplate(id) {
             cardTemplate.removeClass('d-none');
             cardListTemplate.removeClass('col-lg-12').addClass('col-lg-8')
+            clearBtnEditOnTable();
 
             $(`#edit${id}`).removeAttr('onclick').removeClass('btn-outline-warning').addClass('btn-warning').attr('onclick', `closeEdit(${id})`)
 
@@ -155,8 +200,10 @@
             cardTemplate.addClass('d-none');
             cardListTemplate.addClass('col-lg-12').removeClass('col-lg-8')
             listObat.empty();
-            $(`#edit${id}`).removeAttr('onclick').removeClass('btn-warning').addClass('btn-outline-warning').attr('onclick', `editTemplate(${id})`)
+            clearBtnEditOnTable();
+            // $(`#edit${id}`).removeAttr('onclick').removeClass('btn-warning').addClass('btn-outline-warning').attr('onclick', `editTemplate(${id})`)
         }
+
         btnTambahObat.on('click', (e) => {
             const index = formTemplateResep.find('select[name=kode_brng]').length;
             const select = `<div class="row gy-2 mb-2" id="rowObat${index}">
@@ -185,6 +232,7 @@
                     nama_brng: element.html
                 })
             })
+
             $.post(`/efktp/resep/racikan/template/update`, {
                 id: id,
                 kd_dokter: kd_dokter,
