@@ -63,8 +63,8 @@
                 <div class="card border rounded-4 text-center" style="height: 10vh">
                     <div class="card-body">
                         <marquee behavior="" direction="">
-                            <h1 class="mt-2">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro corporis molestiae ipsa distinctio esse nam fuga est aperiam, neque magni iusto et consequatur quod sed maiores velit voluptatibus, accusamus cumque!
+                            <h1 class="0">
+                                {{ $data->nama_instansi }}, Alamat : {{ $data->alamat_instansi }}, {{ $data->kabupaten }}, {{ $data->propinsi }}, Kritik, Saran & Informasi : {{ $data->email }}, {{ $data->kontak }},
                             </h1>
                         </marquee>
                     </div>
@@ -137,31 +137,7 @@
 
         })
 
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                const u = new SpeechSynthesisUtterance(text);
-
-                // tunggu voices ready
-                // speechSynthesis.onvoiceschanged = () => {
-                let voices = speechSynthesis.getVoices();
-                console.log("Available voices:", voices);
-
-                let indoVoice = voices.find(v => v.lang === 'id-ID');
-                if (indoVoice) {
-                    u.voice = indoVoice;
-                }
-                u.lang = "id-ID";
-                u.rate = 0.9;
-                u.pitch = 1;
-                u.volume = 1;
-
-                speechSynthesis.speak(u);
-                // };
-            } else {
-                alert("Browser tidak mendukung Web Speech API.");
-                console.error("Browser tidak mendukung Web Speech API.");
-            }
-        }
+       
 
 
         function blinkText(element) {
