@@ -59,11 +59,25 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-fieldset">
-                            <div class="mb-3">
-                                <label for="kd_dokter">Dokter</label>
-                                <select class="form-select-2" id="kd_dokter" name="kd_dokter">
+                            <div class="row mb-3">
+                                <div class="col-xl-6 col-lg-6 col-md-12">
+                                    <label for="kd_dokter">Dokter</label>
+                                    <select class="form-select-2" id="kd_dokter" name="kd_dokter">
 
-                                </select>
+                                    </select>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12">
+                                    <label for="tgl_periksa">Tgl. Periksa</label>
+                                    <div class="input-group">
+                                        <input type="input" class="form-control" value="{{date('d/m/Y')}}" readonly
+                                               id="tgl_periksa"
+                                               name="tgl_periksa"/>
+                                        <input type="text" class="form-control" value="{{date('H:i:s')}}" readonly
+                                               id="jam_periksa"
+                                               name="jam_periksa"/>
+                                    </div>
+
+                                </div>
 
                             </div>
                             <h5 class="mb-3">OBSTETRI</h5>
@@ -107,7 +121,7 @@
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="djj" class="form-label">DJJ</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="djj" name="djj">
+                                        <input type="text" class="form-control" id="DJJ" name="DJJ">
                                         <span class="input-group-text">x/mnt</span>
                                     </div>
                                 </div>
@@ -117,13 +131,15 @@
                                 <div class="col-md-6 col-xl-4 col-lg-4">
                                     <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jk" id="jkL" value="L"
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin"
+                                               id="jenis_kelaminL" value="L"
                                                checked>
-                                        <label class="form-check-label" for="jkL">Laki-laki</label>
+                                        <label class="form-check-label" for="jenis_kelaminL">Laki-laki</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jk" id="jkP" value="P">
-                                        <label class="form-check-label" for="jkP">Perempuan</label>
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin"
+                                               id="jenis_kelaminP" value="P">
+                                        <label class="form-check-label" for="jenis_kelaminP">Perempuan</label>
                                     </div>
                                 </div>
 
@@ -139,9 +155,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="air_ketuban" class="form-label">Air Ketuban</label>
+                                    <label for="ketuban" class="form-label">Air Ketuban</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
-                                            id="air_ketuban" name="air_ketuban">
+                                            id="ketuban" name="ketuban">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Cukup">Cukup</option>
                                         <option value="Kurang">Kurang</option>
@@ -159,32 +175,34 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="tbj" class="form-label">TBJ</label>
+                                    <label for="TBJ" class="form-label">TBJ</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="tbj" name="tbj">
+                                        <input type="text" class="form-control" id="TBJ" name="TBJ">
                                         <span class="input-group-text">gram</span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="hpl" class="form-label">HPL</label>
-                                    <input type="date" class="form-control" id="hpl" name="hpl">
+                                    <label for="HPL" class="form-label">HPL</label>
+                                    <input type="date" class="form-control" id="HPL" name="HPL">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="kelainan" class="form-label">Kelainan Kongenital</label>
-                                    <input type="text" class="form-control" id="kelainan" name="kelainan">
+                                    <label for="kelainan_kongenital" class="form-label">Kelainan Kongenital</label>
+                                    <input type="text" class="form-control" id="kelainan_kongenital"
+                                           name="kelainan_kongenital">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="lain" class="form-label">Lain-lain</label>
-                                    <input type="text" class="form-control" id="lain" name="lain">
+                                    <label for="lain-lain" class="form-label">Lain-lain</label>
+                                    <input type="text" class="form-control" id="lain-lain" name="lain-lain">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="pemeriksaan" class="form-label">Pemeriksaan Fisik Tambahan</label>
-                                <textarea class="form-control" id="pemeriksaan" name="pemeriksaan" rows="3"></textarea>
+                                <label for="pemeriksaan_tambahan" class="form-label">Pemeriksaan Fisik Tambahan</label>
+                                <textarea class="form-control" id="pemeriksaan_tambahan" name="pemeriksaan_tambahan"
+                                          rows="3"></textarea>
                             </div>
                         </div>
                         <div class="form-fieldset  d-none" id="formUsgKembar">
@@ -205,7 +223,7 @@
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="letak_punggung2" class="form-label">Letak Punggung</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
-                                            id="letak_punggung2" name="letak_punggung">
+                                            id="letak_punggung2" name="letak_punggung2">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Kanan">Kanan</option>
                                         <option value="Kiri">Kiri</option>
@@ -215,9 +233,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="djj2" class="form-label">DJJ</label>
+                                    <label for="DJJ2" class="form-label">DJJ</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="djj2" name="djj2">
+                                        <input type="text" class="form-control" id="DJJ2" name="DJJ2">
                                         <span class="input-group-text">x/mnt</span>
                                     </div>
                                 </div>
@@ -227,13 +245,15 @@
                                 <div class="col-md-6 col-xl-4 col-lg-4">
                                     <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jk2" id="jkL2" value="L"
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin2"
+                                               id="jenis_kelaminL2" value="L"
                                                checked>
-                                        <label class="form-check-label" for="jkL2">Laki-laki</label>
+                                        <label class="form-check-label" for="jenis_kelaminL2">Laki-laki</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="jk2" id="jkP2" value="P">
-                                        <label class="form-check-label" for="jkP2">Perempuan</label>
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin2"
+                                               id="jenis_kelaminP2" value="P">
+                                        <label class="form-check-label" for="jenis_kelaminP2">Perempuan</label>
                                     </div>
                                 </div>
 
@@ -249,9 +269,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="air_ketuban" class="form-label">Air Ketuban</label>
+                                    <label for="ketuban2" class="form-label">Air Ketuban</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
-                                            id="air_ketuban2" name="air_ketuban2">
+                                            id="ketuban2" name="ketuban2">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Cukup">Cukup</option>
                                         <option value="Kurang">Kurang</option>
@@ -271,19 +291,20 @@
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="tbj" class="form-label">TBJ</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="tbj2" name="tbj2">
+                                        <input type="text" class="form-control" id="TBJ2" name="TBJ2">
                                         <span class="input-group-text">gram</span>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="hpl2" class="form-label">HPL</label>
-                                    <input type="date" class="form-control" id="hpl2" name="hpl2">
+                                    <label for="HPL2" class="form-label">HPL</label>
+                                    <input type="date" class="form-control" id="HPL2" name="HPL2">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="kelainan2" class="form-label">Kelainan Kongenital</label>
-                                    <input type="text" class="form-control" id="kelainan" name="kelainan2">
+                                    <label for="kelainan_kongenital2" class="form-label">Kelainan Kongenital</label>
+                                    <input type="text" class="form-control" id="kelainan_kongenital"
+                                           name="kelainan_kongenital2">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
@@ -293,8 +314,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="pemeriksaan2" class="form-label">Pemeriksaan Fisik Tambahan</label>
-                                <textarea class="form-control" id="pemeriksaan2" name="pemeriksaan2"
+                                <label for="pemeriksaan2_tambahan" class="form-label">Pemeriksaan Fisik Tambahan</label>
+                                <textarea class="form-control" id="pemeriksaan2_tambahan" name="pemeriksaan2_tambahan"
                                           rows="3"></textarea>
                             </div>
                         </div>
@@ -321,8 +342,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="fetal_pole" class="form-label">Fetal Pole</label>
-                                    <input type="text" class="form-control" id="fetal_pole" name="fetal_pole" value="">
+                                    <label for="fetalpole" class="form-label">Fetal Pole</label>
+                                    <input type="text" class="form-control" id="fetalpole" name="fetalpole" value="">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
@@ -399,18 +420,11 @@
 
         btnCreateHasilUsg.on('click', (e) => {
             const no_rawat = formHasilUsg.find('input[name=no_rawat]').val()
-
             const data = getDataForm('formHasilUsg', ['input', 'textarea', 'select']);
-
-            console.log('DATA ===', data)
-
             $.post(`hasil-usg`, data).done((response) => {
-                alert('Success');
-                console.log('RESPONSE ===', response)
+                showToast('Hasil USG berhasil')
             }).fail((result) => {
-                alert('failed');
-                console.log('RESPONSE ===', result)
-
+                showToast(result.responseJSON.message, 'error', 10000)
             })
         })
 

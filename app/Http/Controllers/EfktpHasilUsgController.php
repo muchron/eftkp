@@ -23,14 +23,22 @@ class EfktpHasilUsgController extends Controller
 	{
 		$validated = $request->validated();
 		try {
-			$create = $this->model->create($validated);
+			$create = $this->model->updateOrCreate(['no_rawat' => $validated['no_rawat']], $validated);
 			if ($create) {
 				$this->insertSql($this->model, $validated);
 			}
 		} catch (\Exception $e) {
-			return $this->error($e, $e->getMessage(), 500);
+			return $this->error($e->getMessage());
 		}
 
 		return $this->success();
+	}
+
+	public function first(Request $request)
+	{
+		$result = $this->model
+			->where('no_rawat', $request->no_rawat)
+			->first();
+		return $this->success($result);
 	}
 }

@@ -15,7 +15,8 @@ return new class extends Migration {
 			$table->string('kd_dokter', 20)->collation('latin1_swedish_ci');
 
 
-			$table->dateTime('tgl_periksa')->nullable();
+			$table->date('tgl_periksa')->nullable()->default('1970-12-31');
+			$table->time('jam_periksa')->nullable()->default('00:00:00');
 			$table->string('janin', 200)->nullable();
 			$table->string('presentasi', 200)->nullable();
 			$table->string('presentasi2', 200)->nullable();
