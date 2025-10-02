@@ -42,18 +42,21 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tabsHasilUsg">
-                        <div>
-                            @include('content.pemeriksaan.modal._hasilUsg')
-                        </div>
+                        @include('content.pemeriksaan.modal._hasilUsg')
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" onclick="simpanPemeriksaanRalan()" id="btnSimpanCppt">
-                    <i class="ti ti-device-floppy me-1"></i> Simpan
+                    <i class="ti ti-device-floppy me-1"></i> Simpan CPPT
                 </button>
-                <button type="button" class="btn btn-success d-none" onclick="" id="btnSimpanHasilUsg">
+                {{-- button tindakan pemeriksaan --}}
+                <button class="btn btn-success" type="button" onclick=" createTindakanDokter()" id="btnCreateTindakan">
+                    <i class="ti ti-device-floppy me-1"></i> Simpan Tindakan
+                </button>
+                {{-- button hasil usg--}}
+                <button type="button" class="btn btn-success d-none" onclick="" id="btnCreateHasilUsg">
                     <i class="ti ti-device-floppy me-1"></i> Simpan Hasil USG
                 </button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
@@ -93,7 +96,9 @@
 
         targetTabsCppt.on('shown.bs.tab', (e) => {
             $('#btnSimpanCppt').removeClass('d-none')
-            $('#btnSimpanHasilUsg').addClass('d-none')
+            $('#btnCreateTindakan').addClass('d-none')
+            $('#btnCreateHasilUsg').addClass('d-none')
+
         })
 
         modalCppt.on('shown.bs.modal', (e) => {

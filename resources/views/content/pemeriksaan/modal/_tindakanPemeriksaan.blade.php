@@ -5,20 +5,20 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label for="no_rawat" class="form-label">No. Rawat</label>
-                        <input class="form-control" id="no_rawat" name="no_rawat" />
+                        <input class="form-control" id="no_rawat" name="no_rawat"/>
                     </div>
                     <div class="col-md-4">
                         <label for="nm_pasien" class="form-label">Pasien</label>
                         <div class="input-group">
-                            <input class="form-control" id="no_rkm_medis" name="no_rkm_medis" />
-                            <input class="form-control w-50" id="nm_pasien" name="nm_pasien" />
+                            <input class="form-control" id="no_rkm_medis" name="no_rkm_medis"/>
+                            <input class="form-control w-50" id="nm_pasien" name="nm_pasien"/>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <label for="nm_dokter" class="form-label">Dokter</label>
                         <div class="input-group">
-                            <input class="form-control" id="kd_dokter" name="kd_dokter" readonly />
-                            <input class="form-control w-50" id="nm_dokter" name="nm_dokter" readonly />
+                            <input class="form-control" id="kd_dokter" name="kd_dokter" readonly/>
+                            <input class="form-control w-50" id="nm_dokter" name="nm_dokter" readonly/>
 
                         </div>
                     </div>
@@ -29,7 +29,7 @@
 
                             </table>
                         </div>
-                        <button class="btn btn-success" type="button" onclick=" createTindakanDokter()">Kirim</button>
+
 
                     </div>
                 </div>
@@ -42,14 +42,14 @@
                     <div class="card-body">
                         <table class="table table-sm table-bordered" id="tabelTindakanDilakukan">
                             <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Tgl. Perawatan</th>
-                                    <th>Jam</th>
-                                    <th>Perawatan</th>
-                                    <th>Dokter</th>
-                                    <th>Biaya</th>
-                                </tr>
+                            <tr>
+                                <th></th>
+                                <th>Tgl. Perawatan</th>
+                                <th>Jam</th>
+                                <th>Perawatan</th>
+                                <th>Dokter</th>
+                                <th>Biaya</th>
+                            </tr>
                             </thead>
                             <tbody>
 
@@ -85,7 +85,7 @@
         const tabsTindakan = modalCppt.find('#tabs-tindakan');
         const formTindakanDokter = $('#formTindakanDokter');
         // is tabsTindakan active get data from datapasien & data tindakanPasien
-        targetTabsTindakan.on('shown.bs.tab', function(event) {
+        targetTabsTindakan.on('shown.bs.tab', function (event) {
             const no_rawat = formCpptRajal.find('input[name=no_rawat]').val();
             const nm_pasien = formCpptRajal.find('input[name=nm_pasien]').val();
             const no_rkm_medis = formCpptRajal.find('input[name=no_rkm_medis]').val();
@@ -99,6 +99,10 @@
             formTindakanDokter.find('#nm_dokter').val(nm_dokter);
             tableTindakanDokter()
             getTindakanDilakukan(no_rawat)
+
+            $('#btnSimpanCppt').addClass('d-none')
+            $('#btnCreateHasilUsg').addClass('d-none')
+            $('#btnCreateTindakan').removeClass('d-none')
 
         });
 
@@ -124,12 +128,12 @@
                     url: '/efktp/jenis-perawatan/table',
                     type: 'GET',
                     // tangkap request params sebelum dikirim
-                    data: function(d) {
+                    data: function (d) {
                         lastRequestStart = d.start || 0;
                         return d;
                     },
                     // intercept response dari server
-                    dataSrc: function(json) {
+                    dataSrc: function (json) {
                         // update cache untuk selected ids yang mungkin ada di response ini
                         json.data.forEach(d => {
                             if (selectedRows.includes(d.kd_jenis_prw)) {
@@ -155,7 +159,7 @@
                             return json.data.filter(d => !selectedRows.includes(d.kd_jenis_prw));
                         }
                     },
-                    complete: function() {
+                    complete: function () {
                         var w = $('#tabelTindakanDokter').width();
                         console.log(w);
 
@@ -165,9 +169,9 @@
                 },
 
                 columnDefs: [{
-                        targets: [0],
-                        orderable: false
-                    },
+                    targets: [0],
+                    orderable: false
+                },
                     {
                         targets: [4],
                         className: 'text-end'
@@ -175,15 +179,15 @@
                 ],
 
                 columns: [{
-                        name: 'kd_jenis_prw',
-                        data: 'kd_jenis_prw',
-                        title: '',
-                        render: function(data, type, row, meta) {
-                            // jangan gunakan onchange inline (kita pakai delegated handler)
-                            const checked = selectedRows.includes(data) ? 'checked' : '';
-                            return `<input type="checkbox" class="form-check-input tindakan-check" data-id="${data}" ${checked}>`;
-                        }
-                    },
+                    name: 'kd_jenis_prw',
+                    data: 'kd_jenis_prw',
+                    title: '',
+                    render: function (data, type, row, meta) {
+                        // jangan gunakan onchange inline (kita pakai delegated handler)
+                        const checked = selectedRows.includes(data) ? 'checked' : '';
+                        return `<input type="checkbox" class="form-check-input tindakan-check" data-id="${data}" ${checked}>`;
+                    }
+                },
                     {
                         data: 'kd_jenis_prw',
                         title: 'Kode',
@@ -199,7 +203,7 @@
                     {
                         data: 'total_byrdr',
                         title: 'Biaya',
-                        render: function(data, type, row, meta) {
+                        render: function (data, type, row, meta) {
                             return formatCurrency(data);
                         }
                     },
@@ -207,7 +211,7 @@
                         data: '',
                         title: 'Diskon (%)',
                         width: '10%',
-                        render: function(data, type, row, meta) {
+                        render: function (data, type, row, meta) {
                             const checked = selectedRows.includes(row.kd_jenis_prw);
                             const disabled = checked ? '' : 'disabled';
                             const val = diskonValues.persen[row.kd_jenis_prw] ?? "0";
@@ -224,7 +228,7 @@
                         data: '',
                         title: 'Diskon (Rp.)',
                         width: '10%',
-                        render: function(data, type, row, meta) {
+                        render: function (data, type, row, meta) {
                             const checked = selectedRows.includes(row.kd_jenis_prw);
                             const disabled = checked ? '' : 'disabled';
                             const rawVal = diskonValues.rupiah[row.kd_jenis_prw] ?? "0";
@@ -241,7 +245,7 @@
 
 
                 ],
-                initComplete: function(setting, json) {
+                initComplete: function (setting, json) {
                     const api = this.api();
                     console.log('API ===', api);
 
@@ -250,7 +254,7 @@
             });
 
             // delegated handler untuk checkbox (satu handler untuk seluruh table)
-            $('#tabelTindakanDokter').off('change', '.tindakan-check').on('change', '.tindakan-check', function() {
+            $('#tabelTindakanDokter').off('change', '.tindakan-check').on('change', '.tindakan-check', function () {
                 const id = $(this).data('id');
                 const $tr = $(this).closest('tr');
                 const rowApi = table.row($tr);
@@ -281,7 +285,7 @@
         }
 
         // Checkbox → aktifkan / nonaktifkan input
-        $(document).on("change", ".tindakan-check", function() {
+        $(document).on("change", ".tindakan-check", function () {
             const id = $(this).data("id");
             const isChecked = $(this).is(":checked");
 
@@ -290,11 +294,11 @@
         });
 
         // Fokus → kosongkan kalau 0
-        $(document).on("focus", ".diskonRupiah, .diskonPersen", function() {
+        $(document).on("focus", ".diskonRupiah, .diskonPersen", function () {
             if ($(this).val() === "0") $(this).val("");
         });
 
-        $(document).on("blur", ".diskonPersen", function() {
+        $(document).on("blur", ".diskonPersen", function () {
             let val = $(this).val().replace(/[^0-9,]/g, "").replace(",", ".");
             let num = parseFloat(val);
 
@@ -308,15 +312,14 @@
         });
 
 
-
         // Blur rupiah → kembalikan ke 0 kalau kosong, kalau ada format titik
-        $(document).on("blur", ".diskonRupiah", function() {
+        $(document).on("blur", ".diskonRupiah", function () {
             let val = $(this).val().replace(/[^0-9]/g, "");
             $(this).val(val === "" || val === "0" ? "0" : formatRupiah(val));
         });
 
         // Input rupiah → update persen + cache
-        $(document).on("input", ".diskonRupiah", function() {
+        $(document).on("input", ".diskonRupiah", function () {
             const id = $(this).data("id");
             const tarif = parseFloat($(this).data("tarif")) || 0;
             let val = $(this).val().replace(/[^0-9]/g, "");
@@ -336,7 +339,7 @@
         });
 
         // Input persen → update rupiah + cache
-        $(document).on("input", ".diskonPersen", function() {
+        $(document).on("input", ".diskonPersen", function () {
             const id = $(this).data("id");
             const tarif = parseFloat($(this).data("tarif")) || 0;
             let persen = parseFloat($(this).val()) || 0;
@@ -351,7 +354,6 @@
             diskonValues.persen[id] = persen;
             diskonValues.rupiah[id] = rupiah;
         });
-
 
 
         function createTindakanDokter() {
@@ -426,7 +428,7 @@
 
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const checkedTindakan = $('.tindakan-hasil:checked').map(function() {
+                    const checkedTindakan = $('.tindakan-hasil:checked').map(function () {
                         const $this = $(this);
                         return {
                             kd_jenis_prw: $this.val(),
@@ -454,7 +456,6 @@
                     })
                 }
             })
-
 
 
         }

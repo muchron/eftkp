@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <x-title />
+    <x-title/>
     <!-- CSS files -->
-    <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/tabler.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('public/css/demo.min.css') }}" rel="stylesheet"/>
     <link rel="icon" type="image/x-icon" href="{{ asset('public/img/icon-app.svg') }}">
-    <link href="{{ asset('public/css/datatable/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('public/css/datatable/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('public/css/datatable/dataTables.bootstrap5.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('public/css/datatable/bootstrap-datepicker.min.css') }}" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ asset('public/css/tabler-icon/tabler-icons.min.css') }}">
 
-    <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('public/css/jquery.contextMenu.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/css/font-awesome/all.min.css') }}" />
+    <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('public/css/jquery.contextMenu.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('public/css/font-awesome/all.min.css') }}"/>
     <script type="text/javascript" src="{{ asset('public/js/sweetalert/sweetalert2@11.js') }}"></script>
     <style>
         /* @import url('https://rsms.me/inter/inter.css'); */
@@ -84,7 +84,6 @@
         .select2-selection__rendered {
             line-height: 35px !important;
         }
-
 
 
         .select2-container .select2-selection--single,
@@ -216,11 +215,10 @@
             position: static !important;
             color: inherit;
             box-shadow: none;
-            border: none;
             min-width: 0;
             margin: 0 !important;
             transform: none !important;
-            inset: none !inset;
+            inset: none ! inset;
 
         }
 
@@ -228,12 +226,12 @@
             min-width: 0;
             display: flex;
             width: auto;
-            padding-left: calc(calc(calc(var(--tblr-page-padding) * 2)/ 2) + 0.5rem);
+            padding-left: calc(calc(calc(var(--tblr-page-padding) * 2) / 2) + 0.5rem);
             color: inherit;
         }
 
         .offcanvas .navbar-collapse .dropdown-menu .dropdown-menu .dropdown-item {
-            padding-left: calc(calc(calc(var(--tblr-page-padding)* 2) / 2) + 1.5rem);
+            padding-left: calc(calc(calc(var(--tblr-page-padding) * 2) / 2) + 1.5rem);
         }
     </style>
     @stack('style')
@@ -241,309 +239,315 @@
 
 <body class="layout-fluid">
 
-    <script src="{{ asset('public/js/demo-theme.min.js') }}"></script>
+<script src="{{ asset('public/js/demo-theme.min.js') }}"></script>
 
-    <div class="page-wrapper">
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div class="toast text-bg-success border-0 shadow-lg" id="toast-simple" role="alert" aria-live="assertive" aria-atomic="true"
-                data-bs-autohide="true" data-bs-toggle="toast">
-                <div class="toast-body d-flex justify-content-between">
+<div class="page-wrapper">
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div class="toast text-bg-success border-0 shadow-lg" id="toast-simple" role="alert" aria-live="assertive"
+             aria-atomic="true"
+             data-bs-autohide="true" data-bs-toggle="toast">
+            <div class="toast-body d-flex justify-content-between">
                     <span class="me-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M5 12l5 5l10 -10" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-check">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M5 12l5 5l10 -10"/>
                         </svg>
                         Hello, world! This is a toast message.
                     </span>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-
-        @yield('contents')
     </div>
-    <div class="offcanvas offcanvas-end offcanvas-dark w-25" tabindex="-1" id="otherMenu" aria-labelledby="otherMenuLabel" aria-modal="true" role="dialog">
-        @include('components.offcanvas')
-    </div>
-    <script src="{{ asset('public/js/jQuery/jquery.min.js') }}"></script>
-    {{-- Datatable --}}
-    <script src="{{ asset('public/js/dataTable/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('public/js/dataTable/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('public/js/dataTable/dataTables.fixedColumns.min.js') }}"></script>
-    {{-- Datepicker --}}
-    <script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
-    {{-- Select2 --}}
-    <script src="{{ asset('public/js/select2/select2.min.js') }}"></script>
-    <script src="{{ asset('public/js/demo.min.js') }}" defer></script>
-    <script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
-    <script src="{{ asset('public/libs/tinymce/tinymce.js') }}" defer></script>
-    <script src="{{ asset('public/js/contextMenu/jquery.contextMenu.min.js') }}" defer></script>
-    <script src="{{ asset('public/js/contextMenu/jquery.ui.position.js') }}" defer></script>
-    <script src="{{ asset('public/js/utility.js') }}" defer></script>
-    <script>
-        window.showToast = function(message, type = 'success', delay = 3000) {
-            const toastEl = document.getElementById('toast-simple');
-            let iconSVG = '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>';
-            switch (type) {
-                case 'error':
-                    type = 'danger';
-                    iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>`;
-                    break;
-                case 'warning':
-                    type = 'warning';
-                    iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-exclamation-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>`;
-                    break;
-                default:
-                    type = 'success';
-                    iconSvg = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>`
-                    break;
-            }
 
-
-            toastEl.className = `toast text-bg-${type} border-0 shadow-lg`;
-            toastEl.setAttribute('data-bs-delay', delay);
-            toastEl.querySelector('.toast-body span').innerHTML = `${iconSVG} <span class="ms-2">${message}</span>`;
-            const toast = new bootstrap.Toast(toastEl);
-            toast.show();
+    @yield('contents')
+</div>
+<div class="offcanvas offcanvas-end offcanvas-dark w-25" tabindex="-1" id="otherMenu" aria-labelledby="otherMenuLabel"
+     aria-modal="true" role="dialog">
+    @include('components.offcanvas')
+</div>
+<script src="{{ asset('public/js/jQuery/jquery.min.js') }}"></script>
+{{-- Datatable --}}
+<script src="{{ asset('public/js/dataTable/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('public/js/dataTable/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('public/js/dataTable/dataTables.fixedColumns.min.js') }}"></script>
+{{-- Datepicker --}}
+<script src="{{ asset('public/js/bootstrap-datepicker.min.js') }}"></script>
+{{-- Select2 --}}
+<script src="{{ asset('public/js/select2/select2.min.js') }}"></script>
+<script src="{{ asset('public/js/demo.min.js') }}" defer></script>
+<script src="{{ asset('public/js/tabler.min.js') }}" defer></script>
+<script src="{{ asset('public/libs/tinymce/tinymce.js') }}" defer></script>
+<script src="{{ asset('public/js/contextMenu/jquery.contextMenu.min.js') }}" defer></script>
+<script src="{{ asset('public/js/contextMenu/jquery.ui.position.js') }}" defer></script>
+<script src="{{ asset('public/js/utility.js') }}" defer></script>
+<script>
+    window.showToast = function (message, type = 'success', delay = 3000) {
+        const toastEl = document.getElementById('toast-simple');
+        let iconSVG = '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>';
+        switch (type) {
+            case 'error':
+                type = 'danger';
+                iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>`;
+                break;
+            case 'warning':
+                type = 'warning';
+                iconSVG = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-exclamation-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M12 9v4" /><path d="M12 16v.01" /></svg>`;
+                break;
+            default:
+                type = 'success';
+                iconSvg = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 12l2 2l4 -4" /></svg>`
+                break;
         }
 
-        //Script main
-        let tanggal = "{{ date('d-m-Y') }}"
-        let url = "{{ url('') }}"
-        let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-        let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
 
-        (function(factory) {
-            typeof define === 'function' && define.amd ? define(factory) :
-                factory();
-        })((function() {
-            'use strict';
+        toastEl.className = `toast text-bg-${type} border-0 shadow-lg`;
+        toastEl.setAttribute('data-bs-delay', delay);
+        toastEl.querySelector('.toast-body span').innerHTML = `${iconSVG} <span class="ms-2">${message}</span>`;
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+    }
 
-            const themeStorageKey = "tablerTheme";
-            const defaultTheme = "light";
-            let selectedTheme;
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: function get(searchParams, prop) {
-                    return searchParams.get(prop);
-                }
-            });
-            if (!!params.theme) {
-                localStorage.setItem(themeStorageKey, params.theme);
-                selectedTheme = params.theme;
-            } else {
-                var storedTheme = localStorage.getItem(themeStorageKey);
-                selectedTheme = storedTheme ? storedTheme : defaultTheme;
+    //Script main
+    let tanggal = "{{ date('d-m-Y') }}"
+    let url = "{{ url('') }}"
+    let tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
+    let tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+
+    (function (factory) {
+        typeof define === 'function' && define.amd ? define(factory) :
+            factory();
+    })((function () {
+        'use strict';
+
+        const themeStorageKey = "tablerTheme";
+        const defaultTheme = "light";
+        let selectedTheme;
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: function get(searchParams, prop) {
+                return searchParams.get(prop);
             }
-            if (selectedTheme === 'dark') {
-                document.body.setAttribute("data-bs-theme", selectedTheme);
-            } else {
-                document.body.removeAttribute("data-bs-theme");
+        });
+        if (!!params.theme) {
+            localStorage.setItem(themeStorageKey, params.theme);
+            selectedTheme = params.theme;
+        } else {
+            var storedTheme = localStorage.getItem(themeStorageKey);
+            selectedTheme = storedTheme ? storedTheme : defaultTheme;
+        }
+        if (selectedTheme === 'dark') {
+            document.body.setAttribute("data-bs-theme", selectedTheme);
+        } else {
+            document.body.removeAttribute("data-bs-theme");
+        }
+
+    }));
+    $(document).ready(() => {
+        var tanggal = "{{ date('d-m-Y') }}";
+        jam();
+        var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
+        var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+
+        $('#tglAwal').val(tglAwal)
+        $('#tglAkhir').val(tglAkhir)
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $('.filterTangal').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+            todayBtn: true,
+            todayHighlight: true,
+            language: "id",
+        });
 
-        }));
-        $(document).ready(() => {
-            var tanggal = "{{ date('d-m-Y') }}";
-            jam();
-            var tglAwal = localStorage.getItem('tglAwal') ? localStorage.getItem('tglAwal') : tanggal;
-            var tglAkhir = localStorage.getItem('tglAkhir') ? localStorage.getItem('tglAkhir') : tanggal;
+        $('.filterTahun').datepicker({
+            dateFormat: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
 
-            $('#tglAwal').val(tglAwal)
-            $('#tglAkhir').val(tglAkhir)
+        }).on('changeDate', function (e) {
+            var selectedYear = e.date.getFullYear();
+            $(this).val(selectedYear)
+        }).on('hide', function (e) {
+            var selectedYear = $(this).datepicker('getDate').getFullYear();
+            $(this).val(selectedYear); // Set input value to the selected year
+        });
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('.filterTangal').datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true,
-                todayBtn: true,
-                todayHighlight: true,
-                language: "id",
-            });
-
-            $('.filterTahun').datepicker({
-                dateFormat: "yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-
-            }).on('changeDate', function(e) {
-                var selectedYear = e.date.getFullYear();
-                $(this).val(selectedYear)
-            }).on('hide', function(e) {
-                var selectedYear = $(this).datepicker('getDate').getFullYear();
-                $(this).val(selectedYear); // Set input value to the selected year
-            });
+        $('.form-select-2').select2({
+            width: '100%',
         })
+    })
 
-        function switcTab(tabElement, target = '') {
-            $('.nav-link').removeClass('active');
-            $('.tab-pane').removeClass('show active');
 
-            if (target) {
-                const element = tabElement.find(`a[href="#${target}"]`)
-                $(element).addClass('active')
-                $(target).addClass('show active');
-            } else {
-                tabElement.find('a').each((index, element) => {
-                    if (index === 0) {
-                        const target = $(element).attr('href')
-                        $(element).addClass('active')
-                        $(target).addClass('show active');
-                    }
-                })
+    function switcTab(tabElement, target = '') {
+        $('.nav-link').removeClass('active');
+        $('.tab-pane').removeClass('show active');
+
+        if (target) {
+            const element = tabElement.find(`a[href="#${target}"]`)
+            $(element).addClass('active')
+            $(target).addClass('show active');
+        } else {
+            tabElement.find('a').each((index, element) => {
+                if (index === 0) {
+                    const target = $(element).attr('href')
+                    $(element).addClass('active')
+                    $(target).addClass('show active');
+                }
+            })
+        }
+
+    }
+
+    function setStatusLayan(no_rawat, status) {
+        return $.post(`/efktp/registrasi/update/status`, {
+            stts: status,
+            no_rawat: no_rawat
+        }).done(() => {
+            const btn = $(`#btnStatusLayanan${formatNoRawat(no_rawat)}`)
+                .removeAttr('class');
+            if (status === 'Belum') {
+                btn.addClass('btn btn-sm btn-primary').text('BELUM').attr('onclick', `setPanggil('${no_rawat}', this)`);
+            } else if (status === 'Berkas Diterima') {
+                btn.addClass('btn btn-sm btn-purple').text('PANGGIL').attr('onclick', `setBelum('${no_rawat}', this)`);
+            } else if (status === 'Batal') {
+                btn.addClass('btn btn-sm btn-danger').text('BATAL')
+            } else if (status === 'Sudah') {
+                btn.addClass('btn btn-sm btn-success').text('SUDAH')
+            } else if (status === 'Dirawat') {
+                btn.addClass('btn btn-sm btn-cyan').text('DIRAWAT').attr('onclick', `setBelum('${no_rawat}', this)`);
             }
-
-        }
-
-        function setStatusLayan(no_rawat, status) {
-            return $.post(`/efktp/registrasi/update/status`, {
-                stts: status,
-                no_rawat: no_rawat
-            }).done(() => {
-                const btn = $(`#btnStatusLayanan${formatNoRawat(no_rawat)}`)
-                    .removeAttr('class');
-                if (status === 'Belum') {
-                    btn.addClass('btn btn-sm btn-primary').text('BELUM').
-                    attr('onclick', `setPanggil('${no_rawat}', this)`);
-                } else if (status === 'Berkas Diterima') {
-                    btn.addClass('btn btn-sm btn-purple').text('PANGGIL').
-                    attr('onclick', `setBelum('${no_rawat}', this)`);
-                } else if (status === 'Batal') {
-                    btn.addClass('btn btn-sm btn-danger').text('BATAL')
-                } else if (status === 'Sudah') {
-                    btn.addClass('btn btn-sm btn-success').text('SUDAH')
-                } else if (status === 'Dirawat') {
-                    btn.addClass('btn btn-sm btn-cyan').text('DIRAWAT').
-                    attr('onclick', `setBelum('${no_rawat}', this)`);
+        }).fail((error, status, code) => {
+            if (error.status !== 500) {
+                const errorMessage = {
+                    status: error.status,
+                    statusText: code,
+                    responseJSON: error.responseJSON.message,
                 }
-            }).fail((error, status, code) => {
-                if (error.status !== 500) {
-                    const errorMessage = {
-                        status: error.status,
-                        statusText: code,
-                        responseJSON: error.responseJSON.message,
-                    }
-                    alertErrorAjax(errorMessage)
+                alertErrorAjax(errorMessage)
 
-                } else {
-                    alertErrorAjax(error)
-                }
-            });
-        }
-
-        function getRegDetail(no_rawat) {
-            const registrasi = $.get(`/efktp/registrasi/get/detail`, {
-                no_rawat: no_rawat,
-            })
-            return registrasi;
-        }
-
-        function getRegPeriksa(...params) {
-            const registrasi = $.get(`/efktp/registrasi/get`, params)
-            return registrasi;
-        }
-
-        function createAlergi(data) {
-            const alergi = $.post(`/efktp/pasien/alergi`, {
-                no_rkm_medis: data.no_rkm_medis,
-                alergi: data.alergi
-            });
-            return alergi;
-        }
-
-        function getPemeriksaanRalan(no_rawat, nip = '') {
-            return $.get(`/efktp/pemeriksaan/ralan/show`, {
-                no_rawat: no_rawat,
-                nip: nip
-            })
-        }
-
-        function riwayatIcare(no_peserta) {
-            loadingAjax();
-            $.get(`/efktp/icare`, {
-                no_peserta: no_peserta,
-            }).done((response) => {
-                if (response.metaData.code === 200) {
-                    loadingAjax().close();
-                    window.open(response.response.url, 'Riwayat Perawatan Icare', "width=" + screen.availWidth + ",height=" + screen.availHeight)
-                } else {
-                    Swal.fire(
-                        'Peringatan',
-                        response.metaData.message,
-                        'warning'
-                    )
-                }
-            })
-        }
-    </script>
-    {{-- currency formater --}}
-    <script>
-        const currencyFormatter = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        });
-
-        const floatFormatter = new Intl.NumberFormat('id-ID', {
-            style: 'decimal',
-            minimumFractionDigits: 0,
-
-        });
-
-        function formatCurrency(value) {
-            return currencyFormatter.format(value);
-        }
-
-        function formatFloat(value) {
-            const float = parseFloat(value).toFixed(1);
-            return floatFormatter.format(float);
-        }
-
-        function jam() {
-            setTime = setInterval(() => {
-                var dateString = new Date().toLocaleString("id-ID", {
-                    timeZone: "Asia/Jakarta"
-                });
-                var formattedString = dateString.replace(",", "-");
-                var splitarray = new Array();
-                splitarray = formattedString.split(" ");
-                var splitarraytime = new Array();
-                splitarraytime = splitarray[1].split(".");
-                const jamHitung = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2]; // time
-                $('#jam').html(jamHitung)
-            }, 1000);
-            return setTime;
-        }
-
-        function speak(text) {
-            if ('speechSynthesis' in window) {
-                const u = new SpeechSynthesisUtterance(text);
-
-                // tunggu voices ready
-                // speechSynthesis.onvoiceschanged = () => {
-                let voices = speechSynthesis.getVoices();
-                console.log("Available voices:", voices);
-
-                let indoVoice = voices.find(v => v.lang === 'id-ID');
-                if (indoVoice) {
-                    u.voice = indoVoice;
-                }
-                u.lang = "id-ID";
-                u.rate = 0.9;
-                u.pitch = 1;
-                u.volume = 1;
-
-                speechSynthesis.speak(u);
-                // };
             } else {
-                alert("Browser tidak mendukung Web Speech API.");
-                console.error("Browser tidak mendukung Web Speech API.");
+                alertErrorAjax(error)
             }
+        });
+    }
+
+    function getRegDetail(no_rawat) {
+        const registrasi = $.get(`/efktp/registrasi/get/detail`, {
+            no_rawat: no_rawat,
+        })
+        return registrasi;
+    }
+
+    function getRegPeriksa(...params) {
+        const registrasi = $.get(`/efktp/registrasi/get`, params)
+        return registrasi;
+    }
+
+    function createAlergi(data) {
+        const alergi = $.post(`/efktp/pasien/alergi`, {
+            no_rkm_medis: data.no_rkm_medis,
+            alergi: data.alergi
+        });
+        return alergi;
+    }
+
+    function getPemeriksaanRalan(no_rawat, nip = '') {
+        return $.get(`/efktp/pemeriksaan/ralan/show`, {
+            no_rawat: no_rawat,
+            nip: nip
+        })
+    }
+
+    function riwayatIcare(no_peserta) {
+        loadingAjax();
+        $.get(`/efktp/icare`, {
+            no_peserta: no_peserta,
+        }).done((response) => {
+            if (response.metaData.code === 200) {
+                loadingAjax().close();
+                window.open(response.response.url, 'Riwayat Perawatan Icare', "width=" + screen.availWidth + ",height=" + screen.availHeight)
+            } else {
+                Swal.fire(
+                    'Peringatan',
+                    response.metaData.message,
+                    'warning'
+                )
+            }
+        })
+    }
+</script>
+{{-- currency formater --}}
+<script>
+    const currencyFormatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    });
+
+    const floatFormatter = new Intl.NumberFormat('id-ID', {
+        style: 'decimal',
+        minimumFractionDigits: 0,
+
+    });
+
+    function formatCurrency(value) {
+        return currencyFormatter.format(value);
+    }
+
+    function formatFloat(value) {
+        const float = parseFloat(value).toFixed(1);
+        return floatFormatter.format(float);
+    }
+
+    function jam() {
+        setTime = setInterval(() => {
+            var dateString = new Date().toLocaleString("id-ID", {
+                timeZone: "Asia/Jakarta"
+            });
+            var formattedString = dateString.replace(",", "-");
+            var splitarray = new Array();
+            splitarray = formattedString.split(" ");
+            var splitarraytime = new Array();
+            splitarraytime = splitarray[1].split(".");
+            const jamHitung = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2]; // time
+            $('#jam').html(jamHitung)
+        }, 1000);
+        return setTime;
+    }
+
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            const u = new SpeechSynthesisUtterance(text);
+
+            // tunggu voices ready
+            // speechSynthesis.onvoiceschanged = () => {
+            let voices = speechSynthesis.getVoices();
+            console.log("Available voices:", voices);
+
+            let indoVoice = voices.find(v => v.lang === 'id-ID');
+            if (indoVoice) {
+                u.voice = indoVoice;
+            }
+            u.lang = "id-ID";
+            u.rate = 0.9;
+            u.pitch = 1;
+            u.volume = 1;
+
+            speechSynthesis.speak(u);
+            // };
+        } else {
+            alert("Browser tidak mendukung Web Speech API.");
+            console.error("Browser tidak mendukung Web Speech API.");
         }
-    </script>
-    @stack('script')
+    }
+</script>
+@stack('script')
 </body>
 
 </html>
