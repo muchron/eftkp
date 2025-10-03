@@ -160,9 +160,6 @@
                         }
                     },
                     complete: function () {
-                        var w = $('#tabelTindakanDokter').width();
-                        console.log(w);
-
                         $('#tabelTindakanDokter tbody').width(w - 5); // -- - THIS IS THE FIX
                         $('#tabelTindakanDokter').width(w + 5);
                     }
@@ -247,8 +244,6 @@
                 ],
                 initComplete: function (setting, json) {
                     const api = this.api();
-                    console.log('API ===', api);
-
                     api.columns.adjust().draw();
                 }
             });

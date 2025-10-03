@@ -32,6 +32,7 @@ return new class extends Migration {
 			$table->string('TBJ2', 200)->nullable();
 			$table->string('kelainan_kongenital', 200)->nullable();
 			$table->string('kelainan_kongenital2', 200)->nullable();
+			$table->date('HPHT')->nullable();
 			$table->date('HPL')->nullable();
 			$table->date('HPL2')->nullable();
 			$table->string('umur_kehamilan')->nullable();

@@ -43,6 +43,7 @@ class EfktpHasilUsgRequest extends FormRequest
 			'kelainan_kongenital' => 'required|string|max:200',
 			'kelainan_kongenital2' => 'nullable|string|max:200',
 
+			'HPHT' => 'nullable|date',
 			'HPL' => 'nullable|date',
 			'HPL2' => 'nullable|date',
 			'umur_kehamilan' => 'nullable|string',

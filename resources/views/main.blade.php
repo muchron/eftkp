@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{ asset('public/css/tabler-icon/tabler-icons.min.css') }}">
 
     <link href="{{ asset('public/css/select2/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('public/css/select2-custom-darkmode.css') }}" rel="stylesheet"/>
+
     <link rel="stylesheet" href="{{ asset('public/css/jquery.contextMenu.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('public/css/font-awesome/all.min.css') }}"/>
     <script type="text/javascript" src="{{ asset('public/js/sweetalert/sweetalert2@11.js') }}"></script>
@@ -33,6 +35,7 @@
 
         .ti {
             font-size: medium;
+            font-weight: lighter;
         }
 
         .table {
@@ -56,6 +59,7 @@
         }
 
         .input-group-text {
+            p
             font-size: 10px;
         }
 
@@ -206,6 +210,12 @@
         .dropzone {
             border: 1px solid rgb(227 214 214 / 80%) !important;
         }
+
+        .card, .modal, .alert {
+            border-radius: var(--tblr-border-radius-lg)
+        }
+
+
     </style>
     <style>
         .offcanvas .navbar-collapse .dropdown-menu {

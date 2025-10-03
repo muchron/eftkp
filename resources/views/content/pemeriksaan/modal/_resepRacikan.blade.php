@@ -2,22 +2,26 @@
     <input type="hidden" id="no_resep" name="no_resep">
     <table class="table d-none table-sm mb-2 table-bordered" id="tabelResepRacikan">
         <thead>
-            <tr class="text-center">
-                <th>No</th>
-                <th>Nama Racikan</th>
-                <th width="10%">Jumlah</th>
-                <th>Metode</th>
-                <th>Aturan Pakai</th>
-                <th>Subtotal</th>
-                <th width="10%"></th>
-            </tr>
+        <tr class="text-center">
+            <th>No</th>
+            <th>Nama Racikan</th>
+            <th width="10%">Jumlah</th>
+            <th>Metode</th>
+            <th>Aturan Pakai</th>
+            <th>Subtotal</th>
+            <th width="10%"></th>
+        </tr>
         </thead>
         <tbody>
 
         </tbody>
     </table>
-    <button type="button" class="btn btn-sm btn-primary d-none" id="btnTambahRacikan" onclick="tambahBarisRacikan()">Tambah Racikan</button>
-    <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanRacikan" onclick="simpanRacikan()">Simpan Racikan</button>
+    <button type="button" class="btn btn-sm btn-primary d-none" id="btnTambahRacikan" onclick="tambahBarisRacikan()">
+        Tambah Racikan
+    </button>
+    <button type="button" class="btn btn-sm btn-success d-none" id="btnSimpanRacikan" onclick="simpanRacikan()">Simpan
+        Racikan
+    </button>
 </div>
 
 @push('script')
@@ -77,8 +81,6 @@
                 }
             })
         }
-
-
 
 
         function getResepRacikan(no_resep, no_racik = '') {
@@ -251,8 +253,13 @@
             tabel.append(addRow).append(rowTotalRacikan);
             const racikan = $(`#nmRacik${rowCount}`);
             const metode = $(`#metode${rowCount}`);
+            $(`#jmlDr${rowCount}`).val(1)
             selectTemplate(racikan, modalCppt);
             selectMetode(metode, modalCppt);
+
+            const defaultMetode = new Option('Puyer', 'R01', true, true);
+            metode.append(defaultMetode).trigger('change')
+
         }
 
         function hapusBarisRacikan(id) {
@@ -300,7 +307,9 @@
             }).on('select2:select', (e) => {
                 e.preventDefault();
             })
+            element.val('R01').trigger('change')
         }
+
 
         function selectTemplate(element, parrent) {
             element.select2({

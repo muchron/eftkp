@@ -2,14 +2,14 @@
     <input type="hidden" id="no_resep" name="no_resep">
     <table class="table table-sm d-none mb-2 table-bordered" id="tabelResepUmum">
         <thead>
-            <tr class="text-center">
-                <th width="30%">Obat</th>
-                <th>Harga</th>
-                <th>Jumlah</th>
-                <th>Aturan Pakai</th>
-                <th>Subtotal</th>
-                <th width="10%"></th>
-            </tr>
+        <tr class="text-center">
+            <th width="30%">Obat</th>
+            <th>Harga</th>
+            <th>Jumlah</th>
+            <th>Aturan Pakai</th>
+            <th>Subtotal</th>
+            <th width="10%"></th>
+        </tr>
         </thead>
         <tbody>
 
@@ -119,7 +119,7 @@
                 <td><select class="form-control" name="nm_obat[]" id="kdObat${rowCount}" data-id="${rowCount}" style="width:100%"></select></td>
                 <td class="text-end harga${rowCount}"></td>
                 <td>
-                    <input type="hidden" name="rowNext" id="rowNext" value="${rowCount+1}"/>
+                    <input type="hidden" name="rowNext" id="rowNext" value="${rowCount + 1}"/>
                     <input type="hidden" name="kode_brng[]" id="kdObat${rowCount}Val"/>
                     <input type="text" class="form-control" name="jumlah[]" id="jmlObat${rowCount}"/>
                 </td>
@@ -144,6 +144,7 @@
                 const subTotalObat = e.params.data.detail.ralan * 1
                 $(`.harga${rowCount}`).text(formatCurrency(e.params.data.detail.ralan))
                 $(`.subTotal${rowCount}`).text(formatCurrency(subTotalObat))
+                $(`#jmlObat${rowCount}`).val(1);
                 elementTargetId.val(kodeBarang)
             })
 
@@ -320,6 +321,7 @@
             $('#row' + nextId).attr('id', `row${id}`).find('i').attr('onclick', `hapusBarisObat(${id})`);
             $('#row' + id).remove();
         }
+
         $('#btnTambahObat').on('click', () => {
             tambahBarisObat(tabelResepUmum);
         })

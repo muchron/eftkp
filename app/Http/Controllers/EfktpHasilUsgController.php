@@ -33,7 +33,7 @@ class EfktpHasilUsgController extends Controller
 				$this->insertSql($this->model, $validated);
 			}
 		} catch (\Exception $e) {
-			return $this->error($e->getMessage());
+			return $this->error($e, $e->getMessage());
 		}
 
 		return $this->success();

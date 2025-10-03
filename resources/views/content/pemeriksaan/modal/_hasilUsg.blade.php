@@ -60,15 +60,12 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-fieldset">
                             <div class="row mb-3">
-                                <div class="col-xl-6 col-lg-6 col-md-12">
+                                <div class="col-xl-4 col-lg-4 col-md-12">
                                     <label for="kd_dokter">Dokter</label>
                                     <select class="form-select-2" id="kd_dokter" name="kd_dokter">
 
                                     </select>
                                 </div>
-                                <div class="col-xl-4 col-lg-4 col-md-12">
-                                </div>
-
                             </div>
                             <h5 class="mb-3">OBSTETRI</h5>
                             <div class="row mb-3">
@@ -118,6 +115,13 @@
                             </div>
 
                             <div class="row mb-3">
+                                <div class="col-md-6 col-xl-2 col-lg-2">
+                                    <label for="TBJ" class="form-label">TBJ</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="TBJ" name="TBJ">
+                                        <span class="input-group-text">gram</span>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-xl-4 col-lg-4">
                                     <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
@@ -155,28 +159,22 @@
                                         <option value="Polihidromnion">Polihidromnion</option>
                                     </select>
                                 </div>
+                            </div>
 
+                            <div class="row mb-3">
+                                <div class="col-md-6 col-xl-2 col-lg-3">
+                                    <label for="HPHT" class="form-label">HPHT</label>
+                                    <input type="date" class="form-control" id="HPHT" name="HPHT">
+                                </div>
+                                <div class="col-md-6 col-xl-2 col-lg-3">
+                                    <label for="HPL" class="form-label">HPL</label>
+                                    <input type="date" class="form-control" id="HPL" name="HPL">
+                                </div>
                                 <div class="col-md-6 col-xl-2 col-lg-2">
                                     <label for="umur_kehamilan" class="form-label">Umur Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan" name="umur_kehamilan"
                                            value="">
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="TBJ" class="form-label">TBJ</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="TBJ" name="TBJ">
-                                        <span class="input-group-text">gram</span>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="HPL" class="form-label">HPL</label>
-                                    <input type="date" class="form-control" id="HPL" name="HPL">
-                                </div>
-
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="kelainan_kongenital" class="form-label">Kelainan Kongenital</label>
                                     <input type="text" class="form-control" id="kelainan_kongenital"
@@ -347,8 +345,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="lain_gs" class="form-label">Lain</label>
-                                <input type="text" class="form-control" id="lain_gs" name="lain_gs" autocomplete="">
+                                <label for="lain" class="form-label">Lain</label>
+                                <input type="text" class="form-control" id="lain" name="lain" autocomplete="">
                             </div>
                         </div>
 
@@ -400,9 +398,11 @@
                 const data = response.data
                 const formUsgKembar = $('#formUsgKembar')
                 if (data === null) {
+                    btnCreateHasilUsg.addClass('btn-success').removeClass('btn-primary')
                     return false;
-                }
 
+                }
+                btnCreateHasilUsg.removeClass('btn-success').addClass('btn-primary')
                 formHasilUsg.find('select[name=janin]').val(data.janin).change()
                 formHasilUsg.find('select[name=presentasi]').val(data.presentasi).change()
                 formHasilUsg.find('select[name=letak_punggung]').val(data.letak_punggung).change()
@@ -412,6 +412,7 @@
                 formHasilUsg.find('input[name=DJJ]').val(data.DJJ)
                 formHasilUsg.find(`input[name=jenis_kelamin][value="${data.jenis_kelamin}"`).attr('checked', true).change()
                 formHasilUsg.find('input[name=umur_kehamilan').val(data.umur_kehamilan)
+                formHasilUsg.find('input[name=HPHT').val(data.HPHT)
                 formHasilUsg.find('input[name=HPL').val(data.HPL)
                 formHasilUsg.find('input[name=TBJ').val(data.TBJ)
                 formHasilUsg.find('input[name=kelainan_kongenital').val(data.kelainan_kongenital)
@@ -479,11 +480,30 @@
 
             $.post(`/efktp/hasil-usg`, data).done((response) => {
                 showToast('Hasil USG berhasil')
+                setHasilUsg(no_rawat)
             }).fail((result) => {
                 showToast(result.responseJSON.message, 'error', 10000)
             })
         })
 
+        formHasilUsg.find('input[name=HPHT]').on('change', (e) => {
+            const tglHpht = e.currentTarget.value
+            const hpht = hitungHPL(tglHpht);
+            const umurKehamilan = hitungUsiaKehamilan(tglHpht)
+            const janin = formHasilUsg.find('select[name=janin]').val();
+
+            formHasilUsg.find('input[name=HPL]').val(hpht)
+            formHasilUsg.find('input[name=umur_kehamilan]').val(umurKehamilan)
+            formHasilUsg.find('input[name=umur_kehamilan_gs]').val(umurKehamilan)
+
+            if (janin.includes('Kembar')) {
+                formHasilUsg.find('input[name=umur_kehamilan2]').val(umurKehamilan)
+                formHasilUsg.find('input[name=HPL2]').val(hpht)
+            } else {
+                formHasilUsg.find('input[name=HPL2]').val(null)
+                formHasilUsg.find('input[name=umur_kehamilan2]').val(null)
+            }
+        })
 
     </script>
 @endpush

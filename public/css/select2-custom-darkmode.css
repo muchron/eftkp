@@ -1,0 +1,107 @@
+/* Dropdown background */
+.select2-container--default .select2-results__options {
+    background-color: #1e293b; /* dark bg */
+    color: #e2e8f0; /* light text */
+}
+
+/* Selected item */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #334155; /* slightly lighter bg */
+    color: #f8fafc;
+}
+
+/* Selected value in input */
+.select2-container--default .select2-selection--single {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    color: #f8fafc;
+}
+
+/* Placeholder / text di dalam select */
+.select2-container--default .select2-selection__placeholder {
+    color: #e9ecef;
+}
+
+/* Dropdown arrow */
+.select2-container--default .select2-selection__arrow b {
+    border-color: #f8fafc transparent transparent transparent;
+}
+
+/* Scrollbar (opsional, untuk match dark mode) */
+.select2-results__options::-webkit-scrollbar {
+    width: 8px;
+}
+
+.select2-results__options::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+.select2-results__options::-webkit-scrollbar-thumb {
+    background-color: #475569;
+    border-radius: 4px;
+}
+
+/* Selected item di dalam input (box Select2) */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #ffffff !important; /* teks lebih putih */
+    font-weight: 500; /* sedikit bold biar jelas */
+}
+
+/* Placeholder tetap beda warnanya */
+.select2-container--default .select2-selection__placeholder {
+    color: #94a3b8 !important; /* abu-abu agar beda dari selected */
+}
+
+/* Dropdown list teks normal */
+.select2-container--default .select2-results__option {
+    color: #e2e8f0;
+}
+
+/* Highlight ketika hover/selected di dropdown */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #334155;
+    color: #ffffff;
+}
+
+/* === Untuk select2 multiple (tagging) di dark mode === */
+
+/* Background input utama */
+.select2-container--default .select2-selection--multiple {
+    background-color: #0f172a !important; /* dark bg */
+    border: 1px solid #334155 !important;
+    color: #f8fafc !important;
+}
+
+/* Placeholder */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Item/tag yang sudah dipilih */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #334155 !important; /* dark chip */
+    border: 1px solid #475569 !important;
+    color: #f8fafc !important;
+    font-weight: 500;
+}
+
+/* Tombol "x" untuk remove tag */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #f87171 !important; /* merah soft */
+    margin-right: 4px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #ef4444 !important; /* merah lebih terang saat hover */
+}
+
+/* Dropdown hasil pencarian */
+.select2-container--default .select2-results__option {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #334155;
+    color: #ffffff;
+}

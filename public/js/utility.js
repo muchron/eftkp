@@ -5,6 +5,7 @@ function getRegPeriksa(startDate = '', endDate = '') {
         endDate: endDate
     })
 }
+
 // initialize form select2
 $('.form-select-2').select2();
 
@@ -99,6 +100,7 @@ function formatBulan(intBulan) {
     }
     return bulan;
 }
+
 // HITUNG UMUR
 function hitungUmur(tgl_lahir) {
     sekarang = new Date();
@@ -259,6 +261,7 @@ function getDataForm(form, element, except = []) {
 
     return data;
 }
+
 function stringPemeriksaan(value) {
     if (value) {
         const arrValue = value.split('\n');
@@ -344,10 +347,10 @@ function alertErrorAjax(request) {
     );
 }
 
-function alertErrorBpjs({ metaData, response }) {
+function alertErrorBpjs({metaData, response}) {
     const message = metaData.message;
     const errors = Array.isArray(response) ? response.map(
-        ({ field, message }) => `${field} : ${message}`
+        ({field, message}) => `${field} : ${message}`
     ).join('<br>') : response ?? '';
     return Swal.fire({
         title: 'Pesan dari BPJS',
@@ -396,6 +399,7 @@ function alertError(msg = '') {
         'error'
     );
 }
+
 function toast(message = '', type = '') {
     const textMessage = message ? message : 'Berhasil'
     const typeIcon = type ? type : 'success'
@@ -519,7 +523,6 @@ const isObjectEmpty = (objectName) => {
 }
 
 
-
 function selectBahasaPasien(element, parrent, initVal = '-') {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -608,6 +611,7 @@ function selectCacatFisik(element, parrent, initVal = '-') {
     })
     return select2;
 }
+
 function selectPenjab(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -644,6 +648,7 @@ function selectPenjab(element, parrent) {
     });
     return select2;
 }
+
 function selectDataBarang(element, parrent) {
     return element.select2({
         dropdownParent: parrent,
@@ -739,6 +744,7 @@ function selectDokter(element, parrent) {
     });
 
 }
+
 function selectMappingDokterPcare(element, parrent) {
     return element.select2({
         dropdownParent: parrent,
@@ -778,6 +784,7 @@ function selectMappingDokterPcare(element, parrent) {
     });
 
 }
+
 function selectKelurahan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -815,6 +822,7 @@ function selectKelurahan(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectKecamatan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -852,6 +860,7 @@ function selectKecamatan(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectKabupaten(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -889,6 +898,7 @@ function selectKabupaten(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectPropinsi(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -926,6 +936,7 @@ function selectPropinsi(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectPerusahaan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -963,6 +974,7 @@ function selectPerusahaan(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectPoliklinik(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -1034,6 +1046,7 @@ function selectPegawai(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectPenyakit(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -1070,6 +1083,7 @@ function selectPenyakit(element, parrent) {
     element.append(option).trigger('change');
     return select2;
 }
+
 function selectTindakan(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
@@ -1617,3 +1631,45 @@ $.contextMenu({
         }
     }
 });
+
+function hitungHPL(tanggalHPHT) {
+    let date = new Date(tanggalHPHT);
+    let hplDate = new Date(date.setDate(date.getDate() + 7)); // Tambah 7 hari
+
+    hplDate.setMonth(hplDate.getMonth() - 3);
+
+
+    if (hplDate.getMonth() <= 10) {
+        hplDate.setFullYear(hplDate.getFullYear() + 1);
+    }
+
+    const year = hplDate.getFullYear();
+    const month = String(hplDate.getMonth() + 1).padStart(2, '0');
+    const day = String(hplDate.getDate()).padStart(2, '0'); // <<< Hapus +1 di sini!
+
+
+    return `${year}-${month}-${day}`
+}
+
+function hitungUsiaKehamilan(hpht) {
+    const start = new Date(hpht);
+    const today = new Date();
+
+    // Selisih dalam milidetik
+    const diffTime = today - start;
+
+    if (diffTime < 0) {
+        return "0w0d"; // kalau HPHT di masa depan
+    }
+
+    // Konversi ke hari
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // Hitung minggu & hari
+    const weeks = Math.floor(diffDays / 7);
+    const days = diffDays % 7;
+
+    return `${weeks}w${days}d`;
+}
+
+
