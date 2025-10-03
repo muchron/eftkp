@@ -67,16 +67,6 @@
                                     </select>
                                 </div>
                                 <div class="col-xl-4 col-lg-4 col-md-12">
-                                    <label for="tgl_periksa">Tgl. Periksa</label>
-                                    <div class="input-group">
-                                        <input type="input" class="form-control" value="{{date('d/m/Y')}}" readonly
-                                               id="tgl_periksa"
-                                               name="tgl_periksa"/>
-                                        <input type="text" class="form-control" value="{{date('H:i:s')}}" readonly
-                                               id="jam_periksa"
-                                               name="jam_periksa"/>
-                                    </div>
-
                                 </div>
 
                             </div>
@@ -167,8 +157,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-2 col-lg-2">
-                                    <label for="usia_kehamilan" class="form-label">Usia Kehamilan</label>
-                                    <input type="text" class="form-control" id="usia_kehamilan" name="usia_kehamilan"
+                                    <label for="umur_kehamilan" class="form-label">Umur Kehamilan</label>
+                                    <input type="text" class="form-control" id="umur_kehamilan" name="umur_kehamilan"
                                            value="">
                                 </div>
                             </div>
@@ -194,14 +184,16 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="lain-lain" class="form-label">Lain-lain</label>
-                                    <input type="text" class="form-control" id="lain-lain" name="lain-lain">
+                                    <label for="lain_lain" class="form-label">Lain-lain</label>
+                                    <input type="text" class="form-control" id="lain_lain" name="lain_lain">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="pemeriksaan_tambahan" class="form-label">Pemeriksaan Fisik Tambahan</label>
-                                <textarea class="form-control" id="pemeriksaan_tambahan" name="pemeriksaan_tambahan"
+                                <label for="pemeriksaan_fisik_tambahan" class="form-label">Pemeriksaan Fisik
+                                    Tambahan</label>
+                                <textarea class="form-control" id="pemeriksaan_fisik_tambahan"
+                                          name="pemeriksaan_fisik_tambahan"
                                           rows="3"></textarea>
                             </div>
                         </div>
@@ -281,8 +273,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-2 col-lg-2">
-                                    <label for="usia_kehamilan2" class="form-label">Usia Kehamilan</label>
-                                    <input type="text" class="form-control" id="usia_kehamilan2" name="usia_kehamilan2"
+                                    <label for="umur_kehamilan2" class="form-label">Usia Kehamilan</label>
+                                    <input type="text" class="form-control" id="umur_kehamilan2" name="umur_kehamilan2"
                                            value="">
                                 </div>
                             </div>
@@ -308,14 +300,16 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="lain2" class="form-label">Lain-lain</label>
-                                    <input type="text" class="form-control" id="lain2" name="lain2">
+                                    <label for="lain_lain2" class="form-label">Lain-lain</label>
+                                    <input type="text" class="form-control" id="lain_lain2" name="lain_lain2">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="pemeriksaan2_tambahan" class="form-label">Pemeriksaan Fisik Tambahan</label>
-                                <textarea class="form-control" id="pemeriksaan2_tambahan" name="pemeriksaan2_tambahan"
+                                <label for="pemeriksaan_fisik_tambahan2" class="form-label">Pemeriksaan Fisik
+                                    Tambahan</label>
+                                <textarea class="form-control" id="pemeriksaan_fisik_tambahan2"
+                                          name="pemeriksaan_fisik_tambahan2"
                                           rows="3"></textarea>
                             </div>
                         </div>
@@ -326,8 +320,8 @@
                             <h5 class="mb-3">GYNECOLOGI</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="gs" class="form-label">GS</label>
-                                    <select class="form-select-2" data-dropdown-parent="#modalCppt" id="gs" name="gs">
+                                    <label for="GS" class="form-label">GS</label>
+                                    <select class="form-select-2" data-dropdown-parent="#modalCppt" id="GS" name="GS">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Tunggal, Intrauterin">Tunggal, Intrauterin</option>
                                         <option value="Ganda, Intrauterin">Ganda, Intrauterin</option>
@@ -336,9 +330,9 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="usia_kehamilan_gs" class="form-label">Usia Kehamilan</label>
-                                    <input type="text" class="form-control" id="usia_kehamilan_gs" value=""
-                                           name="usia_kehamilan_gs">
+                                    <label for="umur_kehamilan_gs" class="form-label">Usia Kehamilan</label>
+                                    <input type="text" class="form-control" id="umur_kehamilan_gs" value=""
+                                           name="umur_kehamilan_gs">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
@@ -377,9 +371,9 @@
             $('#btnSimpanCppt').addClass('d-none')
             $('#btnCreateTindakan').addClass('d-none')
             getRegDetail(no_rawat).done((response) => {
+                setHasilUsg(no_rawat)
                 const {pasien} = response;
-                console.log('pasien ===', pasien)
-                console.log('reg ===', response)
+
                 infoPasienUsg.find('input[name=no_rawat]').val(no_rawat)
                 infoPasienUsg.find('input[name=nm_pasien]').val(pasien.nm_pasien);
                 infoPasienUsg.find('input[name=no_rkm_medis]').val(response.no_rkm_medis);
@@ -398,6 +392,58 @@
 
 
         })
+
+        function setHasilUsg(no_rawat) {
+            $.get(`/efktp/hasil-usg`, {
+                no_rawat: no_rawat
+            }).done((response) => {
+                const data = response.data
+                const formUsgKembar = $('#formUsgKembar')
+                if (data === null) {
+                    return false;
+                }
+
+                formHasilUsg.find('select[name=janin]').val(data.janin).change()
+                formHasilUsg.find('select[name=presentasi]').val(data.presentasi).change()
+                formHasilUsg.find('select[name=letak_punggung]').val(data.letak_punggung).change()
+                formHasilUsg.find('select[name=letak_plasenta').val(data.letak_plasenta).change()
+                formHasilUsg.find('select[name=ketuban').val(data.ketuban).change()
+
+                formHasilUsg.find('input[name=DJJ]').val(data.DJJ)
+                formHasilUsg.find(`input[name=jenis_kelamin][value="${data.jenis_kelamin}"`).attr('checked', true).change()
+                formHasilUsg.find('input[name=umur_kehamilan').val(data.umur_kehamilan)
+                formHasilUsg.find('input[name=HPL').val(data.HPL)
+                formHasilUsg.find('input[name=TBJ').val(data.TBJ)
+                formHasilUsg.find('input[name=kelainan_kongenital').val(data.kelainan_kongenital)
+                formHasilUsg.find('input[name=lain_lain').val(data.lain_lain)
+                formHasilUsg.find('textarea[name=pemeriksaan_fisik_tambahan').val(data.pemeriksaan_fisik_tambahan)
+
+                formHasilUsg.find('select[name=GS]').val(data.GS).change()
+                formHasilUsg.find('input[name=umur_kehamilan_gs]').val(data.umur_kehamilan_gs)
+                formHasilUsg.find('input[name=fetalpole]').val(data.fetalpole)
+                formHasilUsg.find('input[name=pulsasi]').val(data.pulsasi)
+                formHasilUsg.find('input[name=lain]').val(data.lain)
+
+
+                if (data.janin.includes('Kembar')) {
+                    formUsgKembar.removeClass('d-none')
+                    formHasilUsg.find('select[name=presentasi2]').val(data.presentasi2).change()
+                    formHasilUsg.find('select[name=letak_punggung2]').val(data.letak_punggung2).change()
+                    formHasilUsg.find('select[name=letak_plasenta2').val(data.letak_plasenta2).change()
+                    formHasilUsg.find('select[name=ketuban2').val(data.ketuban2).change()
+
+                    formHasilUsg.find('input[name=DJJ2]').val(data.DJJ)
+                    formHasilUsg.find(`input[name=jenis_kelamin2][value="${data.jenis_kelamin2}"`).attr('checked', true).change()
+                    formHasilUsg.find('input[name=umur_kehamilan2').val(data.umur_kehamilan2)
+                    formHasilUsg.find('input[name=HPL2').val(data.HPL2)
+                    formHasilUsg.find('input[name=TBJ2').val(data.TBJ2)
+                    formHasilUsg.find('input[name=kelainan_kongenital2').val(data.kelainan_kongenital2)
+                    formHasilUsg.find('input[name=lain_lain2').val(data.lain_lain2)
+                    formHasilUsg.find('textarea[name=pemeriksaan_fisik_tambahan2').val(data.pemeriksaan_fisik_tambahan2)
+                }
+
+            })
+        }
 
         const formHasilUsg = $('#formHasilUsg')
         const selectJanin = formHasilUsg.find('#janin')
@@ -421,7 +467,17 @@
         btnCreateHasilUsg.on('click', (e) => {
             const no_rawat = formHasilUsg.find('input[name=no_rawat]').val()
             const data = getDataForm('formHasilUsg', ['input', 'textarea', 'select']);
-            $.post(`hasil-usg`, data).done((response) => {
+
+            data['jenis_kelamin'] = formHasilUsg.find('input[type=radio][name=jenis_kelamin]:checked').val()
+            data['jenis_kelamin2'] = formHasilUsg.find('input[type=radio][name=jenis_kelamin]:checked').val()
+
+            const isKembar = data['janin']?.includes('Kembar')
+
+            if (!isKembar) {
+                data['jenis_kelamin2'] = null
+            }
+
+            $.post(`/efktp/hasil-usg`, data).done((response) => {
                 showToast('Hasil USG berhasil')
             }).fail((result) => {
                 showToast(result.responseJSON.message, 'error', 10000)

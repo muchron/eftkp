@@ -21,8 +21,13 @@ class EfktpHasilUsgController extends Controller
 
 	public function create(EfktpHasilUsgRequest $request)
 	{
+
 		$validated = $request->validated();
 		try {
+
+			$validated['tgl_periksa'] = now()->translatedFormat('Y-m-d');
+			$validated['jam_periksa'] = now()->translatedFormat('H:i:s');
+
 			$create = $this->model->updateOrCreate(['no_rawat' => $validated['no_rawat']], $validated);
 			if ($create) {
 				$this->insertSql($this->model, $validated);

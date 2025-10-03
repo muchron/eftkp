@@ -15,8 +15,8 @@ return new class extends Migration {
 			$table->string('kd_dokter', 20)->collation('latin1_swedish_ci');
 
 
-			$table->date('tgl_periksa')->nullable()->default('1970-12-31');
-			$table->time('jam_periksa')->nullable()->default('00:00:00');
+			$table->date('tgl_periksa')->nullable()->default('1971-12-31');
+			$table->time('jam_periksa')->nullable()->default('23:59:59');
 			$table->string('janin', 200)->nullable();
 			$table->string('presentasi', 200)->nullable();
 			$table->string('presentasi2', 200)->nullable();
@@ -34,8 +34,8 @@ return new class extends Migration {
 			$table->string('kelainan_kongenital2', 200)->nullable();
 			$table->date('HPL')->nullable();
 			$table->date('HPL2')->nullable();
-			$table->integer('umur_kehamilan')->nullable();
-			$table->integer('umur_kehamilan2')->nullable();
+			$table->string('umur_kehamilan')->nullable();
+			$table->string('umur_kehamilan2')->nullable();
 			$table->string('GS', 200)->nullable();
 			$table->string('lain_lain', 200)->nullable();
 			$table->string('lain_lain2', 200)->nullable();
@@ -45,7 +45,7 @@ return new class extends Migration {
 			$table->text('pemeriksaan_fisik_tambahan2')->nullable();
 			$table->string('fetalpole', 200)->nullable();
 			$table->string('pulsasi', 200)->nullable();
-			$table->string('usia_kehamilan', 200)->nullable();
+			$table->string('umur_kehamilan_gs', 200)->nullable();
 			$table->string('lain', 200)->nullable();
 			$table->timestamps();
 			$table->foreign('kd_dokter')->references('kd_dokter')->on('dokter')

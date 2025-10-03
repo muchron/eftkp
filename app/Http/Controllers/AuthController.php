@@ -17,72 +17,76 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthController extends Controller
 {
-    function index()
-    {
-        $settings = Setting::select()->get();
+	function index()
+	{
+		$settings = Setting::select()->get();
 
-        foreach ($settings as $setting) {
-            $setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
-            $setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
-        }
-        return view('auth.login', ['data' => $setting]);
-    }
-    function auth(Request $request)
-    {
+		foreach ($settings as $setting) {
+			$setting->logo = 'data:image/jpeg;base64,' . base64_encode($setting->logo);
+			$setting->wallpaper = 'data:image/jpeg;base64,' . base64_encode($setting->wallpaper);
+		}
+		return view('auth.login', ['data' => $setting]);
+	}
 
-        $auth = User::select('*', DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
-            ->where('id_user', DB::raw("AES_ENCRYPT('" . $request->get('username') . "', 'nur')"))
-            ->where('password', DB::raw("AES_ENCRYPT('" . $request->get('password') . "', 'windi')"))
-            ->first();
+	function auth(Request $request)
+	{
 
-        if ($auth) {
-            $isAuth = Auth::login($auth);
-            $pegawai = Pegawai::where('nik', $auth->username)
-                ->with('dokter', function ($q) {
-                    return $q->select('kd_dokter', 'nm_dokter');
-                })->select(['nik', 'departemen', 'nama', 'jk', 'jbtn'])
-                ->first();
+		$auth = User::select('*', DB::raw("AES_DECRYPT(id_user, 'nur') as username, AES_DECRYPT(password, 'windi') as passwd"))
+			->where('id_user', DB::raw("AES_ENCRYPT('" . $request->get('username') . "', 'nur')"))
+			->where('password', DB::raw("AES_ENCRYPT('" . $request->get('password') . "', 'windi')"))
+			->first();
 
-            $unsetAuth = [
-                $auth['password'],
-                $auth['id_user'],
-                $auth['passwd']
-            ];
+		if ($auth) {
+			$isAuth = Auth::login($auth);
+			$pegawai = Pegawai::where('nik', $auth->username)
+				->with('dokter', function ($q) {
+					return $q->select('kd_dokter', 'nm_dokter');
+				})->select(['nik', 'departemen', 'nama', 'jk', 'jbtn'])
+				->first();
 
-            unset($unsetAuth);
-            $userSesion = $auth;
+			$unsetAuth = [
+				$auth['password'],
+				$auth['id_user'],
+				$auth['passwd']
+			];
 
-            $request->session()->put(
-                ['pegawai' => $pegawai, 'user' => $userSesion, 'role' => $this->setRole($pegawai)]
-            );
+			unset($unsetAuth);
+			$userSesion = $auth;
 
-            if ($request->has('href')) {
-                $routes = Route::getRoutes();
-                $req = Request::create('/' . $request->href);
-                try {
-                    $routes->match($req);
-                    return redirect('/' . $request->href);
-                } catch (NotFoundHttpException $e) {
-                    return redirect('/');
-                }
-            }
-        } else {
-            return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
-        }
-    }
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        Session::flush();
-        $request->session()->regenerateToken();
-        if ($request->href) {
-            return redirect('/login?href=' . basename(URL::previous()));
-        }
-        return redirect('/login');
-    }
+			$request->session()->put(
+				['pegawai' => $pegawai, 'user' => $userSesion, 'role' => $this->setRole($pegawai)]
+			);
 
-    function setRole($pegawai): string
-    {
-        return $role = $pegawai->dokter ? 'dokter' : 'petugas';
-    }
+			if ($request->has('href')) {
+				$routes = Route::getRoutes();
+				$req = Request::create('/' . $request->href);
+				try {
+					$routes->match($req);
+					return redirect('/' . $request->href);
+				} catch (NotFoundHttpException $e) {
+					return redirect('/');
+				}
+			}
+		} else {
+			return back()->with(['error' => 'Gagal Login, Periksa username & password'])->withInput();
+		}
+
+		return redirect('/');
+	}
+
+	public function logout(Request $request)
+	{
+		Auth::logout();
+		Session::flush();
+		$request->session()->regenerateToken();
+		if ($request->href) {
+			return redirect('/login?href=' . basename(URL::previous()));
+		}
+		return redirect('/login');
+	}
+
+	function setRole($pegawai): string
+	{
+		return $role = $pegawai->dokter ? 'dokter' : 'petugas';
+	}
 }

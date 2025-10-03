@@ -24,7 +24,6 @@ class EfktpHasilUsgRequest extends FormRequest
 		return [
 			'no_rawat' => 'required|string|max:17',
 			'kd_dokter' => 'required|string|max:20',
-			'tgl_periksa' => 'required|date',
 
 			'janin' => 'required|string|max:200',
 			'presentasi' => 'required|string|max:200',
@@ -60,7 +59,7 @@ class EfktpHasilUsgRequest extends FormRequest
 
 			'fetalpole' => 'required|string|max:200',
 			'pulsasi' => 'required|string|max:200',
-			'usia_kehamilan' => 'required|string|max:200',
+			'umur_kehamilan_gs' => 'required|string|max:200',
 			'lain' => 'nullable|string|max:200',
 		];
 	}
