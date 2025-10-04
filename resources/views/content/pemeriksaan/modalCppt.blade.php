@@ -17,7 +17,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="#tabsHasilUsg" class="nav-link"
-                           data-bs-toggle="tab">Hasil USG</a>
+                           data-bs-toggle="tab">USG Kehamilan</a>
                     </li>
                 </ul>
                 <div class="tab-content mt-3">

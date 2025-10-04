@@ -7,6 +7,7 @@ use App\Models\EfktpHasilUsg;
 use App\Traits\Track;
 use Illuminate\Http\Request;
 use Illuminate\Http\ResponseTrait;
+use Illuminate\Support\Facades\DB;
 
 class EfktpHasilUsgController extends Controller
 {
@@ -46,4 +47,17 @@ class EfktpHasilUsgController extends Controller
 			->first();
 		return $this->success($result);
 	}
+
+	public function getHistory(string $no_rkm_medis)
+	{
+		$result = $this->model->with(['pasien', 'regPeriksa.poliklinik', 'dokter'])
+			->whereHas('regPeriksa', function ($query) use ($no_rkm_medis) {
+				return $query->where('no_rkm_medis', $no_rkm_medis);
+			})->get();
+
+
+		return $this->success($result);
+	}
+
+
 }

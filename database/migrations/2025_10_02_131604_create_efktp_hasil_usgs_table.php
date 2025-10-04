@@ -11,7 +11,7 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::create('efktp_hasil_usg', function (Blueprint $table) {
-			$table->string('no_rawat', 17)->primary();
+			$table->string('no_rawat', 17)->collation('latin1_swedish_ci')->primary();
 			$table->string('kd_dokter', 20)->collation('latin1_swedish_ci');
 
 
@@ -49,7 +49,11 @@ return new class extends Migration {
 			$table->string('umur_kehamilan_gs', 200)->nullable();
 			$table->string('lain', 200)->nullable();
 			$table->timestamps();
+
 			$table->foreign('kd_dokter')->references('kd_dokter')->on('dokter')
+				->onDelete('cascade')
+				->onUpdate('cascade');
+			$table->foreign('no_rawat')->references('no_rawat')->on('reg_periksa')
 				->onDelete('cascade')
 				->onUpdate('cascade');
 		});

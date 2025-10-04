@@ -109,7 +109,7 @@
                                     <label for="djj" class="form-label">DJJ</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="DJJ" name="DJJ">
-                                        <span class="input-group-text text-sm">x/mnt</span>
+                                        <span class="input-group-text">x/mnt</span>
                                     </div>
                                 </div>
                             </div>
@@ -349,13 +349,182 @@
                                 <input type="text" class="form-control" id="lain" name="lain" autocomplete="">
                             </div>
                         </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">Riawat USG</div>
+                                <div class="accordion accordion-tabs" id="riwayatUsgContainer"
+                                     style="max-height: 40vh;overflow:auto">
+
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+
                 </div>
             </div>
         </form>
     </div>
 </div>
+<script type="text/template">
+    <div class="accordion-item">
+        <div class="accordion-header">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapse-2-tabs"
+                    aria-expanded="false">
+                How can I customize Tabler components to fit my design needs?
+            </button>
+        </div>
+        <div id="collapse-2-tabs" class="accordion-collapse collapse"
+             data-bs-parent="#riwayatUsgContainer" style="">
+            <div class="accordion-body">
+                <h5 class="">OBSTETRI</h5>
+                <div class="datagrid grid-3" id="">
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Tgl. Pemeriksaan</div>
+                        <span class="datagrid-content tgl_pereiksa">4 Oktober 2025
+                            08:19:47
+                        </span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">No. Rawat</div>
+                        <span class="datagrid-content no_rawat" id="">
+                        </span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Poliklinik</div>
+                        <span class="datagrid-content poliklinik"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Janin</div>
+                        <span class="datagrid-content janin">000004</span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Presentasi</div>
+                        <span class="datagrid-content presentasi">Presentasi</span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Letak Punggung</div>
+                        <span class="datagrid-content letak_punggung"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">DJJ</div>
+                        <span class="datagrid-content DJJ"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Jenis Kelamin</div>
+                        <span class="datagrid-content jenis_kelamin"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Letak Plasenta</div>
+                        <span class="datagrid-content letak_plasenta"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Air Ketuban</div>
+                        <span class="datagrid-content ketuban"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">HPHT</div>
+                        <span class="datagrid-content HPHT"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">HPL</div>
+                        <span class="datagrid-content HPL"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Umur Kehamilan</div>
+                        <span class="datagrid-content umur_kehamilan"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Kelainan Kongenital</div>
+                        <span class="datagrid-content kelainan_kongenital"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Lain-lain</div>
+                        <span class="datagrid-content lain_lain"></span>
+                    </div>
+                    <div class="datagrid-item span-3">
+                        <div class="datagrid-title">Pemeriksaan Fisik Tambahan</div>
+                        <span class="datagrid-content pemeriksaan_fisik_tambahan"></span>
+                    </div>
+
+                </div>
+                <div class="datagrid grid-3 hasilKembar d-none mt-3">
+                    <!-- Grid khusus jika janin kembar -->
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">DJJ</div>
+                        <span class="datagrid-content DJJ2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Letak Punggung</div>
+                        <span class="datagrid-content letak_punggung2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Letak Plasenta</div>
+                        <span class="datagrid-content letak_plasenta2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Jenis Kelamin</div>
+                        <span class="datagrid-content jenis_kelamin2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">TBJ 2</div>
+                        <span class="datagrid-content TBJ2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Kelainan Kongenital</div>
+                        <span class="datagrid-content kelainan_kongenital2"></span>
+                    </div>
+
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">HPL</div>
+                        <span class="datagrid-content HPL2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Umur Kehamilan</div>
+                        <span class="datagrid-content umur_kehamilan2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Kelainan Kongenital</div>
+                        <span class="datagrid-content kelainan_kongenital2"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Lain-lain</div>
+                        <span class="datagrid-content lain_lain2"></span>
+                    </div>
+                    <div class="datagrid-item span-2">
+                        <div class="datagrid-title">Pemeriksaan Fisik Tambahan</div>
+                        <span class="datagrid-content pemeriksaan_fisik_tambahan2"></span>
+                    </div>
+                </div>
+                <h5 class="mt-3">GYNECOLOGY</h5>
+                <div class="datagrid grid-3 ">
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">GS</div>
+                        <span class="datagrid-content GS"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Umur Kehamilan</div>
+                        <span class="datagrid-content umur_kehamilan_gs"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Fetalpole</div>
+                        <span class="datagrid-content fetalpole"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Pulsasi</div>
+                        <span class="datagrid-content pulsasi"></span>
+                    </div>
+                    <div class="datagrid-item">
+                        <div class="datagrid-title">Lain-lain</div>
+                        <span class="datagrid-content lain"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 
 
 @push('script')
@@ -371,6 +540,7 @@
             getRegDetail(no_rawat).done((response) => {
                 setHasilUsg(no_rawat)
                 const {pasien} = response;
+                riwayatHasilUsg(response.no_rkm_medis)
 
                 infoPasienUsg.find('input[name=no_rawat]').val(no_rawat)
                 infoPasienUsg.find('input[name=nm_pasien]').val(pasien.nm_pasien);
@@ -504,6 +674,105 @@
                 formHasilUsg.find('input[name=umur_kehamilan2]').val(null)
             }
         })
+
+        // function riwayatHasilUsg(no_rkm_medis) {
+        //     $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
+        //         .done((response) => {
+        //             showToast('Sukses')
+        //             console.log('RESPONSE ===', response);
+        //         })
+        //         .fail((result) => {
+        //             showToast('Gagal', 'error')
+        //             console.log('ERROR ===', result)
+        //         })
+        // }
+
+        function riwayatHasilUsg(no_rkm_medis) {
+            $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
+                .done((response) => {
+                    showToast('Sukses');
+                    console.log('RESPONSE ===', response);
+                    const {data} = response
+
+                    // pastikan response adalah array
+                    if (!Array.isArray(data) || data.length === 0) {
+                        $('#riwayatUsgContainer').html('<div class="text-muted p-3">Tidak ada data riwayat USG</div>');
+                        return;
+                    }
+
+                    // ambil isi template
+                    const template = $('script[type="text/template"]').html();
+                    const container = $('#riwayatUsgContainer');
+                    container.empty(); // bersihkan isi sebelumnya
+
+
+                    data.forEach((item, index) => {
+                        console.log('ITEM ===', item)
+                        // clone template
+                        let html = $(template);
+
+                        // update id collapse agar unik
+                        const collapseId = `collapse-${index + 1}-tabs`;
+                        html.find('.accordion-button')
+                            .attr('data-bs-target', `#${collapseId}`)
+                            .attr('aria-controls', collapseId)
+                            .text(`${item.tgl_periksa} — ${item.dokter.nm_dokter ?? 'Tanpa Dokter'}`);
+                        html.find('.accordion-collapse').attr('id', collapseId);
+
+                        // isi setiap field dari data
+                        html.find('.tgl_pereiksa').text(formatTanggal(item.tgl_periksa) ?? '-');
+                        html.find('.no_rawat').text(item.no_rawat ?? '-');
+                        html.find('.poliklinik').text(item.reg_periksa.poliklinik.nm_poli ?? '-');
+                        html.find('.janin').text(item.janin ?? '-');
+                        html.find('.presentasi').text(item.presentasi ?? '-');
+                        html.find('.letak_punggung').text(item.letak_punggung ?? '-');
+                        html.find('.DJJ').text(item.DJJ ?? '-');
+                        html.find('.jenis_kelamin').text(item.jenis_kelamin ?? '-');
+                        html.find('.letak_plasenta').text(item.letak_plasenta ?? '-');
+                        html.find('.ketuban').text(item.ketuban ?? '-');
+                        html.find('.HPHT').text(formatTanggal(item.HPHT) ?? '-');
+                        html.find('.HPL').text(formatTanggal(item.HPL) ?? '-');
+                        html.find('.umur_kehamilan').text(item.umur_kehamilan ?? '-');
+                        html.find('.kelainan_kongenital').text(item.kelainan_kongenital ?? '-');
+                        html.find('.lain_lain').text(item.lain_lain ?? '-');
+                        html.find('.pemeriksaan_fisik_tambahan').text(item.pemeriksaan_fisik_tambahan ?? '-');
+
+                        // bagian GS dan lainnya
+                        html.find('.GS').first().text(item.GS ?? '-');
+                        html.find('.umur_kehamilan_gs').text(item.umur_kehamilan_gs ?? '-');
+                        html.find('.fetalpole').text(item.fetalpole ?? '-');
+                        html.find('.pulsasi').text(item.pulsasi ?? '-');
+                        html.find('.lain').text(item.lain ?? '-');
+
+                        // jika janin kembar → tampilkan grid khusus
+                        if (item.janin && item.janin.toLowerCase().includes('kembar')) {
+                            html.find('.hasilKembar').removeClass('d-none');
+                            html.find('.presentasi2').text(item.presentasi2 ?? '-');
+                            html.find('.letak_punggung2').text(item.letak_punggung2 ?? '-');
+                            html.find('.DJJ2').text(item.DJJ2 ?? '-');
+                            html.find('.jenis_kelamin2').text(item.jenis_kelamin2 ?? '-');
+                            html.find('.letak_plasenta2').text(item.letak_plasenta2 ?? '-');
+                            html.find('.ketuban2').text(item.ketuban2 ?? '-');
+                            html.find('.HPL2').text(formatTanggal(item.HPL2) ?? '-');
+                            html.find('.umur_kehamilan2').text(item.umur_kehamilan2 ?? '-');
+                            html.find('.kelainan_kongenital2').text(item.kelainan_kongenital2 ?? '-');
+                            html.find('.lain_lain2').text(item.lain_lain2 ?? '-');
+                            html.find('.pemeriksaan_fisik_tambahan2').text(item.pemeriksaan_fisik_tambahan2 ?? '-');
+                        } else {
+                            html.find('.hasilKembar').addClass('d-none');
+                        }
+
+
+                        // append ke container utama
+                        container.append(html);
+                    });
+                })
+                .fail((result) => {
+                    showToast('Gagal', 'error');
+                    console.log('ERROR ===', result);
+                });
+        }
+
 
     </script>
 @endpush

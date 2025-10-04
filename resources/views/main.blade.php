@@ -26,6 +26,8 @@
 
         :root {
             --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            --tblr-border-radius: var(--tblr-border-radius-lg);
+            --tblr-border-color: #e1e1e1; /* warna border */
         }
 
         body {
@@ -45,6 +47,8 @@
 
         .table .btn-sm {
             font-size: 10px;
+            padding: var(--tblr-btn-padding-x);
+            border-radius: var(--tblr-border-radius-lg);
         }
 
         .form-label {
@@ -208,6 +212,46 @@
 
         .dropzone {
             border: 1px solid rgb(227 214 214 / 80%) !important;
+        }
+
+        .datagrid.responsive {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .datagrid.grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.7rem; /* jarak antar kolom/baris */
+        }
+
+        .datagrid.grid-3 .datagrid-item {
+            border-bottom: 1px solid var(--tblr-border-color);
+            padding: 0.5rem 0.5rem;
+            background-color: var(--tblr-bg-surface);
+        }
+
+        /* span rules */
+        .datagrid-item.span-2 {
+            grid-column: span 2;
+        }
+
+        .datagrid-item.span-3 {
+            grid-column: span 3;
+        }
+
+        /* Optional: responsive behavior */
+        @media (max-width: 768px) {
+            .datagrid.grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .datagrid.grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
         }
 
     </style>
