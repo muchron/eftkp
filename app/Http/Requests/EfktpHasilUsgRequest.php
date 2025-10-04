@@ -40,7 +40,7 @@ class EfktpHasilUsgRequest extends FormRequest
 
 			'TBJ' => 'required|string|max:200',
 			'TBJ2' => 'nullable|string|max:200',
-			'kelainan_kongenital' => 'nullabel|string|max:200',
+			'kelainan_kongenital' => 'nullable|string|max:200',
 			'kelainan_kongenital2' => 'nullable|string|max:200',
 
 			'HPHT' => 'required|date',
