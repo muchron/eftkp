@@ -70,7 +70,7 @@
                             <h5 class="mb-3">OBSTETRI</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="janin" class="form-label">JANIN</label>
+                                    <label for="janin" class="form-label required">JANIN</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="janin" name="janin">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -82,7 +82,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="presentasi" class="form-label">Presentasi</label>
+                                    <label for="presentasi" class="form-label required">Presentasi</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="presentasi" name="presentasi">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -94,7 +94,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_punggung" class="form-label">Letak Punggung</label>
+                                    <label for="letak_punggung" class="form-label required">Letak Punggung</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_punggung" name="letak_punggung">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -106,7 +106,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="djj" class="form-label">DJJ</label>
+                                    <label for="djj" class="form-label required">DJJ</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="DJJ" name="DJJ">
                                         <span class="input-group-text">x/mnt</span>
@@ -116,14 +116,14 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-2 col-lg-2">
-                                    <label for="TBJ" class="form-label">TBJ</label>
+                                    <label for="TBJ" class="form-label required">TBJ</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="TBJ" name="TBJ">
                                         <span class="input-group-text">gram</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xl-4 col-lg-4">
-                                    <label class="form-label">Jenis Kelamin</label><br>
+                                    <label class="form-label required">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jenis_kelamin"
                                                id="jenis_kelaminL" value="L"
@@ -138,7 +138,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_plasenta" class="form-label">Letak Plasenta</label>
+                                    <label for="letak_plasenta" class="form-label required">Letak Plasenta</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_plasenta" name="letak_plasenta">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -149,7 +149,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="ketuban" class="form-label">Air Ketuban</label>
+                                    <label for="ketuban" class="form-label required">Air Ketuban</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="ketuban" name="ketuban">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -163,15 +163,15 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-2 col-lg-3">
-                                    <label for="HPHT" class="form-label">HPHT</label>
+                                    <label for="HPHT" class="form-label required">HPHT</label>
                                     <input type="date" class="form-control" id="HPHT" name="HPHT">
                                 </div>
                                 <div class="col-md-6 col-xl-2 col-lg-3">
-                                    <label for="HPL" class="form-label">HPL</label>
+                                    <label for="HPL" class="form-label required">HPL</label>
                                     <input type="date" class="form-control" id="HPL" name="HPL">
                                 </div>
-                                <div class="col-md-6 col-xl-2 col-lg-2">
-                                    <label for="umur_kehamilan" class="form-label">Umur Kehamilan</label>
+                                <div class="col-md-6 col-xl-2 col-lg-2 ">
+                                    <label for="umur_kehamilan" class="form-label required">Umur Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan" name="umur_kehamilan"
                                            value="">
                                 </div>
@@ -318,7 +318,7 @@
                             <h5 class="mb-3">GYNECOLOGI</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="GS" class="form-label">GS</label>
+                                    <label for="GS" class="form-label required">GS</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt" id="GS" name="GS">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Tunggal, Intrauterin">Tunggal, Intrauterin</option>
@@ -328,18 +328,18 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="umur_kehamilan_gs" class="form-label">Usia Kehamilan</label>
+                                    <label for="umur_kehamilan_gs" class="form-label required">Usia Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan_gs" value=""
                                            name="umur_kehamilan_gs">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="fetalpole" class="form-label">Fetal Pole</label>
+                                    <label for="fetalpole" class="form-label required">Fetal Pole</label>
                                     <input type="text" class="form-control" id="fetalpole" name="fetalpole" value="">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="pulsasi" class="form-label">Pulsasi</label>
+                                    <label for="pulsasi" class="form-label required">Pulsasi</label>
                                     <input type="text" class="form-control" id="pulsasi" name="pulsasi" value="">
                                 </div>
                             </div>
@@ -651,6 +651,7 @@
             $.post(`/efktp/hasil-usg`, data).done((response) => {
                 showToast('Hasil USG berhasil')
                 setHasilUsg(no_rawat)
+                riwayatHasilUsg(data['no_rkm_medis'])
             }).fail((result) => {
                 showToast(result.responseJSON.message, 'error', 10000)
             })
@@ -716,7 +717,7 @@
                         html.find('.accordion-button')
                             .attr('data-bs-target', `#${collapseId}`)
                             .attr('aria-controls', collapseId)
-                            .text(`${item.tgl_periksa} — ${item.dokter.nm_dokter ?? 'Tanpa Dokter'}`);
+                            .text(`${formatTanggal(item.tgl_periksa)} — ${item.dokter.nm_dokter ?? 'Tanpa Dokter'}`);
                         html.find('.accordion-collapse').attr('id', collapseId);
 
                         // isi setiap field dari data

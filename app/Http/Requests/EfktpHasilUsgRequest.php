@@ -40,16 +40,16 @@ class EfktpHasilUsgRequest extends FormRequest
 
 			'TBJ' => 'required|string|max:200',
 			'TBJ2' => 'nullable|string|max:200',
-			'kelainan_kongenital' => 'required|string|max:200',
+			'kelainan_kongenital' => 'nullabel|string|max:200',
 			'kelainan_kongenital2' => 'nullable|string|max:200',
 
-			'HPHT' => 'nullable|date',
-			'HPL' => 'nullable|date',
+			'HPHT' => 'required|date',
+			'HPL' => 'required|date',
 			'HPL2' => 'nullable|date',
-			'umur_kehamilan' => 'nullable|string',
+			'umur_kehamilan' => 'required|string',
 			'umur_kehamilan2' => 'nullable|string',
 
-			'GS' => 'nullable|string|max:200',
+			'GS' => 'required|string|max:200',
 			'lain_lain' => 'nullable|string|max:200',
 			'lain_lain2' => 'nullable|string|max:200',
 			'ketuban' => 'required|string|max:200',
