@@ -60,12 +60,18 @@
                     <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="form-fieldset">
                             <div class="row mb-3">
-                                <div class="col-xl-4 col-lg-4 col-md-12">
+                                <div class="col-xl-9 col-lg-9 col-md-12">
                                     <label for="kd_dokter">Dokter</label>
-                                    <select class="form-select-2" id="kd_dokter" name="kd_dokter">
+                                    <div class="input-group">
+                                        <input class="form-control" id="kd_dokter" name="kd_dokter"/>
+                                        <input class="form-control w-50" id="nm_dokter" name="nm_dokter"/>
+                                        <button type="button" class="btn btn-danger btn-delete-usg" disabled>
+                                            <i class="ti ti-trash"></i>
+                                        </button>
+                                    </div>
 
-                                    </select>
                                 </div>
+
                             </div>
                             <h5 class="mb-3">OBSTETRI</h5>
                             <div class="row mb-3">
@@ -94,7 +100,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_punggung" class="form-label required">Letak Punggung</label>
+                                    <label for="letak_punggung" class="form-label required">Letak
+                                        Punggung</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_punggung" name="letak_punggung">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -138,7 +145,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_plasenta" class="form-label required">Letak Plasenta</label>
+                                    <label for="letak_plasenta" class="form-label required">Letak
+                                        Plasenta</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_plasenta" name="letak_plasenta">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -171,12 +179,15 @@
                                     <input type="date" class="form-control" id="HPL" name="HPL">
                                 </div>
                                 <div class="col-md-6 col-xl-2 col-lg-2 ">
-                                    <label for="umur_kehamilan" class="form-label required">Umur Kehamilan</label>
-                                    <input type="text" class="form-control" id="umur_kehamilan" name="umur_kehamilan"
+                                    <label for="umur_kehamilan" class="form-label required">Umur
+                                        Kehamilan</label>
+                                    <input type="text" class="form-control" id="umur_kehamilan"
+                                           name="umur_kehamilan"
                                            value="">
                                 </div>
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="kelainan_kongenital" class="form-label">Kelainan Kongenital</label>
+                                    <label for="kelainan_kongenital" class="form-label">Kelainan
+                                        Kongenital</label>
                                     <input type="text" class="form-control" id="kelainan_kongenital"
                                            name="kelainan_kongenital">
                                 </div>
@@ -272,7 +283,8 @@
 
                                 <div class="col-md-6 col-xl-2 col-lg-2">
                                     <label for="umur_kehamilan2" class="form-label">Usia Kehamilan</label>
-                                    <input type="text" class="form-control" id="umur_kehamilan2" name="umur_kehamilan2"
+                                    <input type="text" class="form-control" id="umur_kehamilan2"
+                                           name="umur_kehamilan2"
                                            value="">
                                 </div>
                             </div>
@@ -292,7 +304,8 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="kelainan_kongenital2" class="form-label">Kelainan Kongenital</label>
+                                    <label for="kelainan_kongenital2" class="form-label">Kelainan
+                                        Kongenital</label>
                                     <input type="text" class="form-control" id="kelainan_kongenital"
                                            name="kelainan_kongenital2">
                                 </div>
@@ -319,7 +332,8 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="GS" class="form-label required">GS</label>
-                                    <select class="form-select-2" data-dropdown-parent="#modalCppt" id="GS" name="GS">
+                                    <select class="form-select-2" data-dropdown-parent="#modalCppt" id="GS"
+                                            name="GS">
                                         <option value="" selected disabled>::Pilih::</option>
                                         <option value="Tunggal, Intrauterin">Tunggal, Intrauterin</option>
                                         <option value="Ganda, Intrauterin">Ganda, Intrauterin</option>
@@ -328,19 +342,22 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="umur_kehamilan_gs" class="form-label required">Usia Kehamilan</label>
+                                    <label for="umur_kehamilan_gs" class="form-label required">Usia
+                                        Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan_gs" value=""
                                            name="umur_kehamilan_gs">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="fetalpole" class="form-label required">Fetal Pole</label>
-                                    <input type="text" class="form-control" id="fetalpole" name="fetalpole" value="">
+                                    <input type="text" class="form-control" id="fetalpole" name="fetalpole"
+                                           value="">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="pulsasi" class="form-label required">Pulsasi</label>
-                                    <input type="text" class="form-control" id="pulsasi" name="pulsasi" value="">
+                                    <input type="text" class="form-control" id="pulsasi" name="pulsasi"
+                                           value="">
                                 </div>
                             </div>
 
@@ -351,7 +368,7 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <div class="card-title">Riawat USG</div>
+                                <div class="card-title">Riwayat USG</div>
                                 <div class="accordion accordion-tabs" id="riwayatUsgContainer"
                                      style="max-height: 40vh;overflow:auto">
 
@@ -361,7 +378,6 @@
                         </div>
 
                     </div>
-
                 </div>
             </div>
         </form>
@@ -554,11 +570,14 @@
                 const umurdaftar = formatUmurDaftar(hitungUmurDaftar(pasien.tgl_lahir, response.tgl_registrasi))
                 infoPasienUsg.find('input[name=tgl_lahir]').val(`${formatTanggal(pasien.tgl_lahir)} / ${umurdaftar}`);
 
-                const optDokter = new Option(response.dokter.nm_dokter, response.kd_dokter, true, true)
-                formHasilUsg.find('select[name=kd_dokter]').append(optDokter).trigger('change');
+                formHasilUsg.find('input[name=kd_dokter]').val(response.kd_dokter);
+                formHasilUsg.find('input[name=nm_dokter]').val(response.dokter.nm_dokter);
             })
 
 
+        })
+        targetHasilUsg.on('hidden.bs.tab', (e) => {
+            formHasilUsg.trigger('reset');
         })
 
         function setHasilUsg(no_rawat) {
@@ -567,11 +586,19 @@
             }).done((response) => {
                 const data = response.data
                 const formUsgKembar = $('#formUsgKembar')
+                const btnDeleteUsg = $('.btn-delete-usg')
+
                 if (data === null) {
                     btnCreateHasilUsg.addClass('btn-success').removeClass('btn-primary')
+                    btnDeleteUsg.prop('disabled', true).removeAttr('onclick')
+
                     return false;
 
                 }
+
+                btnDeleteUsg.prop('disabled', false).attr('onclick', `deleteHasilUsg('${no_rawat}')`)
+
+
                 btnCreateHasilUsg.removeClass('btn-success').addClass('btn-primary')
                 formHasilUsg.find('select[name=janin]').val(data.janin).change()
                 formHasilUsg.find('select[name=presentasi]').val(data.presentasi).change()
@@ -676,18 +703,6 @@
             }
         })
 
-        // function riwayatHasilUsg(no_rkm_medis) {
-        //     $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
-        //         .done((response) => {
-        //             showToast('Sukses')
-        //             console.log('RESPONSE ===', response);
-        //         })
-        //         .fail((result) => {
-        //             showToast('Gagal', 'error')
-        //             console.log('ERROR ===', result)
-        //         })
-        // }
-
         function riwayatHasilUsg(no_rkm_medis) {
             $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
                 .done((response) => {
@@ -772,6 +787,42 @@
                     showToast('Gagal', 'error');
                     console.log('ERROR ===', result);
                 });
+        }
+
+        function deleteHasilUsg(no_rawat) {
+
+            Swal.fire({
+                title: 'Hapus Hasil USG!',
+                icon: 'warning',
+                text: 'Hasil yang dihapus tidak dapat dikembalikan lagi, yakin hapus ? ',
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: '<i class="ti ti-trash"></i> Hapus',
+                cancelButtonText: '<i class="ti ti-x"></i> Batal',
+                confirmButtonColor: "#d63939",
+                cancelButtonColor: "#206bc4"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/efktp/hasil-usg`,
+                        data: {
+                            no_rawat: no_rawat
+                        },
+                        method: 'DELETE'
+                    }).done((response) => {
+                        const no_rkm_medis = formHasilUsg.find('input[name=no_rkm_medis]').val()
+                        setHasilUsg(no_rawat)
+                        riwayatHasilUsg(no_rkm_medis)
+                        showToast('Berhasil')
+                    }).fail((result) => {
+                        showToast(result.responseJson.message, 'error')
+                    })
+                } else {
+                    showToast('Membatalkan proses hapus')
+                }
+            })
+
+
         }
 
 

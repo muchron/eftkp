@@ -7,7 +7,6 @@ use App\Models\EfktpHasilUsg;
 use App\Traits\Track;
 use Illuminate\Http\Request;
 use Illuminate\Http\ResponseTrait;
-use Illuminate\Support\Facades\DB;
 
 class EfktpHasilUsgController extends Controller
 {
@@ -37,6 +36,19 @@ class EfktpHasilUsgController extends Controller
 			return $this->error($e, $e->getMessage());
 		}
 
+		return $this->success();
+	}
+
+	public function delete(Request $request)
+	{
+		try {
+			$delete = $this->model->where('no_rawat', $request->no_rawat)->delete();
+			if ($delete) {
+				$this->deleteSql($this->model, ['no_rawat' => $request->no_rawat]);
+			}
+		} catch (\Exception $e) {
+			return $this->error(null, $e->getMessage());
+		}
 		return $this->success();
 	}
 

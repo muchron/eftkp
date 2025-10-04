@@ -8,7 +8,7 @@
                 <a href="#tabsResepRacikan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Racikan</a>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item d-none" role="presentation">
                 <a href="#tabsResepPaketan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Paket Obat</a>
             </li>

@@ -142,3 +142,15 @@ body[data-bs-theme="dark"] .select2-container--default .select2-results__option-
     outline: 0 !important;
     min-width: 5ch; /* biar ada space dikit walau kosong */
 }
+
+
+.input-group .select2-container--bootstrap-5 .select2-selection {
+    height: 100% !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
