@@ -109,7 +109,7 @@
                                     <label for="djj" class="form-label">DJJ</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="DJJ" name="DJJ">
-                                        <span class="input-group-text">x/mnt</span>
+                                        <span class="input-group-text text-sm">x/mnt</span>
                                     </div>
                                 </div>
                             </div>

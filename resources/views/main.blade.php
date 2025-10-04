@@ -59,7 +59,6 @@
         }
 
         .input-group-text {
-            p
             font-size: 10px;
         }
 
@@ -71,9 +70,9 @@
             font-size: 10px;
         }
 
-        .modal {
-            border-radius: 6px;
-        }
+        /*.modal {*/
+        /*    border-radius: 6px;*/
+        /*}*/
 
         .accordion-button {
             padding-top: 10px;
@@ -210,11 +209,6 @@
         .dropzone {
             border: 1px solid rgb(227 214 214 / 80%) !important;
         }
-
-        .card, .modal, .alert {
-            border-radius: var(--tblr-border-radius-lg)
-        }
-
 
     </style>
     <style>
