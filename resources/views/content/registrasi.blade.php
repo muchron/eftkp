@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('body')
-    <div class="container-xl h-100">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-body">
                 @include('content.registrasi._tabelRegistrasi')

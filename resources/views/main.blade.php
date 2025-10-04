@@ -47,9 +47,17 @@
 
         .table .btn-sm {
             font-size: 10px;
-            padding: var(--tblr-btn-padding-x);
+            /*font-size: 10px;*/
+            /*padding: var(--tblr-btn-padding-x);*/
+            /*border-radius: var(--tblr-border-radius-lg);*/
+        }
+
+        .btn-sm {
+            font-size: .7rem;
+            padding: 4px 10px !important;
             border-radius: var(--tblr-border-radius-lg);
         }
+
 
         .form-label {
             font-size: 10px;
@@ -259,14 +267,14 @@
         .offcanvas .navbar-collapse .dropdown-menu {
             padding: 0;
             background: 0 0;
-            border: 1px solid #6e6e6e;
+            border: 0 !important;
             position: static !important;
             color: inherit;
             box-shadow: none;
             min-width: 0;
             margin: 0 !important;
             transform: none !important;
-            inset: none ! inset;
+            /*inset: none ! inset;*/
 
         }
 
@@ -594,6 +602,27 @@
             console.error("Browser tidak mendukung Web Speech API.");
         }
     }
+
+
+    function setTableHeight() {
+        const winH = window.innerHeight;
+        const winW = window.innerWidth;
+
+        let vhRatio;
+        if (winW >= 1920) vhRatio = 0.54;       // PC besar (Full HD ke atas)
+        else if (winW >= 1600) vhRatio = 0.52;
+        else if (winW >= 1366) vhRatio = 0.49;
+        else if (winW >= 1280) vhRatio = 0.46;
+        else if (winW >= 992) vhRatio = 0.42;
+        else if (winW >= 768) vhRatio = 0.39;
+        else if (winW >= 576) vhRatio = 0.36;
+        else vhRatio = 0.33; // mobile kecil
+
+        const tableH = Math.max(winH * vhRatio, 200); // minimal 200px
+        return tableH + 'px';
+    }
+
+
 </script>
 @stack('script')
 </body>

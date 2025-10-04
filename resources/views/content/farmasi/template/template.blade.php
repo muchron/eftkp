@@ -117,7 +117,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '54vh',
+                scrollY: setTableHeight(),
                 scrollX: true,
                 fixedColumns: true,
                 ajax: {

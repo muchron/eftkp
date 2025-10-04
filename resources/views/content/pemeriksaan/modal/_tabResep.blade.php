@@ -8,7 +8,7 @@
                 <a href="#tabsResepRacikan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Racikan</a>
             </li>
-            <li class="nav-item d-none" role="presentation">
+            <li class="nav-item" role="presentation">
                 <a href="#tabsResepPaketan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Paket Obat</a>
             </li>
@@ -26,8 +26,18 @@
                 @includeIf('content.pemeriksaan.modal._resepRacikan')
             </div>
             <div class="tab-pane fade" id="tabsResepPaketan" role="tabpanel">
-                {{--                @includeIf('content.pemeriksaan.modal._resepRacikan')--}}
-                lorem
+                <table class="table table-sm mb-2 table-bordered w-100">
+                    <thead>
+                    <tr>
+                        <th>Paket</th>
+                        <th>Poliklinik</th>
+                        <th>Harga</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+
+                </table>
             </div>
 
             {{-- <div class="tab-pane fade" id="tabsRiwayatResep" role="tabpanel">
@@ -38,7 +48,8 @@
     </div>
     <div class="card-footer p-2">
         <button type="button" class="btn btn-sm btn-primary" id="btnTambahResep">Buat Resep</button>
-        <button type="button" class="btn btn-sm btn-info d-none" id="btnCetakResep"><i class="ti ti-printer"></i> Cetak
+        <button type="button" class="btn btn-sm btn-info d-none" id="btnCetakResep"><i class="ti ti-printer me-1"></i>
+            Cetak
             Resep
         </button>
 

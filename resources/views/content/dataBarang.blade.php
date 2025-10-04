@@ -1,26 +1,23 @@
 @extends('layout')
 
 @section('body')
-    <div class="container-xl h-100">
+    <div class="container-fluid">
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    Data Obat
-                </div>
-            </div>
             <div class="card-body">
                 <div id="table-default" class="table-responsive">
                     <table class="table table-striped table-hover nowrap" id="tabelBarangObat" width="100%">
                     </table>
                 </div>
             </div>
-            {{-- <div class="card-footer">
+            <div class="card-footer">
                 <div class="row d-none-sm d-none-md">
                     <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                         <div class="input-group">
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal"
+                                   name="tglAwal" value="{{ date('d-m-Y') }}">
                             <span class="input-group-text">s.d</span>
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir"
+                                   name="tglAkhir" value="{{ date('d-m-Y') }}">
                         </div>
                     </div>
                     <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
@@ -31,10 +28,12 @@
                         </select>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
-                        <button class="btn btn-primary" type="submit" id="btnFilterRanap"><i class="ti ti-search me-2"></i> Cari</button>
+                        <button class="btn btn-primary" type="submit" id="btnFilterRanap"><i
+                                    class="ti ti-search me-2"></i> Cari
+                        </button>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
 
     </div>
@@ -52,7 +51,7 @@
             tabelBarangObat.DataTable({
                 processing: true,
                 serverSide: true,
-                scrollY: '60vh',
+                scrollY: setTableHeight(),
                 scrollX: true,
                 ajax: {
                     url: `/efktp/barang/get`,
@@ -62,15 +61,15 @@
                     }
                 },
                 columns: [{
-                        data: 'kode_brng',
-                        name: 'kode_brng',
-                        title: 'Kode',
-                        render: (data, type, row, meta) => {
-                            return data;
+                    data: 'kode_brng',
+                    name: 'kode_brng',
+                    title: 'Kode',
+                    render: (data, type, row, meta) => {
+                        return data;
 
-                        }
+                    }
 
-                    },
+                },
                     {
                         data: 'nama_brng',
                         name: 'nama_brng',
@@ -166,7 +165,7 @@
                         }
                     },
                 ],
-                drawCallback: function() {
+                drawCallback: function () {
                     // Initialize Select2 on newly created select elements
                     $('.form-select-2').select2({
                         width: 'resolve', // You can adjust this option based on your requirements
@@ -174,7 +173,6 @@
                 }
             })
         }
-
 
 
         function setMappingObatPcare(kode_brng, keyword) {
@@ -239,9 +237,9 @@
                     },
                     dataType: 'json',
                     delay: 200,
-                    processResults: function(data) {
+                    processResults: function (data) {
                         return {
-                            results: data.response.list.map(function(item) {
+                            results: data.response.list.map(function (item) {
                                 return {
                                     id: item.kdObat,
                                     text: `${item.nmObat}`
@@ -250,7 +248,7 @@
                         };
                     },
                     language: {
-                        noResults: function() {
+                        noResults: function () {
                             return "No matching medicines found"; // Custom no-results message
                         }
                     },
@@ -305,7 +303,8 @@
                         toast('Menghapus data mapping obat Pcare ')
                         $(`#labelMapping${kodeBrng}`).empty().html(`
                             <button type="button" class="btn btn-sm btn-warning" id="btnObat${kodeBrng}" onclick="setMappingObatPcare('${kodeBrng}', '${kodeBrng}')"><i class="ti ti-search me-2"></i> Cari Referensi</button>`);
-                    }).fail((error) => {});
+                    }).fail((error) => {
+                    });
                 }
             })
         }

@@ -64,6 +64,7 @@
         })
 
         function loadTabelRegistrasi(tglAwal = '', tglAkhir = '', stts = '', dokter = '') {
+            console.log(setTableHeight())
             const tabelRegistrasi = new DataTable('#tabelRegistrasi', {
                 responsive: true,
                 // autoWidth: true,
@@ -72,7 +73,7 @@
                 destroy: true,
                 processing: true,
                 fixedHeader: true,
-                scrollY: '50vh',
+                scrollY: setTableHeight(),
                 pageLength: 50,
                 scrollX: true,
                 ajax: {
@@ -98,41 +99,41 @@
                     targets: [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
                 }],
                 columns: [{
-                        title: '',
-                        data: 'no_rawat',
-                        render: (data, type, row, meta) => {
-                            let attr = 'javascript:void(0)';
-                            let target = '';
-                            let action = '';
-                            if (row.stts === 'Belum') {
-                                btnStatusLayanan = 'btn-primary'
-                                action = `setPanggil('${data}', this)`
-                            } else if (row.stts === 'Berkas Diterima') {
-                                btnStatusLayanan = 'btn-purple'
-                                action = `setBelum('${data}', this)`
-                                row.stts = 'PANGGIL';
-                            } else if (row.stts === 'Dirawat') {
-                                btnStatusLayanan = 'btn-cyan'
-                                action = `setBelum('${data}', this)`
-                                row.stts = 'DIPERIKSA';
-                            } else if (row.stts === 'Batal') {
-                                btnStatusLayanan = 'btn-danger'
-                            } else if (row.stts === 'Sudah') {
-                                btnStatusLayanan = 'btn-success'
-                            } else if (row.stts === 'Dirujuk') {
-                                btnStatusLayanan = 'btn-warning'
-                                if (row.pcare_rujuk_subspesialis) {
-                                    attr = `pcare/kunjungan/rujuk/subspesialis/print/${row.pcare_rujuk_subspesialis.noKunjungan}`
-                                    target = 'target="_blank"';
-                                }
+                    title: '',
+                    data: 'no_rawat',
+                    render: (data, type, row, meta) => {
+                        let attr = 'javascript:void(0)';
+                        let target = '';
+                        let action = '';
+                        if (row.stts === 'Belum') {
+                            btnStatusLayanan = 'btn-primary'
+                            action = `setPanggil('${data}', this)`
+                        } else if (row.stts === 'Berkas Diterima') {
+                            btnStatusLayanan = 'btn-purple'
+                            action = `setBelum('${data}', this)`
+                            row.stts = 'PANGGIL';
+                        } else if (row.stts === 'Dirawat') {
+                            btnStatusLayanan = 'btn-cyan'
+                            action = `setBelum('${data}', this)`
+                            row.stts = 'DIPERIKSA';
+                        } else if (row.stts === 'Batal') {
+                            btnStatusLayanan = 'btn-danger'
+                        } else if (row.stts === 'Sudah') {
+                            btnStatusLayanan = 'btn-success'
+                        } else if (row.stts === 'Dirujuk') {
+                            btnStatusLayanan = 'btn-warning'
+                            if (row.pcare_rujuk_subspesialis) {
+                                attr = `pcare/kunjungan/rujuk/subspesialis/print/${row.pcare_rujuk_subspesialis.noKunjungan}`
+                                target = 'target="_blank"';
                             }
-
-                            button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" id="btnStatusLayanan${formatNoRawat(row.no_rawat)}">${row.stts.toUpperCase()}</a>`
-
-
-                            return button;
                         }
-                    },
+
+                        button = `<a href="${attr}" ${target}  class="btn btn-sm ${btnStatusLayanan}" onclick="${action}" style="width:100%" id="btnStatusLayanan${formatNoRawat(row.no_rawat)}">${row.stts.toUpperCase()}</a>`
+
+
+                        return button;
+                    }
+                },
                     {
                         title: '',
                         render: (data, type, row, meta) => {

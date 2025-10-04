@@ -13,9 +13,11 @@
                 <div class="row d-none-sm d-none-md">
                     <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
                         <div class="input-group">
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal" name="tglAwal" value="{{ date('d-m-Y') }}">
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAwal"
+                                   name="tglAwal" value="{{ date('d-m-Y') }}">
                             <span class="input-group-text">s.d</span>
-                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir" name="tglAkhir" value="{{ date('d-m-Y') }}">
+                            <input class="form-control filterTangal" placeholder="Select a date" id="tglAkhir"
+                                   name="tglAkhir" value="{{ date('d-m-Y') }}">
                         </div>
                     </div>
                     <div class="col-xl-1 col-lg-1 col-md-6 col-sm-12">
@@ -26,7 +28,9 @@
                         </select>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12">
-                        <button class="btn btn-primary" type="submit" id="btnFilterRanap"><i class="ti ti-search me-2"></i> Cari</button>
+                        <button class="btn btn-primary" type="submit" id="btnFilterRanap"><i
+                                    class="ti ti-search me-2"></i> Cari
+                        </button>
                     </div>
                 </div>
             </div>
@@ -83,7 +87,7 @@
                 serverSide: false,
                 destroy: true,
                 processing: true,
-                scrollY: '50vh',
+                scrollY: setTableHeight(),
                 scrollX: true,
                 ajax: {
                     url: `/efktp/kamar/inap/get`,
@@ -101,13 +105,13 @@
                         .attr('data-no_rkm_medis', data.reg_periksa.no_rkm_medis);
                 },
                 columns: [{
-                        title: '',
-                        data: 'no_rawat',
-                        render: (data, type, row, meta) => {
-                            return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
+                    title: '',
+                    data: 'no_rawat',
+                    render: (data, type, row, meta) => {
+                        return `<button class="btn btn-success btn-sm" type="button" onclick="cpptRanap('${data}')"><i class="ti ti-pencil"></i></button>
                                     <button class="btn btn-primary btn-sm"><i class="ti ti-list"></i></button>`;
-                        }
-                    },
+                    }
+                },
                     {
                         title: 'No. Rawat',
                         data: 'no_rawat',

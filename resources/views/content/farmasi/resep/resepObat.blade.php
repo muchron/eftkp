@@ -1,28 +1,27 @@
 @extends('layout')
 
 @section('body')
-    <div class="container-xl">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12" id="cardListTemplate">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="table-default" class="table-responsive">
-                            <table class="table nowrap table-sm table-striped table-hover" id="tbResepObat" width="100%"></table>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                            <div class="input-group">
-                                <input class="form-control filterTangal" placeholder="Select a date" id="tgl_awal" name="tgl_awal" value="{{ date('d-m-Y') }}">
-                                <span class="input-group-text">
+    <div class="container-fluid h-100">
+        <div class="card">
+            <div class="card-body">
+                <div id="table-default" class="table-responsive">
+                    <table class="table nowrap table-sm table-striped table-hover" id="tbResepObat"
+                           width="100%"></table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                    <div class="input-group">
+                        <input class="form-control filterTangal" placeholder="Select a date" id="tgl_awal"
+                               name="tgl_awal" value="{{ date('d-m-Y') }}">
+                        <span class="input-group-text">
                                     s.d
                                 </span>
-                                <input class="form-control filterTangal" placeholder="Select a date" id="tgl_akhir" name="tgl_akhir" value="{{ date('d-m-Y') }}">
-                                <button class="btn w-5 btn-secondary" type="button" id="btnFilterTanggal">
-                                    <i class="ti ti-search"></i>
-                                </button>
-                            </div>
-                        </div>
+                        <input class="form-control filterTangal" placeholder="Select a date" id="tgl_akhir"
+                               name="tgl_akhir" value="{{ date('d-m-Y') }}">
+                        <button class="btn w-5 btn-secondary" type="button" id="btnFilterTanggal">
+                            <i class="ti ti-search"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -46,13 +45,17 @@
         })
 
         function tbResepObat(tgl_awal = '', tgl_akhir = '') {
+            console.log(setTableHeight())
             const tabel = new DataTable('#tbResepObat', {
                 responsive: true,
+                autoWidth: true,
                 stateSave: true,
-                serverSide: false,
+                serverSide: true,
                 destroy: true,
                 processing: true,
-                scrollY: '50vh',
+                fixedHeader: true,
+                scrollY: setTableHeight(),
+                pageLength: 50,
                 scrollX: true,
                 ajax: {
                     url: `/efktp/resep/get`,
@@ -63,32 +66,32 @@
                     },
                 },
                 columns: [{
-                        title: '',
-                        data: 'no_resep',
-                        render: (data, type, row, meta) => {
+                    title: '',
+                    data: 'no_resep',
+                    render: (data, type, row, meta) => {
 
-                            let colorBtn, displayPanggil = '',
-                                displaySelesai = '';
+                        let colorBtn, displayPanggil = '',
+                            displaySelesai = '';
 
-                            if (isAvailableTime(row.jam_penyerahan)) {
-                                colorBtn = `btn-success`
-                                display = `d-none`
+                        if (isAvailableTime(row.jam_penyerahan)) {
+                            colorBtn = `btn-success`
+                            display = `d-none`
 
-                            } else {
-                                colorBtn = `btn-danger`
-                                display = ``
-                            }
+                        } else {
+                            colorBtn = `btn-danger`
+                            display = ``
+                        }
 
-                            if (row.jam === '00:00:00') {
-                                displayPanggil = 'd-none';
-                                displaySelesai = 'd-none';
-                            }
+                        if (row.jam === '00:00:00') {
+                            displayPanggil = 'd-none';
+                            displaySelesai = 'd-none';
+                        }
 
-                            return `<button class="btn btn-sm ${colorBtn}" onclick="showDetailResep('${data}')"><i class="ti ti-search"></i>Lihat</button>
+                        return `<button class="btn btn-sm ${colorBtn}" onclick="showDetailResep('${data}')"><i class="ti ti-search"></i>Lihat</button>
                             <button class="btn btn-sm btn-success ${display} ${displayPanggil}" onclick="panggilResepPasien('${data}', '${row.reg_periksa.pasien.nm_pasien}')"><i class="ti ti-phone"></i>Panggil</button>
                             <button class="btn btn-sm btn-primary ${display} ${displaySelesai}" onclick="setPenyerahanResep('${data}')"><i class="ti ti-send"></i>Selesai</button>`;
-                        },
                     },
+                },
                     {
                         title: 'NO RESEP',
                         data: 'no_resep',
@@ -158,6 +161,7 @@
                 }
             })
         }
+
         $('#btnFilterTanggal').on('click', (e) => {
             tgl_awal = $('#tgl_awal').val();
             tgl_akhir = $('#tgl_akhir').val();
