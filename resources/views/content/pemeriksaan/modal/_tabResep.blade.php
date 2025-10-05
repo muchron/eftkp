@@ -8,7 +8,7 @@
                 <a href="#tabsResepRacikan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Racikan</a>
             </li>
-            <li class="nav-item d-none" role="presentation">
+            <li class="nav-item" role="presentation">
                 <a href="#tabsResepPaketan" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab"
                    tabindex="-1">Paket Obat</a>
             </li>
@@ -25,18 +25,8 @@
             <div class="tab-pane fade" id="tabsResepRacikan" role="tabpanel">
                 @includeIf('content.pemeriksaan.modal._resepRacikan')
             </div>
-            <div class="tab-pane fade" id="tabsResepPaketan" role="tabpanel">
-                <table class="table table-sm mb-2 table-bordered w-100">
-                    <thead>
-                    <tr>
-                        <th>Paket</th>
-                        <th>Poliklinik</th>
-                        <th>Harga</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-
-
+            <div class="tab-pane fade" id="tabsResepPaketan" role="tabpanel" style="">
+                <table class="table table-sm mb-2 table-bordered w-100" id="tbResepPaketan">
                 </table>
             </div>
 
@@ -165,6 +155,125 @@
                 }
             });
 
+        }
+
+        $('#modalCppt').find('a[href="#tabsResepPaketan"]')
+            .on('shown.bs.tab', (e) => {
+                const tableResepPaketan = new DataTable('#tbResepPaketan', {
+                    responsive: true,
+                    stateSave: true,
+                    serverSide: true,
+                    destroy: true,
+                    processing: true,
+                    ajax: {
+                        url: "/efktp/paket-obat/datatable",
+                    },
+                    columns: [{
+                        title: 'Paket',
+                        data: 'nama',
+                        width: '15%',
+                        render: (data, type, row) => {
+                            return `<a href="javascript:void(0)" class="badge bg-azure-lt" onclick="setPaketToResep(${row.id})">
+                                ${data}
+                            </a>`
+                        }
+
+                    }, {
+                        title: "Poliklinik",
+                        data: 'poliklinik.nm_poli',
+                        width: '20%'
+                    }, {
+                        title: 'Umum',
+                        data: 'umum',
+                        render: (data, type, row) => {
+                            if (!data) {
+                                return;
+                            }
+                            return data.map((item, index) => {
+                                return `<span class="badge bg-purple-lt">
+                                    ${item.databarang.nama_brng}
+                                </span>`
+                            }).join(', ');
+                        }
+                    }, {
+                        title: 'Racikan',
+                        data: 'racikan',
+                        render: (data, type, row) => {
+                            if (!data) {
+                                return;
+                            }
+                            return data.map((item, index) => {
+                                return `<span class="badge bg-orange-lt">${item.template.nm_racik}</span>`
+                            }).join(', ')
+                        }
+                    }]
+
+                })
+            })
+
+        function setPaketToResep(id) {
+            $.get(`paket-obat/${id}`).done((response) => {
+                const {data} = response
+                const umumKosong = !data.umum || data.umum.length === 0;
+                const racikanKosong = !data.racikan || data.racikan.length === 0;
+
+                if (umumKosong && racikanKosong) {
+                    console.log('Tidak ada data umum maupun racikan, skip...');
+                    return; // berhenti di sini
+                }
+                const obatUmum = data.umum.map((item, index) => {
+                    return {
+                        'kode_brng': item.kode_brng,
+                        'jml': item.jumlah,
+                        'aturan_pakai': item.aturan_pakai
+                    }
+                })
+
+                const obatRacik = data.racikan.map((item, index) => {
+                    return {
+                        'nama_racik': item.template.nm_racik,
+                        'jml_dr': item.jumlah,
+                        'aturan_pakai': item.aturan_pakai,
+                        'kd_racik': item.kd_racik,
+                        'detail': item.template.detail.map((items, index) => {
+                            return {
+                                'kode_brng': items.kode_brng,
+                                'kandungan': items.barang.kapasitas,
+                                'jml': item.jumlah,
+                                'p1': 1,
+                                'p2': 1,
+                            }
+                        })
+                    }
+                })
+
+                Swal.fire({
+                    'title': `Guankan Paket ?`,
+                    'icon': 'info',
+                    'html': `Anda akan gunakan paket ${data.nama}`,
+                    'showConfirmButton': true,
+                    'showCancelButton': true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const no_rawat = formCpptRajal.find('input[name=no_rawat]').val();
+                        const kd_dokter = formCpptRajal.find('input[name=nip]').val();
+
+                        $.post('/efktp/resep/create-form-paket', {
+                            no_rawat: no_rawat,
+                            kd_dokter: kd_dokter,
+                            status: 'ralan',
+                            umum: obatUmum,
+                            racikan: obatRacik
+                        }).done((response) => {
+                            showToast('Success');
+                            setResepPasien(no_rawat)
+                        }).fail((xhr) => {
+                            showToast(xhr.responseJSON.message, 'error')
+                        })
+                    }
+                })
+
+            })
         }
     </script>
 @endpush

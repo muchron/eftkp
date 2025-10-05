@@ -262,6 +262,18 @@
             gap: 1rem;
         }
 
+
+        div.dataTables_wrapper div.dataTables_length select {
+            width: 50% !important; /* biar dropdown tidak terlalu lebar */
+            display: inline-block !important;
+            border-radius: var(--tblr-border-radius-lg)
+        }
+
+        div.dataTables_wrapper div.dataTables_filter input[type=search] {
+            border-radius: var(--tblr-border-radius-lg)
+        }
+
+
     </style>
     <style>
         .offcanvas .navbar-collapse .dropdown-menu {

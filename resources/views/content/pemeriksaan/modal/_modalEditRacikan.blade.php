@@ -1,4 +1,5 @@
-<div class="modal modal-blur fade" id="modalDetailRacikan" tabindex="-1" aria-modal="false" role="dialog" data-bs-backdrop="static">
+<div class="modal modal-blur fade" id="modalDetailRacikan" tabindex="-1" aria-modal="false" role="dialog"
+     data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content rounded-3">
             <div class="modal-header">
@@ -9,12 +10,12 @@
                 <div class="row form-fieldset">
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                         <label for="no_resep">Nomor Resep</label>
-                        <input type="hidden" name="no_racik" readonly />
-                        <input type="text" class="form-control" name="no_resep" readonly />
+                        <input type="hidden" name="no_racik" readonly/>
+                        <input type="text" class="form-control" name="no_resep" readonly/>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                         <label for="nm_racik">Nama Racik</label>
-                        <input type="text" class="form-control" name="nama_racik" />
+                        <input type="text" class="form-control" name="nama_racik"/>
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                         <label for="nm_racik">Metode</label>
@@ -22,11 +23,11 @@
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-4 col-sm-12">
                         <label for="jml_dr">Jumlah Racikan</label>
-                        <input type="text" class="form-control" name="jml_dr" readonly />
+                        <input type="text" class="form-control" name="jml_dr" readonly/>
                     </div>
                     <div class="col-xl-4 col-lg-2 col-md-4 col-sm-12">
                         <label for="aturan_pakai">Aturan Pakai</label>
-                        <input type="text" class="form-control" name="aturan_pakai" />
+                        <input type="text" class="form-control" name="aturan_pakai"/>
                     </div>
                 </div>
 
@@ -34,24 +35,28 @@
                     <input type="hidden" id="nextIdDetail">
                     <table class="table table-bordered table-sm" id="tabelObatRacikan">
                         <thead>
-                            <tr class="text-center">
-                                <th width="20%">Nama Obat</th>
-                                <th>Sediaan</th>
-                                <th width="15%">P1/P2</th>
-                                <th>Dosis</th>
-                                <th>Harga</th>
-                                <th>Jumlah</th>
-                                <th>SubTotal</th>
-                                <th></th>
-                            </tr>
+                        <tr class="text-center">
+                            <th width="20%">Nama Obat</th>
+                            <th>Sediaan</th>
+                            <th width="15%">P1/P2</th>
+                            <th>Dosis</th>
+                            <th>Harga</th>
+                            <th>Jumlah</th>
+                            <th>SubTotal</th>
+                            <th></th>
+                        </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-sm btn-primary" id="btnTambahObatRacikan"><i class="ti ti-plus"></i> Tambah Obat</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnTambahObatRacikan"><i
+                            class="ti ti-plus"></i> Tambah Obat
+                </button>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="simpanDetailRacikan()"><i class="ti ti-device-floppy"></i> Simpan Resep</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="simpanDetailRacikan()"><i
+                            class="ti ti-device-floppy"></i> Simpan Resep
+                </button>
             </div>
         </div>
     </div>
@@ -241,7 +246,7 @@
                                         </div>
                                     </td>
                                     <td><input class="form-control text-end" id="hargaObatRacikan${indexNum}" data-id="${indexNum}" data-harga-obat="${item.obat.ralan}" name="harga[]" readonly value="${formatCurrency(item.obat.ralan)}"></td>
-                                    <td><input class="form-control" id="jml${indexNum}" data-id="${indexNum }" data-jml="${item.jml.toFixed(1)}" name="jml[]" value="${formatFloat(item.jml)}"></td>
+                                    <td><input class="form-control" id="jml${indexNum}" data-id="${indexNum}" data-jml="${item.jml.toFixed(1)}" name="jml[]" value="${formatFloat(item.jml)}"></td>
                                     <td><input class="form-control text-end" id="subTotalRacikan${indexNum}" data-id="${indexNum}" data-subTotalRacikan="" name="subTotalRacikan[]" readonly></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="hapusBarisDetailObat(${indexNum})"><i class="ti ti-trash-x"></i> Hapus</button></td>
                             </tr>
@@ -301,10 +306,11 @@
             return getDetail
         }
 
-        function createDetailRacikan(no_resep, no_racik, data) {
+        function createDetailRacikan(no_resep, no_racik, aturan_pakai, data) {
             const detailRacikan = $.post(`/efktp/resep/racikan/detail/create`, {
                 no_resep: no_resep,
                 no_racik: no_racik,
+                aturan_pakai: aturan_pakai,
                 data: data,
             })
             return detailRacikan
@@ -334,8 +340,8 @@
             const noResep = $('#modalDetailRacikan').find('input[name=no_resep]').val();
             const noRacik = $('#modalDetailRacikan').find('input[name=no_racik]').val();
             const nm_racik = $('#modalDetailRacikan').find('input[name=nama_racik]').val();
+            const aturan_pakai = $('#modalDetailRacikan').find('input[name=aturan_pakai]').val();
             const kd_dokter = $('#formCpptRajal').find('input[name=nip]').val();
-
             let dataObat = [];
             for (let index = 0; index <= jumlahRow; index++) {
                 const findRow = $(`#rowDetailRacikan${index}`)
@@ -371,7 +377,7 @@
                 }
 
             }
-            createDetailRacikan(noResep, noRacik, dataObat).done((response) => {
+            createDetailRacikan(noResep, noRacik, aturan_pakai, dataObat).done((response) => {
                 // $('#modalDetailRacikan').modal('hide')
                 setResepRacikan(noResep)
                 tulisPlan(noResep)

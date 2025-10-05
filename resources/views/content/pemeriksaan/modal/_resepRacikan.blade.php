@@ -7,9 +7,9 @@
             <th>Nama Racikan</th>
             <th width="10%">Jumlah</th>
             <th>Metode</th>
-            <th>Aturan Pakai</th>
+            <th width="15%">Aturan Pakai</th>
             <th>Subtotal</th>
-            <th width="10%"></th>
+            <th width="15%"></th>
         </tr>
         </thead>
         <tbody>

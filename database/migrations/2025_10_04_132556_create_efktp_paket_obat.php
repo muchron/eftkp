@@ -11,11 +11,13 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::create('efktp_paket_obat', function (Blueprint $table) {
-			$table->id()->startingValue(1000);
+			$table->bigIncrements('id')->startingValue(1000);
 			$table->string('kd_poli')->collation('latin1_swedish_ci');
 			$table->string('nama', 200);
 			$table->text('keterangan')->nullable();
 			$table->boolean('aktif')->default(1);
+
+			$table->foreign('kd_poli')->references('kd_poli')->on('poliklinik');
 			$table->timestamps();
 		});
 	}

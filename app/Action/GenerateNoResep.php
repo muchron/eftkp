@@ -7,7 +7,7 @@ use App\Models\ResepObat;
 class GenerateNoResep
 {
 
-	public function __invoke(ResepObat $resep) : int
+	public function handle(ResepObat $resep): int
 	{
 		$resep = $resep->select('no_resep')
 			->orderBy('no_resep', 'DESC')

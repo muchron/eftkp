@@ -150,6 +150,7 @@
                 $('#btnDiagnosaPasien').attr('onclick', `diagnosaPasien('${no_rawat}')`);
                 $('#btnTindakanPasien').attr('onclick', `tindakanPasien('${no_rawat}')`);
                 setRiwayat(response.no_rkm_medis)
+                setResepPasien(no_rawat)
                 if (pasien.alergi.length) {
                     const alergi = pasien.alergi;
                     inputAlergi.empty()
@@ -166,19 +167,6 @@
                 if (response.kd_dokter === "{{ session()->get('pegawai')->nik }}") {
                     setStatusLayan(no_rawat, 'Dirawat')
                 }
-
-                getResep({
-                    no_rawat: no_rawat
-                }).done((response) => {
-                    if (Object.keys(response).length) {
-                        setButtonResep(response.no_resep)
-                        renderResepObat(no_rawat)
-                    } else {
-                        setButtonResep()
-                        tabelResepUmum.find('tbody').empty()
-                        tabelResepRacikan.find('tbody').empty()
-                    }
-                })
 
 
                 if (pemeriksaan_ralan) {
@@ -207,6 +195,21 @@
 
             })
             $('#modalCppt').modal('show')
+        }
+
+        function setResepPasien(no_rawat) {
+            getResep({
+                no_rawat: no_rawat
+            }).done((response) => {
+                if (Object.keys(response).length) {
+                    setButtonResep(response.no_resep)
+                    renderResepObat(no_rawat)
+                } else {
+                    setButtonResep()
+                    tabelResepUmum.find('tbody').empty()
+                    tabelResepRacikan.find('tbody').empty()
+                }
+            })
         }
 
         function renderResepObat(no_rawat) {

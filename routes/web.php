@@ -3,8 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BahasaPasienController;
 use App\Http\Controllers\Bridging as Bridging;
-use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\Bridging\Icare;
+use App\Http\Controllers\BridgingPcareSettingController;
 use App\Http\Controllers\CacatFisikController;
 use App\Http\Controllers\DataBarangController;
 use App\Http\Controllers\DiagnosaPasienController;
@@ -56,7 +56,6 @@ use App\Http\Controllers\SukuBangsaController;
 use App\Http\Controllers\SuratSakitController;
 use App\Http\Controllers\SuratSehatController;
 use App\Http\Controllers\UploadController;
-use App\Http\Responses\CustomResponseJson;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -234,8 +233,9 @@ Route::middleware('auth')->group(function () {
 	Route::get('/resep/get', [ResepObatController::class, 'get']);
 	Route::post('/resep/delete', [ResepObatController::class, 'delete']);
 	Route::get('/resep/print', [ResepObatController::class, 'print']);
+	Route::post('/resep/create-form-paket', [ResepObatController::class, 'createResepPaket']);
 
-	Route::get('/resep/nomor/generate', \App\Action\GenerateNoResep::class);
+	Route::get('/resep/nomor/generate', [\App\Action\GenerateNoResep::class, 'handle']);
 
 	// Resep Dokter (NON RACIKAN)
 	Route::post('/resep/dokter/create', [ResepDokterController::class, 'create']);
@@ -455,3 +455,4 @@ require 'Extras/web.php';
 require 'Extras/jenis_perawatan.php';
 require 'Extras/antrean.php';
 require 'Extras/hasil_usg.php';
+require 'Extras/paket_obat.php';

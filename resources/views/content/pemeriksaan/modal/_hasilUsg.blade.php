@@ -371,8 +371,6 @@
                                 <div class="card-title">Riwayat USG</div>
                                 <div class="accordion accordion-tabs" id="riwayatUsgContainer"
                                      style="max-height: 40vh;overflow:auto">
-
-
                                 </div>
                             </div>
                         </div>
