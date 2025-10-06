@@ -21,7 +21,6 @@ class EfktpHasilUsgController extends Controller
 
 	public function create(EfktpHasilUsgRequest $request)
 	{
-
 		$validated = $request->validated();
 		try {
 

@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
 		for ($i = 1; $i <= 10; $i++) {
 			EfktpTemplateRacikan::create([
-				'kd_dokter' => Arr::random(['D0000004', 'D01', 'D02']),
+				'kd_dokter' => Arr::random(['D0000004', 'D0000003', 'D0000002']),
 				'nm_racik' => 'RACIK ' . rand(100, 999)
 			]);
 		}

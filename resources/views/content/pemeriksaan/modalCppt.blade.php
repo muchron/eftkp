@@ -92,6 +92,12 @@
             tabelResepUmum.find('tbody').empty()
             tabelResepRacikan.find('tbody').empty()
             $('.tindakan-check').prop('checked', false);
+            $('#formHasilUsg').find('input[type=text], input[type=date] , textarea').val('');
+            $('#formHasilUsg').find('select').val('').trigger('change');
+            if (!targetTabsCppt.hasClass('active')) {
+                targetTabsCppt.tab('show');
+            }
+
         })
 
         targetTabsCppt.on('shown.bs.tab', (e) => {
@@ -106,7 +112,6 @@
 
             if (!targetTabsCppt.hasClass('active')) {
                 targetTabsCppt.tab('show');
-
             }
             // targetTabsCppt.tab('show');
             // hidden tab

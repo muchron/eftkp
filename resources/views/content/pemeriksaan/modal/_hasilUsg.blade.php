@@ -88,7 +88,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="presentasi" class="form-label required">Presentasi</label>
+                                    <label for="presentasi" class="form-label">Presentasi</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="presentasi" name="presentasi">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -100,7 +100,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_punggung" class="form-label required">Letak
+                                    <label for="letak_punggung" class="form-label">Letak
                                         Punggung</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_punggung" name="letak_punggung">
@@ -123,18 +123,18 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-2 col-lg-2">
-                                    <label for="TBJ" class="form-label required">TBJ</label>
+                                    <label for="TBJ" class="form-label">TBJ</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="TBJ" name="TBJ">
                                         <span class="input-group-text">gram</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xl-4 col-lg-4">
-                                    <label class="form-label required">Jenis Kelamin</label><br>
+                                    <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jenis_kelamin"
                                                id="jenis_kelaminL" value="L"
-                                               checked>
+                                        >
                                         <label class="form-check-label" for="jenis_kelaminL">Laki-laki</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -142,10 +142,15 @@
                                                id="jenis_kelaminP" value="P">
                                         <label class="form-check-label" for="jenis_kelaminP">Perempuan</label>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin"
+                                               id="jenis_kelamin_x" value="-" checked>
+                                        <label class="form-check-label" for="jenis_kelamin_x">Belum Jelas</label>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="letak_plasenta" class="form-label required">Letak
+                                    <label for="letak_plasenta" class="form-label">Letak
                                         Plasenta</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="letak_plasenta" name="letak_plasenta">
@@ -155,7 +160,6 @@
                                         <option value="Fundus">Fundus</option>
                                     </select>
                                 </div>
-
                                 <div class="col-md-6 col-xl-3 col-lg-3">
                                     <label for="ketuban" class="form-label required">Air Ketuban</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
@@ -171,15 +175,15 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-2 col-lg-3">
-                                    <label for="HPHT" class="form-label required">HPHT</label>
+                                    <label for="HPHT" class="form-label">HPHT</label>
                                     <input type="date" class="form-control" id="HPHT" name="HPHT">
                                 </div>
                                 <div class="col-md-6 col-xl-2 col-lg-3">
-                                    <label for="HPL" class="form-label required">HPL</label>
+                                    <label for="HPL" class="form-label">HPL</label>
                                     <input type="date" class="form-control" id="HPL" name="HPL">
                                 </div>
                                 <div class="col-md-6 col-xl-2 col-lg-2 ">
-                                    <label for="umur_kehamilan" class="form-label required">Umur
+                                    <label for="umur_kehamilan" class="form-label">Umur
                                         Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan"
                                            name="umur_kehamilan"
@@ -247,8 +251,7 @@
                                     <label class="form-label">Jenis Kelamin</label><br>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jenis_kelamin2"
-                                               id="jenis_kelaminL2" value="L"
-                                               checked>
+                                               id="jenis_kelaminL2" value="L">
                                         <label class="form-check-label" for="jenis_kelaminL2">Laki-laki</label>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -256,6 +259,12 @@
                                                id="jenis_kelaminP2" value="P">
                                         <label class="form-check-label" for="jenis_kelaminP2">Perempuan</label>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="jenis_kelamin2"
+                                               id="jenis_kelamin_x2" value="-" checked>
+                                        <label class="form-check-label" for="jenis_kelamin_x2">Belum Jelas</label>
+                                    </div>
+
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
@@ -270,7 +279,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="ketuban2" class="form-label">Air Ketuban</label>
+                                    <label for="ketuban2" class="form-label required">Air Ketuban</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt"
                                             id="ketuban2" name="ketuban2">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -331,7 +340,7 @@
                             <h5 class="mb-3">GYNECOLOGI</h5>
                             <div class="row mb-3">
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="GS" class="form-label required">GS</label>
+                                    <label for="GS" class="form-label">GS</label>
                                     <select class="form-select-2" data-dropdown-parent="#modalCppt" id="GS"
                                             name="GS">
                                         <option value="" selected disabled>::Pilih::</option>
@@ -342,20 +351,20 @@
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="umur_kehamilan_gs" class="form-label required">Usia
+                                    <label for="umur_kehamilan_gs" class="form-label">Usia
                                         Kehamilan</label>
                                     <input type="text" class="form-control" id="umur_kehamilan_gs" value=""
                                            name="umur_kehamilan_gs">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="fetalpole" class="form-label required">Fetal Pole</label>
+                                    <label for="fetalpole" class="form-label">Fetal Pole</label>
                                     <input type="text" class="form-control" id="fetalpole" name="fetalpole"
                                            value="">
                                 </div>
 
                                 <div class="col-md-6 col-xl-3 col-lg-3">
-                                    <label for="pulsasi" class="form-label required">Pulsasi</label>
+                                    <label for="pulsasi" class="form-label">Pulsasi</label>
                                     <input type="text" class="form-control" id="pulsasi" name="pulsasi"
                                            value="">
                                 </div>
@@ -705,7 +714,7 @@
             $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
                 .done((response) => {
                     showToast('Sukses');
-                    console.log('RESPONSE ===', response);
+                    console.log('RESPONSE HASIL USG ===', response);
                     const {data} = response
 
                     // pastikan response adalah array
@@ -744,8 +753,8 @@
                         html.find('.jenis_kelamin').text(item.jenis_kelamin ?? '-');
                         html.find('.letak_plasenta').text(item.letak_plasenta ?? '-');
                         html.find('.ketuban').text(item.ketuban ?? '-');
-                        html.find('.HPHT').text(formatTanggal(item.HPHT) ?? '-');
-                        html.find('.HPL').text(formatTanggal(item.HPL) ?? '-');
+                        html.find('.HPHT').text(item.HPHT ? formatTanggal(item.HPHT) : '-');
+                        html.find('.HPL').text(item.HPL ? formatTanggal(item.HPL) : '-');
                         html.find('.umur_kehamilan').text(item.umur_kehamilan ?? '-');
                         html.find('.kelainan_kongenital').text(item.kelainan_kongenital ?? '-');
                         html.find('.lain_lain').text(item.lain_lain ?? '-');
@@ -767,7 +776,7 @@
                             html.find('.jenis_kelamin2').text(item.jenis_kelamin2 ?? '-');
                             html.find('.letak_plasenta2').text(item.letak_plasenta2 ?? '-');
                             html.find('.ketuban2').text(item.ketuban2 ?? '-');
-                            html.find('.HPL2').text(formatTanggal(item.HPL2) ?? '-');
+                            html.find('.HPL2').text(item.HPL2 ? formatTanggal(item.HPL2) : '-');
                             html.find('.umur_kehamilan2').text(item.umur_kehamilan2 ?? '-');
                             html.find('.kelainan_kongenital2').text(item.kelainan_kongenital2 ?? '-');
                             html.find('.lain_lain2').text(item.lain_lain2 ?? '-');

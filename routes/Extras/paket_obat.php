@@ -1,6 +1,7 @@
 <?php
 
 Route::middleware('auth')->group(function ($route) {
+	$route->get('paket-obat', [\App\Http\Controllers\EfktpPaketObatController::class, 'index']);
 	$route->get('paket-obat/datatable', [\App\Http\Controllers\EfktpPaketObatController::class, 'datatable']);
 	$route->get('paket-obat/{id}', [\App\Http\Controllers\EfktpPaketObatController::class, 'show']);
 //	$route->post('hasil-usg', [\App\Http\Controllers\EfktpHasilUsgController::class, 'create']);

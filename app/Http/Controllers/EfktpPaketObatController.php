@@ -19,7 +19,7 @@ class EfktpPaketObatController extends Controller
 	 */
 	public function index()
 	{
-		//
+		return view('content.farmasi.paket-obat.paket_obat');
 	}
 
 	/**
