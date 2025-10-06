@@ -27,4 +27,9 @@ class EfktpPaketObat extends Model
 	{
 		return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
 	}
+
+	public function metode()
+	{
+		return $this->belongsTo(MetodeRacik::class, 'kd_racik', 'kd_racik');
+	}
 }

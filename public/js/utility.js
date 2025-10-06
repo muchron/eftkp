@@ -6,8 +6,6 @@ function getRegPeriksa(startDate = '', endDate = '') {
     })
 }
 
-// initialize form select2
-$('.form-select-2').select2();
 
 // AJAX
 function formatTanggal(tanggal) {
@@ -978,6 +976,7 @@ function selectPerusahaan(element, parrent) {
 function selectPoliklinik(element, parrent) {
     const select2 = element.select2({
         dropdownParent: parrent,
+        width: '100%',
         delay: 2,
         scrollAfterSelect: true,
         ajax: {

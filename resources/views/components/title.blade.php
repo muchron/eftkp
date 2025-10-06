@@ -1,7 +1,7 @@
 <title>
     @if (count(Request::segments()))
         @for ($i = 1; $i <= count(Request::segments()); $i++)
-            {{ ucfirst(Request::segment($i)) }}
+            {{ ucwords(str_replace('-', ' ', Request::segment($i))) }}
             @if (($i < count(Request::segments())) & ($i >= 1))
                 -
             @endif

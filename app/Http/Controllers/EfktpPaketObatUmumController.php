@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\EfktpPaketObatUmum;
 use App\Traits\Track;
-use Illuminate\Http\Request;
 use Illuminate\Http\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 
@@ -23,6 +22,7 @@ class EfktpPaketObatUmumController extends Controller
 	{
 		try {
 			DB::transaction(function () use ($data, $idPaket) {
+				$this->destroy($idPaket);
 				$create = collect($data)->map(function ($item) use ($idPaket) {
 					$created = $this->model->create([
 						'paket_id' => $idPaket,
@@ -48,5 +48,20 @@ class EfktpPaketObatUmumController extends Controller
 		}
 
 
+	}
+
+	public function destroy(int $pkaetId)
+	{
+		try {
+			$id = ['paket_id' => $pkaetId];
+			$delete = $this->model->where($id)->delete();
+			if ($delete) {
+				$this->deleteSql($this->model, $id);
+			}
+		} catch (\Exception $e) {
+			return $this->error(null, $e->getMessage());
+		}
+
+		return $this->success();
 	}
 }

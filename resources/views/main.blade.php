@@ -411,6 +411,7 @@
         }
 
     }));
+
     $(document).ready(() => {
         var tanggal = "{{ date('d-m-Y') }}";
         jam();
@@ -449,6 +450,7 @@
         $('.form-select-2').select2({
             width: '100%',
         })
+
     })
 
 

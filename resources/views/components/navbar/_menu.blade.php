@@ -78,7 +78,7 @@
                     </a>
                     <a href="{{ url('farmasi/resep') }}" class="dropdown-item">
                         Resep Obat
-                    </a><a href="{{ url('farmasi/paket-obat') }}" class="dropdown-item">
+                    </a><a href="{{ url('master/paket-obat') }}" class="dropdown-item">
                         Paket Obat
                     </a>
                 </div>

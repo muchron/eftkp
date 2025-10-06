@@ -17,4 +17,9 @@ class EfktpPaketObatRacik extends Model
 	{
 		return $this->belongsTo(EfktpTemplateRacikan::class, 'template_id', 'id');
 	}
+
+	function metode()
+	{
+		return $this->belongsTo(MetodeRacik::class, 'kd_racik', 'kd_racik');
+	}
 }

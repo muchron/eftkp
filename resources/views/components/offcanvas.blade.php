@@ -83,7 +83,7 @@
                     <div class="dropdown-menu">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                <a class="dropdown-item" href="{{ url('paket-obat') }}">
+                                <a class="dropdown-item" href="{{ url('master/paket-obat') }}">
                                     Paket Obat
                                 </a>
 

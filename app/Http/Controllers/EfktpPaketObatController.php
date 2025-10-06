@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EfktpPaketObatRequest;
-use App\Models\EfktpPaketObatUmum;
 use App\Traits\Track;
 use Illuminate\Http\Request;
 use Illuminate\Http\ResponseTrait;
@@ -45,7 +44,7 @@ class EfktpPaketObatController extends Controller
 
 		try {
 			DB::transaction(function () use ($validate, $request) {
-				$create = $this->model->create($validate);
+				$create = $this->model->updateOrCreate(['id' => $request->id], $validate);
 				if ($request->umum) {
 					app(EfktpPaketObatUmumController::class)->storeMany($request->umum, $create->id);
 				}
@@ -67,7 +66,9 @@ class EfktpPaketObatController extends Controller
 	public function show(int|string $id)
 	{
 		$result = $this->model
-			->with(['umum.databarang', 'racikan.template.detail.barang'])
+			->with(['umum.databarang', 'racikan' => function ($q) {
+				$q->with(['template.detail.barang', 'metode']);
+			}, 'poliklinik'])
 			->findOrFail($id);
 
 		return $this->success($result);
