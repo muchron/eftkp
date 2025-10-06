@@ -1672,4 +1672,38 @@ function hitungUsiaKehamilan(hpht) {
     return `${weeks}w${days}d`;
 }
 
+function selectMetode(element, parrent) {
+    element.select2({
+        dropdownParent: parrent,
+        delay: 1,
+        tags: true,
+        ajax: {
+            url: `/efktp/metode/racik/get`,
+            dataType: 'JSON',
+
+            data: (params) => {
+                const query = {
+                    racik: params.term
+                }
+                return query
+            },
+            processResults: (data) => {
+                return {
+                    results: data.map((item) => {
+                        const items = {
+                            id: item.kd_racik,
+                            text: item.nm_racik,
+                        }
+                        return items;
+                    })
+                }
+            }
+
+        },
+        cache: true
+    }).on('select2:select', (e) => {
+        e.preventDefault();
+    })
+    element.val('R01').trigger('change')
+}
 

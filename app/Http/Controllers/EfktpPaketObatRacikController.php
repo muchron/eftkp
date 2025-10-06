@@ -3,63 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\EfktpPaketObatRacik;
+use App\Traits\Track;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\ResponseTrait;
+use Illuminate\Support\Facades\DB;
 
 class EfktpPaketObatRacikController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+	use Track, ResponseTrait;
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+	protected EfktpPaketObatRacik $model;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	public function __construct(EfktpPaketObatRacik $model)
+	{
+		$this->model = $model;
+	}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(EfktpPaketObatRacik $efktpPaketObatRacik)
-    {
-        //
-    }
+	public function storeMany(array $data, int $idPaket)
+	{
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EfktpPaketObatRacik $efktpPaketObatRacik)
-    {
-        //
-    }
+		try {
+			DB::transaction(function () use ($data, $idPaket) {
+				$create = collect($data)->map(function ($item) use ($idPaket) {
+					$created = $this->model->create([
+						'paket_id' => $idPaket,
+						'template_id' => $item['id_template'],
+						'jumlah' => $item['jumlah'],
+						'kd_racik' => $item['kd_racik'],
+						'aturan_pakai' => $item['aturan_pakai']
+					]);
+					return [
+						'id' => $created->id,
+						'template_id' => $created->id_template,
+						'jumlah' => $created->jumlah,
+						'kd_racik' => $created->kd_racik,
+						'aturan_pakai' => $created->aturan_pakai,
+					];
+				});
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, EfktpPaketObatRacik $efktpPaketObatRacik)
-    {
-        //
-    }
+				if ($create) {
+					$this->insertSql($this->model, $create);
+				}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(EfktpPaketObatRacik $efktpPaketObatRacik)
-    {
-        //
-    }
+			});
+		} catch (\Exception $e) {
+			return $this->error(null, $e->getMessage());
+		}
+		return $this->success();
+
+	}
 }

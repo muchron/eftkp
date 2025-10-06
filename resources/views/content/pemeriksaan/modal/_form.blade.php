@@ -45,7 +45,7 @@
         <div class="col-md-6 col-xl-4 col-lg-3">
             <div class="mb-1">
                 <label for="png_jawab">Suami/Png. Jawab</label>
-                <input class="form-control" type="text" id="png_jawab" name="png_jawab">
+                <input class="form-control" type="text" id="png_jawab" name="png_jawab" readonly>
             </div>
         </div>
         <div class="col-md-12 col-xl-12 col-lg-12">

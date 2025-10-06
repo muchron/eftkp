@@ -113,11 +113,6 @@
             if (!targetTabsCppt.hasClass('active')) {
                 targetTabsCppt.tab('show');
             }
-            // targetTabsCppt.tab('show');
-            // hidden tab
-
-            // switcTab(tabObat)
-            // targetTabsCppt.tab('show');
         })
 
         function showCpptRalan(no_rawat) {

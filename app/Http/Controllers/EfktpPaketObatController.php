@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EfktpPaketObatRequest;
+use App\Models\EfktpPaketObatUmum;
+use App\Traits\Track;
 use Illuminate\Http\Request;
+use Illuminate\Http\ResponseTrait;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class EfktpPaketObatController extends Controller
 {
 	public \App\Models\EfktpPaketObat $model;
+	use Track, ResponseTrait;
 
 	public function __construct(\App\Models\EfktpPaketObat $model)
 	{
@@ -33,9 +39,26 @@ class EfktpPaketObatController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request)
+	public function store(EfktpPaketObatRequest $request)
 	{
-		//
+		$validate = $request->validated();
+
+		try {
+			DB::transaction(function () use ($validate, $request) {
+				$create = $this->model->create($validate);
+				if ($request->umum) {
+					app(EfktpPaketObatUmumController::class)->storeMany($request->umum, $create->id);
+				}
+				if ($request->racik) {
+					app(EfktpPaketObatRacikController::class)->storeMany($request->racik, $create->id);
+				}
+			});
+
+		} catch (\Exception $e) {
+			return $this->error(null, $e->getMessage());
+		}
+		return $this->success();
+
 	}
 
 	/**
@@ -71,7 +94,16 @@ class EfktpPaketObatController extends Controller
 	 */
 	public function destroy(string $id)
 	{
-		//
+		$paket = $this->model->findOrFail($id);
+		try {
+			$result = $paket->delete();
+			if ($result) {
+				$this->deleteSql($this->model, ['id' => $id]);
+			}
+		} catch (\Exception $e) {
+			return $this->error(null, $e->getMessage());
+		}
+		return $this->success();
 	}
 
 	public function datatable(Request $request)
