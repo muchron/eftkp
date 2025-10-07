@@ -133,6 +133,8 @@
                         }
                     })
                 } else {
+                    switchPendaftaranPcare.attr('checked', false)
+                    periksaPendaftaran.addClass('d-none')
                     formRegistrasiPoli.find('input[name=no_peserta]').val('-')
                 }
 
@@ -159,6 +161,8 @@
                         kd_dokter: data['kd_dokter'],
                         no_reg: data['no_reg'],
                         kd_poli: data['kd_poli'],
+                        p_jawab: data['p_jawab'],
+                        hubunganpj: data['hubunganpj'],
                         tgl_registrasi: data['tgl_registrasi'],
                         jam_reg: data['jam_reg'],
                         umurdaftar: data['umurdaftar'],

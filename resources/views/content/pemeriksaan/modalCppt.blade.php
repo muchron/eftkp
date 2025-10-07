@@ -118,6 +118,9 @@
         function showCpptRalan(no_rawat) {
 
             getRegDetail(no_rawat).done((response) => {
+
+                console.log('RESPONSE ===', response)
+
                 const {
                     pasien,
                     pemeriksaan_ralan,
@@ -129,7 +132,7 @@
 
                 formCpptRajal.find('input[name=tgl_reg]').val(formatTanggal(response.tgl_registrasi))
                 formCpptRajal.find('input[name=no_rawat]').val(no_rawat)
-                formCpptRajal.find('input[name=png_jawab').val(response?.p_jawab)
+                formCpptRajal.find('input[name=png_jawab').val(response.p_jawab ?? '-')
                 formCpptRajal.find('input[name=stts]').val(response.stts)
                 formCpptRajal.find('input[name=no_rkm_medis]').val(response.no_rkm_medis)
                 formCpptRajal.find('input[name=nm_pasien]').val(`${pasien.nm_pasien} / ${pasien.jk}`)
