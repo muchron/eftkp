@@ -41,7 +41,7 @@ class ResepDokterRacikanController extends Controller
 			for ($i = 0; $i < $countData; $i++) {
 				$response[] = [
 					'no_resep' => $request->data[$i]['no_resep'],
-					'no_racik' => (int)$i + 1,
+					'no_racik' => $request->data[$i]['no_racik'],
 					'nama_racik' => $request->data[$i]['nama_racik'],
 					'jml_dr' => $request->data[$i]['jml_dr'],
 					'kd_racik' => $request->data[$i]['kd_racik'],
@@ -59,7 +59,7 @@ class ResepDokterRacikanController extends Controller
 		} catch (QueryException $e) {
 			return response()->json($e->errorInfo, 500);
 		}
-		return response()->json(['SUKSES', $request->data]);
+		return response()->json(['SUKSES', $response]);
 	}
 
 	function delete(Request $request)

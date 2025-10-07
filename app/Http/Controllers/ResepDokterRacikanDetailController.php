@@ -34,6 +34,7 @@ class ResepDokterRacikanDetailController extends Controller
 
 	public function create(Request $request)
 	{
+
 		$countData = count($request->data);
 		$keys = [
 			'no_resep' => $request->no_resep,

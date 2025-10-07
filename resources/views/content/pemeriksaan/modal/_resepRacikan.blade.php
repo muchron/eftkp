@@ -152,7 +152,9 @@
                                     jml: 0,
                                 }
                             })
-                            createDetailRacikan(val.no_resep, val.no_racik, dataObat).done((responseTemplate) => {
+                            createDetailRacikan(val.no_resep, val.no_racik, val.aturan_pakai,
+                                dataObat
+                            ).done((responseTemplate) => {
                                 setResepRacikan(val.no_resep);
                                 tulisPlan(noResep)
                             })
