@@ -1633,38 +1633,34 @@ $.contextMenu({
 
 function hitungHPL(tanggalHPHT) {
     let date = new Date(tanggalHPHT);
-    let hplDate = new Date(date.setDate(date.getDate() + 7)); // Tambah 7 hari
-
+    let hplDate = new Date(date);
+    hplDate.setDate(hplDate.getDate() + 7);
     hplDate.setMonth(hplDate.getMonth() - 3);
 
-
-    if (hplDate.getMonth() <= 10) {
+    // Jika hasilnya mundur (lebih kecil dari HPHT), tambah 1 tahun
+    if (hplDate < date) {
         hplDate.setFullYear(hplDate.getFullYear() + 1);
     }
 
     const year = hplDate.getFullYear();
     const month = String(hplDate.getMonth() + 1).padStart(2, '0');
-    const day = String(hplDate.getDate()).padStart(2, '0'); // <<< Hapus +1 di sini!
+    const day = String(hplDate.getDate()).padStart(2, '0');
 
-
-    return `${year}-${month}-${day}`
+    return `${year}-${month}-${day}`;
 }
+
 
 function hitungUsiaKehamilan(hpht) {
     const start = new Date(hpht);
     const today = new Date();
 
-    // Selisih dalam milidetik
     const diffTime = today - start;
 
     if (diffTime < 0) {
         return "0w0d"; // kalau HPHT di masa depan
     }
 
-    // Konversi ke hari
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-    // Hitung minggu & hari
     const weeks = Math.floor(diffDays / 7);
     const days = diffDays % 7;
 
