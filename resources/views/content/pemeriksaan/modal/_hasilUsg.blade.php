@@ -144,7 +144,7 @@
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="jenis_kelamin"
-                                               id="jenis_kelamin_x" value="-" checked>
+                                               id="jenis_kelamin_x" value="-">
                                         <label class="form-check-label" for="jenis_kelamin_x">Belum Jelas</label>
                                     </div>
                                 </div>
@@ -595,6 +595,7 @@
                 const formUsgKembar = $('#formUsgKembar')
                 const btnDeleteUsg = $('.btn-delete-usg')
 
+
                 if (data === null) {
                     btnCreateHasilUsg.addClass('btn-success').removeClass('btn-primary')
                     btnDeleteUsg.prop('disabled', true).removeAttr('onclick')
@@ -602,9 +603,7 @@
                     return false;
 
                 }
-
                 btnDeleteUsg.prop('disabled', false).attr('onclick', `deleteHasilUsg('${no_rawat}')`)
-
 
                 btnCreateHasilUsg.removeClass('btn-success').addClass('btn-primary')
                 formHasilUsg.find('select[name=janin]').val(data.janin).change()
@@ -614,7 +613,7 @@
                 formHasilUsg.find('select[name=ketuban').val(data.ketuban).change()
 
                 formHasilUsg.find('input[name=DJJ]').val(data.DJJ)
-                formHasilUsg.find(`input[name=jenis_kelamin][value="${data.jenis_kelamin}"`).attr('checked', true).change()
+                formHasilUsg.find(`input[name=jenis_kelamin][value="${data.jenis_kelamin}"`).prop('checked', true)
                 formHasilUsg.find('input[name=umur_kehamilan').val(data.umur_kehamilan)
                 formHasilUsg.find('input[name=HPHT').val(data.HPHT)
                 formHasilUsg.find('input[name=HPL').val(data.HPL)
@@ -638,7 +637,7 @@
                     formHasilUsg.find('select[name=ketuban2').val(data.ketuban2).change()
 
                     formHasilUsg.find('input[name=DJJ2]').val(data.DJJ)
-                    formHasilUsg.find(`input[name=jenis_kelamin2][value="${data.jenis_kelamin2}"`).attr('checked', true).change()
+                    formHasilUsg.find(`input[name=jenis_kelamin2][value="${data.jenis_kelamin2}"`).prop('checked', true).change()
                     formHasilUsg.find('input[name=umur_kehamilan2').val(data.umur_kehamilan2)
                     formHasilUsg.find('input[name=HPL2').val(data.HPL2)
                     formHasilUsg.find('input[name=TBJ2').val(data.TBJ2)
@@ -674,7 +673,7 @@
             const data = getDataForm('formHasilUsg', ['input', 'textarea', 'select']);
 
             data['jenis_kelamin'] = formHasilUsg.find('input[type=radio][name=jenis_kelamin]:checked').val()
-            data['jenis_kelamin2'] = formHasilUsg.find('input[type=radio][name=jenis_kelamin]:checked').val()
+            data['jenis_kelamin2'] = formHasilUsg.find('input[type=radio][name=jenis_kelamin2]:checked').val()
 
             const isKembar = data['janin']?.includes('Kembar')
 
@@ -713,8 +712,7 @@
         function riwayatHasilUsg(no_rkm_medis) {
             $.get(`riwayat-hasil-usg/${no_rkm_medis}`)
                 .done((response) => {
-                    showToast('Sukses');
-                    console.log('RESPONSE HASIL USG ===', response);
+                    showToast('Sukses Memuat Riwayat USG');
                     const {data} = response
 
                     // pastikan response adalah array
@@ -730,7 +728,6 @@
 
 
                     data.forEach((item, index) => {
-                        console.log('ITEM ===', item)
                         // clone template
                         let html = $(template);
 
