@@ -14,7 +14,6 @@ class Alergi extends Controller
 
 	public function __construct()
 	{
-		echo 'dsdsdsd';
 		$this->bpjs = new Pcare\Alergi($this->config());
 	}
 
