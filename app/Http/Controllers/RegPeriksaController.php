@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
-use App\Traits\Track;
-use App\Models\Setting;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\RegPeriksa;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
+use App\Models\Setting;
+use App\Traits\Track;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class RegPeriksaController extends Controller
 {
@@ -129,9 +129,9 @@ class RegPeriksaController extends Controller
 					date('Y-m-d', strtotime($req->tglAwal)),
 					date('Y-m-d', strtotime($req->tglAkhir))
 				])
-				->orderBy('no_reg', 'ASC')->get();
+				->orderBy('no_reg', 'ASC');
 		} else {
-			$regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC')->get();
+			$regPeriksa = $this->regPeriksa->with($this->relation)->where('tgl_registrasi', date('Y-m-d'))->orderBy('no_reg', 'ASC');
 		}
 
 		if ($req->dokter) {
@@ -142,9 +142,17 @@ class RegPeriksaController extends Controller
 		}
 
 		if ($req->dataTable) {
-			return DataTables::of($regPeriksa)->make(true);
+			return DataTables::of($regPeriksa)
+				->filter(function ($query) use ($req) {
+					if ($req->has('search') && $req->get('search')['value']) {
+						$query->whereHas('pasien', function ($q) use ($req) {
+							return $q->where('nm_pasien', 'like', '%' . $req->get('search')['value'] . '%');
+						});
+					}
+				})
+				->make(true);
 		}
-		return response()->json($regPeriksa, 200);
+		return response()->json($regPeriksa->get(), 200);
 	}
 
 	function show(Request $req): JsonResponse
