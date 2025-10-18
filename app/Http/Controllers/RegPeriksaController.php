@@ -123,7 +123,6 @@ class RegPeriksaController extends Controller
 	{
 
 		if ($req->tglAwal || $req->tglAkhir) {
-			// jika ada filter tanggal, ambil tgl registrasi yang ditentukan
 			$regPeriksa = $this->regPeriksa->with($this->relation)
 				->whereBetween('tgl_registrasi', [
 					date('Y-m-d', strtotime($req->tglAwal)),
@@ -138,7 +137,7 @@ class RegPeriksaController extends Controller
 			$regPeriksa = $regPeriksa->where('kd_dokter', $req->dokter);
 		}
 		if ($req->stts) {
-			$regPeriksa = $regPeriksa->where('stts', $req->stts);
+		 $regPeriksa = $regPeriksa->where('stts', $req->stts);
 		}
 
 		if ($req->dataTable) {
@@ -149,6 +148,8 @@ class RegPeriksaController extends Controller
 							return $q->where('nm_pasien', 'like', '%' . $req->get('search')['value'] . '%');
 						});
 					}
+
+
 				})
 				->make(true);
 		}

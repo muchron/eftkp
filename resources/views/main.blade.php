@@ -617,6 +617,17 @@
         }
     }
 
+    function pauseVideo() {
+        const iframe = document.querySelector("#frameVideo iframe");
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+    }
+
+    function playVideo() {
+        const iframe = document.querySelector("#frameVideo iframe");
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    }
+
+
 
     function setTableHeight() {
         const winH = window.innerHeight;

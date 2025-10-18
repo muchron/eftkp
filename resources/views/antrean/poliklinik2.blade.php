@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12" id="frameVideo">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/videoseries?enablejsapi=1&si=CkH2Y3zTCfsIJ9je&amp;controls=1&amp;list=PL8-ZDsV7brM341rMXOPb1b-Qvi0he4kak&amp;autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card border rounded-4 text-center" style="height: 10vh">
@@ -71,24 +71,17 @@
                 </div>
             </div>
         </div>
-        {{-- <h1>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quam nisi laudantium aut natus nam, debitis delectus quos eos harum inventore explicabo non earum voluptate dolor eaque quas. Sint, laudantium nam!</h1> --}}
     </div>
-    {{-- {{ print_r($data) }} --}}
-    {{-- @dd($data) --}}
 @endsection
 @push('script')
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=Alg0GPi9"></script>
     <script>
-        // var url = "{{ url('') }}";
-
-
         $(document).ready(() => {
             jam();
             const date = new Date();
 
             const hari = setHari(date.getDay());
             const tanggal = date.toISOString().split('T')[0]
-            // console.log();
 
             $('#tanggal').html(`${hari}, ${formatTanggal(tanggal)}`);
             const panggilanCounter = {};
@@ -112,11 +105,13 @@
                                     stts: 'Dirawat'
                                 })
                                 .done(() => {
-
                                     console.log(`Status pasien ${response.no_rawat} diupdate`)
                                 })
                                 .fail(err => console.error("Gagal update status", err));
-                        } else {
+                            panggilanCounter[response.no_rawat] = null;
+                            playVideo();
+                        }else{
+                            pauseVideo();
                             speak(`${name}. ${poliklinik}`)
                         }
                         panggilanCounter[response.no_rawat]++;
@@ -132,14 +127,8 @@
                         $(`#nomorAntrean${element.kd_poli}`).html(element.no_reg ? element.no_reg : '-');
                     });
                 });
-            }, 2500);
-
-
+            }, 5000);
         })
-
-       
-
-
         function blinkText(element) {
             element.toggleClass('text-success')
         }
