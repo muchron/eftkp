@@ -345,10 +345,10 @@ function alertErrorAjax(request) {
     );
 }
 
-function alertErrorBpjs({metaData, response}) {
+function alertErrorBpjs({ metaData, response }) {
     const message = metaData.message;
     const errors = Array.isArray(response) ? response.map(
-        ({field, message}) => `${field} : ${message}`
+        ({ field, message }) => `${field} : ${message}`
     ).join('<br>') : response ?? '';
     return Swal.fire({
         title: 'Pesan dari BPJS',
@@ -1173,7 +1173,7 @@ $.contextMenu({
                     items: {
                         "RujukInternal": {
                             name: "Rujuk Internal",
-                            icon: "fas fa-clinic-medical",
+                            icon: "fas fa-tag",
                             callback: (item) => {
                                 rujukInternal(`${no_rawat}`);
                             },
@@ -1182,7 +1182,7 @@ $.contextMenu({
 
                         "rujukKeluar": {
                             name: "Rujuk Keluar",
-                            icon: "fas fa-clinic-medical",
+                            icon: "fas fa-tag",
                             callback: (item) => {
                                 rujukEksternal(`${no_rawat}`);
                             }
@@ -1220,14 +1220,14 @@ $.contextMenu({
                     items: {
                         "SuratSehat": {
                             name: "Ketetrangan Sehat",
-                            icon: "fas fa-envelope",
+                            icon: "fas fa-tag",
                             callback: (item) => {
                                 suratSehat(`${no_rawat}`);
                             }
                         },
                         "SuratSakit": {
                             name: "Keterangan Sakit",
-                            icon: "fas fa-envelope",
+                            icon: "fas fa-tag",
                             callback: (item) => {
                                 suratSakit(`${no_rawat}`);
                             }
@@ -1283,8 +1283,8 @@ $.contextMenu({
                     name: "Penilaian Awal",
                     items: {
                         "Keperawatan": {
-                            name: "Keperawatan",
-                            icon: "fas fa-edit",
+                            name: "Keperawatan Umum",
+                            icon: "fas fa-tag",
                             disabled: () => {
                                 // return true;
                             },
@@ -1294,7 +1294,7 @@ $.contextMenu({
                         },
                         "SkriningResikoJatuh": {
                             name: "Skrining Resiko Jatuh",
-                            icon: "fas fa-edit",
+                            icon: "fas fa-tag",
 
                             callback: (item, opt) => {
                                 skriningResikoJatuh(`${no_rawat}`);
@@ -1701,4 +1701,3 @@ function selectMetode(element, parrent) {
     })
     element.val('R01').trigger('change')
 }
-

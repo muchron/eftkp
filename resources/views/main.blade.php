@@ -481,16 +481,23 @@
         }).done(() => {
             const btn = $(`#btnStatusLayanan${formatNoRawat(no_rawat)}`)
                 .removeAttr('class');
-            if (status === 'Belum') {
-                btn.addClass('btn btn-sm btn-primary').text('BELUM').attr('onclick', `setPanggil('${no_rawat}', this)`);
-            } else if (status === 'Berkas Diterima') {
-                btn.addClass('btn btn-sm btn-purple').text('PANGGIL').attr('onclick', `setBelum('${no_rawat}', this)`);
-            } else if (status === 'Batal') {
-                btn.addClass('btn btn-sm btn-danger').text('BATAL')
-            } else if (status === 'Sudah') {
-                btn.addClass('btn btn-sm btn-success').text('SUDAH')
-            } else if (status === 'Dirawat') {
-                btn.addClass('btn btn-sm btn-cyan').text('DIRAWAT').attr('onclick', `setBelum('${no_rawat}', this)`);
+            const statusConfig = {
+                'Belum':      { class: 'btn btn-sm btn-primary', text: 'BELUM', onclick: (no_rawat) => `setPanggil('${no_rawat}', this)` },
+                'Berkas Diterima': { class: 'btn btn-sm btn-purple', text: 'PANGGIL', onclick: (no_rawat) => `setBelum('${no_rawat}', this)` },
+                'Batal':      { class: 'btn btn-sm btn-danger', text: 'BATAL' },
+                'Sudah':      { class: 'btn btn-sm btn-success', text: 'SUDAH' },
+                'Dirawat':    { class: 'btn btn-sm btn-cyan', text: 'DIRAWAT', onclick: (no_rawat) => `setBelum('${no_rawat}', this)` },
+                'Dirujuk':    { class: 'btn btn-sm btn-warning', text: 'DIRUJUK' }
+            }
+
+            const cfg = statusConfig[status]
+
+            if (cfg) {
+                btn
+                    .attr('class', cfg.class)
+                    .text(cfg.text)
+                    .removeAttr('onclick')
+                if (cfg.onclick) btn.attr('onclick', cfg.onclick(no_rawat))
             }
         }).fail((error, status, code) => {
             if (error.status !== 500) {
